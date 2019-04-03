@@ -1,0 +1,28 @@
+package <%=packageName%>.web.rest;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController
+@RequestMapping("/api")
+public class <%= entityClass %>ConfigFormResource {
+
+    private final Logger log = LoggerFactory.getLogger(<%= entityClass %>Resource.class);
+
+    @GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getJsonSchemaFormConfiguration() throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(objectMapper);
+
+        JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(<%= entityClass %>.class);
+
+        return objectMapper.writeValueAsString(jsonSchema);
+    }
+}
