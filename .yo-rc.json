@@ -1,0 +1,10 @@
+{
+  "generator-jhipster-blueprint": {
+    "promptValues": {
+      "githubName": "kerruba",
+      "authorName": "Luca Cherubin",
+      "authorEmail": "l.cherubin@entando.com",
+      "authorUrl": ""
+    }
+  }
+}
