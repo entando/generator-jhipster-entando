@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 const chalk = require('chalk');
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
-const myCustomFunction = require('./customFiles').myCustomFunction;
+const writeFiles = require('./files').writeFiles;
 
 module.exports = class extends EntityServerGenerator {
     constructor(args, opts) {
@@ -21,6 +21,7 @@ module.exports = class extends EntityServerGenerator {
     }
 
     get writing() {
-        return myCustomFunction();
+        console.log('I would expect this to appear in the console during entity generator.');
+        return writeFiles();
     }
 };
