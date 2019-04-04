@@ -21,7 +21,6 @@ module.exports = class extends EntityServerGenerator {
     }
 
     get writing() {
-        console.log('I would expect this to appear in the console during entity generator.');
         return writeFiles();
     }
 };
