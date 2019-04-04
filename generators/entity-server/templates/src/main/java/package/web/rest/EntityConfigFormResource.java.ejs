@@ -1,3 +1,7 @@
+<% 
+    const className = `${entityClass}ConfigFormResource`; 
+%>
+
 package <%=packageName%>.web.rest.<%=entityClass.toLowerCase()%>;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/form")
-public class <%= entityClass %>ConfigFormResource {
+public class <%=className%> {
 
-    private final Logger log = LoggerFactory.getLogger(<%= entityClass %>Resource.class);
+    private final Logger log = LoggerFactory.getLogger(<%= className %>.class);
 
     @GetMapping(value = "/<%=entityClass%>", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getJsonSchemaFormConfiguration() throws Exception {
