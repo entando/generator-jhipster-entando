@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/form")
 public class <%= entityClass %>ConfigFormResource {
 
     private final Logger log = LoggerFactory.getLogger(<%= entityClass %>Resource.class);
 
-    @GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/<%=entityClass%>", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getJsonSchemaFormConfiguration() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
