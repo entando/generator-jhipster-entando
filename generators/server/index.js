@@ -75,7 +75,24 @@ module.exports = class extends ServerGenerator {
 
     get writing() {
         // Here we are not overriding this phase and hence its being handled by JHipster
-        return super._writing();
+        const jhipsterPhase = super._writing();
+        const myCustomSteps = {
+            updatePom() {
+                this.addMavenDependency('org.scala-lang', 'scala-library', '2.12.1');
+                this.addMavenDependency(
+                    'com.kjetland',
+                    'mbknor-jackson-jsonschema_2.12',
+                    '1.0.34',
+                    `<exclusions>
+                        <exclusion>
+                            <groupId>org.scala-lang</groupId>
+                            <artifactId>scala-library</artifactId>
+                        </exclusion>
+                    </exclusions>`
+                );
+            }
+        };
+        return { ...jhipsterPhase, ...myCustomSteps };
     }
 
     get end() {
