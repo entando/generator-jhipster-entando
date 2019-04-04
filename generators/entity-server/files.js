@@ -96,7 +96,7 @@ function writeFilesToDisk(files, generator, returnFiles, prefix) {
     return filesOut;
 }
 
-function myCustomFunction() {
+function writeFiles() {
     return {
         saveRemoteEntityPath() {
             if (_.isUndefined(this.microservicePath)) {
@@ -120,6 +120,16 @@ function myCustomFunction() {
                     this.addConstraintsChangelogToLiquibase(`${this.changelogDate}_added_entity_constraints_${this.entityClass}`);
                 }
                 this.addChangelogToLiquibase(`${this.changelogDate}_added_entity_${this.entityClass}`);
+
+                if (['ehcache', 'infinispan'].includes(this.cacheProvider) && this.enableHibernateCache) {
+                    this.addEntityToCache(
+                        this.asEntity(this.entityClass),
+                        this.relationships,
+                        this.packageName,
+                        this.packageFolder,
+                        this.cacheProvider
+                    );
+                }
             }
         },
 
@@ -146,5 +156,6 @@ function myCustomFunction() {
 }
 
 module.exports = {
-    myCustomFunction
+    writeFiles,
+    serverFiles
 };
