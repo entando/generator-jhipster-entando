@@ -21,6 +21,11 @@ const serverFiles = {
                             generator.entityClass
                         }ConfigFormResource.java`,
                     useBluePrint: true
+                },
+                {
+                    file: 'package/repository/RestEntityRepository.java',
+                    renameTo: generator => `${generator.packageFolder}/repository/Rest${generator.entityClass}Repository.java`,
+                    useBluePrint: true
                 }
             ]
         }

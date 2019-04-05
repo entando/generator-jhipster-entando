@@ -78,6 +78,7 @@ module.exports = class extends ServerGenerator {
         const jhipsterPhase = super._writing();
         const myCustomSteps = {
             updatePom() {
+                this.addMavenDependency('org.springframework.boot', 'spring-boot-starter-data-rest', null);
                 this.addMavenDependency('org.scala-lang', 'scala-library', '2.12.1');
                 this.addMavenDependency(
                     'com.kjetland',

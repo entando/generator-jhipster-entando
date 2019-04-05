@@ -1,0 +1,18 @@
+<%
+    const entityNameLower = entityClass.toLowerCase();
+    const collectionRel = `${entityNameLower}s`;
+    const collectionPath = collectionRel;
+%>
+package <%=packageName%>.repository;
+
+import java.util.List;
+import <%=packageName%>.domain.<%=entityClass%>;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+@RepositoryRestResource(collectionResourceRel = "<%=collectionRel%>", path = "<%=collectionPath%>")
+public interface Rest<%=entityClass%>Repository extends PagingAndSortingRepository<<%=entityClass%>, Long> {
+    // Add here all your custom endpoints
+    //List<<%=entityClass%>> findByName(@Param("name") String name);
+}
