@@ -161,6 +161,7 @@ function writeFiles() {
 }
 
 module.exports = {
+    writeFilesToDisk,
     writeFiles,
     serverFiles
 };

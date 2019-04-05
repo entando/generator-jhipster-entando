@@ -1,6 +1,19 @@
 /* eslint-disable consistent-return */
 const chalk = require('chalk');
 const ServerGenerator = require('generator-jhipster/generators/server');
+const constants = require('generator-jhipster/generators/generator-constants');
+const writeFilesToDisk = require('../entity-server/files').writeFilesToDisk;
+
+const { SERVER_MAIN_RES_DIR } = constants;
+
+const serverFiles = {
+    server: [
+        {
+            path: SERVER_MAIN_RES_DIR,
+            templates: [{ file: 'config/application.yml', useBluePrint: true }]
+        }
+    ]
+};
 
 module.exports = class extends ServerGenerator {
     constructor(args, opts) {
@@ -91,6 +104,13 @@ module.exports = class extends ServerGenerator {
                         </exclusion>
                     </exclusions>`
                 );
+            },
+            writeApplicationYml() {
+                if (this.skipServer) return;
+
+                // write server side files
+                // consoleFull(serverFiles);
+                writeFilesToDisk(serverFiles, this, false, this.fetchFromInstalledJHipster('entity-server/templates'));
             }
         };
         return { ...jhipsterPhase, ...myCustomSteps };
