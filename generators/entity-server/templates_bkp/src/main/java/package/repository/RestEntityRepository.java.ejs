@@ -12,6 +12,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+@Api(tags = "<%entityClass%> Entity")
 @RepositoryRestResource(collectionResourceRel = "<%=collectionRel%>", path = "<%=collectionPath%>")
 public interface Rest<%=entityClass%>Repository extends PagingAndSortingRepository<<%=entityClass%>, Long> {
     // Add here all your custom endpoints

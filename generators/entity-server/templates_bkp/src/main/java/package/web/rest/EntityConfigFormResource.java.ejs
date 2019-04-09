@@ -1,0 +1,35 @@
+<% 
+    const className = `${entityClass}ConfigFormResource`; 
+%>
+
+package <%=packageName%>.web.rest.<%=entityClass.toLowerCase()%>;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
+import <%=packageName%>.domain.<%=entityClass%>;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController
+@RequestMapping("/api/form")
+public class <%=className%> {
+
+    private final Logger log = LoggerFactory.getLogger(<%= className %>.class);
+
+    @GetMapping(value = "/<%=entityClass%>", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getJsonSchemaFormConfiguration() throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(objectMapper);
+
+        JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(<%= entityClass %>.class);
+
+        return objectMapper.writeValueAsString(jsonSchema);
+    }
+}
