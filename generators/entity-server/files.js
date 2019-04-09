@@ -7,13 +7,15 @@ const baseServerFiles = require('generator-jhipster/generators/entity-server/fil
 
 const SERVER_MAIN_SRC_DIR = constants.SERVER_MAIN_SRC_DIR;
 
-const serverFiles = {
-    ...baseServerFiles,
+const customServerFiles = {
     server: [
-        ...baseServerFiles.server,
         {
             path: SERVER_MAIN_SRC_DIR,
             templates: [
+                {
+                    file: 'package/domain/Entity.java',
+                    renameTo: generator => `${generator.packageFolder}/domain/${generator.asEntity(generator.entityClass)}.java`
+                },
                 {
                     file: 'package/web/rest/EntityConfigFormResource.java',
                     renameTo: generator =>
@@ -23,6 +25,7 @@ const serverFiles = {
                     useBluePrint: true
                 },
                 {
+                    condition: generator => generator.useSpringDataRest,
                     file: 'package/repository/RestEntityRepository.java',
                     renameTo: generator => `${generator.packageFolder}/repository/Rest${generator.entityClass}Repository.java`,
                     useBluePrint: true
@@ -31,6 +34,13 @@ const serverFiles = {
         }
     ]
 };
+
+function combineServerFiles() {
+    return {
+        ...baseServerFiles,
+        server: [...baseServerFiles.server, ...customServerFiles.server]
+    };
+}
 /**
  * write the given files using provided config.
  *
@@ -118,6 +128,10 @@ function writeFiles() {
 
             // write server side files
             // consoleFull(serverFiles);
+            // const useSpringDataRest = this.getAllJhipsterConfig().useSpringDataRest;
+            // const serverFiles = useSpringDataRest ? customServerFiles : combineServerFiles();
+            const serverFiles = combineServerFiles();
+
             writeFilesToDisk(serverFiles, this, false, this.fetchFromInstalledJHipster('entity-server/templates'));
 
             if (this.databaseType === 'sql') {
@@ -162,6 +176,5 @@ function writeFiles() {
 
 module.exports = {
     writeFilesToDisk,
-    writeFiles,
-    serverFiles
+    writeFiles
 };

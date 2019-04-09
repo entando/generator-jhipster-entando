@@ -196,6 +196,11 @@ spring:
             enabled: false
     thymeleaf:
         mode: HTML
+    <%_ if (useSpringDataRest) { _%>
+    data:
+        rest:
+            base-path: api
+    <%_ } _%>
 <%_ if (authenticationType === 'oauth2') { _%>
 
 # ===================================================================

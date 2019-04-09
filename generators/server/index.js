@@ -1,8 +1,10 @@
 /* eslint-disable consistent-return */
 const chalk = require('chalk');
 const ServerGenerator = require('generator-jhipster/generators/server');
+const packagejs = require('generator-jhipster/package.json');
 const constants = require('generator-jhipster/generators/generator-constants');
 const writeFilesToDisk = require('../entity-server/files').writeFilesToDisk;
+const prompts = require('./prompts');
 
 const { SERVER_MAIN_RES_DIR } = constants;
 
@@ -31,54 +33,87 @@ module.exports = class extends ServerGenerator {
     }
 
     get initializing() {
-        /**
-         * Any method beginning with _ can be reused from the superclass `ClientGenerator`
-         *
-         * There are multiple ways to customize a phase from JHipster.
-         *
-         * 1. Let JHipster handle a phase, blueprint doesnt override anything.
-         * ```
-         *      return super._initializing();
-         * ```
-         *
-         * 2. Override the entire phase, this is when the blueprint takes control of a phase
-         * ```
-         *      return {
-         *          myCustomInitPhaseStep() {
-         *              // Do all your stuff here
-         *          },
-         *          myAnotherCustomInitPhaseStep(){
-         *              // Do all your stuff here
-         *          }
-         *      };
-         * ```
-         *
-         * 3. Partially override a phase, this is when the blueprint gets the phase from JHipster and customizes it.
-         * ```
-         *      const phaseFromJHipster = super._initializing();
-         *      const myCustomPhaseSteps = {
-         *          displayLogo() {
-         *              // override the displayLogo method from the _initializing phase of JHipster
-         *          },
-         *          myCustomInitPhaseStep() {
-         *              // Do all your stuff here
-         *          },
-         *      }
-         *      return Object.assign(phaseFromJHipster, myCustomPhaseSteps);
-         * ```
-         */
-        // Here we are not overriding this phase and hence its being handled by JHipster
         return super._initializing();
+    }
+
+    _prompting() {
+        const superPrompting = super._prompting();
+        const customPrompts = prompts;
+        return {
+            ...superPrompting,
+            ...customPrompts,
+            setSharedConfigOptions() {
+                this.configOptions.packageName = this.packageName;
+                this.configOptions.cacheProvider = this.cacheProvider;
+                this.configOptions.enableHibernateCache = this.enableHibernateCache;
+                this.configOptions.websocket = this.websocket;
+                this.configOptions.databaseType = this.databaseType;
+                this.configOptions.devDatabaseType = this.devDatabaseType;
+                this.configOptions.prodDatabaseType = this.prodDatabaseType;
+                this.configOptions.searchEngine = this.searchEngine;
+                this.configOptions.messageBroker = this.messageBroker;
+                this.configOptions.serviceDiscoveryType = this.serviceDiscoveryType;
+                this.configOptions.buildTool = this.buildTool;
+                this.configOptions.enableSwaggerCodegen = this.enableSwaggerCodegen;
+                this.configOptions.authenticationType = this.authenticationType;
+                this.configOptions.uaaBaseName = this.uaaBaseName;
+                this.configOptions.serverPort = this.serverPort;
+                this.configOptions.useSpringDataRest = this.useSpringDataRest;
+
+                // Make dist dir available in templates
+                this.BUILD_DIR = this.getBuildDirectoryForBuildTool(this.buildTool);
+                this.CLIENT_DIST_DIR = this.BUILD_DIR + constants.CLIENT_DIST_DIR;
+            }
+        };
     }
 
     get prompting() {
         // Here we are not overriding this phase and hence its being handled by JHipster
-        return super._prompting();
+        return this._prompting();
+    }
+
+    _configuring() {
+        const superConfiguring = super._configuring();
+        const customConfiguring = {
+            saveConfig() {
+                const config = {
+                    jhipsterVersion: packagejs.version,
+                    applicationType: this.applicationType,
+                    baseName: this.baseName,
+                    packageName: this.packageName,
+                    packageFolder: this.packageFolder,
+                    serverPort: this.serverPort,
+                    authenticationType: this.authenticationType,
+                    uaaBaseName: this.uaaBaseName,
+                    cacheProvider: this.cacheProvider,
+                    enableHibernateCache: this.enableHibernateCache,
+                    websocket: this.websocket,
+                    databaseType: this.databaseType,
+                    devDatabaseType: this.devDatabaseType,
+                    prodDatabaseType: this.prodDatabaseType,
+                    searchEngine: this.searchEngine,
+                    messageBroker: this.messageBroker,
+                    serviceDiscoveryType: this.serviceDiscoveryType,
+                    buildTool: this.buildTool,
+                    enableSwaggerCodegen: this.enableSwaggerCodegen,
+                    jwtSecretKey: this.jwtSecretKey,
+                    rememberMeKey: this.rememberMeKey,
+                    enableTranslation: this.enableTranslation,
+                    useSpringDataRest: this.useSpringDataRest
+                };
+                if (this.enableTranslation && !this.configOptions.skipI18nQuestion) {
+                    config.nativeLanguage = this.nativeLanguage;
+                    config.languages = this.languages;
+                }
+                this.config.set(config);
+            }
+        };
+        return { ...superConfiguring, ...customConfiguring };
     }
 
     get configuring() {
         // Here we are not overriding this phase and hence its being handled by JHipster
-        return super._configuring();
+        return this._configuring();
     }
 
     get default() {
@@ -91,7 +126,9 @@ module.exports = class extends ServerGenerator {
         const jhipsterPhase = super._writing();
         const myCustomSteps = {
             updatePom() {
-                this.addMavenDependency('org.springframework.boot', 'spring-boot-starter-data-rest', null);
+                if (this.useSpringDataRest) {
+                    this.addMavenDependency('org.springframework.boot', 'spring-boot-starter-data-rest', null);
+                }
                 this.addMavenDependency('org.scala-lang', 'scala-library', '2.12.1');
                 this.addMavenDependency(
                     'com.kjetland',
