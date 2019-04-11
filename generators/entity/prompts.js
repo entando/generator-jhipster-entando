@@ -30,7 +30,7 @@ module.exports = {
     askForRelationships,
     askForRelationsToRemove,
     askForTableName,
-    askForQueryDslSupport,
+    // askForQueryDslSupport,
     askForDTO,
     askForService,
     askForFiltering,
@@ -366,7 +366,7 @@ function askForDTO() {
 function askForService() {
     const context = this.context;
     // don't prompt if data is imported from a file or server is skipped
-    if (context.useConfigurationFile || context.skipServer || context.useSpringDataRest) {
+    if (context.useConfigurationFile || context.skipServer || context.includeQuerydsl) {
         return;
     }
     const done = this.async();

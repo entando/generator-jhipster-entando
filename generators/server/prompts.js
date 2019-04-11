@@ -374,6 +374,10 @@ function askForOptionalItems(meta) {
     const applicationType = this.applicationType;
     const choices = [];
     const defaultChoice = [];
+    choices.push({
+        name: 'Query functionalities using Querydsl',
+        value: 'includeQuerydsl:true'
+    });
     if (!this.reactive) {
         if (this.databaseType === 'sql' || this.databaseType === 'mongodb') {
             choices.push({
@@ -415,6 +419,7 @@ function askForOptionalItems(meta) {
             this.searchEngine = this.getOptionFromArray(this.serverSideOptions, 'searchEngine');
             this.messageBroker = this.getOptionFromArray(this.serverSideOptions, 'messageBroker');
             this.enableSwaggerCodegen = this.getOptionFromArray(this.serverSideOptions, 'enableSwaggerCodegen');
+            this.includeQuerydsl = this.getOptionFromArray(this.serverSideOptions, 'includeQuerydsl');
             // Only set this option if it hasn't been set in a previous question, as it's only optional for monoliths
             if (!this.serviceDiscoveryType) {
                 this.serviceDiscoveryType = this.getOptionFromArray(this.serverSideOptions, 'serviceDiscoveryType');

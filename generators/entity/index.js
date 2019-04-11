@@ -22,6 +22,7 @@ module.exports = class extends EntityGenerator {
 
     _extendContextWithCustomOptions() {
         this.context.useSpringDataRest = this.getAllJhipsterConfig().useSpringDataRest;
+        this.context.includeQuerydsl = this.getAllJhipsterConfig().includeQuerydsl;
     }
 
     get initializing() {

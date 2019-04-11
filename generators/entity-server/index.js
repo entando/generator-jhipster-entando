@@ -39,8 +39,9 @@ module.exports = class extends EntityServerGenerator {
 
     _initializing() {
         return {
-            addSpringDataRestConfiguration() {
+            addCustomOptionToGenerator() {
                 this.useSpringDataRest = this.getAllJhipsterConfig().useSpringDataRest === true;
+                this.includeQuerydsl = this.getAllJhipsterConfig().includeQuerydsl === true;
             }
         };
     }
