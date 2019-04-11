@@ -127,20 +127,44 @@ module.exports = class extends ServerGenerator {
         const myCustomSteps = {
             updatePom() {
                 if (this.useSpringDataRest) {
+                    this.addMavenProperty('querydsl.version', '4.1.3');
                     this.addMavenDependency('org.springframework.boot', 'spring-boot-starter-data-rest', null);
+                    this.addMavenDependency('org.springframework.data', 'spring-data-commons', null);
+                    // eslint-disable-next-line no-template-curly-in-string
+                    this.addMavenDependency('com.querydsl', 'querydsl-apt', '${querydsl.version}');
+                    // eslint-disable-next-line no-template-curly-in-string
+                    this.addMavenDependency('com.querydsl', 'querydsl-jpa', '${querydsl.version}');
+                    const aptMavenPluginOther = `
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>process</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>target/generated-sources/java</outputDirectory>
+                                <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    `;
+                    this.addMavenPlugin('com.mysema.maven', 'apt-maven-plugin', '1.1.3', aptMavenPluginOther);
                 }
-                this.addMavenDependency('org.scala-lang', 'scala-library', '2.12.1');
-                this.addMavenDependency(
-                    'com.kjetland',
-                    'mbknor-jackson-jsonschema_2.12',
-                    '1.0.34',
-                    `<exclusions>
-                        <exclusion>
-                            <groupId>org.scala-lang</groupId>
-                            <artifactId>scala-library</artifactId>
-                        </exclusion>
-                    </exclusions>`
-                );
+                if (!this.useSpringDataRest) {
+                    this.addMavenDependency('org.scala-lang', 'scala-library', '2.12.1');
+                    this.addMavenDependency(
+                        'com.kjetland',
+                        'mbknor-jackson-jsonschema_2.12',
+                        '1.0.34',
+                        `
+                        <exclusions>
+                            <exclusion>
+                                <groupId>org.scala-lang</groupId>
+                                <artifactId>scala-library</artifactId>
+                            </exclusion>
+                        </exclusions>
+                        `
+                    );
+                }
             },
             writeApplicationYml() {
                 if (this.skipServer) return;

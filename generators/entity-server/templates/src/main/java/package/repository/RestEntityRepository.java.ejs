@@ -8,12 +8,28 @@ package <%=packageName%>.repository;
 import java.util.List;
 import io.swagger.annotations.Api;
 import <%=packageName%>.domain.<%=entityClass%>;
-import org.springframework.data.repository.PagingAndSortingRepository;
+<% if (includeQuerydsl) { %>
+import <%=packageName%>.domain.Q<%=entityClass%>; 
+<%  } %>
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.repository.PagingAndSortingRepository;
+<% if (includeQuerydsl) { %>
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
+import com.querydsl.core.types.dsl.StringPath;
+<%  } %>
 
 @RepositoryRestResource(collectionResourceRel = "<%=collectionRel%>", path = "<%=collectionPath%>")
-public interface Rest<%=entityClass%>Repository extends PagingAndSortingRepository<<%=entityClass%>, Long> {
+public interface Rest<%=entityClass%>Repository extends PagingAndSortingRepository<<%=entityClass%>, Long><% if (includeQuerydsl) { %>, QuerydslPredicateExecutor<<%=entityClass%>>, QuerydslBinderCustomizer<Q<%=entityClass%>> <% } %>{
     // Add here all your custom endpoints
     //List<<%=entityClass%>> findByName(@Param("name") String name);
+
+<% if (includeQuerydsl) { %>
+    default void customize(QuerydslBindings bindings, Q<%=entityClass%> token) {
+        // Support query ignoring case of each string object
+        bindings.bind(String.class).first((StringPath path, String value) -> path.equalsIgnoreCase(value));
+    }
+<% } %>
 }
