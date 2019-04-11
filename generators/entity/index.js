@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 const chalk = require('chalk');
 const EntityGenerator = require('generator-jhipster/generators/entity');
+const customPrompts = require('./prompts');
 
 module.exports = class extends EntityGenerator {
     constructor(args, opts) {
@@ -15,6 +16,12 @@ module.exports = class extends EntityGenerator {
         this.configOptions = jhContext.configOptions || {};
         // This sets up options for this sub generator and is being reused from JHipster
         jhContext.setupEntityOptions(this, jhContext, this);
+
+        this._extendContextWithCustomOptions();
+    }
+
+    _extendContextWithCustomOptions() {
+        this.context.useSpringDataRest = this.getAllJhipsterConfig().useSpringDataRest;
     }
 
     get initializing() {
@@ -58,9 +65,13 @@ module.exports = class extends EntityGenerator {
         return super._initializing();
     }
 
+    _prompting() {
+        return customPrompts;
+    }
+
     get prompting() {
         // Here we are not overriding this phase and hence its being handled by JHipster
-        return super._prompting();
+        return this._prompting();
     }
 
     get configuring() {

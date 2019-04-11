@@ -263,6 +263,7 @@ function askForServerSideOpts(meta) {
             default: true
         },
         {
+            when: response => response.databaseType === 'sql' || response.databaseType === 'mongodb',
             type: 'list',
             name: 'springDataRest',
             message: 'Would you like to use Spring Data Rest to power your API?',
