@@ -6,7 +6,7 @@ const constants = require('generator-jhipster/generators/generator-constants');
 const writeFilesToDisk = require('../entity-server/files').writeFilesToDisk;
 const prompts = require('./prompts');
 
-const { SERVER_MAIN_RES_DIR } = constants;
+const { SERVER_MAIN_RES_DIR, SERVER_TEST_SRC_DIR } = constants;
 
 const serverFiles = {
     server: [
@@ -16,6 +16,34 @@ const serverFiles = {
         }
     ]
 };
+
+// Tests files that will require a qualifier to work properly with SpringDataRest
+const testFiles = {
+    tests: [
+        {
+            path: SERVER_TEST_SRC_DIR,
+            templates: [
+                {
+                    useBluePrint: true,
+                    file: 'package/web/rest/AuditResourceIntTest.java',
+                    renameTo: generator => `${generator.packageFolder}/web/rest/AuditResourceIntTest.java`
+                },
+                {
+                    useBluePrint: true,
+                    file: 'package/web/rest/UserResourceIntTest.java',
+                    renameTo: generator => `${generator.packageFolder}/web/rest/UserResourceIntTest.java`
+                },
+                {
+                    useBluePrint: true,
+                    file: 'package/web/rest/errors/ExceptionTranslatorIntTest.java',
+                    renameTo: generator => `${generator.packageFolder}/web/rest/errors/ExceptionTranslatorIntTest.java`
+                }
+            ] 
+
+
+        }
+    ]
+}
 
 module.exports = class extends ServerGenerator {
     constructor(args, opts) {
@@ -174,6 +202,11 @@ module.exports = class extends ServerGenerator {
                 // write server side files
                 // consoleFull(serverFiles);
                 writeFilesToDisk(serverFiles, this, false, this.fetchFromInstalledJHipster('entity-server/templates'));
+            },
+            overwriteTestFilesForQualifier() {
+                if (!this.useSpringDataRest) return;
+
+                writeFilesToDisk(testFiles, this, false, this.fetchFromInstalledJHipster('entity-server/templates'));
             }
         };
         return { ...jhipsterPhase, ...myCustomSteps };
