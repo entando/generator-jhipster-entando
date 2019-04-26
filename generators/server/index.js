@@ -38,12 +38,10 @@ const testFiles = {
                     file: 'package/web/rest/errors/ExceptionTranslatorIntTest.java',
                     renameTo: generator => `${generator.packageFolder}/web/rest/errors/ExceptionTranslatorIntTest.java`
                 }
-            ] 
-
-
+            ]
         }
     ]
-}
+};
 
 module.exports = class extends ServerGenerator {
     constructor(args, opts) {
