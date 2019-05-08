@@ -1,9 +1,8 @@
 <% 
-    const configClassName =  `${baseName}Config`;
+    const configClassName =  `${baseName.charAt(0).toUpperCase() + baseName.substring(1)}Config`;
     const configObjectName = `${configClassName.charAt(0).toLowerCase() + configClassName.substring(1)}`
     const configManagerClassName = `${configClassName}Manager`; 
 %>
-
 package <%=packageName%>.config;
 
 import org.entando.config.ConfigService;

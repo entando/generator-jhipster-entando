@@ -21,13 +21,34 @@ const serverFiles = {
             templates: [
                 {
                     useBluePrint: true,
-                    file: 'package/config/AppConfig',
-                    renameTo: generator => `${generator.packageFolder}/config/${generator.baseName}Config.java`
+                    file: 'package/config/ConfigServiceConfiguration.java',
+                    renameTo: generator => `${generator.packageFolder}/config/ConfigServiceConfiguration.java`
                 },
                 {
                     useBluePrint: true,
-                    file: 'package/config/AppConfigManager',
-                    renameTo: generator => `${generator.packageFolder}/config/${generator.baseName}ConfigManager.java`
+                    file: 'package/config/AppConfig.java',
+                    renameTo: generator => `${generator.packageFolder}/config/${generator.humanizedBaseName.replace(/\s/g, '')}Config.java`
+                },
+                {
+                    useBluePrint: true,
+                    file: 'package/config/AppConfigManager.java',
+                    renameTo: generator =>
+                        `${generator.packageFolder}/config/${generator.humanizedBaseName.replace(/\s/g, '')}ConfigManager.java`
+                },
+                {
+                    useBluePrint: true,
+                    file: 'package/config/EntandoProperties.java',
+                    renameTo: generator => `${generator.packageFolder}/config/EntandoProperties.java`
+                },
+                {
+                    useBluePrint: true,
+                    file: 'package/Application.java',
+                    renameTo: generator => `${generator.javaDir}${generator.mainClass}.java`
+                },
+                {
+                    useBluePrint: true,
+                    file: 'package/client/EntandoAuthClient.java',
+                    renameTo: generator => `${generator.packageFolder}/client/EntandoAuthClient.java`
                 }
             ]
         }
@@ -67,13 +88,17 @@ module.exports = class extends ServerGenerator {
     }
 
     get configuring() {
-        // Here we are not overriding this phase and hence its being handled by JHipster
         return this._configuring();
     }
 
     get default() {
         // Here we are not overriding this phase and hence its being handled by JHipster
         return super._default();
+    }
+
+    _addUnspecificDependencies() {
+        this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, '<scope>provided</scope>');
+        this.addMavenDependency('org.springframework.boot', 'spring-boot-starter-undertow', null, '<scope>provided</scope>');
     }
 
     _addJsonSchemaDependencies() {
@@ -93,17 +118,22 @@ module.exports = class extends ServerGenerator {
         );
     }
 
-    _addEntandoSpecificDependencies() {
+    _addEntandoConfigServiceDependencies() {
         this.addMavenDependency('org.entando', 'config-connector', '1.0.0-SNAPSHOT');
     }
 
+    _addEntandoAuthDependencies() {
+        this.addMavenDependency('io.github.openfeign', 'feign-jackson', null, null);
+    }
+
     get writing() {
-        // Here we are not overriding this phase and hence its being handled by JHipster
         const jhipsterPhase = super._writing();
         const myCustomSteps = {
             updatePom() {
+                this._addUnspecificDependencies();
                 this._addJsonSchemaDependencies();
-                this._addEntandoSpecificDependencies();
+                this._addEntandoConfigServiceDependencies();
+                this._addEntandoAuthDependencies();
             },
             writeApplicationYml() {
                 if (this.skipServer) return;
