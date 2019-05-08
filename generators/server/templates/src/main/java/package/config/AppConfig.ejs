@@ -1,0 +1,18 @@
+<% 
+    const className = `${baseName}Config`; 
+%>
+
+package <%=packageName%>.config;
+
+public class <%=className%> {
+
+    /*
+        Provide here all the configuration fields your plugin require
+    */
+
+    public static <%=className%> getDefault() {
+        <%=className%> defaultConfig = new <%=className%>();
+        // Add here all the default values for your configuration
+        return defaultConfig;
+    }
+}
