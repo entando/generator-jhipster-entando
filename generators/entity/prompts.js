@@ -30,7 +30,6 @@ module.exports = {
     askForRelationships,
     askForRelationsToRemove,
     askForTableName,
-    // askForQueryDslSupport,
     askForDTO,
     askForService,
     askForFiltering,
@@ -441,30 +440,6 @@ function askForPagination() {
     });
 }
 
-function askForQueryDslSupport() {
-    const context = this.context;
-    // don't prompt if data are imported from a file
-    if (context.useConfigurationFile) {
-        return;
-    }
-    if (!(context.databaseType === 'sql' || context.databaseType === 'mongodb')) {
-        return;
-    }
-
-    const done = this.async();
-    const prompts = [
-        {
-            type: 'confirm',
-            name: 'includeQuerydsl',
-            message: 'Do you want to include Querydsl support for this entity?',
-            default: true
-        }
-    ];
-    this.prompt(prompts).then(props => {
-        context.includeQuerydsl = props.includeQuerydsl;
-        done();
-    });
-}
 /**
  * ask question for a field creation
  */

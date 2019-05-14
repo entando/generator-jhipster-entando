@@ -1,6 +1,7 @@
 const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
+const expectedFiles = require('./utils/expected-files');
 
 describe('Subgenerator server of entando JHipster blueprint', () => {
     describe('Sample test', () => {
@@ -21,14 +22,14 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
                     ]
                 ])
                 .withPrompts({
-                    baseName: 'sampleMysql',
+                    baseName: 'entandoPlugin',
                     packageName: 'com.mycompany.myapp',
-                    applicationType: 'monolith',
+                    applicationType: 'microservice',
                     databaseType: 'sql',
                     devDatabaseType: 'h2Disk',
                     prodDatabaseType: 'mysql',
                     cacheProvider: 'ehcache',
-                    authenticationType: 'session',
+                    authenticationType: 'oidc',
                     enableTranslation: true,
                     nativeLanguage: 'en',
                     languages: ['fr', 'de'],
@@ -38,9 +39,13 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
                 .on('end', done);
         });
 
-        it('it works', () => {
-            // Adds your tests here
-            assert.textEqual('Write your own tests!', 'Write your own tests!');
+        it('creates expected files for the blueprint', () => {
+            assert.file(expectedFiles.server);
+        });
+
+        it('verifies Application.java contains EntandoProperties reference', () => {
+            const applicationFile = expectedFiles.server.filter(item => item.endsWith('com/mycompany/myapp/EntandoPluginApp.java'))[0];
+            assert.fileContent(applicationFile, /EntandoProperties\.class/);
         });
     });
 });
