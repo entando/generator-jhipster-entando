@@ -75,6 +75,6 @@ module.exports = class extends EntityGenerator {
 
     get install() {
         // Here we are not overriding this phase and hence its being handled by JHipster
-        // return super._install();
+        return super._install();
     }
 };

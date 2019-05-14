@@ -1,0 +1,109 @@
+[
+    {
+        "type": "Group",
+        "name": "local",
+        "parent_id": null,
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "O2rKNVSWwvn4EyC5",
+        "iconColor": "rgb(0, 255, 255)"
+    },
+    {
+        "type": "Group",
+        "name": "jhipster",
+        "parent_id": null,
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "iTKmsAJ6VMILkf57",
+        "iconColor": "rgb(255, 0, 0)"
+    },
+    {
+        "type": "Directory",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/generators/entity",
+        "parent_id": "O2rKNVSWwvn4EyC5",
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "generators/entity",
+        "id": "GB9ONaVZpXHPIs0c"
+    },
+    {
+        "type": "Directory",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/generators/entity-server",
+        "parent_id": "O2rKNVSWwvn4EyC5",
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "generators/entity-server",
+        "id": "z1A4kWYBCDUuGyPr"
+    },
+    {
+        "type": "Directory",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/generators/server",
+        "parent_id": "O2rKNVSWwvn4EyC5",
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "generators/server",
+        "id": "E0fjDS8kFzPcv3Oq"
+    },
+    {
+        "type": "Directory",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/node_modules/generator-jhipster/generators",
+        "parent_id": null,
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "node_modules/generator-jhipster/generators",
+        "id": "dGmi1LVhEBtIuDTF",
+        "label": "JHipster generators"
+    },
+    {
+        "type": "Directory",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/node_modules/generator-jhipster/generators/server",
+        "parent_id": "iTKmsAJ6VMILkf57",
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "node_modules/generator-jhipster/generators/server",
+        "id": "6Uc7wYy1QJhSVDNB"
+    },
+    {
+        "type": "Directory",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/node_modules/generator-jhipster/generators/entity-server",
+        "parent_id": "iTKmsAJ6VMILkf57",
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "node_modules/generator-jhipster/generators/entity-server",
+        "id": "EXenyJwY3KzVot2v"
+    },
+    {
+        "type": "Directory",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/node_modules/generator-jhipster/generators/entity",
+        "parent_id": "iTKmsAJ6VMILkf57",
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "node_modules/generator-jhipster/generators/entity",
+        "id": "szuHAK3SjTxW2Lpw"
+    },
+    {
+        "type": "File",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/node_modules/generator-jhipster/generators/generator-base.js",
+        "parent_id": null,
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "node_modules/generator-jhipster/generators/generator-base.js",
+        "id": "f0ujcLvzJxi7mTrq"
+    },
+    {
+        "type": "File",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/node_modules/generator-jhipster/generators/generator-base.js",
+        "parent_id": "iTKmsAJ6VMILkf57",
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "node_modules/generator-jhipster/generators/generator-base.js",
+        "id": "HIrGJpf83oxcLUZu"
+    },
+    {
+        "type": "File",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/node_modules/generator-jhipster/generators/generator-constants.js",
+        "parent_id": "iTKmsAJ6VMILkf57",
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "node_modules/generator-jhipster/generators/generator-constants.js",
+        "id": "BNfw4Le5J9u0dTbv"
+    },
+    {
+        "type": "File",
+        "name": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint/node_modules/generator-jhipster/generators/generator-base-private.js",
+        "parent_id": "iTKmsAJ6VMILkf57",
+        "workspaceRoot": "/home/kerruba/Development/entando/entando-jhipster/entando-blueprint",
+        "workspacePath": "node_modules/generator-jhipster/generators/generator-base-private.js",
+        "id": "vHSORGqBCpm1cNEe"
+    }
+]
