@@ -12,7 +12,7 @@ const expectedFiles = {
         `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/ConfigServiceConfiguration.java`,
         `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/EntandoProperties.java`,
         `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/EntandoPluginApp.java`
-    ],
+    ]
 };
 
 module.exports = expectedFiles;
