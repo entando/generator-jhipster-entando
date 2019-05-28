@@ -15,11 +15,8 @@ const serverFiles = {
             path: SERVER_MAIN_SRC_DIR,
             templates: [
                 {
-                    file: 'package/web/rest/EntityConfigFormResource.java',
-                    renameTo: generator =>
-                        `${generator.packageFolder}/web/rest/${generator.entityClass.toLowerCase()}/${
-                            generator.entityClass
-                        }ConfigFormResource.java`,
+                    file: 'package/web/rest/schema/EntitySchemaResource.java',
+                    renameTo: generator => `${generator.packageFolder}/web/rest/schema/${generator.entityClass}SchemaResource.java`,
                     useBluePrint: true
                 }
             ]

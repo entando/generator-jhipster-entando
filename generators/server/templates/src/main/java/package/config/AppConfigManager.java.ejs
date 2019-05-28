@@ -1,0 +1,34 @@
+<% 
+    const configClassName =  `${baseName.charAt(0).toUpperCase() + baseName.substring(1)}Config`;
+    const configObjectName = `${configClassName.charAt(0).toLowerCase() + configClassName.substring(1)}`
+    const configManagerClassName = `${configClassName}Manager`; 
+%>
+package <%=packageName%>.config;
+
+import org.entando.config.ConfigService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class <%=configManagerClassName%> {
+
+    private final ConfigService<<%=configClassName%>> configService;
+
+    @Autowired
+    public <%=configManagerClassName%>(final ConfigService<<%=configClassName%>> configService) {
+        this.configService = configService;
+    }
+
+    public <%=configClassName%> get<%=configClassName%>() {
+        return Optional.ofNullable(configService.getConfig())
+            .orElseGet(<%=configClassName%>::getDefault);
+    }
+
+    public void update<%configClassName%>(<%=configClassName%> <%=configObjectName%>) {
+        configService.updateConfig(<%=configObjectName%>);
+    }
+
+}
+

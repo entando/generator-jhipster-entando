@@ -26,3 +26,4 @@ docs
 yarn.lock
 .DS_Store
 .jhipster
+.favorites.json
