@@ -11,7 +11,8 @@ const expectedFiles = {
         `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/EntandoPluginConfigManager.java`,
         `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/ConfigServiceConfiguration.java`,
         `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/EntandoProperties.java`,
-        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/EntandoPluginApp.java`
+        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/EntandoPluginApp.java`,
+        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/web/rest/schema/EntandoPluginConfigSchemaResource.java`
     ]
 };
 

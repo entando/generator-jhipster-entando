@@ -24,13 +24,12 @@ const serverFiles = {
                 {
                     useBluePrint: true,
                     file: 'package/config/AppConfig.java',
-                    renameTo: generator => `${generator.packageFolder}/config/${generator.humanizedBaseName.replace(/\s/g, '')}Config.java`
+                    renameTo: generator => `${generator.packageFolder}/config/${titleCaseBaseName(generator)}Config.java`
                 },
                 {
                     useBluePrint: true,
                     file: 'package/config/AppConfigManager.java',
-                    renameTo: generator =>
-                        `${generator.packageFolder}/config/${generator.humanizedBaseName.replace(/\s/g, '')}ConfigManager.java`
+                    renameTo: generator => `${generator.packageFolder}/config/${titleCaseBaseName(generator)}ConfigManager.java`
                 },
                 {
                     useBluePrint: true,
@@ -46,11 +45,21 @@ const serverFiles = {
                     useBluePrint: true,
                     file: 'package/client/EntandoAuthClient.java',
                     renameTo: generator => `${generator.packageFolder}/client/EntandoAuthClient.java`
+                },
+                {
+                    useBluePrint: true,
+                    file: 'package/web/rest/schema/AppConfigSchemaResource.java',
+                    renameTo: generator =>
+                        `${generator.packageFolder}/web/rest/schema/${titleCaseBaseName(generator)}ConfigSchemaResource.java`
                 }
             ]
         }
     ]
 };
+
+function titleCaseBaseName(generator) {
+    return generator.humanizedBaseName.replace(/\s/g, '');
+}
 
 module.exports = {
     serverFiles
