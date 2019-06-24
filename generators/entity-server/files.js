@@ -5,12 +5,27 @@ const utils = require('generator-jhipster/generators/utils');
 const constants = require('generator-jhipster/generators/generator-constants');
 const baseServerFiles = require('generator-jhipster/generators/entity-server/files').serverFiles;
 
-const SERVER_MAIN_SRC_DIR = constants.SERVER_MAIN_SRC_DIR;
+const { SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR } = constants;
+
+const widgetFiles = {
+    widgets: [
+        {
+            path: SERVER_MAIN_RES_DIR,
+            templates: [
+                {
+                    useBluePrint: true,
+                    file: 'widgets/hello_world.html',
+                    renameTo: generator => `wigets/${generator.entityFileName}/${generator.entityFileName}-hello_world.html/`
+                }
+            ]
+        }
+    ]
+};
 
 const serverFiles = {
-    ...baseServerFiles,
+    // ...baseServerFiles,
     server: [
-        ...baseServerFiles.server,
+        // ...baseServerFiles.server,
         {
             path: SERVER_MAIN_SRC_DIR,
             templates: [
@@ -93,66 +108,86 @@ function writeFilesToDisk(files, generator, returnFiles, prefix) {
     return filesOut;
 }
 
-function writeFiles() {
+// function writeOperations() {
+//     return {
+//         saveRemoteEntityPath() {
+//             if (_.isUndefined(this.microservicePath)) {
+//                 return;
+//             }
+//             this.copy(
+//                 `${this.microservicePath}/${this.jhipsterConfigDirectory}/${this.entityNameCapitalized}.json`,
+//                 this.destinationPath(`${this.jhipsterConfigDirectory}/${this.entityNameCapitalized}.json`)
+//             );
+//         },
+
+//         writeServerFiles() {
+//             if (this.skipServer) return;
+
+//             // write server side files
+//             // consoleFull(serverFiles);
+//             writeFilesToDisk(serverFiles, this, false, this.fetchFromInstalledJHipster('entity-server/templates'));
+
+//             if (this.databaseType === 'sql') {
+//                 if (this.fieldsContainOwnerManyToMany || this.fieldsContainOwnerOneToOne || this.fieldsContainManyToOne) {
+//                     this.addConstraintsChangelogToLiquibase(`${this.changelogDate}_added_entity_constraints_${this.entityClass}`);
+//                 }
+//                 this.addChangelogToLiquibase(`${this.changelogDate}_added_entity_${this.entityClass}`);
+
+//                 if (['ehcache', 'infinispan'].includes(this.cacheProvider) && this.enableHibernateCache) {
+//                     this.addEntityToCache(
+//                         this.asEntity(this.entityClass),
+//                         this.relationships,
+//                         this.packageName,
+//                         this.packageFolder,
+//                         this.cacheProvider
+//                     );
+//                 }
+//             }
+//         },
+
+//         writeWidgetFiles() {
+//             if (this.skipServer) return;
+
+//             // write server side files
+//             // consoleFull(serverFiles);
+//             writeFilesToDisk(widgetFiles, this, false, null);
+//         },
+
+//         writeEnumFiles() {
+//             this.fields.forEach(field => {
+//                 if (field.fieldIsEnum === true) {
+//                     const fieldType = field.fieldType;
+//                     const enumInfo = utils.buildEnumInfo(field, this.angularAppName, this.packageName, this.clientRootFolder);
+//                     if (!this.skipServer) {
+//                         this.template(
+//                             `${this.fetchFromInstalledJHipster(
+//                                 'entity-server/templates'
+//                             )}/${SERVER_MAIN_SRC_DIR}package/domain/enumeration/Enum.java.ejs`,
+//                             `${SERVER_MAIN_SRC_DIR}${this.packageFolder}/domain/enumeration/${fieldType}.java`,
+//                             this,
+//                             {},
+//                             enumInfo
+//                         );
+//                     }
+//                 }
+//             });
+//         }
+//     };
+// }
+
+function writeOperations() {
     return {
-        saveRemoteEntityPath() {
-            if (_.isUndefined(this.microservicePath)) {
-                return;
-            }
-            this.copy(
-                `${this.microservicePath}/${this.jhipsterConfigDirectory}/${this.entityNameCapitalized}.json`,
-                this.destinationPath(`${this.jhipsterConfigDirectory}/${this.entityNameCapitalized}.json`)
-            );
-        },
-
         writeServerFiles() {
-            if (this.skipServer) return;
-
-            // write server side files
-            // consoleFull(serverFiles);
-            writeFilesToDisk(serverFiles, this, false, this.fetchFromInstalledJHipster('entity-server/templates'));
-
-            if (this.databaseType === 'sql') {
-                if (this.fieldsContainOwnerManyToMany || this.fieldsContainOwnerOneToOne || this.fieldsContainManyToOne) {
-                    this.addConstraintsChangelogToLiquibase(`${this.changelogDate}_added_entity_constraints_${this.entityClass}`);
-                }
-                this.addChangelogToLiquibase(`${this.changelogDate}_added_entity_${this.entityClass}`);
-
-                if (['ehcache', 'infinispan'].includes(this.cacheProvider) && this.enableHibernateCache) {
-                    this.addEntityToCache(
-                        this.asEntity(this.entityClass),
-                        this.relationships,
-                        this.packageName,
-                        this.packageFolder,
-                        this.cacheProvider
-                    );
-                }
-            }
+            this.writeFilesToDisk(serverFiles, this, false, null);
         },
-
-        writeEnumFiles() {
-            this.fields.forEach(field => {
-                if (field.fieldIsEnum === true) {
-                    const fieldType = field.fieldType;
-                    const enumInfo = utils.buildEnumInfo(field, this.angularAppName, this.packageName, this.clientRootFolder);
-                    if (!this.skipServer) {
-                        this.template(
-                            `${this.fetchFromInstalledJHipster(
-                                'entity-server/templates'
-                            )}/${SERVER_MAIN_SRC_DIR}package/domain/enumeration/Enum.java.ejs`,
-                            `${SERVER_MAIN_SRC_DIR}${this.packageFolder}/domain/enumeration/${fieldType}.java`,
-                            this,
-                            {},
-                            enumInfo
-                        );
-                    }
-                }
-            });
+        writeWidgetFiles() {
+            this.writeFilesToDisk(widgetFiles, this, false, null);
         }
     };
 }
 
 module.exports = {
-    writeFiles,
-    serverFiles
+    serverFiles,
+    widgetFiles,
+    writeOperations
 };

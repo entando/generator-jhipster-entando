@@ -1,0 +1,31 @@
+application {
+
+  config {
+    baseName myapp
+    applicationType microservice
+    prodDatabaseType postgresql
+  }
+
+  entities *
+  
+}
+
+
+enum TokenType {
+  REGISTRATION, VALIDATION
+}
+
+entity TokenUser {
+  username String required
+  email String required
+}
+
+entity Token {
+  value String required
+  type TokenType required
+  username String
+}
+
+relationship OneToMany {
+  TokenUser to Token
+}

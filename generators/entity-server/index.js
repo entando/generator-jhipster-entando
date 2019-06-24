@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 const chalk = require('chalk');
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
-const writeFiles = require('./files').writeFiles;
+const { writeOperations } = require('./files');
 
 module.exports = class extends EntityServerGenerator {
     constructor(args, opts) {
@@ -20,7 +20,38 @@ module.exports = class extends EntityServerGenerator {
         }
     }
 
+    intializing() {
+        return super._initializing();
+    }
+
+    _prompting() {
+        return super._prompting();
+    }
+
+    get prompting() {
+        // Here we are not overriding this phase and hence its being handled by JHipster
+        return this._prompting();
+    }
+
+    get configuring() {
+        // Here we are not overriding this phase and hence its being handled by JHipster
+        return super._configuring();
+    }
+
+    _writing() {
+        return {
+            ...super._writing(),
+            ...writeOperations()
+        };
+        // return writeOperations();
+    }
+
     get writing() {
-        return writeFiles();
+        return this._writing();
+    }
+
+    get install() {
+        // Here we are not overriding this phase and hence its being handled by JHipster
+        return super._install();
     }
 };
