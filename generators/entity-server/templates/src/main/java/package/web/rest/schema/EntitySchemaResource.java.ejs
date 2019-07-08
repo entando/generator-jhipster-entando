@@ -1,3 +1,8 @@
+<% 
+    const className =  `${entityClass}SchemaResource`;
+    const entityApiUrl = entityClass.toLowerCase();
+%>
+
 package <%=packageName%>.web.rest.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,7 +22,7 @@ public class <%=className%> {
 
     private final Logger log = LoggerFactory.getLogger(<%= className %>.class);
 
-    @GetMapping(value = "/<%=entityApiUrl>", produces = "application/schema+json")
+    @GetMapping(value = "/<%=entityApiUrl%>", produces = "application/schema+json")
     public String getJsonSchemaFormConfiguration() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
