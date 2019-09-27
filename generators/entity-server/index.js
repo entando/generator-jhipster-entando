@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 const chalk = require('chalk');
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
-const { writeOperations } = require('./files');
+const { serverFiles, widgetFiles } = require('./files');
 
 module.exports = class extends EntityServerGenerator {
     constructor(args, opts) {
@@ -20,38 +20,37 @@ module.exports = class extends EntityServerGenerator {
         }
     }
 
-    intializing() {
+    get initializing() {
         return super._initializing();
     }
 
-    _prompting() {
+    get prompting() {
         return super._prompting();
     }
 
-    get prompting() {
-        // Here we are not overriding this phase and hence its being handled by JHipster
-        return this._prompting();
-    }
-
     get configuring() {
-        // Here we are not overriding this phase and hence its being handled by JHipster
         return super._configuring();
     }
 
-    _writing() {
-        return {
-            ...super._writing(),
-            ...writeOperations()
-        };
-        // return writeOperations();
+    get default() {
+        return super._default();
     }
 
     get writing() {
-        return this._writing();
+        const jhipsterPhase = super._writing();
+        const myCustomSteps = {
+            writeEntityServerFiles() {
+                this.writeFilesToDisk(serverFiles, this, false, null);
+            },
+            writeWidgetFiles() {
+                this.writeFilesToDisk(widgetFiles, this, false, null);
+            }
+        };
+        return { ...jhipsterPhase, ...myCustomSteps };
     }
 
-    get install() {
+    get end() {
         // Here we are not overriding this phase and hence its being handled by JHipster
-        return super._install();
+        return super._end();
     }
 };

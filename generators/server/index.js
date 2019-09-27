@@ -66,6 +66,10 @@ module.exports = class extends ServerGenerator {
         );
     }
 
+    _addMavenSnapshotRepository() {
+        this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
+    }
+
     _addEntandoConfigServiceDependencies() {
         this.addMavenDependency('org.entando', 'config-connector', '1.0.0-SNAPSHOT');
     }
@@ -78,6 +82,7 @@ module.exports = class extends ServerGenerator {
         const jhipsterPhase = super._writing();
         const myCustomSteps = {
             updatePom() {
+                this._addMavenSnapshotRepository();
                 this._addUnspecificDependencies();
                 this._addJsonSchemaDependencies();
                 this._addEntandoConfigServiceDependencies();

@@ -1,5 +1,6 @@
 <% 
-    const className =  `${baseName.charAt(0).toUpperCase() + baseName.substring(1)}`;
+    const className =  `${entityClass}SchemaResource`;
+    const entityApiUrl = entityClass.toLowerCase();
 %>
 
 package <%=packageName%>.web.rest.schema;

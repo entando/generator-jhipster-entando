@@ -61,7 +61,8 @@ During development of blueprint, please note the below steps. They are very impo
 Note: If you do not want to link the blueprint(step 3) to each project being created, use NPM instead of Yarn as yeoman doesn't seem to fetch globally linked Yarn modules. On the other hand, this means you have to use NPM in all the below steps as well.
 
 ```bash
-cd entando
+git clone https://github.com/entando/entando-blueprint.git
+cd entando-blueprint
 npm link
 ```
 
@@ -73,7 +74,7 @@ You could also use Yarn for this if you prefer
 cd generator-jhipster
 npm link
 
-cd entando
+cd entando-blueprint
 npm link generator-jhipster
 ```
 
