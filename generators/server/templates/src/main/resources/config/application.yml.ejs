@@ -279,17 +279,17 @@ jhipster:
     clientApp:
         name: "<%= angularAppName %>"
     # By default CORS is disabled. Uncomment to enable.
-    # cors:
-    #     allowed-origins: "*"
-    #     allowed-methods: "*"
-    #     allowed-headers: "*"
+    cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+        allowed-headers: "*"
     <%_ if (authenticationType === 'session') { _%>
-    #     exposed-headers: "Link,X-Total-Count"
+        exposed-headers: "Link,X-Total-Count"
     <%_ } else { _%>
-    #     exposed-headers: "Authorization,Link,X-Total-Count"
+        exposed-headers: "Authorization,Link,X-Total-Count"
     <%_ } _%>
-    #     allow-credentials: true
-    #     max-age: 1800
+        allow-credentials: true
+        max-age: 1800
     mail:
         from: <%= baseName %>@localhost
     swagger:

@@ -1,0 +1,70 @@
+<%_
+let entityNameLower = entityClass.charAt(0).toLowerCase() +  entityClass.slice(1)
+_%>
+
+
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import <%= entityNameLower %>Type from 'types/<%= entityNameLower %>Type';
+import { withStyles } from '@material-ui/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import { Trans } from 'react-i18next';
+
+const styles = {
+root: {
+cursor: 'pointer',
+},
+};
+
+const <%= entityClass %>Table = ({ classes, <%= entityNameLower %>s, onSelect }) => {
+const tableRows = <%= entityNameLower %>s.map(<%= entityNameLower %> => (
+<TableRow hover className={classes.root} key={<%= entityNameLower %>.id} onClick={() => onSelect(<%= entityNameLower %>)}>
+
+<% for (idx in fields) { %>
+<TableCell>{<%= entityNameLower %>.<%= fields[idx].fieldName %>}</TableCell>
+
+<%}%>
+
+</TableRow>
+));
+
+return <%= entityNameLower %>s.length ? (
+<Table>
+    <TableHead>
+        <TableRow>
+            <% for (idx in fields) { %>
+            <TableCell>
+                <Trans i18nKey="<%= entityNameLower %>.tableHeader.<%= fields[idx].fieldName %>" />
+            </TableCell>
+
+            <% } %>
+        </TableRow>
+    </TableHead>
+    <TableBody>{tableRows}</TableBody>
+</Table>
+) : (
+<Trans i18nKey="<%= entityNameLower %>.noItems" />
+);
+};
+
+<%= entityClass %>Table.propTypes = {
+classes: PropTypes.shape({
+root: PropTypes.string,
+}),
+<%= entityNameLower %>s: PropTypes.arrayOf(<%= entityNameLower %>Type).isRequired,
+onSelect: PropTypes.func,
+};
+
+<%= entityClass %>Table.defaultProps = {
+classes: {
+root: '',
+},
+onSelect: () => {},
+};
+
+export default withStyles(styles)(<%= entityClass %>Table);

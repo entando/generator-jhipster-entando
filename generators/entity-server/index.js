@@ -3,6 +3,7 @@
 const chalk = require('chalk');
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
 const serverFiles = require('./files').serverFiles;
+const microFrontEndFiles = require('./files').microFrontEndFiles;
 
 module.exports = class extends EntityServerGenerator {
     constructor(args, opts) {
@@ -39,8 +40,9 @@ module.exports = class extends EntityServerGenerator {
     get writing() {
         const jhipsterPhase = super._writing();
         const myCustomSteps = {
-            writeEntityServerFIles() {
+            writeEntityServerFiles() {
                 this.writeFilesToDisk(serverFiles, this, false, null);
+                this.writeFilesToDisk(microFrontEndFiles, this, false, null);
             }
         };
         return { ...jhipsterPhase, ...myCustomSteps };

@@ -1,0 +1,45 @@
+<%_
+let entityNameLower = entityClass.charAt(0).toLowerCase() +  entityClass.slice(1)
+_%>
+
+import i18next from 'i18next';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import <%= entityClass %>TableContainer from 'components/<%= entityClass %>TableContainer';
+
+class <%= entityClass %>TableElement extends HTMLElement
+{
+    connectedCallback()
+    {
+        const mountPoint = document.createElement('div');
+        this.appendChild(mountPoint);
+
+        const locale = this.getAttribute('locale') || 'en';
+        i18next.changeLanguage(locale);
+
+        const customEventPrefix = '<%= entityClass %>.table.';
+
+        const onError = error => {
+            const customEvent = new CustomEvent(`${customEventPrefix}error`, {
+                detail: {
+                    error,
+                },
+            });
+            this.dispatchEvent(customEvent);
+        };
+
+        const onSelect = item => {
+            const customEvent = new CustomEvent(`${customEventPrefix}select`, {
+                detail: {
+                    item,
+                },
+            });
+            this.dispatchEvent(customEvent);
+        };
+
+        const reactRoot = React.createElement(<%= entityClass %>TableContainer, {onError, onSelect}, null);
+        ReactDOM.render(reactRoot, mountPoint);
+    }
+}
+
+customElements.define('<%= entityNameLower %>-table', <%= entityClass %>TableElement);

@@ -1,0 +1,74 @@
+<%_
+let entityNameLower = entityClass.charAt(0).toLowerCase() +  entityClass.slice(1)
+_%>
+
+
+import i18next from 'i18next';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import <%= entityClass %>Table from 'components/<%= entityClass %>Table';
+import <%= entityNameLower %>sGet from 'api/<%= entityNameLower %>s';
+import ErrorNotification from 'components/common/ErrorNotification';
+import {ThemeProvider} from '@material-ui/styles';
+import {createMuiTheme} from '@material-ui/core';
+
+export default class <%= entityClass %>TableContainer extends PureComponent {
+    theme = createMuiTheme();
+
+    state = {
+        <%= entityNameLower %>s: [],
+        error: null,
+    };
+
+    async componentDidMount() {
+        let <%= entityNameLower %>s = [];
+
+        try {
+            const json = await <%= entityNameLower %>sGet();
+
+            <%= entityNameLower %>s = json.map(<%= entityNameLower %> => ({
+                ...<%= entityNameLower %>,
+            }));
+            this.setState({
+                <%= entityNameLower %>s,
+            });
+        } catch (err) {
+            this.handleError(err);
+        }
+    }
+
+    closeNotification = () => {
+        this.setState({error: null});
+    };
+
+    handleError(err) {
+        const {onError} = this.props;
+        onError(err);
+        this.setState({
+            error: i18next.t(' <%= entityNameLower %>.error.dataLoading'),
+        });
+    }
+
+    render() {
+        const {error,  <%= entityNameLower %>s} = this.state;
+        const {onSelect} = this.props;
+        return (
+            <ThemeProvider theme={this.theme}>
+                <<%= entityClass %>Table <%= entityNameLower %>s={<%= entityNameLower %>s} onSelect={onSelect}/>
+                <ErrorNotification message={error} onClose={this.closeNotification}/>
+            </ThemeProvider>
+        );
+    }
+}
+
+<%= entityClass %>TableContainer.propTypes = {
+    onError: PropTypes.func,
+    onSelect: PropTypes.func,
+};
+
+<%= entityClass %>TableContainer.defaultProps = {
+    onError: () => {
+    },
+    onSelect: () => {
+    },
+};

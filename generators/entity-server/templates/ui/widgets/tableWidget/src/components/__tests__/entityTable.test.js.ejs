@@ -1,0 +1,48 @@
+<%_
+let entityNameLower = entityClass.charAt(0).toLowerCase() +  entityClass.slice(1)
+_%>
+
+import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render } from '@testing-library/react';
+import 'mocks/i18nMock';
+import { <%= entityNameLower %>1, <%= entityNameLower %>sWithDateStrings } from 'mocks/eventMocks';
+import <%= entityClass %>Table from 'components/<%= entityClass %>Table';
+
+describe('<%= entityClass %>Table', () => {
+it('shows <%= entityNameLower %>s', () => {
+const { getByText } = render(<<%= entityClass %>Table events={eventsWithDateStrings} />);
+expect(getByText('Event name 1')).toBeInTheDocument();
+expect(getByText('Event summary 1')).toBeInTheDocument();
+expect(getByText('Event name 2')).toBeInTheDocument();
+expect(getByText('Event summary 2')).toBeInTheDocument();
+expect(getByText('Event name 3')).toBeInTheDocument();
+expect(getByText('Event summary 3')).toBeInTheDocument();
+expect(getByText('Event name 4')).toBeInTheDocument();
+expect(getByText('Event summary 4')).toBeInTheDocument();
+});
+
+it('shows no <%= entityNameLower %>s message', () => {
+const { queryByText } = render(<<%= entityClass %>Table events={[]} />);
+expect(queryByText('<%= entityClass %> name 1')).not.toBeInTheDocument();
+expect(queryByText('<%= entityClass %> summary 1')).not.toBeInTheDocument();
+expect(queryByText('<%= entityClass %> name 2')).not.toBeInTheDocument();
+expect(queryByText('<%= entityClass %> summary 2')).not.toBeInTheDocument();
+expect(queryByText('<%= entityClass %> name 3')).not.toBeInTheDocument();
+expect(queryByText('<%= entityClass %> summary 3')).not.toBeInTheDocument();
+expect(queryByText('<%= entityClass %> name 4')).not.toBeInTheDocument();
+expect(queryByText('<%= entityClass %> summary 4')).not.toBeInTheDocument();
+
+expect(queryByText('<%= entityNameLower %>.noItems')).toBeInTheDocument();
+});
+
+it('calls onSelect when the user clicks a table row', () => {
+const onSelectMock = jest.fn();
+const { getByText } = render(
+<<%= entityClass %>Table events={eventsWithDateStrings} onSelect={onSelectMock} />
+);
+fireEvent.click(getByText('Event name 1'));
+expect(onSelectMock).toHaveBeenCalledTimes(1);
+expect(onSelectMock).toHaveBeenCalledWith(event1);
+});
+});

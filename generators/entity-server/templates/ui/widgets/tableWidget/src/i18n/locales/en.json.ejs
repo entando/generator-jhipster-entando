@@ -1,0 +1,25 @@
+<%_
+let entityNameLower = entityClass.charAt(0).toLowerCase() +  entityClass.slice(1)
+_%>
+
+{
+  "<%= entityNameLower %>": {
+    "noItems": "No <%= entityNameLower %>s available",
+    "tableHeader": {
+
+
+<% for (idx in fields) { %>
+
+  <%# TODO this lowercasing is dirty. Would be better for the lowercasing to be a function.  %>
+  <%# TODO: Map all of the js field types from the java options %>
+
+  <%= fields[idx].fieldName%>: "<%=  fields[idx].fieldName %>",
+
+<%}%>
+
+    },
+    "error": {
+      "dataLoading": "Error during server connection"
+    }
+  }
+}
