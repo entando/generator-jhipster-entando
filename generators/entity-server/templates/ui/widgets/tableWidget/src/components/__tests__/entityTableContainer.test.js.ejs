@@ -1,33 +1,29 @@
-<%_
-let entityNameLower = entityClass.charAt(0).toLowerCase() +  entityClass.slice(1)
-_%>
-
 import React from 'react';
 import { render, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { <%= entityNameLower %>sWithDateObjects } from 'mocks/<%= entityNameLower %>Mocks';
-import <%= entityNameLower %>sGet from 'api/<%= entityNameLower %>s';
+import { <%= entityInstancePlural %>WithDateObjects } from 'mocks/<%= entityInstance %>Mocks';
+import <%= entityInstancePlural %>Get from 'api/<%= entityInstancePlural %>';
 import 'mocks/i18nMock';
 import <%= entityClass %>TableContainer from 'components/<%= entityClass %>TableContainer';
 
-jest.mock('api/<%= entityNameLower %>s');
+jest.mock('api/<%= entityInstancePlural %>');
 
 describe('<%= entityClass %>TableContainer', () => {
-    const errorMessageKey = '<%= entityNameLower %>.error.dataLoading';
+    const errorMessageKey = '<%= entityInstance %>.error.dataLoading';
 
     it('calls API', async () => {
-        <%= entityNameLower %>sGet.mockImplementation(() => Promise.resolve(<%= entityNameLower %>sWithDateObjects));
+        <%= entityInstancePlural %>Get.mockImplementation(() => Promise.resolve(<%= entityInstancePlural %>WithDateObjects));
         const { queryByText } = render(<<%= entityClass %>TableContainer />);
 
         await wait(() => {
-            expect(<%= entityNameLower %>sGet).toHaveBeenCalledTimes(1);
+            expect(<%= entityInstancePlural %>Get).toHaveBeenCalledTimes(1);
             expect(queryByText(errorMessageKey)).not.toBeInTheDocument();
         });
     });
 
     it('shows an error if the API call is not successful', async () => {
         const onErrorMock = jest.fn();
-        <%= entityNameLower %>sGet.mockImplementation(() => Promise.reject());
+        <%= entityInstancePlural %>Get.mockImplementation(() => Promise.reject());
         const { getByText } = render(<<%= entityClass %>TableContainer onError={onErrorMock} />);
 
         await wait(() => {
