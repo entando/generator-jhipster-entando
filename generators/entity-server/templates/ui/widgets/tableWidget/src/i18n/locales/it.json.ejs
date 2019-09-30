@@ -1,0 +1,20 @@
+{
+  "<%= entityInstance %>": {
+    "noItems": "Nessun <%= entityInstance %> disponibile",
+    "tableHeader": {
+
+
+        <% for (idx in fields) { %>
+
+          <%# TODO this lowercasing is dirty. Would be better for the lowercasing to be a function.  %>
+          <%# TODO: Map all of the js field types from the java options %>
+
+          <%= fields[idx].fieldName%>: "<%=  fields[idx].fieldName %>",
+
+        <%}%>
+    },
+    "error": {
+      "dataLoading": "Errore durante la connessione al server"
+    }
+  }
+}

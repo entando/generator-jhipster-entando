@@ -1,0 +1,69 @@
+import i18next from 'i18next';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import <%= entityClass %>Table from 'components/<%= entityClass %>Table';
+import <%= entityInstancePlural %>Get from 'api/<%= entityInstancePlural %>';
+import ErrorNotification from 'components/common/ErrorNotification';
+import {ThemeProvider} from '@material-ui/styles';
+import {createMuiTheme} from '@material-ui/core';
+
+export default class <%= entityClass %>TableContainer extends PureComponent {
+    theme = createMuiTheme();
+
+    state = {
+        <%= entityInstancePlural %>: [],
+        error: null,
+    };
+
+    async componentDidMount() {
+        let <%= entityInstancePlural %> = [];
+
+        try {
+            const json = await <%= entityInstancePlural %>Get();
+
+            <%= entityInstancePlural %> = json.map(<%= entityInstance %> => ({
+                ...<%= entityInstance %>,
+            }));
+            this.setState({
+                <%= entityInstancePlural %>,
+            });
+        } catch (err) {
+            this.handleError(err);
+        }
+    }
+
+    closeNotification = () => {
+        this.setState({error: null});
+    };
+
+    handleError(err) {
+        const {onError} = this.props;
+        onError(err);
+        this.setState({
+            error: i18next.t(' <%= entityInstance %>.error.dataLoading'),
+        });
+    }
+
+    render() {
+        const {error,  <%= entityInstancePlural %>} = this.state;
+        const {onSelect} = this.props;
+        return (
+            <ThemeProvider theme={this.theme}>
+                <<%= entityClass %>Table <%= entityInstancePlural %>={<%= entityInstancePlural %>} onSelect={onSelect}/>
+                <ErrorNotification message={error} onClose={this.closeNotification}/>
+            </ThemeProvider>
+        );
+    }
+}
+
+<%= entityClass %>TableContainer.propTypes = {
+    onError: PropTypes.func,
+    onSelect: PropTypes.func,
+};
+
+<%= entityClass %>TableContainer.defaultProps = {
+    onError: () => {
+    },
+    onSelect: () => {
+    },
+};

@@ -1,0 +1,64 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import <%= entityInstance %>Type from 'types/<%= entityInstance %>Type';
+import { withStyles } from '@material-ui/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import { Trans } from 'react-i18next';
+
+const styles = {
+root: {
+cursor: 'pointer',
+},
+};
+
+const <%= entityClass %>Table = ({ classes, <%= entityInstancePlural %>, onSelect }) => {
+const tableRows = <%= entityInstancePlural %>.map(<%= entityInstance %> => (
+<TableRow hover className={classes.root} key={<%= entityInstance %>.id} onClick={() => onSelect(<%= entityInstance %>)}>
+
+<% for (idx in fields) { %>
+<TableCell>{<%= entityInstance %>.<%= fields[idx].fieldName %>}</TableCell>
+
+<%}%>
+
+</TableRow>
+));
+
+return <%= entityInstancePlural %>.length ? (
+<Table>
+    <TableHead>
+        <TableRow>
+            <% for (idx in fields) { %>
+            <TableCell>
+                <Trans i18nKey="<%= entityInstance %>.tableHeader.<%= fields[idx].fieldName %>" />
+            </TableCell>
+
+            <% } %>
+        </TableRow>
+    </TableHead>
+    <TableBody>{tableRows}</TableBody>
+</Table>
+) : (
+<Trans i18nKey="<%= entityInstance %>.noItems" />
+);
+};
+
+<%= entityClass %>Table.propTypes = {
+classes: PropTypes.shape({
+root: PropTypes.string,
+}),
+<%= entityInstancePlural %>: PropTypes.arrayOf(<%= entityInstance %>Type).isRequired,
+onSelect: PropTypes.func,
+};
+
+<%= entityClass %>Table.defaultProps = {
+classes: {
+root: '',
+},
+onSelect: () => {},
+};
+
+export default withStyles(styles)(<%= entityClass %>Table);
