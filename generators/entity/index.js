@@ -26,6 +26,8 @@ module.exports = class extends EntityGenerator {
     }
 
     get initializing() {
+        console.log('entity/index.js initializing()');
+
         /**
          * Any method beginning with _ can be reused from the superclass `EntityGenerator`
          *

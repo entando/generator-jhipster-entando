@@ -1,0 +1,12 @@
+import PropTypes from 'prop-types';
+
+const <%= entityInstance %>Type = PropTypes.shape({
+  // TODO: DYNAMIC TYPES
+  id: PropTypes.number,
+  name: PropTypes.string,
+  summary: PropTypes.string,
+  start: PropTypes.string,
+  end: PropTypes.string,
+});
+
+export default <%= entityInstance %>Type;
