@@ -3,7 +3,7 @@ import { DOMAIN, JWT_TOKEN } from 'api/constants';
 export default (params = {}) => {
   const { id, options } = params;
 
-  const url = `${DOMAIN}<%= entityApiUrl %>/${id}`;
+  const url = `${DOMAIN}${DOMAIN.endsWith('/') ? '' : '/'}<%= entityApiUrl %>/${id}`;
   const defaultOptions = {
     headers: new Headers({
       Authorization: `Bearer ${JWT_TOKEN}`,

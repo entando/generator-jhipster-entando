@@ -1,3 +1,18 @@
+<%_
+  function convertValue(entityInstance, field, locale) {
+    switch (field.fieldType) {
+      case 'Boolean':
+        return `{${entityInstance}.${field.fieldName}.toString()}`;
+      case 'LocalDate':
+        return `{${field.fieldName}Date.toLocaleDateString(language)}`;
+      case 'ZonedDateTime':
+      case 'Instant':
+        return `{${field.fieldName}Date.toLocaleDateString(language)} {${field.fieldName}Date.toLocaleTimeString(language)}`;
+    }
+    return `{${entityInstance}.${field.fieldName}}`;
+  }
+_%>
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -9,8 +24,17 @@ import TableRow from '@material-ui/core/TableRow';
 
 import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %>';
 
-const <%= entityClass %>FieldTable = ({ t, <%= entityInstance %> }) => {
+const <%= entityClass %>FieldTable = ({ t, i18n: { language }, <%= entityInstance %> }) => {
   const translationKeyPrefix = `entities.<%= entityInstance %>.`;
+
+  <%_
+    fields
+      .filter(field => ['Instant', 'ZonedDateTime', 'LocalDate']
+      .includes(field.fieldType))
+      .forEach(field => {
+  _%>
+  const <%= field.fieldName %>Date = new Date(<%= entityInstance %>.<%= field.fieldName %>);
+  <%_ }) _%>
 
   return (
     <Table>
@@ -29,13 +53,13 @@ const <%= entityClass %>FieldTable = ({ t, <%= entityInstance %> }) => {
             <span>{<%= entityInstance %>.id}</span>
           </TableCell>
         </TableRow>
-        <%_ fields.forEach(function(field){ _%>
+        <%_ fields.forEach(function(field) { _%>
         <TableRow>
           <TableCell>
             <span>{t(`${translationKeyPrefix}<%= field.fieldName %>`)}</span>
           </TableCell>
           <TableCell>
-            <span>{<%= entityInstance %>.<%= field.fieldName %>}</span>
+            <span><%- convertValue(entityInstance, field) %></span>
           </TableCell>
         </TableRow>
         <%_ }) _%>
@@ -47,6 +71,9 @@ const <%= entityClass %>FieldTable = ({ t, <%= entityInstance %> }) => {
 <%= entityClass %>FieldTable.propTypes = {
   <%= entityInstance %>: <%= entityInstance %>Type,
   t: PropTypes.func.isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string,
+  }).isRequired,
 };
 
 <%= entityClass %>FieldTable.defaultProps = {
