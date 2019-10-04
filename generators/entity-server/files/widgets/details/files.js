@@ -21,24 +21,24 @@ const dynamic = {
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/api/${generator.entityInstance}Api.js`,
             useBluePrint: true,
         },
-        {
-            file: '/detailsWidget/src/components/__mocks__/entityMocks.js',
-            renameTo: generator =>
-                `/${generator.entityInstance}/detailsWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
-            useBluePrint: true,
-        },
-        {
-            file: '/detailsWidget/src/components/__tests__/EntityDetails.test.js',
-            renameTo: generator =>
-                `/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}Details.test.js`,
-            useBluePrint: true,
-        },
-        {
-            file: '/detailsWidget/src/components/__tests__/EntityDetailsContainer.test.js',
-            renameTo: generator =>
-                `/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}DetailsContainer.test.js`,
-            useBluePrint: true,
-        },
+        // {
+        //     file: '/detailsWidget/src/components/__mocks__/entityMocks.js',
+        //     renameTo: generator =>
+        //         `/${generator.entityInstance}/detailsWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
+        //     useBluePrint: true,
+        // },
+        // {
+        //     file: '/detailsWidget/src/components/__tests__/EntityDetails.test.js',
+        //     renameTo: generator =>
+        //         `/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}Details.test.js`,
+        //     useBluePrint: true,
+        // },
+        // {
+        //     file: '/detailsWidget/src/components/__tests__/EntityDetailsContainer.test.js',
+        //     renameTo: generator =>
+        //         `/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}DetailsContainer.test.js`,
+        //     useBluePrint: true,
+        // },
         {
             file: '/detailsWidget/src/components/__types__/entity.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/__types__/${generator.entityInstance}.js`,
@@ -80,6 +80,11 @@ const copy = {
     path: 'ui/widgets',
     templates: [
         {
+            file: '/common/jsconfig.json',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/jsconfig.json`,
+            method: 'copy',
+        },
+        {
             file: '/detailsWidget/.env',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/.env`,
             method: 'copy',
@@ -104,11 +109,11 @@ const copy = {
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/api/constants.js`,
             method: 'copy',
         },
-        {
-            file: '/detailsWidget/src/components/__mocks__/i18n.js',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/__mocks__/i18n.js`,
-            method: 'copy',
-        },
+        // {
+        //     file: '/detailsWidget/src/components/__mocks__/i18n.js',
+        //     renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/__mocks__/i18n.js`,
+        //     method: 'copy',
+        // },
         {
             file: '/detailsWidget/src/components/common/ErrorNotification.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/common/ErrorNotification.js`,
@@ -126,31 +131,6 @@ const copy = {
         },
     ],
 };
-
-function generateRenameTo(file) {
-    return generator => 'test.json';
-}
-
-function createTemplateTree({ path, templates }) {
-    return {
-        path,
-        templates: templates.map(({ file, ...options }) => ({
-            file,
-            renameTo: generateRenameTo(file),
-            ...options,
-        })),
-    };
-}
-
-const files = createTemplateTree({
-    path: 'ui/widgets',
-    templates: [
-        { file: '/detailsWidget/package.json', useBluePrint: true },
-        { file: '/detailsWidget/public/favicon.ico', method: 'copy' },
-        { file: '/detailsWidget/src/index.css', method: 'copy' },
-        { file: '/detailsWidget/src/index.js', useBluePrint: true },
-    ],
-});
 
 module.exports = {
     dynamic,
