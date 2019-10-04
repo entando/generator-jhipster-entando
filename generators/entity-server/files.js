@@ -33,7 +33,7 @@ const microFrontEndFiles = {
         // eslint-disable prettier/prettier
         detailsWidgetFiles.dynamic,
         detailsWidgetFiles.copy,
-        // tableWidgetFiles,
+        tableWidgetFiles,
     ],
 };
 

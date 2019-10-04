@@ -47,7 +47,7 @@ const dynamic = {
         {
             file: '/detailsWidget/src/components/entity-field-table/EntityFieldTable.js',
             renameTo: generator =>
-                `/${generator.entityInstance}/detailsWidget/src/components/${generator.entityInstance}-field-table/${
+                `/${generator.entityInstance}/detailsWidget/src/components/${generator.entityFileName}-field-table/${
                     generator.entityClass
                 }FieldTable.js`,
             useBluePrint: true,
