@@ -1,0 +1,51 @@
+import React from 'react';
+import { render, wait } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+
+import 'components/__mocks__/i18n';
+import get<%= entityClass %> from 'api/<%= entityInstance %>Api';
+import <%= entityInstance %>ApiGetResponseMock from 'components/__mocks__/<%= entityInstance %>Mocks';
+import <%= entityClass %>DetailsContainer from 'components/<%= entityClass %>DetailsContainer';
+
+jest.mock('api/<%= entityInstance %>Api');
+
+beforeEach(() => {
+  get<%= entityClass %>.mockClear();
+});
+
+describe('<%= entityClass %>DetailsContainer component', () => {
+  test('requests data when component is mounted', async () => {
+    get<%= entityClass %>.mockImplementation(() => Promise.resolve(<%= entityInstance %>ApiGetResponseMock));
+
+    render(<<%= entityClass %>DetailsContainer id="1" />);
+
+    await wait(() => {
+      expect(get<%= entityClass %>).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  test('data is shown after mount API call', async () => {
+    get<%= entityClass %>.mockImplementation(() => Promise.resolve(<%= entityInstance %>ApiGetResponseMock));
+
+    const { getByText } = render(<<%= entityClass %>DetailsContainer id="1" />);
+
+    await wait(() => {
+      expect(get<%= entityClass %>).toHaveBeenCalledTimes(1);
+      expect(getByText('entities.<%= entityInstance %>.id')).toBeInTheDocument();
+      expect(getByText('entities.<%= entityInstance %>.name')).toBeInTheDocument();
+    });
+  });
+
+  test('error is shown after failed API call', async () => {
+    const onErrorMock = jest.fn();
+    get<%= entityClass %>.mockImplementation(() => Promise.reject());
+
+    const { getByText } = render(<<%= entityClass %>DetailsContainer id="1" onError={onErrorMock} />);
+
+    await wait(() => {
+      expect(get<%= entityClass %>).toHaveBeenCalledTimes(1);
+      expect(onErrorMock).toHaveBeenCalledTimes(1);
+      expect(getByText('common.couldNotFetchData')).toBeInTheDocument();
+    });
+  });
+});

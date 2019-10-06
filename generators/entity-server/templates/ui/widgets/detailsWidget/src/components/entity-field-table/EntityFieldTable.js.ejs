@@ -1,0 +1,83 @@
+<%_
+  function convertValue(entityInstance, field, locale) {
+    switch (field.fieldType) {
+      case 'Boolean':
+        return `{${entityInstance}.${field.fieldName}.toString()}`;
+      case 'LocalDate':
+        return `{${field.fieldName}Date.toLocaleDateString(language)}`;
+      case 'ZonedDateTime':
+      case 'Instant':
+        return `{${field.fieldName}Date.toLocaleDateString(language)} {${field.fieldName}Date.toLocaleTimeString(language)}`;
+    }
+    return `{${entityInstance}.${field.fieldName}}`;
+  }
+_%>
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %>';
+
+const <%= entityClass %>FieldTable = ({ t, i18n: { language }, <%= entityInstance %> }) => {
+  const translationKeyPrefix = `entities.<%= entityInstance %>.`;
+
+  <%_
+    fields
+      .filter(field => ['Instant', 'ZonedDateTime', 'LocalDate']
+      .includes(field.fieldType))
+      .forEach(field => {
+  _%>
+  const <%= field.fieldName %>Date = new Date(<%= entityInstance %>.<%= field.fieldName %>);
+  <%_ }) _%>
+
+  return (
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>{t('common.name')}</TableCell>
+          <TableCell>{t('common.value')}</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>
+            <span>{t(`${translationKeyPrefix}id`)}</span>
+          </TableCell>
+          <TableCell>
+            <span>{<%= entityInstance %>.id}</span>
+          </TableCell>
+        </TableRow>
+        <%_ fields.forEach(function(field) { _%>
+        <TableRow>
+          <TableCell>
+            <span>{t(`${translationKeyPrefix}<%= field.fieldName %>`)}</span>
+          </TableCell>
+          <TableCell>
+            <span><%- convertValue(entityInstance, field) %></span>
+          </TableCell>
+        </TableRow>
+        <%_ }) _%>
+      </TableBody>
+    </Table>
+  );
+};
+
+<%= entityClass %>FieldTable.propTypes = {
+  <%= entityInstance %>: <%= entityInstance %>Type,
+  t: PropTypes.func.isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string,
+  }).isRequired,
+};
+
+<%= entityClass %>FieldTable.defaultProps = {
+  <%= entityInstance %>: [],
+};
+
+export default withTranslation()(<%= entityClass %>FieldTable);
