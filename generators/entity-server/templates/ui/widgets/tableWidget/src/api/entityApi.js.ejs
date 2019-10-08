@@ -1,7 +1,8 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/api/${generator.entityInstancePlural}.js`" } -%>
 import { DOMAIN, JWT_TOKEN } from 'api/constants';
 
 export default async () => {
-    const url = `${DOMAIN}/<%= entityInstancePlural%>`;
+    const url = `${DOMAIN}/<%= entityApiUrl %>`;
     const init = {
         headers: {
             Authorization: `Bearer ${JWT_TOKEN}`,

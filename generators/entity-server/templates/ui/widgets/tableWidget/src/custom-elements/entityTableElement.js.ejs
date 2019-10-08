@@ -1,3 +1,4 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/custom-elements/${generator.entityClass}TableElement.js`" } -%>
 import i18next from 'i18next';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -38,4 +39,4 @@ class <%= entityClass %>TableElement extends HTMLElement
     }
 }
 
-customElements.define('<%= entityInstance %>-table', <%= entityClass %>TableElement);
+customElements.define('<%= entityFileName %>-table', <%= entityClass %>TableElement);

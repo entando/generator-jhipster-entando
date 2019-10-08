@@ -1,13 +1,22 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/${generator.entityFileName}-field-table/${generator.entityClass}FieldTable.js`" } -%>
 <%_
   function convertValue(entityInstance, field, locale) {
     switch (field.fieldType) {
       case 'Boolean':
-        return `{${entityInstance}.${field.fieldName}.toString()}`;
+        return `{typeof ${entityInstance}.${field.fieldName} !== 'undefined' ? ${entityInstance}.${field.fieldName}.toString() : ''}`;
       case 'LocalDate':
-        return `{${field.fieldName}Date.toLocaleDateString(language)}`;
+        return `{${entityInstance}.${field.fieldName} && new Date(${entityInstance}.${field.fieldName}).toLocaleDateString(language)}`;
       case 'ZonedDateTime':
       case 'Instant':
-        return `{${field.fieldName}Date.toLocaleDateString(language)} {${field.fieldName}Date.toLocaleTimeString(language)}`;
+        return `{${entityInstance}.${field.fieldName} && new Date(${entityInstance}.${field.fieldName}).toLocaleString(language)}`;
+    }
+    if (field.fieldType === 'byte[]' || field.fieldTypeBlobContent) {
+      switch (field.fieldTypeBlobContent) {
+        case 'image':
+          return `<img src={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} alt="" />`;
+        case 'any':
+          return `<a download="filename" href={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} >{t('common.download')}</a>`;
+      }
     }
     return `{${entityInstance}.${field.fieldName}}`;
   }
@@ -26,15 +35,6 @@ import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %
 
 const <%= entityClass %>FieldTable = ({ t, i18n: { language }, <%= entityInstance %> }) => {
   const translationKeyPrefix = `entities.<%= entityInstance %>.`;
-
-  <%_
-    fields
-      .filter(field => ['Instant', 'ZonedDateTime', 'LocalDate']
-      .includes(field.fieldType))
-      .forEach(field => {
-  _%>
-  const <%= field.fieldName %>Date = new Date(<%= entityInstance %>.<%= field.fieldName %>);
-  <%_ }) _%>
 
   return (
     <Table>

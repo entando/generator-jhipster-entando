@@ -1,10 +1,7 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-const _ = require('lodash');
+const _ = require('lodash'); // eslint-disable-line no-unused-vars
 const constants = require('generator-jhipster/generators/generator-constants');
 
-const detailsWidgetFiles = require('./files/widgets/details/files');
-const tableWidgetFiles = require('./files/widgets/table/files');
+const widgetFiles = require('./mfe-files.js');
 
 const SERVER_MAIN_SRC_DIR = constants.SERVER_MAIN_SRC_DIR;
 
@@ -30,10 +27,22 @@ const serverFiles = {
 
 const microFrontEndFiles = {
     server: [
-        // eslint-disable prettier/prettier
-        detailsWidgetFiles.dynamic,
-        detailsWidgetFiles.copy,
-        tableWidgetFiles,
+        widgetFiles,
+        // {
+        //     path: 'ui/widgets',
+        //     templates: [
+        //         {
+        //             file: '/common/jsconfig.json',
+        //             renameTo: generator => `/${generator.entityInstance}/detailsWidget/jsconfig.json`,
+        //             method: 'copy',
+        //         },
+        //         {
+        //             file: '/common/jsconfig.json',
+        //             renameTo: generator => `/${generator.entityInstance}/tableWidget/jsconfig.json`,
+        //             method: 'copy',
+        //         },
+        //     ],
+        // },
     ],
 };
 

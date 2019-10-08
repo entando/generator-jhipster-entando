@@ -1,6 +1,6 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}Table.js`" } -%>
 import React from 'react';
 import PropTypes from 'prop-types';
-import <%= entityInstance %>Type from 'types/<%= entityInstance %>Type';
 import { withStyles } from '@material-ui/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -50,7 +50,6 @@ return <%= entityInstancePlural %>.length ? (
 classes: PropTypes.shape({
 root: PropTypes.string,
 }),
-<%= entityInstancePlural %>: PropTypes.arrayOf(<%= entityInstance %>Type).isRequired,
 onSelect: PropTypes.func,
 };
 
