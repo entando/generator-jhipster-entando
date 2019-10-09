@@ -1,32 +1,34 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}TableContainer.js`" } -%>
-import i18next from 'i18next';
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import i18next from 'i18next';
 import <%= entityClass %>Table from 'components/<%= entityClass %>Table';
 import <%= entityInstancePlural %>Get from 'api/<%= entityInstancePlural %>';
-import ErrorNotification from 'components/common/ErrorNotification';
-import {ThemeProvider} from '@material-ui/styles';
-import {createMuiTheme} from '@material-ui/core';
+import Notification from 'components/common/Notification';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core';
 
-export default class <%= entityClass %>TableContainer extends PureComponent {
+<%_ const ComponentName = `${entityClass}TableContainer`; _%>
+export default class <%= ComponentName %> extends PureComponent {
     theme = createMuiTheme();
 
     state = {
         <%= entityInstancePlural %>: [],
-        error: null,
+        notificationStatus: null,
+        notificationMessage: null,
     };
 
     async componentDidMount() {
-        let <%= entityInstancePlural %> = [];
-
         try {
             const json = await <%= entityInstancePlural %>Get();
 
-            <%= entityInstancePlural %> = json.map(<%= entityInstance %> => ({
+            const <%= entityInstancePlural %> = json.map(<%= entityInstance %> => ({
                 ...<%= entityInstance %>,
             }));
             this.setState({
                 <%= entityInstancePlural %>,
+                notificationStatus: null,
+                notificationMessage: null,
             });
         } catch (err) {
             this.handleError(err);
@@ -41,7 +43,8 @@ export default class <%= entityClass %>TableContainer extends PureComponent {
         const {onError} = this.props;
         onError(err);
         this.setState({
-            error: i18next.t(' <%= entityInstance %>.error.dataLoading'),
+            notificationStatus: 'error',
+            notificationMessage: i18next.t('common.couldNotFetchData'),
         });
     }
 
@@ -51,18 +54,18 @@ export default class <%= entityClass %>TableContainer extends PureComponent {
         return (
             <ThemeProvider theme={this.theme}>
                 <<%= entityClass %>Table <%= entityInstancePlural %>={<%= entityInstancePlural %>} onSelect={onSelect}/>
-                <ErrorNotification message={error} onClose={this.closeNotification}/>
+                <Notification message={error} onClose={this.closeNotification}/>
             </ThemeProvider>
         );
     }
 }
 
-<%= entityClass %>TableContainer.propTypes = {
+<%= ComponentName %>.propTypes = {
     onError: PropTypes.func,
     onSelect: PropTypes.func,
 };
 
-<%= entityClass %>TableContainer.defaultProps = {
+<%= ComponentName %>.defaultProps = {
     onError: () => {
     },
     onSelect: () => {

@@ -167,6 +167,18 @@ const files = {
         },
         /*
         {
+            file: '/tableWidget/src/components/__mocks__/entityMocks.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/mocks/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
+        },
+        */
+        /*
+        {
+            file: '/tableWidget/src/components/__mocks__/entityi18nMock.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/mocks/${generator.entityInstance}i18nMock.js`, // eslint-disable-line prettier/prettier
+        },
+        */
+        /*
+        {
             file: '/tableWidget/src/components/__tests__/entityTable.test.js',
             renameTo: generator => `/tableWidget/src/components/__tests__/${generator.entityClass}Table.test.js`, // eslint-disable-line prettier/prettier
         },
@@ -178,8 +190,13 @@ const files = {
         },
         */
         {
-            file: '/tableWidget/src/components/common/ErrorNotification.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/common/ErrorNotification.js`,
+            file: '/tableWidget/src/components/__types__/entity.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__types__/${generator.entityInstance}.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/components/common/Notification.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/common/Notification.js`,
             method: 'copy',
         },
         {
@@ -198,13 +215,8 @@ const files = {
             useBluePrint: true,
         },
         {
-            file: '/tableWidget/src/i18n/i18nextOptions.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/i18nextOptions.js`,
-            method: 'copy',
-        },
-        {
-            file: '/tableWidget/src/i18n/index.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/index.js`,
+            file: '/tableWidget/src/i18n/i18n.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/i18n.js`,
             method: 'copy',
         },
         {
@@ -213,14 +225,14 @@ const files = {
             useBluePrint: true,
         },
         {
+            file: '/tableWidget/src/i18n/locales/index.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/locales/index.js`,
+            method: 'copy',
+        },
+        {
             file: '/tableWidget/src/i18n/locales/it.json',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/locales/it.json`,
             useBluePrint: true,
-        },
-        {
-            file: '/tableWidget/src/i18n/locales.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/locales.js`,
-            method: 'copy',
         },
         {
             file: '/tableWidget/src/index.css',
@@ -230,23 +242,6 @@ const files = {
         {
             file: '/tableWidget/src/index.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/index.js`,
-            useBluePrint: true,
-        },
-        /*
-        {
-            file: '/tableWidget/src/mocks/entityMocks.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/mocks/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
-        },
-        */
-        /*
-        {
-            file: '/tableWidget/src/mocks/entityi18nMock.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/mocks/${generator.entityInstance}i18nMock.js`, // eslint-disable-line prettier/prettier
-        },
-        */
-        {
-            file: '/tableWidget/src/types/entityType.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/types/${generator.entityInstance}Type.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
     ],
