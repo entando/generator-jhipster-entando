@@ -14,10 +14,12 @@
       switch (field.fieldTypeBlobContent) {
         case 'image':
           return `<img src={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} alt="" />`;
+
         case 'any':
           return `<a download="filename" href={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} >{t('common.download')}</a>`;
       }
     }
+
     return `{${entityInstance}.${field.fieldName}}`;
   }
 _%>
