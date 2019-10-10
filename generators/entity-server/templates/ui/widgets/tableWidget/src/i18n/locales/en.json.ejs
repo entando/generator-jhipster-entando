@@ -1,25 +1,15 @@
-<%_
-let entityInstance = entityClass.charAt(0).toLowerCase() +  entityClass.slice(1)
-_%>
-
+<%# { "useBluePrint": true } -%>
 {
-  "<%= entityInstance %>": {
-    "noItems": "No <%= entityInstancePlural %> available",
-    "tableHeader": {
-
-
-<% for (idx in fields) { %>
-
-  <%# TODO this lowercasing is dirty. Would be better for the lowercasing to be a function.  %>
-  <%# TODO: Map all of the js field types from the java options %>
-
-  <%= fields[idx].fieldName%>: "<%=  fields[idx].fieldName %>",
-
-<%}%>
-
-    },
-    "error": {
-      "dataLoading": "Error during server connection"
+  "common": {
+    "couldNotFetchData": "Unfortunately we could not fetch entity data",
+  },
+  "entities": {
+    "<%= entityInstance %>": {
+      "noItems": "No <%= entityInstancePlural %> available",
+      "id": "ID",
+      <%_ fields.forEach(function(field){ _%>
+      "<%= field.fieldName %>": "entities.<%= entityInstance %>.<%= field.fieldName %>",
+      <%_ }) _%>
     }
   }
 }

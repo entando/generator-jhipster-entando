@@ -1,64 +1,69 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}Table.js`" } -%>
 import React from 'react';
 import PropTypes from 'prop-types';
-import <%= entityInstance %>Type from 'types/<%= entityInstance %>Type';
+import i18next from 'i18next';
 import { withStyles } from '@material-ui/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Trans } from 'react-i18next';
+import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %>';
 
 const styles = {
-root: {
-cursor: 'pointer',
-},
+    root: {
+        cursor: 'pointer',
+    },
 };
 
-const <%= entityClass %>Table = ({ classes, <%= entityInstancePlural %>, onSelect }) => {
-const tableRows = <%= entityInstancePlural %>.map(<%= entityInstance %> => (
-<TableRow hover className={classes.root} key={<%= entityInstance %>.id} onClick={() => onSelect(<%= entityInstance %>)}>
-
-<% for (idx in fields) { %>
-<TableCell>{<%= entityInstance %>.<%= fields[idx].fieldName %>}</TableCell>
-
-<%}%>
-
-</TableRow>
-));
-
-return <%= entityInstancePlural %>.length ? (
-<Table>
-    <TableHead>
-        <TableRow>
-            <% for (idx in fields) { %>
-            <TableCell>
-                <Trans i18nKey="<%= entityInstance %>.tableHeader.<%= fields[idx].fieldName %>" />
-            </TableCell>
-
-            <% } %>
+<%_ const ComponentName = `${entityClass}Table`; _%>
+const <%= ComponentName %> = ({ classes, <%= entityInstancePlural %>, onSelect }) => {
+    const tableRows = <%= entityInstancePlural %>.map(<%= entityInstance %> => (
+        <TableRow
+            hover
+            className={classes.root}
+            key={<%= entityInstance %>.id}
+            onClick={() => onSelect(<%= entityInstance %>)}
+        >
+            <%_ for (field in fields) { _%>
+            <TableCell><span>{<%= entityInstance %>.<%= fields[field].fieldName %>}</span></TableCell>
+            <%_ } _%>
         </TableRow>
-    </TableHead>
-    <TableBody>{tableRows}</TableBody>
-</Table>
-) : (
-<Trans i18nKey="<%= entityInstance %>.noItems" />
-);
+    ));
+
+    return (<%= entityInstancePlural %>.length ? (
+        <Table>
+            <TableHead>
+                <TableRow>
+                    <%_ for (field in fields) { _%>
+                    <TableCell>
+                        <span>{ i18next.t('entities.<%= entityInstance %>.<%= fields[field].fieldName %>') }</span>
+                    </TableCell>
+                    <%_ } _%>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                { tableRows }
+            </TableBody>
+        </Table>
+    ) : (
+        i18next.t("entities.<%= entityInstance %>.noItems")
+    ));
 };
 
-<%= entityClass %>Table.propTypes = {
-classes: PropTypes.shape({
-root: PropTypes.string,
-}),
-<%= entityInstancePlural %>: PropTypes.arrayOf(<%= entityInstance %>Type).isRequired,
-onSelect: PropTypes.func,
+<%= ComponentName %>.propTypes = {
+    classes: PropTypes.shape({
+        root: PropTypes.string,
+    }),
+    <%= entityInstancePlural %>: <%= entityInstance %>Type,
+    onSelect: PropTypes.func,
 };
 
-<%= entityClass %>Table.defaultProps = {
-classes: {
-root: '',
-},
-onSelect: () => {},
+<%= ComponentName %>.defaultProps = {
+    classes: {
+        root: '',
+    },
+    onSelect: () => {},
 };
 
-export default withStyles(styles)(<%= entityClass %>Table);
+export default withStyles(styles)(<%= ComponentName %>);

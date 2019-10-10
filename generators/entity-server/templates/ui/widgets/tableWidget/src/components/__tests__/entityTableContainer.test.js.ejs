@@ -1,9 +1,10 @@
+<%# { "skip": true, "renameTo": "`/tableWidget/src/components/__tests__//${generator.entityClass}TableContainer.test.js`" } -%>
 import React from 'react';
 import { render, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { <%= entityInstancePlural %>WithDateObjects } from 'mocks/<%= entityInstance %>Mocks';
+import { <%= entityInstancePlural %>WithDateObjects } from 'components/__mocks__/<%= entityInstance %>Mocks';
 import <%= entityInstancePlural %>Get from 'api/<%= entityInstancePlural %>';
-import 'mocks/i18nMock';
+import 'components/__mocks__/i18nMock';
 import <%= entityClass %>TableContainer from 'components/<%= entityClass %>TableContainer';
 
 jest.mock('api/<%= entityInstancePlural %>');
