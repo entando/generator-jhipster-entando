@@ -1,21 +1,19 @@
 <%# { "useBluePrint": true } -%>
 {
-  "translation": {
-    "common": {
-      "couldNotFetchData": "Unfortunately we could not fetch entity data",
-      "widgetName": "Details about '{{widgetNamePlaceholder}}'",
-      "name": "Name",
-      "value": "Value",
-      "loading": "Loading...",
-      "missingId": "Please provide <%= entityInstance %> ID"
-    },
-    "entities": {
-      "<%= entityInstance %>": {
-        "id": "ID",
-        <%_ fields.forEach(function(field){ _%>
-        "<%= field.fieldName %>": "entities.<%= entityInstance %>.<%= field.fieldName %>",
-        <%_ }) _%>
-      }
+  "common": {
+    "couldNotFetchData": "Unfortunately we could not fetch entity data",
+    "widgetName": "Details about '{{widgetNamePlaceholder}}'",
+    "name": "Name",
+    "value": "Value",
+    "loading": "Loading...",
+    "missingId": "Please provide <%= entityInstance %> ID"
+  },
+  "entities": {
+    "<%= entityInstance %>": {
+      "id": "ID",
+      <%_ fields.forEach(function(field){ _%>
+      "<%= field.fieldName %>": "entities.<%= entityInstance %>.<%= field.fieldName %>",
+      <%_ }) _%>
     }
   }
 }
