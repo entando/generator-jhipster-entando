@@ -28,21 +28,7 @@ const serverFiles = {
 const microFrontEndFiles = {
     server: [
         widgetFiles,
-        // {
-        //     path: 'ui/widgets',
-        //     templates: [
-        //         {
-        //             file: '/common/jsconfig.json',
-        //             renameTo: generator => `/${generator.entityInstance}/detailsWidget/jsconfig.json`,
-        //             method: 'copy',
-        //         },
-        //         {
-        //             file: '/common/jsconfig.json',
-        //             renameTo: generator => `/${generator.entityInstance}/tableWidget/jsconfig.json`,
-        //             method: 'copy',
-        //         },
-        //     ],
-        // },
+        // ADD CUSTOM MAPPINGS UNDER THIS COMMENT
     ],
 };
 

@@ -6,15 +6,7 @@ const TEMPLATES_PATH = '../templates/ui/';
 const EXPORT_PATH = '../mfe-files.js';
 
 const IGNORED_TEMPLATES = [
-    // `${TEMPLATES_PATH}widgets/common/jsconfig.json.ejs`,
-    // `${TEMPLATES_PATH}widgets/detailsWidget/src/components/__tests__/EntityDetails.test.js.ejs`,
-    // `${TEMPLATES_PATH}widgets/detailsWidget/src/components/__tests__/EntityDetailsContainer.test.js.ejs`,
-    // `${TEMPLATES_PATH}widgets/detailsWidget/src/components/__mocks__/entityMocks.js.ejs`,
-    // `${TEMPLATES_PATH}widgets/detailsWidget/src/components/__mocks__/i18n.js.ejs`,
-    // `${TEMPLATES_PATH}widgets/tableWidget/src/mocks/entityMocks.js.ejs`,
-    // `${TEMPLATES_PATH}widgets/tableWidget/src/mocks/entityi18nMock.js.ejs`,
-    // `${TEMPLATES_PATH}widgets/tableWidget/src/components/__tests__/entityTableContainer.test.js.ejs`,
-    // `${TEMPLATES_PATH}widgets/tableWidget/src/components/__tests__/entityTable.test.js.ejs`,
+    // ADD IGNORED TEMPLATES HERE (format example, `${TEMPLATES_PATH}widgets/common/file.js.ejs`)
 ];
 
 function getFiles(path) {
