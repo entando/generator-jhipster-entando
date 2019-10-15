@@ -1,4 +1,4 @@
-<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/__types__/${generator.entityInstance}.js`" } -%>
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/__types__/${generator.entityInstance}.js`" } -%>
 <%_
 function mapTypeToPropType (field) {
   const checkIfString = ({ fieldType }) => ['String', 'LocalDate', 'Instant', 'ZonedDateTime'].includes(fieldType);
@@ -23,12 +23,31 @@ function isRequired (field) {
 _%>
 import PropTypes from 'prop-types';
 
-const <%= entityInstance %>Type = PropTypes.shape({
+export default PropTypes.shape({
   id: PropTypes.number,
-  
+
   <%_ fields.forEach(function(field) { _%>
   <%= field.fieldName %>: <%= mapTypeToPropType(field) %><%= isRequired(field) %>,
   <%_ }) _%>
 });
 
-export default <%= entityInstance %>Type;
+export const formValues = PropTypes.shape({
+    // name: PropTypes.string,
+    // summary: PropTypes.string,
+    // start: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    // end: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+});
+
+export const formTouched = PropTypes.shape({
+  // name: PropTypes.bool,
+  // summary: PropTypes.bool,
+  // start: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({})]),
+  // end: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({})]),
+});
+
+export const formErrors = PropTypes.shape({
+  // name: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
+  // summary: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
+  // start: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
+  // end: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
+});

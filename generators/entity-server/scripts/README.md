@@ -3,7 +3,7 @@
 This script automates the template mapping
 
 ### Usage
-Go to `generators/entity-server/scripts/` and run `node createMfeTemplateMap.js`.
+Go to `generators/entity-server/scripts/` and run `node create-mfe-template-map.js`.
 
 This will generate a `mfe-files.js` file at `generators/entity-server/` using `mfe-files.js.ejs` template. The resulting file will look similar to this:
 
