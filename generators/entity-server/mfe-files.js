@@ -405,6 +405,11 @@ const files = {
             method: 'copy',
         },
         {
+            file: '/utils/prop-types',
+            renameTo: generator => `/${generator.entityInstance}/utils/prop-types`,
+            method: 'copy',
+        },
+        {
             file: '/utils/yup',
             renameTo: generator => `/${generator.entityInstance}/utils/yup`,
             method: 'copy',
