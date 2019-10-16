@@ -2,9 +2,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import i18next from 'i18next';
-import <%= entityClass %>Details from 'components/<%= entityClass %>DetailsContainer';
+import <%= entityClass %>DetailsContainer from 'components/<%= entityClass %>DetailsContainer';
 
-class <%= entityClass %>DetailsElement extends HTMLElement {
+<%_ const ComponentName = `${entityClass}DetailsElement`; _%>
+class <%= ComponentName %> extends HTMLElement {
   connectedCallback() {
     const mountPoint = document.createElement('div');
     this.appendChild(mountPoint);
@@ -25,7 +26,7 @@ class <%= entityClass %>DetailsElement extends HTMLElement {
 
     const id = this.getAttribute('id');
 
-    const reactComponent = React.createElement(<%= entityClass %>Details, {
+    const reactComponent = React.createElement(<%= entityClass %>DetailsContainer, {
       id,
       onError,
     });
@@ -33,4 +34,4 @@ class <%= entityClass %>DetailsElement extends HTMLElement {
   }
 }
 
-customElements.define('<%= entityFileName %>-details', <%= entityClass %>DetailsElement);
+customElements.define('<%= entityFileName %>-details', <%= ComponentName %>);

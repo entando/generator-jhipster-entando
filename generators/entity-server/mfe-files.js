@@ -37,8 +37,8 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/detailsWidget/src/api/entityApi.js',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/api/${generator.entityInstance}Api.js`, // eslint-disable-line prettier/prettier
+            file: '/detailsWidget/src/api/entity.js',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/api/${generator.entityInstance}.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
         {
@@ -81,8 +81,8 @@ const files = {
             useBluePrint: true,
         },
         {
-            file: '/detailsWidget/src/components/common/ErrorNotification.js',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/common/ErrorNotification.js`,
+            file: '/detailsWidget/src/components/common/Notification.js',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/common/Notification.js`,
             method: 'copy',
         },
         {
@@ -306,7 +306,7 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/tableWidget/src/api/entityApi.js',
+            file: '/tableWidget/src/api/entities.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/api/${generator.entityInstancePlural}.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },

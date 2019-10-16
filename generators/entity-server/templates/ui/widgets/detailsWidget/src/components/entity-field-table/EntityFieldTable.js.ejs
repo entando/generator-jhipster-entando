@@ -1,7 +1,9 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/${generator.entityFileName}-field-table/${generator.entityClass}FieldTable.js`" } -%>
+<%_ include ../../../../utils/jhipster _%>
 <%_
   function convertValue(entityInstance, field, locale) {
-    switch (field.fieldType) {
+    const fieldType = getJHipsterType(field); // from 'utils/jhipster'
+    switch (fieldType) {
       case 'Boolean':
         return `{typeof ${entityInstance}.${field.fieldName} !== 'undefined' ? ${entityInstance}.${field.fieldName}.toString() : ''}`;
       case 'LocalDate':
@@ -9,15 +11,10 @@
       case 'ZonedDateTime':
       case 'Instant':
         return `{${entityInstance}.${field.fieldName} && new Date(${entityInstance}.${field.fieldName}).toLocaleString(language)}`;
-    }
-    if (field.fieldType === 'byte[]' || field.fieldTypeBlobContent) {
-      switch (field.fieldTypeBlobContent) {
-        case 'image':
-          return `<img src={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} alt="" />`;
-
-        case 'any':
-          return `<a download="filename" href={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} >{t('common.download')}</a>`;
-      }
+      case 'ImageBlob':
+        return `<img src={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} alt="" />`;
+      case 'BinaryFileBlob':
+        return `<a download="filename" href={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} >{t('common.download')}</a>`;
     }
 
     return `{${entityInstance}.${field.fieldName}}`;

@@ -1,22 +1,24 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/${generator.entityClass}DetailsContainer.js`" } -%>
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core';
 
 import <%= entityClass %>Details from 'components/<%= entityClass %>Details';
-import ErrorNotification from 'components/common/ErrorNotification';
-import get<%= entityClass %> from 'api/<%= entityInstance %>Api';
+import Notification from 'components/common/Notification';
+import get<%= entityClass %> from 'api/<%= entityInstance %>';
 
-class <%= entityClass %>DetailsContainer extends React.Component {
+<%_ const ComponentName = `${entityClass}DetailsContainer`; _%>
+class <%= ComponentName %> extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       loading: true,
       <%= entityInstance %>: {},
-      error: null,
+      notificationStatus: null,
+      notificationMessage: null,
     };
 
     this.theme = createMuiTheme();
@@ -24,18 +26,29 @@ class <%= entityClass %>DetailsContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { t, id, onError } = this.props;
+    const { id, onError } = this.props;
 
     if (id) {
       get<%= entityClass %>({ id })
-        .then(response => this.setState({ error: null, <%= entityInstance %>: response }))
+        .then(response => this.setState({
+          notificationStatus: null,
+          notificationMessage: null,
+          <%= entityInstance %>: response
+        }))
         .catch(e => {
           onError(e);
-          this.setState({ error: t('common.couldNotFetchData') });
+          this.setState({
+            notificationStatus: 'error',
+            notificationMessage: i18next.t('common.couldNotFetchData'),
+          });
         })
         .finally(() => this.setState({ loading: false }));
     } else {
-      this.setState({ loading: false, error: t('common.missingId') });
+      this.setState({
+        loading: false,
+        notificationStatus: 'error',
+        notificationMessage: i18next.t('common.missingId'),
+      });
     }
   }
 
@@ -44,27 +57,29 @@ class <%= entityClass %>DetailsContainer extends React.Component {
   }
 
   render() {
-    const { <%= entityInstance %>, error, loading } = this.state;
-    const { t } = this.props;
+    const { <%= entityInstance %>, notificationStatus, notificationMessage, loading } = this.state;
 
     return (
       <ThemeProvider theme={this.theme}>
-        {loading && t('common.loading')}
+        {loading && i18next.t('common.loading')}
         {!loading && <<%= entityClass %>Details <%= entityInstance %>={<%= entityInstance %>} />}
-        <ErrorNotification message={error} onClose={this.closeNotification} />
+        <Notification
+          status={notificationStatus}
+          message={notificationMessage}
+          onClose={this.closeNotification}
+        />
       </ThemeProvider>
     );
   }
 }
 
-<%= entityClass %>DetailsContainer.propTypes = {
+<%= ComponentName %>.propTypes = {
   id: PropTypes.string.isRequired,
   onError: PropTypes.func,
-  t: PropTypes.func.isRequired,
 };
 
-<%= entityClass %>DetailsContainer.defaultProps = {
+<%= ComponentName %>.defaultProps = {
   onError: () => {},
 };
 
-export default withTranslation()(<%= entityClass %>DetailsContainer);
+export default <%= ComponentName %>;
