@@ -1,13 +1,13 @@
-<%# { "skip": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/__tests__/${generator.entityClass}EditFormContainer.test.js`" } -%>
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/__tests__/${generator.entityClass}EditFormContainer.test.js`" } -%>
 import React from 'react';
 import { fireEvent, render, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { apiConferenceGet, apiConferencePut } from 'api/conferences';
-import ConferenceEditFormContainer from 'components/ConferenceEditFormContainer';
-import 'i18n/__mocks__/i18nMock';
-import { mockConference } from 'components/__mocks__/conferenceMocks';
+import { api<%= entityClass %>Get, api<%= entityClass %>Put } from 'api/<%= entityInstancePlural %>';
+import <%= entityClass %>EditFormContainer from 'components/<%= entityClass %>EditFormContainer';
+import 'components/__mocks__/i18nMock';
+import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
 
-jest.mock('api/conferences');
+jest.mock('api/<%= entityInstancePlural %>');
 
 describe('ConferenceEditFormContainer', () => {
   beforeEach(() => {
@@ -21,25 +21,25 @@ describe('ConferenceEditFormContainer', () => {
   const onUpdateMock = jest.fn();
 
   it('loads data', async () => {
-    apiConferenceGet.mockImplementation(() => Promise.resolve(mockConference));
+    api<%= entityClass %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mock));
     const { queryByText } = render(
-      <ConferenceEditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} />
+      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} />
     );
 
     await wait(() => {
-      expect(apiConferenceGet).toHaveBeenCalledTimes(1);
-      expect(apiConferenceGet).toHaveBeenCalledWith('1');
+      expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Get).toHaveBeenCalledWith('1');
       expect(queryByText(errorMessageKey)).not.toBeInTheDocument();
       expect(onErrorMock).toHaveBeenCalledTimes(0);
     });
   });
 
   it('saves data', async () => {
-    apiConferenceGet.mockImplementation(() => Promise.resolve(mockConference));
-    apiConferencePut.mockImplementation(() => Promise.resolve(mockConference));
+    api<%= entityClass %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mock));
+    api<%= entityClass %>Put.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mock));
 
     const { findByTestId, queryByText } = render(
-      <ConferenceEditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} />
+      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} />
     );
 
     const saveButton = await findByTestId('submit-btn');
@@ -47,8 +47,8 @@ describe('ConferenceEditFormContainer', () => {
     fireEvent.click(saveButton);
 
     await wait(() => {
-      expect(apiConferencePut).toHaveBeenCalledTimes(1);
-      expect(apiConferencePut).toHaveBeenCalledWith(mockConference);
+      expect(api<%= entityClass %>Put).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Put).toHaveBeenCalledWith(<%= entityInstance %>Mock);
       expect(queryByText(successMessageKey)).toBeInTheDocument();
       expect(onErrorMock).toHaveBeenCalledTimes(0);
       expect(queryByText(errorMessageKey)).not.toBeInTheDocument();
@@ -56,14 +56,14 @@ describe('ConferenceEditFormContainer', () => {
   });
 
   it('shows an error if data is not successfully loaded', async () => {
-    apiConferenceGet.mockImplementation(() => Promise.reject());
+    api<%= entityClass %>Get.mockImplementation(() => Promise.reject());
     const { queryByText } = render(
-      <ConferenceEditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} />
+      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} />
     );
 
     await wait(() => {
-      expect(apiConferenceGet).toHaveBeenCalledTimes(1);
-      expect(apiConferenceGet).toHaveBeenCalledWith('1');
+      expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Get).toHaveBeenCalledWith('1');
       expect(onErrorMock).toHaveBeenCalledTimes(1);
       expect(queryByText(errorMessageKey)).toBeInTheDocument();
       expect(queryByText(successMessageKey)).not.toBeInTheDocument();
@@ -71,10 +71,10 @@ describe('ConferenceEditFormContainer', () => {
   });
 
   it('shows an error if data is not successfully saved', async () => {
-    apiConferenceGet.mockImplementation(() => Promise.resolve(mockConference));
-    apiConferencePut.mockImplementation(() => Promise.reject());
+    api<%= entityClass %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mock));
+    api<%= entityClass %>Put.mockImplementation(() => Promise.reject());
     const { findByTestId, getByText } = render(
-      <ConferenceEditFormContainer id="1" onError={onErrorMock} />
+      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} />
     );
 
     const saveButton = await findByTestId('submit-btn');
@@ -82,11 +82,11 @@ describe('ConferenceEditFormContainer', () => {
     fireEvent.click(saveButton);
 
     await wait(() => {
-      expect(apiConferenceGet).toHaveBeenCalledTimes(1);
-      expect(apiConferenceGet).toHaveBeenCalledWith('1');
+      expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Get).toHaveBeenCalledWith('1');
 
-      expect(apiConferencePut).toHaveBeenCalledTimes(1);
-      expect(apiConferencePut).toHaveBeenCalledWith(mockConference);
+      expect(api<%= entityClass %>Put).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Put).toHaveBeenCalledWith(<%= entityInstance %>Mock);
 
       expect(onErrorMock).toHaveBeenCalledTimes(1);
       expect(getByText(errorMessageKey)).toBeInTheDocument();

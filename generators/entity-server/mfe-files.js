@@ -176,30 +176,32 @@ const files = {
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/${generator.entityClass}Form.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
-        /*
         {
             file: '/formWidget/src/components/__mocks__/entityMocks.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
+        {
+            file: '/formWidget/src/components/__mocks__/i18nMock.js',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__mocks__/i18nMock.js`,
+            method: 'copy',
+        },
         /*
         {
             file: '/formWidget/src/components/__tests__/EntityAddFormContainer.test.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__tests__/${generator.entityClass}AddFormContainer.test.js`, // eslint-disable-line prettier/prettier
         },
         */
-        /*
         {
             file: '/formWidget/src/components/__tests__/EntityEditFormContainer.test.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__tests__/${generator.entityClass}EditFormContainer.test.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
-        /*
         {
             file: '/formWidget/src/components/__tests__/EntityForm.test.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__tests__/${generator.entityClass}Form.test.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
         {
             file: '/formWidget/src/components/__types__/entity.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__types__/${generator.entityInstance}.js`, // eslint-disable-line prettier/prettier
@@ -215,12 +217,6 @@ const files = {
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/custom-elements/${generator.entityClass}FormElement.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
-        /*
-        {
-            file: '/formWidget/src/i18n/__mocks__/i18nMock.js',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/src/i18n/__mocks__/i18nMock.js`,
-        },
-        */
         {
             file: '/formWidget/src/i18n/constants.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/i18n/constants.js`,

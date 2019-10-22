@@ -2,12 +2,12 @@
 import React from 'react';
 import { fireEvent, render, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { apiConferencePost } from 'api/conferences';
-import ConferenceAddFormContainer from 'components/ConferenceAddFormContainer';
-import 'i18n/__mocks__/i18nMock';
-import { mockConferenceWithDateStrings } from 'components/__mocks__/conferenceMocks';
+import { api<%= entityClass %>Post } from 'api/<%= entityInstancePlural %>';
+import <%= entityClass %>AddFormContainer from 'components/<%= entityClass %>AddFormContainer';
+import 'components/__mocks__/i18nMock';
+import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
 
-jest.mock('api/conferences');
+jest.mock('api/<%= entityInstancePlural %>');
 jest.mock('@material-ui/pickers', () => ({
   ...jest.requireActual('@material-ui/pickers'),
   // eslint-disable-next-line react/prop-types
@@ -22,7 +22,7 @@ jest.mock('@material-ui/pickers', () => ({
   },
 }));
 
-describe('ConferenceAddFormContainer', () => {
+describe('<%= entityClass %>AddFormContainer', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -34,33 +34,27 @@ describe('ConferenceAddFormContainer', () => {
   const onCreateMock = jest.fn();
 
   it('saves data', async () => {
-    apiConferencePost.mockImplementation(data => Promise.resolve(data));
+    api<%= entityClass %>Post.mockImplementation(data => Promise.resolve(data));
 
     const { findByTestId, findByLabelText, queryByText, rerender } = render(
-      <ConferenceAddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
+      <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
     );
 
-    const nameField = await findByLabelText('entities.conference.name');
-    fireEvent.change(nameField, { target: { value: mockConferenceWithDateStrings.name } });
+    <%_ fields.forEach(field => { _%>
+    const <%= field.fieldName %>Field = await findByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>');
+    fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
+    
+    <%_ }) _%>
 
-    const summaryField = await findByLabelText('entities.conference.summary');
-    fireEvent.change(summaryField, { target: { value: mockConferenceWithDateStrings.summary } });
-
-    const startField = await findByLabelText('entities.conference.start');
-    fireEvent.change(startField, { target: { value: mockConferenceWithDateStrings.start } });
-
-    const endField = await findByLabelText('entities.conference.end');
-    fireEvent.change(endField, { target: { value: mockConferenceWithDateStrings.end } });
-
-    rerender(<ConferenceAddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
+    rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
 
     const saveButton = await findByTestId('submit-btn');
 
     fireEvent.click(saveButton);
 
     await wait(() => {
-      expect(apiConferencePost).toHaveBeenCalledTimes(1);
-      expect(apiConferencePost).toHaveBeenCalledWith(mockConferenceWithDateStrings);
+      expect(api<%= entityClass %>Post).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Post).toHaveBeenCalledWith(<%= entityInstance %>Mock);
 
       expect(queryByText(successMessageKey)).toBeInTheDocument();
 
@@ -70,33 +64,27 @@ describe('ConferenceAddFormContainer', () => {
   }, 7000);
 
   it('shows an error if data is not successfully saved', async () => {
-    apiConferencePost.mockImplementation(() => Promise.reject());
+    api<%= entityClass %>Post.mockImplementation(() => Promise.reject());
 
     const { findByTestId, findByLabelText, queryByText, rerender } = render(
-      <ConferenceAddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
+      <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
     );
 
-    const nameField = await findByLabelText('entities.conference.name');
-    fireEvent.change(nameField, { target: { value: mockConferenceWithDateStrings.name } });
+    <%_ fields.forEach(field => { _%>
+    const <%= field.fieldName %>Field = await findByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>');
+    fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
+    
+    <%_ }) _%>
 
-    const summaryField = await findByLabelText('entities.conference.summary');
-    fireEvent.change(summaryField, { target: { value: mockConferenceWithDateStrings.summary } });
-
-    const startField = await findByLabelText('entities.conference.start');
-    fireEvent.change(startField, { target: { value: mockConferenceWithDateStrings.start } });
-
-    const endField = await findByLabelText('entities.conference.end');
-    fireEvent.change(endField, { target: { value: mockConferenceWithDateStrings.end } });
-
-    rerender(<ConferenceAddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
+    rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
 
     const saveButton = await findByTestId('submit-btn');
 
     fireEvent.click(saveButton);
 
     await wait(() => {
-      expect(apiConferencePost).toHaveBeenCalledTimes(1);
-      expect(apiConferencePost).toHaveBeenCalledWith(mockConferenceWithDateStrings);
+      expect(api<%= entityClass %>Post).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Post).toHaveBeenCalledWith(<%= entityInstance %>Mock);
 
       expect(queryByText(successMessageKey)).not.toBeInTheDocument();
 

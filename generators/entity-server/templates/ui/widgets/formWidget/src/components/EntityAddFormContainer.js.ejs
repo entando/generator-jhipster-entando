@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core';
-import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import { api<%= entityClass %>Post } from 'api/<%= entityInstancePlural %>';
 import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
 import Notification from 'components/common/Notification';
@@ -27,14 +27,13 @@ class <%= ComponentName %> extends PureComponent {
   }
 
   async handleSubmit(<%= entityInstance %>) {
-    const { t } = this.props;
     try {
       const created<%= entityClass %> = await api<%= entityClass %>Post(<%= entityInstance %>);
       const { onCreate } = this.props;
       onCreate(created<%= entityClass %>);
 
       this.setState({
-        notificationMessage: t('common.dataSaved'),
+        notificationMessage: i18next.t('common.dataSaved'),
         notificationStatus: 'success',
       });
     } catch (err) {
@@ -43,10 +42,10 @@ class <%= ComponentName %> extends PureComponent {
   }
 
   handleError(err) {
-    const { onError, t } = this.props;
+    const { onError } = this.props;
     onError(err);
     this.setState({
-      notificationMessage: t('errors.dataLoading'),
+      notificationMessage: i18next.t('errors.dataLoading'),
       notificationStatus: 'error',
     });
   }
@@ -69,7 +68,6 @@ class <%= ComponentName %> extends PureComponent {
 <%= ComponentName %>.propTypes = {
   onError: PropTypes.func,
   onCreate: PropTypes.func,
-  t: PropTypes.func.isRequired,
 };
 
 <%= ComponentName %>.defaultProps = {
@@ -77,4 +75,4 @@ class <%= ComponentName %> extends PureComponent {
   onCreate: () => {},
 };
 
-export default withTranslation()(<%= ComponentName %>);
+export default <%= ComponentName %>;
