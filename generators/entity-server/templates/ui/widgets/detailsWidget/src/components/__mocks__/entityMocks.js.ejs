@@ -1,10 +1,12 @@
-<%# { "skip": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`" } -%>
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`" } -%>
+<%_ include ../../../../utils/jhipster _%>
 const <%= entityInstance %>ApiGetResponse = {
-  id: 1,
-  name: 'MockName',
-  summary: 'Best mock summary ever!',
-  start: '2019-09-11',
-  end: '2019-09-12',
+  <%_
+    fields.forEach(field => {
+      const mockedValue = mockData[0][field.fieldName];
+  _%>
+  <%= field.fieldName %>: <%- typeof mockedValue === 'string' ? `'${mockedValue}'` : mockedValue %>,
+  <%_ }) _%>
 };
 
 export default <%= entityInstance %>ApiGetResponse;

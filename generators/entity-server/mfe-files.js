@@ -51,30 +51,26 @@ const files = {
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/${generator.entityClass}DetailsContainer.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
-        /*
         {
             file: '/detailsWidget/src/components/__mocks__/entityMocks.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
-        /*
         {
             file: '/detailsWidget/src/components/__mocks__/i18n.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/__mocks__/i18n.js`,
+            method: 'copy',
         },
-        */
-        /*
         {
             file: '/detailsWidget/src/components/__tests__/EntityDetails.test.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}Details.test.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
-        /*
         {
             file: '/detailsWidget/src/components/__tests__/EntityDetailsContainer.test.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}DetailsContainer.test.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
         {
             file: '/detailsWidget/src/components/__types__/entity.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/__types__/${generator.entityInstance}.js`, // eslint-disable-line prettier/prettier
@@ -310,30 +306,26 @@ const files = {
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/api/${generator.entityInstancePlural}.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
-        /*
         {
             file: '/tableWidget/src/components/__mocks__/entityMocks.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/mocks/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
-        /*
         {
-            file: '/tableWidget/src/components/__mocks__/entityi18nMock.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/mocks/${generator.entityInstance}i18nMock.js`, // eslint-disable-line prettier/prettier
+            file: '/tableWidget/src/components/__mocks__/i18nMock.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__mocks__/i18nMock.js`,
+            method: 'copy',
         },
-        */
-        /*
         {
             file: '/tableWidget/src/components/__tests__/entityTable.test.js',
-            renameTo: generator => `/tableWidget/src/components/__tests__/${generator.entityClass}Table.test.js`, // eslint-disable-line prettier/prettier
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__tests__/${generator.entityClass}Table.test.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
-        /*
         {
             file: '/tableWidget/src/components/__tests__/entityTableContainer.test.js',
-            renameTo: generator => `/tableWidget/src/components/__tests__//${generator.entityClass}TableContainer.test.js`, // eslint-disable-line prettier/prettier
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__tests__/${generator.entityClass}TableContainer.test.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
         {
             file: '/tableWidget/src/components/__types__/entity.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__types__/${generator.entityInstance}.js`, // eslint-disable-line prettier/prettier

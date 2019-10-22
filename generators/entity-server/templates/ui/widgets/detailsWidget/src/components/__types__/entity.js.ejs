@@ -7,7 +7,7 @@ const <%= entityInstance %>Type = PropTypes.shape({
   id: PropTypes.number,
   
   <%_ fields.forEach(function(field) { _%>
-  <%= field.fieldName %>: <%= getPropType(field) %><%= isRequiredPropType(field) %>,
+  <%= field.fieldName %>: <%= getPropType(field) %>,
   <%_ }) _%>
 });
 

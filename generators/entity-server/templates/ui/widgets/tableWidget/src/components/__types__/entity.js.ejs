@@ -9,7 +9,7 @@ const <%= ComponentName %> = PropTypes.arrayOf(
     id: PropTypes.number,
 
     <%_ fields.forEach(function(field) { _%>
-    <%= field.fieldName %>: <%= getPropType(field) %><%= isRequiredPropType(field) %>,
+    <%= field.fieldName %>: <%= getPropType(field) %>,
     <%_ }) _%>
   }),
 );
