@@ -1,0 +1,48 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/api/${generator.entityInstancePlural}.js`" } -%>
+import { DOMAIN, JWT_TOKEN } from 'api/constants';
+
+const resource = '<%= entityApiUrl %>';
+
+const defaultOptions = {
+  headers: new Headers({
+    Authorization: `Bearer ${JWT_TOKEN}`,
+    'Content-Type': 'application/json',
+  }),
+};
+
+const request = async (url, options) => {
+  const response = await fetch(url, options);
+
+  return response.status >= 200 && response.status < 300
+    ? response.json()
+    : Promise.reject(new Error(response.statusText || response.status));
+};
+
+export const api<%= entityClass %>Get = async id => {
+  const url = `${DOMAIN}/${resource}/${id}`;
+  const options = {
+    ...defaultOptions,
+    method: 'GET',
+  };
+  return request(url, options);
+};
+
+export const api<%= entityClass %>Post = async <%= entityInstance %> => {
+  const url = `${DOMAIN}/${resource}`;
+  const options = {
+    ...defaultOptions,
+    method: 'POST',
+    body: <%= entityInstance %> ? JSON.stringify(<%= entityInstance %>) : null,
+  };
+  return request(url, options);
+};
+
+export const api<%= entityClass %>Put = async <%= entityInstance %> => {
+  const url = `${DOMAIN}/${resource}`;
+  const options = {
+    ...defaultOptions,
+    method: 'PUT',
+    body: <%= entityInstance %> ? JSON.stringify(<%= entityInstance %>) : null,
+  };
+  return request(url, options);
+};

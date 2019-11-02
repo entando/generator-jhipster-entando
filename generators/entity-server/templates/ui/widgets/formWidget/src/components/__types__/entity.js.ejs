@@ -1,0 +1,51 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/__types__/${generator.entityInstance}.js`" } -%>
+<%_ include ../../../../utils/jhipster _%>
+<%_ include ../../../../utils/prop-types _%>
+import PropTypes from 'prop-types';
+
+export default PropTypes.shape({
+  id: PropTypes.number,
+
+  <%_ fields.forEach(function(field) { _%>
+  <%= field.fieldName %>: <%= getPropType(field) %><%= isRequiredPropType(field) %>,
+  <%_ }) _%>
+});
+
+export const formValues = PropTypes.shape({
+  <%_
+      fields.forEach(function(field) {
+        const valuePropType = getFormikValuePropType(field);
+        if (valuePropType.length > 1) {
+  _%>
+  <%= field.fieldName %>: PropTypes.oneOfType([<%= valuePropType.join(', ') %>]),
+  <%_   } else { _%>
+  <%= field.fieldName %>: <%= valuePropType[0] %>,
+  <%_   } _%>
+  <%_ }) _%>
+});
+
+export const formTouched = PropTypes.shape({
+  <%_
+    fields.forEach(function(field) {
+      const touchedPropType = getFormikTouchedPropType(field);
+      if (touchedPropType.length > 1) {
+  _%>
+  <%= field.fieldName %>: PropTypes.oneOfType([<%= touchedPropType.join(', ') %>]),
+  <%_   } else { _%>
+  <%= field.fieldName %>: <%= touchedPropType[0] %>,
+  <%_   } _%>
+  <%_ }) _%>
+});
+
+export const formErrors = PropTypes.shape({
+  <%_
+    fields.forEach(function(field) {
+      const errorPropType = getFormikErrorPropType(field);
+      if (errorPropType.length > 1) {
+  _%>
+  <%= field.fieldName %>: PropTypes.oneOfType([<%= errorPropType.join(', ') %>]),
+  <%_   } else { _%>
+  <%= field.fieldName %>: <%= errorPropType[0] %>,
+  <%_   } _%>
+  <%_ }) _%>
+});

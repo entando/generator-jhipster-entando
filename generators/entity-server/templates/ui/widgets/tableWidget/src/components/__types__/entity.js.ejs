@@ -1,28 +1,36 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/components/__types__/${generator.entityInstance}.js`" } -%>
+<%_
+function mapTypeToPropType (field) {
+  const checkIfString = ({ fieldType }) => ['String', 'LocalDate', 'Instant', 'ZonedDateTime'].includes(fieldType);
+  const checkIfNumber = ({ fieldType }) => ['Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(fieldType);
+  const checkIfBoolean = ({ fieldType }) => ['Boolean'].includes(fieldType);
+  const checkIfEnum = ({ fieldIsEnum }) => fieldIsEnum;
+  const checkIfBlob = ({ fieldType, fieldTypeBlobContent }) => fieldType === 'byte[]' || fieldTypeBlobContent;
+
+  if (checkIfString(field)) { return 'PropTypes.string' }
+  if (checkIfNumber(field)) { return 'PropTypes.number' }
+  if (checkIfBoolean(field)) { return 'PropTypes.bool' }
+  if (checkIfEnum(field)) { return 'PropTypes.string' }
+  if (checkIfBlob(field)) { return 'PropTypes.string' }
+  return 'PropTypes.any';
+}
+
+function isRequired (field) {
+  return field.fieldValidateRules && field.fieldValidateRules.includes('required')
+    ? '.isRequired'
+    : '';
+}
+_%>
 import PropTypes from 'prop-types';
 
 const <%= entityInstance %>Type = PropTypes.arrayOf(
-    PropTypes.shape({
-        id: PropTypes.number,
-        <%_
-        function mapTypeToPropType (field) {
-            const checkIfString = ({ fieldType }) => ['String', 'LocalDate', 'Instant', 'ZonedDateTime'].includes(fieldType);
-            const checkIfNumber = ({ fieldType }) => ['Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(fieldType);
-            const checkIfBoolean = ({ fieldType }) => ['Boolean'].includes(fieldType);
-            const checkIfEnum = ({ fieldIsEnum }) => fieldIsEnum;
-            const checkIfBlob = ({ fieldType, fieldTypeBlobContent }) => fieldType === 'byte[]' || fieldTypeBlobContent;
+  PropTypes.shape({
+    id: PropTypes.number,
 
-            if (checkIfString(field)) { return 'PropTypes.string' }
-            if (checkIfNumber(field)) { return 'PropTypes.number' }
-            if (checkIfBoolean(field)) { return 'PropTypes.bool' }
-            if (checkIfEnum(field)) { return 'PropTypes.string' }
-            if (checkIfBlob(field)) { return 'PropTypes.string' }
-        }
-        fields.forEach(function(field){
-        -%>
-        <%= field.fieldName %>: <%= mapTypeToPropType(field) %>,
-        <%_ }) _%>
-    }),
+    <%_ fields.forEach(function(field) { _%>
+    <%= field.fieldName %>: <%= mapTypeToPropType(field) %><%= isRequired(field) %>,
+    <%_ }) _%>
+  }),
 );
 
 export default <%= entityInstance %>Type;

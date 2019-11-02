@@ -1,0 +1,38 @@
+<%_
+/**
+ * Returns updated JHipster type so that each different type has a string name.
+ * @param {object} field - field of an entity with fieldType, fieldIsEnum and (optional) fieldTypeBlobContent
+ * @return {string} one of field types: 'String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal', 'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean', 'Enum', 'ImageBlob', 'BinaryFileBlob', 'TextBlob'
+ */
+getJHipsterType = function({ fieldType, fieldIsEnum, fieldTypeBlobContent }) {
+  // 'String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal',
+  // 'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean'
+  if ([
+      'String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal',
+      'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean'
+  ].includes(fieldType)) {
+    return fieldType;
+  }
+
+  // Eunmerations
+  if (fieldIsEnum) {
+    return 'Enum';
+  }
+
+  // Blobs
+  if (fieldType === 'byte[]' && fieldTypeBlobContent) {
+    if (fieldTypeBlobContent === 'image') {
+      return 'ImageBlob';
+    }
+    if (fieldTypeBlobContent === 'any') {
+      return 'BinaryFileBlob';
+    }
+    if (fieldTypeBlobContent === 'text') {
+      return 'TextBlob';
+    }
+  }
+
+  // In case of additional field types in future versions
+  throw `Unsupported field type: ${JSON.stringify(field)}`;
+}
+_%>
