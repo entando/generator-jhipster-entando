@@ -5,7 +5,7 @@
 <%_ const dependencies = getDependencies(fields); -%>
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -43,8 +43,6 @@ const <%= ComponentName %> = props => {
     handleBlur,
     handleSubmit,
     setFieldValue,
-    t,
-    i18n,
   } = props;
 
   <%_ if (fieldsContainDate) { _%>
@@ -54,18 +52,18 @@ const <%= ComponentName %> = props => {
   <%_ } _%>
 
   <%_ if (fieldsContainDate && (fieldsContainInstant || fieldsContainZonedDateTime)) { _%>
-  const dateTimeLabelFn = date => (date ? new Date(date).toLocaleString(i18n.language) : '');
+  const dateTimeLabelFn = date => (date ? new Date(date).toLocaleString(i18next.language) : '');
   <%_ } _%>
 
   <%_ if (fieldsContainDate && fieldsContainLocalDate) { _%>
-  const dateLabelFn = date => (date ? new Date(date).toLocaleDateString(i18n.language) : '');
+  const dateLabelFn = date => (date ? new Date(date).toLocaleDateString(i18next.language) : '');
   <%_ } _%>
 
   const getHelperText = field => (errors[field] && touched[field] ? errors[field] : '');
 
   return (
 <%# TODO: IS THIS ALWAYS NEEDED? -%>
-    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={dateFnsLocales[i18n.language]}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={dateFnsLocales[i18next.language]}>
       <form onSubmit={handleSubmit} className={classes.root}>
         <Grid container spacing={2}>
           <%_ fields.forEach(field => { _%>
@@ -82,7 +80,7 @@ const <%= ComponentName %> = props => {
                   color="primary"
                 />
               }
-              label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              label={i18next.t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
             />
             <%_ } else if (!field.fieldIsEnum) { _%>
             <<%= getMuiInput(field) %>
@@ -104,12 +102,12 @@ const <%= ComponentName %> = props => {
               <%_ if (['Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
               labelFunc={dateTimeLabelFn}
               <%_ } _%>
-              label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              label={i18next.t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
             />
             <%_ } else if (field.fieldIsEnum) { _%>
             <%_ const ComponentName = getMuiInput(field); _%>
             <InputLabel htmlFor="<%= entityInstance %>-<%= field.fieldName %>">
-              {t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              {i18next.t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
             </InputLabel>
             <<%= ComponentName %>
               id="<%= entityInstance %>-<%= field.fieldName %>"
@@ -128,7 +126,7 @@ const <%= ComponentName %> = props => {
           </Grid>
           <%_ }) _%>
           <Button type="submit" color="primary" data-testid="submit-btn">
-            {t('common.save')}
+            {i18next.t('common.save')}
           </Button>
         </Grid>
       </form>
@@ -149,8 +147,6 @@ const <%= ComponentName %> = props => {
   handleBlur: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired,
-  i18n: PropTypes.shape({ language: PropTypes.string }).isRequired,
 };
 
 <%= ComponentName %>.defaultProps = {
@@ -200,6 +196,5 @@ const formikBag = {
 <%# // TODO: REMOVE compose/recompose %>
 export default compose(
   withStyles(styles, { withTheme: true }),
-  withTranslation(),
   withFormik(formikBag)
 )(<%= ComponentName %>);

@@ -1,14 +1,14 @@
-<%# { "skip": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}DetailsContainer.test.js`" } -%>
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}DetailsContainer.test.js`" } -%>
 import React from 'react';
 import { render, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import 'components/__mocks__/i18n';
-import get<%= entityClass %> from 'api/<%= entityInstance %>Api';
+import get<%= entityClass %> from 'api/<%= entityInstance %>';
 import <%= entityInstance %>ApiGetResponseMock from 'components/__mocks__/<%= entityInstance %>Mocks';
 import <%= entityClass %>DetailsContainer from 'components/<%= entityClass %>DetailsContainer';
 
-jest.mock('api/<%= entityInstance %>Api');
+jest.mock('api/<%= entityInstance %>');
 
 beforeEach(() => {
   get<%= entityClass %>.mockClear();
@@ -32,8 +32,9 @@ describe('<%= entityClass %>DetailsContainer component', () => {
 
     await wait(() => {
       expect(get<%= entityClass %>).toHaveBeenCalledTimes(1);
-      expect(getByText('entities.<%= entityInstance %>.id')).toBeInTheDocument();
-      expect(getByText('entities.<%= entityInstance %>.name')).toBeInTheDocument();
+      <%_ fields.forEach(field => { _%>
+      expect(getByText('entities.<%= entityInstance %>.<%= field.fieldName %>')).toBeInTheDocument();
+      <%_ }) _%>
     });
   });
 

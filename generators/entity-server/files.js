@@ -26,7 +26,7 @@ const serverFiles = {
 };
 
 const microFrontEndFiles = {
-    server: [
+    client: [
         widgetFiles,
         // ADD CUSTOM MAPPINGS UNDER THIS COMMENT
     ],

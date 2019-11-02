@@ -1,2 +1,12 @@
-<%# { "skip": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/mocks/${generator.entityInstance}Mocks.js`" } -%>
-TODO -- Add mocks based on field values
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`" } -%>
+const <%= entityInstance %>Mocks = [
+  <%_ mockData.forEach(iteratedMockData => { _%>
+  {
+    <%_ Object.keys(iteratedMockData).forEach(field => { _%>
+    <%= field %>: <%- typeof iteratedMockData[field] === 'string' ? `'${iteratedMockData[field]}'` : iteratedMockData[field] %>,
+    <%_ }) _%>
+  },
+  <%_ }) _%>
+];
+
+export default <%= entityInstance %>Mocks;

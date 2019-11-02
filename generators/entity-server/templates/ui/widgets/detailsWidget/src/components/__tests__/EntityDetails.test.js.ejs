@@ -1,4 +1,4 @@
-<%# { "skip": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}Details.test.js`" } -%>
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/__tests__/${generator.entityClass}Details.test.js`" } -%>
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
@@ -6,11 +6,12 @@ import { render } from '@testing-library/react';
 import 'components/__mocks__/i18n';
 import <%= entityClass %>Details from 'components/<%= entityClass %>Details';
 import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
-
 describe('<%= entityClass %>Details component', () => {
   test('renders data in details widget', () => {
     const { getByText } = render(<<%= entityClass %>Details <%= entityInstance %>={<%= entityInstance %>Mock} />);
-
-    expect(getByText('MockName')).toBeInTheDocument();
+    <%# TODO: THIS ONLY APPLIES IF THE DATA IS NOT SHOWN AS A DIFFERENT ITEM (e.g. Boolean as checkbox) #%>
+    <%_ const singleEntityItem = mockData[0]; _%>
+    <%_ const firstEntityItemField = Object.keys(singleEntityItem)[0]; _%>
+    expect(getByText('<%= singleEntityItem[firstEntityItemField] %>')).toBeInTheDocument();
   });
 });

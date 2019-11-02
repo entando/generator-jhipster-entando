@@ -1,13 +1,12 @@
-<%# { "skip": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`" } -%>
-export const mock<%= entityClass %> = {
-  name: 'Conference name 1',
-  summary: 'Conference summary 1',
-  start: new Date(2019, 3, 5, 19),
-  end: new Date(2019, 3, 5, 23),
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`" } -%>
+<%_ include ../../../../utils/jhipster _%>
+const <%= entityInstance %>Mock = {
+  <%_
+    fields.forEach(field => {
+      const mockedValue = mockData[0][field.fieldName];
+  _%>
+  <%= field.fieldName %>: <%- typeof mockedValue === 'string' ? `'${mockedValue}'` : mockedValue %>,
+  <%_ }) _%>
 };
 
-export const mock<%= entityClass %>WithDateStrings = {
-  ...mock<%= entityClass %>,
-  start: new Date(mockConference.start).toLocaleString(),
-  end: new Date(mockConference.end).toLocaleString(),
-};
+export default <%= entityInstance %>Mock;
