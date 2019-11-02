@@ -1,7 +1,9 @@
 /* eslint-disable consistent-return */
 const chalk = require('chalk');
 const ServerGenerator = require('generator-jhipster/generators/server');
-const serverFiles = require('./files').serverFiles;
+const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
+const writeFiles = require('./files').writeFiles;
+const blueprintCustomPrompts = require('./prompts');
 
 module.exports = class extends ServerGenerator {
     constructor(args, opts) {
@@ -18,12 +20,23 @@ module.exports = class extends ServerGenerator {
         jhContext.setupServerOptions(this, jhContext);
     }
 
+    _initializing() {
+        const jhipsterInitializing = super._initializing();
+        const customInitializing = {
+            addMissingConstants() {
+                Object.assign(this, ...jhipsterConstants);
+                console.log(this);
+            },
+        };
+        return { ...jhipsterInitializing, ...customInitializing };
+    }
+
     get initializing() {
-        return super._initializing();
+        return this._initializing();
     }
 
     _prompting() {
-        return super._prompting();
+        return blueprintCustomPrompts;
     }
 
     get prompting() {
@@ -79,7 +92,7 @@ module.exports = class extends ServerGenerator {
     }
 
     get writing() {
-        const jhipsterPhase = super._writing();
+        const customizedJhipsterPhase = writeFiles();
         const myCustomSteps = {
             updatePom() {
                 this._addMavenSnapshotRepository();
@@ -88,14 +101,8 @@ module.exports = class extends ServerGenerator {
                 this._addEntandoConfigServiceDependencies();
                 this._addEntandoAuthDependencies();
             },
-            writeApplicationYml() {
-                if (this.skipServer) return;
-
-                // write server side files
-                this.writeFilesToDisk(serverFiles, this, false, null);
-            }
         };
-        return { ...jhipsterPhase, ...myCustomSteps };
+        return { ...customizedJhipsterPhase, ...myCustomSteps };
     }
 
     get end() {

@@ -222,9 +222,6 @@ spring:
                 size: 2
     thymeleaf:
         mode: HTML
-    output:
-        ansi:
-          console-available: true
 <%_ if (authenticationType === 'oauth2') { _%>
     security:
         oauth2:
@@ -279,17 +276,17 @@ jhipster:
     clientApp:
         name: "<%= angularAppName %>"
     # By default CORS is disabled. Uncomment to enable.
-    cors:
-        allowed-origins: "*"
-        allowed-methods: "*"
-        allowed-headers: "*"
+    # cors:
+    #     allowed-origins: "*"
+    #     allowed-methods: "*"
+    #     allowed-headers: "*"
     <%_ if (authenticationType === 'session') { _%>
-        exposed-headers: "Link,X-Total-Count"
+    #     exposed-headers: "Link,X-Total-Count"
     <%_ } else { _%>
-        exposed-headers: "Authorization,Link,X-Total-Count"
+    #     exposed-headers: "Authorization,Link,X-Total-Count"
     <%_ } _%>
-        allow-credentials: true
-        max-age: 1800
+    #     allow-credentials: true
+    #     max-age: 1800
     mail:
         from: <%= baseName %>@localhost
     swagger:
@@ -306,11 +303,6 @@ jhipster:
 
 # ===================================================================
 # Entando specific properties
-# Add your own application properties here, see the ApplicationProperties class
-# to have type-safe configuration, like in the JHipsterProperties above
-#
-# More documentation is available at:
-# https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 entando:
@@ -330,4 +322,3 @@ entando:
 # ===================================================================
 
 # application:
-
