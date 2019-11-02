@@ -57,7 +57,7 @@ class <%= ComponentName %> extends PureComponent {
       <ThemeProvider theme={this.theme}>
         <<%= entityClass %>Form onSubmit={this.handleSubmit} />
         <Notification
-          variant={notificationStatus}
+          status={notificationStatus}
           message={notificationMessage}
           onClose={this.closeNotification}
         />

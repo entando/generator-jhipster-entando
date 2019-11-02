@@ -10,64 +10,68 @@ import { createMuiTheme } from '@material-ui/core';
 
 <%_ const ComponentName = `${entityClass}TableContainer`; _%>
 export default class <%= ComponentName %> extends PureComponent {
-    theme = createMuiTheme();
+  theme = createMuiTheme();
 
-    state = {
-        <%= entityInstancePlural %>: [],
+  state = {
+      <%= entityInstancePlural %>: [],
+      notificationStatus: null,
+      notificationMessage: null,
+  };
+
+  async componentDidMount() {
+    try {
+      const json = await <%= entityInstancePlural %>Get();
+
+      const <%= entityInstancePlural %> = json.map(<%= entityInstance %> => ({
+        ...<%= entityInstance %>,
+      }));
+      this.setState({
+        <%= entityInstancePlural %>,
         notificationStatus: null,
         notificationMessage: null,
-    };
-
-    async componentDidMount() {
-        try {
-            const json = await <%= entityInstancePlural %>Get();
-
-            const <%= entityInstancePlural %> = json.map(<%= entityInstance %> => ({
-                ...<%= entityInstance %>,
-            }));
-            this.setState({
-                <%= entityInstancePlural %>,
-                notificationStatus: null,
-                notificationMessage: null,
-            });
-        } catch (err) {
-            this.handleError(err);
-        }
+      });
+    } catch (err) {
+      this.handleError(err);
     }
+  }
 
-    closeNotification = () => {
-        this.setState({error: null});
-    };
+  closeNotification = () => {
+    this.setState({error: null});
+  };
 
-    handleError(err) {
-        const {onError} = this.props;
-        onError(err);
-        this.setState({
-            notificationStatus: 'error',
-            notificationMessage: i18next.t('common.couldNotFetchData'),
-        });
-    }
+  handleError(err) {
+    const {onError} = this.props;
+    onError(err);
+    this.setState({
+      notificationStatus: 'error',
+      notificationMessage: i18next.t('common.couldNotFetchData'),
+    });
+  }
 
-    render() {
-        const {error,  <%= entityInstancePlural %>} = this.state;
-        const {onSelect} = this.props;
-        return (
-            <ThemeProvider theme={this.theme}>
-                <<%= entityClass %>Table <%= entityInstancePlural %>={<%= entityInstancePlural %>} onSelect={onSelect}/>
-                <Notification message={error} onClose={this.closeNotification}/>
-            </ThemeProvider>
-        );
-    }
+  render() {
+    const {notificationStatus, notificationMessage, <%= entityInstancePlural %>} = this.state;
+    const {onSelect} = this.props;
+    return (
+      <ThemeProvider theme={this.theme}>
+        <<%= entityClass %>Table <%= entityInstancePlural %>={<%= entityInstancePlural %>} onSelect={onSelect}/>
+        <Notification
+          status={notificationStatus}
+          message={notificationMessage}
+          onClose={this.closeNotification}
+        />
+      </ThemeProvider>
+    );
+  }
 }
 
 <%= ComponentName %>.propTypes = {
-    onError: PropTypes.func,
-    onSelect: PropTypes.func,
+  onError: PropTypes.func,
+  onSelect: PropTypes.func,
 };
 
 <%= ComponentName %>.defaultProps = {
-    onError: () => {
-    },
-    onSelect: () => {
-    },
+  onError: () => {
+  },
+  onSelect: () => {
+  },
 };
