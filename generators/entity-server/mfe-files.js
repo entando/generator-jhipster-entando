@@ -13,7 +13,7 @@ const files = {
         },
         {
             file: '/detailsWidget/bundle/details-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.ftl`,
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/${generator.entityFileName}-details-widget.ftl`,
             useBluePrint: true,
         },
         {
@@ -143,7 +143,7 @@ const files = {
         },
         {
             file: '/formWidget/bundle/form-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget.ftl`,
+            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/${generator.entityFileName}-form-widget.ftl`,
             useBluePrint: true,
         },
         {
@@ -294,7 +294,7 @@ const files = {
         },
         {
             file: '/tableWidget/bundle/table-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget.ftl`,
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/${generator.entityFileName}-table-widget.ftl`,
             useBluePrint: true,
         },
         {
