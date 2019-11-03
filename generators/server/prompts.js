@@ -19,15 +19,16 @@
 
 const chalk = require('chalk');
 
-const entandoDefaultPrompts = require('./entando_default_prompts').default;
 const constants = require('generator-jhipster/generators/generator-constants');
 const { getBase64Secret, getRandomHex } = require('generator-jhipster/generators/utils');
+const entandoDefaultPrompts = require('./entando_default_prompts').default;
 
 module.exports = {
     askForModuleName,
     askForServerSideOpts,
     askForOptionalItems,
     askFori18n,
+    setSharedConfigOptions,
 };
 
 function askForModuleName() {
@@ -412,4 +413,29 @@ function askFori18n() {
     if (this.existingProject || this.configOptions.skipI18nQuestion) return;
 
     this.aski18n(this);
+}
+
+function setSharedConfigOptions() {
+    this.configOptions.packageName = this.packageName;
+    this.configOptions.cacheProvider = this.cacheProvider;
+    this.configOptions.enableHibernateCache = this.enableHibernateCache;
+    this.configOptions.websocket = this.websocket;
+    this.configOptions.databaseType = this.databaseType;
+    this.configOptions.devDatabaseType = this.devDatabaseType;
+    this.configOptions.prodDatabaseType = this.prodDatabaseType;
+    this.configOptions.searchEngine = this.searchEngine;
+    this.configOptions.messageBroker = this.messageBroker;
+    this.configOptions.serviceDiscoveryType = this.serviceDiscoveryType;
+    this.configOptions.buildTool = this.buildTool;
+    this.configOptions.enableSwaggerCodegen = this.enableSwaggerCodegen;
+    this.configOptions.authenticationType = this.authenticationType;
+    const uaaBaseName = this.uaaBaseName;
+    if (uaaBaseName) {
+        this.configOptions.uaaBaseName = this.uaaBaseName;
+    }
+    this.configOptions.serverPort = this.serverPort;
+
+    // Make dist dir available in templates
+    this.BUILD_DIR = this.getBuildDirectoryForBuildTool(this.buildTool);
+    this.CLIENT_DIST_DIR = this.getResourceBuildDirectoryForBuildTool(this.configOptions.buildTool) + constants.CLIENT_DIST_DIR;
 }

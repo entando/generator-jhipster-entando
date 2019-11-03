@@ -36,7 +36,7 @@ import java.util.Collection;
 @Component
 public class JwtAuthorityExtractor extends JwtAuthenticationConverter {
 
-    EntandoProperties entandoProperties
+    private EntandoProperties entandoProperties;
 
     public JwtAuthorityExtractor(EntandoProperties entandoProperties) {
         this.entandoProperties = entandoProperties;

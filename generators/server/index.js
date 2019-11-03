@@ -21,14 +21,7 @@ module.exports = class extends ServerGenerator {
     }
 
     _initializing() {
-        const jhipsterInitializing = super._initializing();
-        const customInitializing = {
-            addMissingConstants() {
-                Object.assign(this, ...jhipsterConstants);
-                console.log(this);
-            },
-        };
-        return { ...jhipsterInitializing, ...customInitializing };
+        return super._initializing();
     }
 
     get initializing() {
