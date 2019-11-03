@@ -3,6 +3,31 @@ const constants = require('generator-jhipster/generators/generator-constants');
 const { SERVER_MAIN_RES_DIR, SERVER_MAIN_SRC_DIR } = constants;
 
 const serverFiles = {
+
+    packageJson: [
+        {
+            templates: ['package.json']
+        },
+        {
+            templates: ['buildWidgets.sh']
+        },
+        {
+            templates: ['installWidgets.sh']
+        },
+        {
+            templates: ['buildBundle.sh']
+        },
+        {
+            PATH: '.',
+            templates: [
+                {
+                    useBluePrint: true,
+                    file: 'bundle/descriptor.yaml',
+                    renameTo: generator => `./bundle/descriptor.yaml`,
+                }
+            ]
+        }
+    ],
     server: [
         {
             path: SERVER_MAIN_RES_DIR,
@@ -51,7 +76,7 @@ const serverFiles = {
                     file: 'package/web/rest/schema/AppConfigSchemaResource.java',
                     renameTo: generator =>
                         `${generator.packageFolder}/web/rest/schema/${titleCaseBaseName(generator)}ConfigSchemaResource.java`
-                }
+                },
             ]
         }
     ]

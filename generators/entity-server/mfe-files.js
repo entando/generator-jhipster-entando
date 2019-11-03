@@ -12,6 +12,16 @@ const files = {
             method: 'copy',
         },
         {
+            file: '/detailsWidget/bundle/details-widget.ftl',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.ftl`,
+            useBluePrint: true,
+        },
+        {
+            file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.yaml`,
+            useBluePrint: true,
+        },
+        {
             file: '/detailsWidget/package.json',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/package.json`,
             useBluePrint: true,
@@ -125,6 +135,16 @@ const files = {
             file: '/formWidget/jsconfig.json',
             renameTo: generator => `/${generator.entityInstance}/formWidget/jsconfig.json`,
             method: 'copy',
+        },
+        {
+            file: '/formWidget/bundle/form-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget.yaml`,
+            useBluePrint: true,
+        },
+        {
+            file: '/formWidget/bundle/form-widget.ftl',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget.ftl`,
+            useBluePrint: true,
         },
         {
             file: '/formWidget/package.json',
@@ -266,6 +286,16 @@ const files = {
             file: '/tableWidget/jsconfig.json',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/jsconfig.json`,
             method: 'copy',
+        },
+        {
+            file: '/tableWidget/bundle/table-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget.yaml`,
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/bundle/table-widget.ftl',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget.ftl`,
+            useBluePrint: true,
         },
         {
             file: '/tableWidget/package.json',

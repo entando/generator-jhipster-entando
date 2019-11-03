@@ -3,23 +3,28 @@
 const chalk = require('chalk');
 const casual = require('casual');
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
+const EntandoNeedle = require('./needle-api/needle-server-bundle');
+const fs = require('fs');
 const serverFiles = require('./files').serverFiles;
 const microFrontEndFiles = require('./files').microFrontEndFiles;
 
 module.exports = class extends EntityServerGenerator {
+
+
     constructor(args, opts) {
         super(args, Object.assign({ fromBlueprint: true }, opts)); // fromBlueprint variable is important
 
-        const jhContext = (this.jhipsterContext = this.options.jhipsterContext);
+        this.jhContext = (this.jhipsterContext = this.options.jhipsterContext);
 
-        if (!jhContext) {
+        if (!this.jhContext) {
             this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprint entando')}`);
         }
 
-        this.configOptions = jhContext.configOptions || {};
-        if (jhContext.databaseType === 'cassandra') {
+        this.configOptions = this.jhContext.configOptions || {};
+        if (this.jhContext.databaseType === 'cassandra') {
             this.pkType = 'UUID';
         }
+
     }
 
     get initializing() {
@@ -118,6 +123,12 @@ module.exports = class extends EntityServerGenerator {
         return generatedData;
     }
 
+    updateBundleDescriptor() {
+        this.entandoNeedleApi = new EntandoNeedle(this);
+        this.entandoNeedleApi.addWidgetToDescriptor(this.entityFileName);
+        this.entandoNeedleApi.addRolesToDescriptor(this.entityFileName);
+    }
+
     get writing() {
         // writing - Where you write the generator specific files (routes, controllers, etc)
         const jhipsterPhase = super._writing();
@@ -134,6 +145,7 @@ module.exports = class extends EntityServerGenerator {
             writeEntityServerFiles() {
                 this.writeFilesToDisk(serverFiles, this, false, null);
                 this.writeFilesToDisk(microFrontEndFiles, this, false, null);
+                this.updateBundleDescriptor();
             },
         };
         return { ...jhipsterPhase, ...myCustomSteps };
@@ -152,5 +164,13 @@ module.exports = class extends EntityServerGenerator {
     get end() {
         // end - Called last, cleanup, say good bye, etc
         return super._end();
+    }
+
+    log(msg) {
+        console.log(msg)
+    }
+
+    fs() {
+        return fs;
     }
 };
