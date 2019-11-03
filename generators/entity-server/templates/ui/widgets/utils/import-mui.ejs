@@ -19,6 +19,12 @@ getDependencies = function(fields) {
       dependencies.has('@material-ui/pickers')
         ? dependencies.get('@material-ui/pickers').add('DatePicker').add('MuiPickersUtilsProvider')
         : dependencies.set('@material-ui/pickers', new Set(['DatePicker', 'MuiPickersUtilsProvider']))
+      dependencies.has('@date-io/date-fns')
+        ? dependencies.get('@date-io/date-fns').add('DateFnsUtils')
+        : dependencies.set('@date-io/date-fns', new Set(['DateFnsUtils']));
+      dependencies.has('i18n/dateFnsLocales')
+        ? dependencies.get('i18n/dateFnsLocales').add('dateFnsLocales')
+        : dependencies.set('i18n/dateFnsLocales', new Set(['dateFnsLocales']));
     }
     if (['Instant', 'ZonedDateTime'].includes(field.fieldType)) {
       dependencies.has('@material-ui/pickers')
