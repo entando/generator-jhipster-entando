@@ -56,7 +56,7 @@ public class JwtAuthorityExtractor extends JwtAuthenticationConverter {
     private Collection<String> getRolesFromClaims(Map<String, Object> claims) {
         Map<String, Object> resourceAccessClaim = (Map<String, Object>) claims.getOrDefault("resource_access", new HashMap<>());
         if (resourceAccessClaim.containsKey(this.entandoProperties.getClientId())) {
-            return (Collection<String>) ((Map)claims.get(this.entandoProperties.getClientId())).getOrDefault("roles", new ArrayList<>());
+            return (Collection<String>) ((Map)resourceAccessClaim.get(this.entandoProperties.getClientId())).getOrDefault("roles", new ArrayList<>());
         } else {
             return new ArrayList<>();
         }
