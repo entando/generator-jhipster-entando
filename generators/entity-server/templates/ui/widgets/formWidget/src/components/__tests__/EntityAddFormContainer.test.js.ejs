@@ -1,0 +1,95 @@
+<%# { "skip": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/__tests__/${generator.entityClass}AddFormContainer.test.js`" } -%>
+import React from 'react';
+import { fireEvent, render, wait } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { api<%= entityClass %>Post } from 'api/<%= entityInstancePlural %>';
+import <%= entityClass %>AddFormContainer from 'components/<%= entityClass %>AddFormContainer';
+import 'components/__mocks__/i18nMock';
+import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
+
+jest.mock('api/<%= entityInstancePlural %>');
+jest.mock('@material-ui/pickers', () => ({
+  ...jest.requireActual('@material-ui/pickers'),
+  // eslint-disable-next-line react/prop-types
+  DateTimePicker: ({ id, value, name, label, onChange }) => {
+    const handleChange = event => onChange(event.currentTarget.value);
+    return (
+      <span>
+        <label htmlFor={id}>{label}</label>
+        <input id={id} name={name} value={value || ''} onChange={handleChange} />
+      </span>
+    );
+  },
+}));
+
+describe('<%= entityClass %>AddFormContainer', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const errorMessageKey = 'errors.dataLoading';
+  const successMessageKey = 'common.dataSaved';
+
+  const onErrorMock = jest.fn();
+  const onCreateMock = jest.fn();
+
+  it('saves data', async () => {
+    api<%= entityClass %>Post.mockImplementation(data => Promise.resolve(data));
+
+    const { findByTestId, findByLabelText, queryByText, rerender } = render(
+      <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
+    );
+
+    <%_ fields.forEach(field => { _%>
+    const <%= field.fieldName %>Field = await findByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>');
+    fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
+    
+    <%_ }) _%>
+
+    rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
+
+    const saveButton = await findByTestId('submit-btn');
+
+    fireEvent.click(saveButton);
+
+    await wait(() => {
+      expect(api<%= entityClass %>Post).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Post).toHaveBeenCalledWith(<%= entityInstance %>Mock);
+
+      expect(queryByText(successMessageKey)).toBeInTheDocument();
+
+      expect(onErrorMock).toHaveBeenCalledTimes(0);
+      expect(queryByText(errorMessageKey)).not.toBeInTheDocument();
+    });
+  }, 7000);
+
+  it('shows an error if data is not successfully saved', async () => {
+    api<%= entityClass %>Post.mockImplementation(() => Promise.reject());
+
+    const { findByTestId, findByLabelText, queryByText, rerender } = render(
+      <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
+    );
+
+    <%_ fields.forEach(field => { _%>
+    const <%= field.fieldName %>Field = await findByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>');
+    fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
+    
+    <%_ }) _%>
+
+    rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
+
+    const saveButton = await findByTestId('submit-btn');
+
+    fireEvent.click(saveButton);
+
+    await wait(() => {
+      expect(api<%= entityClass %>Post).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Post).toHaveBeenCalledWith(<%= entityInstance %>Mock);
+
+      expect(queryByText(successMessageKey)).not.toBeInTheDocument();
+
+      expect(onErrorMock).toHaveBeenCalledTimes(1);
+      expect(queryByText(errorMessageKey)).toBeInTheDocument();
+    });
+  }, 7000);
+});

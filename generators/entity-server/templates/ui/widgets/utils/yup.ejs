@@ -1,0 +1,68 @@
+<%_
+// these utilities expect 'utils/jhipster' in the template
+
+getYupType = function(field) {
+  const fieldType = getJHipsterType(field); // from 'utils/jhipster'
+  switch (fieldType) {
+    case 'String':
+      return 'string()';
+    case 'Integer':
+    case 'Long':
+    case 'Float':
+    case 'Double':
+    case 'BigDecimal':
+      return 'number()';
+    case 'LocalDate':
+    case 'Instant':
+    case 'ZonedDateTime':
+      return 'date()';
+    case 'Boolean':
+      return 'boolean()';
+    case 'Enum':
+    case 'ImageBlob':
+    case 'BinaryFileBlob':
+    case 'TextBlob':
+      return 'string()';
+  }
+}
+
+getYupValidationRules = function(field) {
+
+  const fieldValidateRules = field.fieldValidateRules || [];
+
+  return fieldValidateRules
+    // filtering out rules that are unsupported by yup
+    .filter(rule => ['required', 'minlength', 'maxlength', 'pattern', 'min', 'max'].includes(rule))
+    .map(rule => {
+    switch (rule) {
+      case 'required':
+        return 'required()';
+      case 'minlength':
+        let { fieldValidateRulesMinlength } = field;
+        return `min(${fieldValidateRulesMinlength})`;
+      case 'maxlength':
+        let { fieldValidateRulesMaxlength } = field;
+        return `max(${fieldValidateRulesMaxlength})`;
+      case 'pattern':
+        let { fieldValidateRulesPattern } = field;
+        return `matches(/${fieldValidateRulesPattern}/)`;
+      case 'min':
+        let { fieldValidateRulesMin } = field;
+        return `min(${fieldValidateRulesMin})`;
+      case 'max':
+        let { fieldValidateRulesMax } = field;
+        return `max(${fieldValidateRulesMax})`;
+    }
+  });
+}
+
+getYupValues = function(fields) {
+  return fields
+    .map(field => {
+      const fieldYupType = getYupType(field);
+      const fieldYupRules = getYupValidationRules(field);
+
+      return `${field.fieldName}: yup.${[fieldYupType, ...fieldYupRules].join('.')},`;
+    });
+}
+_%>

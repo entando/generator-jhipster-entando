@@ -1,0 +1,97 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/${generator.entityClass}EditFormContainer.js`" } -%>
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import i18next from 'i18next';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core';
+import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
+import Notification from 'components/common/Notification';
+import { api<%= entityClass %>Get, api<%= entityClass %>Put } from 'api/<%= entityInstancePlural %>';
+
+<%_ const ComponentName = `${entityClass}EditFormContainer`; _%>
+class <%= ComponentName %> extends PureComponent {
+  theme = createMuiTheme();
+
+  state = {
+    <%= entityInstance %>: null,
+    notificationMessage: null,
+  };
+
+  constructor(props) {
+    super(props);
+    this.closeNotification = this.closeNotification.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  async componentDidMount() {
+    const { id } = this.props;
+    if (!id) return;
+    try {
+      const <%= entityInstance %> = await api<%= entityClass %>Get(id);
+      this.setState({
+        <%= entityInstance %>,
+      });
+    } catch (err) {
+      this.handleError(err);
+    }
+  }
+
+  closeNotification() {
+    this.setState({ notificationMessage: null, notificationStatus: null });
+  }
+
+  async handleSubmit(<%= entityInstance %>) {
+    try {
+      const updated<%= entityClass %> = await api<%= entityClass %>Put(<%= entityInstance %>);
+      const { onUpdate } = this.props;
+      onUpdate(updated<%= entityClass %>);
+
+      this.setState({
+        <%= entityInstance %>: updated<%= entityClass %>,
+        notificationMessage: i18next.t('common.dataSaved'),
+        notificationStatus: 'success',
+      });
+    } catch (err) {
+      this.handleError(err);
+    }
+  }
+
+  handleError(err) {
+    const { onError } = this.props;
+    onError(err);
+    this.setState({
+      notificationMessage: i18next.t('errors.dataLoading'),
+      notificationStatus: 'error',
+    });
+  }
+
+  render() {
+    const { notificationMessage, notificationStatus, <%= entityInstance %> } = this.state;
+    return (
+      <ThemeProvider theme={this.theme}>
+        <<%= entityClass %>Form
+          <%= entityInstance %>={<%= entityInstance %>}
+          onSubmit={this.handleSubmit}
+        />
+        <Notification
+          status={notificationStatus}
+          message={notificationMessage}
+          onClose={this.closeNotification}
+        />
+      </ThemeProvider>
+    );
+  }
+}
+
+<%= ComponentName %>.propTypes = {
+  id: PropTypes.string.isRequired,
+  onError: PropTypes.func,
+  onUpdate: PropTypes.func,
+};
+
+<%= ComponentName %>.defaultProps = {
+  onError: () => {},
+  onUpdate: () => {},
+};
+
+export default <%= ComponentName %>;

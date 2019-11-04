@@ -49,14 +49,24 @@ const serverFiles = {
     ],
     packageJson: [
         {
-            condition: generator => generator.skipClient,
+            templates: ['buildWidgets.sh']
+        },
+        {
+            templates: ['installWidgets.sh']
+        },
+        {
+            templates: ['buildBundle.sh']
+        },
+        {
+            PATH: '.',
             templates: [
                 {
-                    file: 'package.json',
                     useBluePrint: true,
-                },
-            ],
-        },
+                    file: 'bundle/descriptor.yaml',
+                    renameTo: generator => `./bundle/descriptor.yaml`,
+                }
+            ]
+        }
     ],
     docker: [
         {

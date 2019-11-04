@@ -1,17 +1,17 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/${generator.entityClass}Details.js`" } -%>
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import Box from '@material-ui/core/Box';
 
 import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %>';
 import <%= entityClass %>FieldTable from 'components/<%= entityFileName %>-field-table/<%= entityClass %>FieldTable';
 
-const <%= entityClass %>Details = ({ t, <%= entityInstance %> }) => {
+<%_ const ComponentName = `${entityClass}Details`; _%>
+const <%= ComponentName %> = ({ <%= entityInstance %> }) => {
   return (
     <Box>
       <h3>
-        {t('common.widgetName', {
+        {i18next.t('common.widgetName', {
           widgetNamePlaceholder: '<%= entityClassHumanized %>',
         })}
       </h3>
@@ -20,13 +20,12 @@ const <%= entityClass %>Details = ({ t, <%= entityInstance %> }) => {
   );
 };
 
-<%= entityClass %>Details.propTypes = {
+<%= ComponentName %>.propTypes = {
   <%= entityInstance %>: <%= entityInstance %>Type,
-  t: PropTypes.func.isRequired,
 };
 
-<%= entityClass %>Details.defaultProps = {
+<%= ComponentName %>.defaultProps = {
   <%= entityInstance %>: {},
 };
 
-export default withTranslation()(<%= entityClass %>Details);
+export default <%= ComponentName %>;

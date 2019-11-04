@@ -1,0 +1,115 @@
+<%_
+// these utilities expect 'utils/jhipster' in the template
+
+getPropType = function (field) {
+  const fieldType = getJHipsterType(field); // from 'utils/jhipster'
+  switch (fieldType) {
+    case 'String':
+      return 'PropTypes.string';
+    case 'Integer':
+    case 'Long':
+    case 'Float':
+    case 'Double':
+    case 'BigDecimal':
+      return 'PropTypes.number';
+    case 'LocalDate':
+    case 'Instant':
+    case 'ZonedDateTime':
+      return 'PropTypes.string';
+    case 'Boolean':
+      return 'PropTypes.bool';
+    case 'Enum':
+    case 'ImageBlob':
+    case 'BinaryFileBlob':
+    case 'TextBlob':
+      return 'PropTypes.string';
+  }
+
+  return 'PropTypes.any';
+}
+
+isRequiredPropType = function (field) {
+  return field.fieldValidateRules && field.fieldValidateRules.includes('required')
+    ? '.isRequired'
+    : '';
+}
+
+// NOTE: update getFormikValuePropType accordingly if there are additional types needed
+getFormikValuePropType = function (field) {
+  const fieldType = getJHipsterType(field); // utils/jhipster
+
+  switch (fieldType) {
+    case 'String':
+      return ['PropTypes.string'];
+    case 'Integer':
+    case 'Long':
+    case 'Float':
+    case 'Double':
+    case 'BigDecimal':
+      return ['PropTypes.number'];
+    case 'LocalDate':
+    case 'Instant':
+    case 'ZonedDateTime':
+      return ['PropTypes.string', 'PropTypes.instanceOf(Date)'];
+    case 'Boolean':
+      return ['PropTypes.bool'];
+    case 'Enum':
+    case 'ImageBlob':
+    case 'BinaryFileBlob':
+    case 'TextBlob':
+      return ['PropTypes.string'];
+  }
+
+  return ['PropTypes.any'];
+}
+
+// NOTE: update getFormikTouchedPropType accordingly if there are additional types needed
+getFormikTouchedPropType = function (field) {
+  const fieldType = getJHipsterType(field); // utils/jhipster
+
+  switch (fieldType) {
+    case 'String':
+    case 'Integer':
+    case 'Long':
+    case 'Float':
+    case 'Double':
+    case 'BigDecimal':
+    case 'LocalDate':
+    case 'Instant':
+    case 'ZonedDateTime':
+    case 'Boolean':
+    case 'Enum':
+    case 'ImageBlob':
+    case 'BinaryFileBlob':
+    case 'TextBlob':
+      return ['PropTypes.bool'];
+  }
+
+  return ['PropTypes.any'];
+}
+
+// NOTE: update getFormikErrorPropType accordingly if there are additional types needed
+getFormikErrorPropType = function (field) {
+  const fieldType = getJHipsterType(field); // utils/jhipster
+
+  switch (fieldType) {
+    case 'String':
+    case 'Integer':
+    case 'Long':
+    case 'Float':
+    case 'Double':
+    case 'BigDecimal':
+    case 'LocalDate':
+    case 'Instant':
+    case 'ZonedDateTime':
+    case 'Boolean':
+    case 'Enum':
+    case 'ImageBlob':
+    case 'BinaryFileBlob':
+    case 'TextBlob':
+      return ['PropTypes.string', 'PropTypes.shape()'];
+  }
+
+  return ['PropTypes.any'];
+}
+_%>

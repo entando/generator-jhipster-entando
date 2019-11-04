@@ -1,0 +1,50 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/custom-elements/${generator.entityClass}FormElement.js`" } -%>
+import React from 'react';
+import ReactDOM from 'react-dom';
+import <%= entityClass %>EditFormContainer from 'components/<%= entityClass %>EditFormContainer';
+import <%= entityClass %>AddFormContainer from 'components/<%= entityClass %>AddFormContainer';
+import setLocale from 'i18n/setLocale';
+
+<%_ const ComponentName = `${entityClass}FormElement`; _%>
+class <%= ComponentName %> extends HTMLElement {
+  connectedCallback() {
+    const mountPoint = document.createElement('div');
+    this.appendChild(mountPoint);
+
+    const id = this.getAttribute('id');
+    const locale = this.getAttribute('locale');
+
+    setLocale(locale);
+
+    const prefix = '<%= entityInstance %>.form.';
+
+    const eventDispatcher = (eventId, detailPropName) => payload => {
+      const customEvent = new CustomEvent(eventId, {
+        detail: {
+          [detailPropName]: payload,
+        },
+      });
+      this.dispatchEvent(customEvent);
+    };
+
+    const onCreateError = eventDispatcher(`${prefix}createError`, 'error');
+    const onUpdateError = eventDispatcher(`${prefix}updateError`, 'error');
+    const onCreate = eventDispatcher(`${prefix}create`, 'item');
+    const onUpdate = eventDispatcher(`${prefix}update`, 'item');
+
+    const reactRoot = id
+      ? React.createElement(
+          <%= entityClass %>EditFormContainer,
+          { id, onError: onUpdateError, onUpdate },
+          null
+        )
+      : React.createElement(
+          <%= entityClass %>AddFormContainer,
+          { onError: onCreateError, onCreate },
+          null
+        );
+    ReactDOM.render(reactRoot, mountPoint);
+  }
+}
+
+customElements.define('<%= entityFileName %>-form', <%= ComponentName %>);

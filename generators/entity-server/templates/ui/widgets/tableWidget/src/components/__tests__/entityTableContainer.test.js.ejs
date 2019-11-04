@@ -1,8 +1,8 @@
-<%# { "skip": true, "renameTo": "`/tableWidget/src/components/__tests__//${generator.entityClass}TableContainer.test.js`" } -%>
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/components/__tests__/${generator.entityClass}TableContainer.test.js`" } -%>
 import React from 'react';
 import { render, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { <%= entityInstancePlural %>WithDateObjects } from 'components/__mocks__/<%= entityInstance %>Mocks';
+import <%= entityInstance %>Mocks from 'components/__mocks__/<%= entityInstance %>Mocks';
 import <%= entityInstancePlural %>Get from 'api/<%= entityInstancePlural %>';
 import 'components/__mocks__/i18nMock';
 import <%= entityClass %>TableContainer from 'components/<%= entityClass %>TableContainer';
@@ -10,10 +10,10 @@ import <%= entityClass %>TableContainer from 'components/<%= entityClass %>Table
 jest.mock('api/<%= entityInstancePlural %>');
 
 describe('<%= entityClass %>TableContainer', () => {
-    const errorMessageKey = '<%= entityInstance %>.error.dataLoading';
+    const errorMessageKey = 'common.couldNotFetchData';
 
     it('calls API', async () => {
-        <%= entityInstancePlural %>Get.mockImplementation(() => Promise.resolve(<%= entityInstancePlural %>WithDateObjects));
+        <%= entityInstancePlural %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mocks));
         const { queryByText } = render(<<%= entityClass %>TableContainer />);
 
         await wait(() => {

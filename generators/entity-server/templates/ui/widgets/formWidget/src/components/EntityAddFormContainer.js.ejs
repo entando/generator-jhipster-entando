@@ -1,0 +1,78 @@
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/${generator.entityClass}AddFormContainer.js`" } -%>
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core';
+import i18next from 'i18next';
+import { api<%= entityClass %>Post } from 'api/<%= entityInstancePlural %>';
+import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
+import Notification from 'components/common/Notification';
+
+<%_ const ComponentName = `${entityClass}AddFormContainer`; _%>
+class <%= ComponentName %> extends PureComponent {
+  theme = createMuiTheme();
+
+  state = {
+    notificationMessage: null,
+  };
+
+  constructor(props) {
+    super(props);
+    this.closeNotification = this.closeNotification.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  closeNotification() {
+    this.setState({ notificationMessage: null, notificationStatus: null });
+  }
+
+  async handleSubmit(<%= entityInstance %>) {
+    try {
+      const created<%= entityClass %> = await api<%= entityClass %>Post(<%= entityInstance %>);
+      const { onCreate } = this.props;
+      onCreate(created<%= entityClass %>);
+
+      this.setState({
+        notificationMessage: i18next.t('common.dataSaved'),
+        notificationStatus: 'success',
+      });
+    } catch (err) {
+      this.handleError(err);
+    }
+  }
+
+  handleError(err) {
+    const { onError } = this.props;
+    onError(err);
+    this.setState({
+      notificationMessage: i18next.t('errors.dataLoading'),
+      notificationStatus: 'error',
+    });
+  }
+
+  render() {
+    const { notificationMessage, notificationStatus } = this.state;
+    return (
+      <ThemeProvider theme={this.theme}>
+        <<%= entityClass %>Form onSubmit={this.handleSubmit} />
+        <Notification
+          status={notificationStatus}
+          message={notificationMessage}
+          onClose={this.closeNotification}
+        />
+      </ThemeProvider>
+    );
+  }
+}
+
+<%= ComponentName %>.propTypes = {
+  onError: PropTypes.func,
+  onCreate: PropTypes.func,
+};
+
+<%= ComponentName %>.defaultProps = {
+  onError: () => {},
+  onCreate: () => {},
+};
+
+export default <%= ComponentName %>;

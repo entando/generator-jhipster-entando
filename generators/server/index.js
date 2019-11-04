@@ -1,9 +1,8 @@
 /* eslint-disable consistent-return */
 const chalk = require('chalk');
 const ServerGenerator = require('generator-jhipster/generators/server');
-const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
 const writeFiles = require('./files').writeFiles;
-const blueprintCustomPrompts = require('./prompts');
+const customPrompts = require('./prompts');
 
 module.exports = class extends ServerGenerator {
     constructor(args, opts) {
@@ -29,7 +28,7 @@ module.exports = class extends ServerGenerator {
     }
 
     _prompting() {
-        return blueprintCustomPrompts;
+        return customPrompts;
     }
 
     get prompting() {

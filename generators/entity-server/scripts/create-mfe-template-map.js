@@ -51,3 +51,5 @@ const templateFile = fs.readFileSync(path.join(__dirname, '/mfe-files.js.ejs'), 
 const mfeFile = ejs.render(templateFile, { files });
 
 fs.writeFileSync(EXPORT_PATH, mfeFile, 'utf8');
+
+console.log('Template mapping created!');
