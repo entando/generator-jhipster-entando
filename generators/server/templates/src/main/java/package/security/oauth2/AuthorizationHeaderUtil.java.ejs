@@ -29,7 +29,6 @@ import <%=packageName%>.security.oauth2.OAuthIdpTokenResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +52,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Profile("prod")
 @Component
 public class AuthorizationHeaderUtil {
 

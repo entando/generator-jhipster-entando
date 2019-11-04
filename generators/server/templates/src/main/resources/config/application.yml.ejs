@@ -222,6 +222,16 @@ spring:
                 size: 2
     thymeleaf:
         mode: HTML
+    security:
+        oauth2:
+            client:
+                provider:
+                    oidc:
+                        issuer-uri: http://localhost:9080/auth/realms/jhipster
+                registration:
+                    oidc:
+                        client-id: internal
+                        client-secret: internal
 
 server:
     servlet:
@@ -277,8 +287,8 @@ jhipster:
 # ===================================================================
 
 entando:
-    client-id: ${CLIENT_ID:<%=baseName%>}
-    client-secret: ${CLIENT_SECRET:<%=baseName%>}
+    client-id: ${KEYCLOAK_CLIENT_ID:<%=baseName%>}
+    client-secret: ${KEYCLOAK_CLIENT_SECRET:<%=baseName%>}
     access-token-uri: ${TOKEN_SERVICE:http://localhost:9080/auth/realms/entando-development}/protocol/openid-connect/token
     auth-service-uri: ${ENTANDO_AUTH:http://localhost:8082/}
     config-service-uri: ${ENTANDO_CONFIG:http://localhost:8083/}
