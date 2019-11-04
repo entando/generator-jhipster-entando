@@ -37,7 +37,6 @@ import org.springframework.beans.factory.InitializingBean;
     <%_ } _%>
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
     <%_ if (authenticationType !== 'uaa' && !(applicationType === 'microservice' && authenticationType === 'oauth2')) { _%>
 import org.springframework.http.HttpMethod;
     <%_ } _%>
@@ -95,7 +94,6 @@ import org.springframework.web.filter.CorsFilter;
     <%_ } _%>
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
-@Profile("prod")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Import(SecurityProblemSupport.class)
