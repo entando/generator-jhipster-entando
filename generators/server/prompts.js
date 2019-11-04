@@ -166,7 +166,7 @@ function askForServerSideOpts(meta) {
                 if (!reactive) {
                     opts.push({
                         value: 'sql',
-                        name: 'SQL (H2, MySQL, MariaDB, PostgreSQL, Oracle, MSSQL)',
+                        name: 'SQL (H2, MySQL, PostgreSQL, Oracle)',
                     });
                 }
                 // TODO: Disabled some options
@@ -199,7 +199,20 @@ function askForServerSideOpts(meta) {
             type: 'list',
             name: 'prodDatabaseType',
             message: `Which ${chalk.yellow('*production*')} database would you like to use?`,
-            choices: constants.SQL_DB_OPTIONS,
+            choices: [
+                {
+                    value: 'mysql',
+                    name: 'MySQL',
+                },
+                {
+                    value: 'postgresql',
+                    name: 'PostgreSQL',
+                },
+                {
+                    value: 'oracle',
+                    name: 'Oracle (Please follow our documentation to use the Oracle proprietary driver)',
+                },
+            ],
             default: 0,
         },
         {
