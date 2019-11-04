@@ -50,20 +50,18 @@ const <%= ComponentName %> = props => {
     setFieldValue(field, value);
   };
   <%_ } _%>
-
   <%_ if (fieldsContainDate && (fieldsContainInstant || fieldsContainZonedDateTime)) { _%>
   const dateTimeLabelFn = date => (date ? new Date(date).toLocaleString(i18next.language) : '');
   <%_ } _%>
-
   <%_ if (fieldsContainDate && fieldsContainLocalDate) { _%>
   const dateLabelFn = date => (date ? new Date(date).toLocaleDateString(i18next.language) : '');
   <%_ } _%>
-
   const getHelperText = field => (errors[field] && touched[field] ? errors[field] : '');
 
   return (
-<%# TODO: IS THIS ALWAYS NEEDED? -%>
+    <%_ if (fieldsContainDate) { _%>
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={dateFnsLocales[i18next.language]}>
+    <%_ } _%>
       <form onSubmit={handleSubmit} className={classes.root}>
         <Grid container spacing={2}>
           <%_ fields.forEach(field => { _%>
@@ -130,7 +128,9 @@ const <%= ComponentName %> = props => {
           </Button>
         </Grid>
       </form>
+    <%_ if (fieldsContainDate) { _%>
     </MuiPickersUtilsProvider>
+    <%_ } _%>
   );
 };
 
