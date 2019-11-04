@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # This command assumes that the widgets are all under ui/widgets/<entity>/<widget>. The command finds all of the micro-frontends in those folders and
-# copies the result of the build into the bundle resources folder so that the bundle can be deployed to a digital exchange instance (or imported on an existing page)
-find ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c "mkdir -p bundle/'{}'/resources/static/{js,css} && cp '{}'/build/static/js/*.js bundle/'{}'/resources/static/js && cp '{}'/build/static/css/*.css bundle/'{}'/resources/static/css && mkdir -p bundle/{} && cp '{}'/bundle/* bundle/{}/" \;
+# copies the result of the build into the bundle resources folder so that the bundle can be deployed to a digital exchange instance (or imported on an existing page).
+# The command also copies css optionally with this structure since some widgets will be js only 2>/dev/null || :
+
+find ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c "mkdir -p bundle/'{}'/resources/static/{js,css} && cp '{}'/build/static/js/*.js bundle/'{}'/resources/static/js && cp '{}'/build/static/css/*.css bundle/'{}'/resources/static/css 2>/dev/null || : && mkdir -p bundle/{} && cp '{}'/bundle/* bundle/{}/" \;
 
 #Fetch the top level service name from the pom and use this as the context directory for the publishing of assets specific to the project when building the bundle
 artifactId=`cat pom.xml | grep "^    <artifactId>.*</artifactId>$" | awk -F'[><]' '{print $3}'`
