@@ -49,6 +49,9 @@ const serverFiles = {
     ],
     packageJson: [
         {
+            templates: ['package.json']
+        },
+        {
             templates: ['buildWidgets.sh']
         },
         {
