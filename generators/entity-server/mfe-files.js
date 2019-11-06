@@ -7,19 +7,19 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/detailsWidget/jsconfig.json',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/jsconfig.json`,
+            file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget-descriptor.yaml`,
             method: 'copy',
         },
         {
             file: '/detailsWidget/bundle/details-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/${generator.entityFileName}-details-widget.ftl`,
-            useBluePrint: true,
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.ftl`,
+            method: 'copy',
         },
         {
-            file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.yaml`,
-            useBluePrint: true,
+            file: '/detailsWidget/jsconfig.json',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/jsconfig.json`,
+            method: 'copy',
         },
         {
             file: '/detailsWidget/package.json',
@@ -132,19 +132,19 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/formWidget/jsconfig.json',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/jsconfig.json`,
+            file: '/formWidget/bundle/form-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget-descriptor.yaml`,
             method: 'copy',
         },
         {
-            file: '/formWidget/bundle/form-widget-descriptor.yaml',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget.yaml`,
-            useBluePrint: true,
+            file: '/formWidget/bundle/form-widget.ftl',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget.ftl`,
+            method: 'copy',
         },
         {
-            file: '/formWidget/bundle/form-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/${generator.entityFileName}-form-widget.ftl`,
-            useBluePrint: true,
+            file: '/formWidget/jsconfig.json',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/jsconfig.json`,
+            method: 'copy',
         },
         {
             file: '/formWidget/package.json',
@@ -283,19 +283,29 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/tableWidget/jsconfig.json',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/jsconfig.json`,
+            file: '/tableWidget/README.md',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/README.md`,
             method: 'copy',
         },
         {
             file: '/tableWidget/bundle/table-widget-descriptor.yaml',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget.yaml`,
-            useBluePrint: true,
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget-descriptor.yaml`,
+            method: 'copy',
         },
         {
             file: '/tableWidget/bundle/table-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/${generator.entityFileName}-table-widget.ftl`,
-            useBluePrint: true,
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget.ftl`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/deploy-widget.sh',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/deploy-widget.sh`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/jsconfig.json',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/jsconfig.json`,
+            method: 'copy',
         },
         {
             file: '/tableWidget/package.json',
@@ -333,6 +343,26 @@ const files = {
             useBluePrint: true,
         },
         {
+            file: '/tableWidget/src/auth/KeycloakContext.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/auth/KeycloakContext.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/auth/KeycloakViews.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/auth/KeycloakViews.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/components/EntityTable.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}Table.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/components/EntityTableContainer.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}TableContainer.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
             file: '/tableWidget/src/components/__mocks__/entityMocks.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
@@ -358,28 +388,38 @@ const files = {
             useBluePrint: true,
         },
         {
+            file: '/tableWidget/src/components/__types__/keycloak.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__types__/keycloak.js`,
+            method: 'copy',
+        },
+        {
             file: '/tableWidget/src/components/common/Notification.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/common/Notification.js`,
             method: 'copy',
         },
         {
-            file: '/tableWidget/src/components/entityTable.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}Table.js`, // eslint-disable-line prettier/prettier
-            useBluePrint: true,
-        },
-        {
-            file: '/tableWidget/src/components/entityTableContainer.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}TableContainer.js`, // eslint-disable-line prettier/prettier
-            useBluePrint: true,
-        },
-        {
-            file: '/tableWidget/src/custom-elements/entityTableElement.js',
+            file: '/tableWidget/src/custom-elements/EntityTableElement.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/custom-elements/${generator.entityClass}TableElement.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
         {
-            file: '/tableWidget/src/i18n/i18n.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/i18n.js`,
+            file: '/tableWidget/src/custom-elements/widgetEventTypes.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/custom-elements/widgetEventTypes.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/helpers/widgetEvents.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/helpers/widgetEvents.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/i18n/constants.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/constants.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/i18n/i18next.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/i18next.js`,
             method: 'copy',
         },
         {
@@ -393,18 +433,23 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/tableWidget/src/i18n/locales/it.json',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/locales/it.json`,
-            useBluePrint: true,
-        },
-        {
-            file: '/tableWidget/src/index.css',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/index.css`,
+            file: '/tableWidget/src/i18n/setLocale.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/setLocale.js`,
             method: 'copy',
         },
         {
             file: '/tableWidget/src/index.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/index.js`,
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/state/entity.reducer.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/state/${generator.entityInstance}.reducer.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/state/entity.types.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/state/${generator.entityInstance}.types.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
         {

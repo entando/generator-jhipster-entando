@@ -1,14 +1,43 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/api/${generator.entityInstancePlural}.js`" } -%>
+/* eslint-disable import/prefer-default-export */
 import { DOMAIN, JWT_TOKEN } from 'api/constants';
 
-export default async () => {
-    const url = `${DOMAIN}/<%= entityApiUrl %>`;
-    const init = {
-        headers: {
-            Authorization: `Bearer ${JWT_TOKEN}`,
-        },
-    };
-    const response = await fetch(url, init);
+const getKeycloakToken = () => {
+  if (
+    window &&
+    window.entando &&
+    window.entando.keycloak &&
+    window.entando.keycloak.initialized &&
+    window.entando.keycloak.authenticated
+  ) {
+    return window.entando.keycloak.token;
+  }
+  return '';
+};
 
-    return response.json();
+const request = async (url, options) => {
+  const response = await fetch(url, options);
+
+  return response.status >= 200 && response.status < 300
+    ? response.json()
+    : Promise.reject(new Error(response.statusText || response.status));
+};
+
+export const api<%= entityClassPlural %>Get = async () => {
+  const url = `${DOMAIN}/<%= entityApiUrl %>`;
+
+  const token = getKeycloakToken();
+
+  const defaultOptions = {
+    headers: new Headers({
+      Authorization: `Bearer ${token || JWT_TOKEN}`,
+      'Content-Type': 'application/json',
+    }),
+  };
+
+  const options = {
+    ...defaultOptions,
+    method: 'GET',
+  };
+  return request(url, options);
 };

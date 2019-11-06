@@ -1,77 +1,134 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}TableContainer.js`" } -%>
-import React, {PureComponent} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import i18next from 'i18next';
+import { withTranslation } from 'react-i18next';
+import { Fab } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
+
+import keycloakType from 'components/__types__/keycloak';
+import { withKeycloak } from 'auth/KeycloakContext';
+import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
 import <%= entityClass %>Table from 'components/<%= entityClass %>Table';
-import <%= entityInstancePlural %>Get from 'api/<%= entityInstancePlural %>';
 import Notification from 'components/common/Notification';
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core';
+import { api<%= entityClassPlural %>Get } from 'api/<%= entityInstancePlural %>';
+import { reducer, initialState } from 'state/conference.reducer';
+import { ERROR_FETCH, CLEAR_ERRORS, READ_ALL } from 'state/conference.types';
+
+const styles = {
+  fab: {
+    float: 'right',
+  },
+};
 
 <%_ const ComponentName = `${entityClass}TableContainer`; _%>
-export default class <%= ComponentName %> extends PureComponent {
-  theme = createMuiTheme();
+class <%= ComponentName %> extends Component {
 
-  state = {
-      <%= entityInstancePlural %>: [],
-      notificationStatus: null,
-      notificationMessage: null,
-  };
+  constructor(props) {
+    super(props);
 
-  async componentDidMount() {
-    try {
-      const json = await <%= entityInstancePlural %>Get();
+    this.state = initialState;
 
-      const <%= entityInstancePlural %> = json.map(<%= entityInstance %> => ({
-        ...<%= entityInstance %>,
-      }));
-      this.setState({
-        <%= entityInstancePlural %>,
-        notificationStatus: null,
-        notificationMessage: null,
-      });
-    } catch (err) {
-      this.handleError(err);
+    this.handleError = this.handleError.bind(this);
+    this.closeNotification = this.closeNotification.bind(this);
+  }
+
+  componentDidMount() {
+    const { keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    if (authenticated) {
+      this.fetchData();
     }
   }
 
-  closeNotification = () => {
-    this.setState({error: null});
-  };
+  componentDidUpdate(prevProps) {
+    const { keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    const changedAuth = prevProps.keycloak.authenticated !== authenticated;
+
+    if (authenticated && changedAuth) {
+      this.fetchData();
+    }
+  }
+
+  dispatch(action) {
+    this.setState(prevState => reducer(prevState, action));
+  }
+
+  async fetchData() {
+    const { keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    if (authenticated) {
+      try {
+        const <%= entityInstancePlural %> = await api<%= entityClassPlural %>Get();
+        this.dispatch({ type: READ_ALL, payload: <%= entityInstancePlural %> });
+      } catch (err) {
+        this.handleError(err);
+      }
+    }
+  }
+
+  closeNotification() {
+    this.dispatch({ type: CLEAR_ERRORS });
+  }
 
   handleError(err) {
-    const {onError} = this.props;
+    const { onError, t } = this.props;
     onError(err);
-    this.setState({
-      notificationStatus: 'error',
-      notificationMessage: i18next.t('common.couldNotFetchData'),
+    this.dispatch({
+      type: ERROR_FETCH,
+      payload: {
+        message: t('<%= entityInstance %>.error.dataLoading'),
+        status: Notification.ERROR,
+      },
     });
   }
 
   render() {
-    const {notificationStatus, notificationMessage, <%= entityInstancePlural %>} = this.state;
-    const {onSelect} = this.props;
+    const { items, errorMessage, errorStatus } = this.state;
+    const { classes, onSelect, onAdd, t, keycloak } = this.props;
+
     return (
-      <ThemeProvider theme={this.theme}>
-        <<%= entityClass %>Table <%= entityInstancePlural %>={<%= entityInstancePlural %>} onSelect={onSelect}/>
+      <>
+        <UnauthenticatedView keycloak={keycloak}>
+          {t('common.notAuthenticated')}
+        </UnauthenticatedView>
+        <AuthenticatedView keycloak={keycloak}>
+          <Fab color="primary" aria-label="add" className={classes.fab} onClick={onAdd}>
+            <AddIcon />
+          </Fab>
+          <<%= entityClass %>Table items={items} onSelect={onSelect} />
+        </AuthenticatedView>
         <Notification
-          status={notificationStatus}
-          message={notificationMessage}
+          status={errorStatus}
+          message={errorMessage}
           onClose={this.closeNotification}
         />
-      </ThemeProvider>
+      </>
     );
   }
 }
 
 <%= ComponentName %>.propTypes = {
+  classes: PropTypes.shape({
+    fab: PropTypes.string,
+  }).isRequired,
+  onAdd: PropTypes.func,
   onError: PropTypes.func,
   onSelect: PropTypes.func,
+  t: PropTypes.func.isRequired,
+  keycloak: keycloakType.isRequired,
 };
 
 <%= ComponentName %>.defaultProps = {
-  onError: () => {
-  },
-  onSelect: () => {
-  },
+  onAdd: () => {},
+  onError: () => {},
+  onSelect: () => {},
 };
+
+export default withKeycloak(
+  withStyles(styles)(withTranslation(undefined, { withRef: true })(<%= ComponentName %>))
+);
