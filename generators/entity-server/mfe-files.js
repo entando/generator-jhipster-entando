@@ -7,19 +7,19 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/detailsWidget/jsconfig.json',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/jsconfig.json`,
+            file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget-descriptor.yaml`,
             method: 'copy',
         },
         {
             file: '/detailsWidget/bundle/details-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/${generator.entityFileName}-details-widget.ftl`,
-            useBluePrint: true,
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.ftl`,
+            method: 'copy',
         },
         {
-            file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.yaml`,
-            useBluePrint: true,
+            file: '/detailsWidget/jsconfig.json',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/jsconfig.json`,
+            method: 'copy',
         },
         {
             file: '/detailsWidget/package.json',
@@ -50,6 +50,16 @@ const files = {
             file: '/detailsWidget/src/api/entity.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/api/${generator.entityInstance}.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
+        },
+        {
+            file: '/detailsWidget/src/auth/KeycloakContext.js',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/auth/KeycloakContext.js`,
+            method: 'copy',
+        },
+        {
+            file: '/detailsWidget/src/auth/KeycloakViews.js',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/auth/KeycloakViews.js`,
+            method: 'copy',
         },
         {
             file: '/detailsWidget/src/components/EntityDetails.js',
@@ -87,6 +97,11 @@ const files = {
             useBluePrint: true,
         },
         {
+            file: '/detailsWidget/src/components/__types__/keycloak.js',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/__types__/keycloak.js`,
+            method: 'copy',
+        },
+        {
             file: '/detailsWidget/src/components/common/Notification.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/components/common/Notification.js`,
             method: 'copy',
@@ -100,6 +115,16 @@ const files = {
             file: '/detailsWidget/src/custom-elements/EntityDetailsElement.js',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/custom-elements/${generator.entityClass}DetailsElement.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
+        },
+        {
+            file: '/detailsWidget/src/custom-elements/widgetEventTypes.js',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/custom-elements/widgetEventTypes.js`,
+            method: 'copy',
+        },
+        {
+            file: '/detailsWidget/src/helpers/widgetEvents.js',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/src/helpers/widgetEvents.js`,
+            method: 'copy',
         },
         {
             file: '/detailsWidget/src/i18n/i18n.js',
@@ -132,19 +157,19 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/formWidget/jsconfig.json',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/jsconfig.json`,
+            file: '/formWidget/bundle/form-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget-descriptor.yaml`,
             method: 'copy',
         },
         {
-            file: '/formWidget/bundle/form-widget-descriptor.yaml',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget.yaml`,
-            useBluePrint: true,
+            file: '/formWidget/bundle/form-widget.ftl',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget.ftl`,
+            method: 'copy',
         },
         {
-            file: '/formWidget/bundle/form-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/${generator.entityFileName}-form-widget.ftl`,
-            useBluePrint: true,
+            file: '/formWidget/jsconfig.json',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/jsconfig.json`,
+            method: 'copy',
         },
         {
             file: '/formWidget/package.json',
@@ -283,19 +308,19 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/tableWidget/jsconfig.json',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/jsconfig.json`,
+            file: '/tableWidget/bundle/table-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget-descriptor.yaml`,
             method: 'copy',
         },
         {
-            file: '/tableWidget/bundle/table-widget-descriptor.yaml',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget.yaml`,
-            useBluePrint: true,
+            file: '/tableWidget/bundle/table-widget.ftl',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget.ftl`,
+            method: 'copy',
         },
         {
-            file: '/tableWidget/bundle/table-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/${generator.entityFileName}-table-widget.ftl`,
-            useBluePrint: true,
+            file: '/tableWidget/jsconfig.json',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/jsconfig.json`,
+            method: 'copy',
         },
         {
             file: '/tableWidget/package.json',

@@ -1,10 +1,13 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/detailsWidget/src/components/${generator.entityClass}DetailsContainer.js`" } -%>
 import React from 'react';
 import PropTypes from 'prop-types';
-import i18next from 'i18next';
+import { withTranslation } from 'react-i18next';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core';
 
+import keycloakType from 'components/__types__/keycloak';
+import { withKeycloak } from 'auth/KeycloakContext';
+import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
 import <%= entityClass %>Details from 'components/<%= entityClass %>Details';
 import Notification from 'components/common/Notification';
 import get<%= entityClass %> from 'api/<%= entityInstance %>';
@@ -23,46 +26,81 @@ class <%= ComponentName %> extends React.Component {
 
     this.theme = createMuiTheme();
     this.closeNotification = this.closeNotification.bind(this);
+    this.fetchData = this.fetchData.bind(this);
   }
 
   componentDidMount() {
-    const { id, onError } = this.props;
+    const { keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
 
-    if (id) {
-      get<%= entityClass %>({ id })
-        .then(response => this.setState({
-          notificationStatus: null,
-          notificationMessage: null,
-          <%= entityInstance %>: response
-        }))
-        .catch(e => {
-          onError(e);
-          this.setState({
-            notificationStatus: 'error',
-            notificationMessage: i18next.t('common.couldNotFetchData'),
-          });
-        })
-        .finally(() => this.setState({ loading: false }));
-    } else {
-      this.setState({
-        loading: false,
-        notificationStatus: 'error',
-        notificationMessage: i18next.t('common.missingId'),
-      });
+    if (authenticated) {
+      this.fetchData();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    const changedAuth = prevProps.keycloak.authenticated !== authenticated;
+
+    if (authenticated && changedAuth) {
+      this.fetchData();
+    }
+  }
+
+  fetchData() {
+    const { id, onError, t, keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    if (authenticated) {
+      if (id) {
+        get<%= entityClass %>({ id })
+          .then(response =>
+            this.setState({
+              notificationStatus: null,
+              notificationMessage: null,
+              <%= entityInstance %>: response,
+            })
+          )
+          .catch(e => {
+            onError(e);
+            this.setState({
+              notificationStatus: Notification.ERROR,
+              notificationMessage: t('common.couldNotFetchData'),
+            });
+          })
+          .finally(() => this.setState({ loading: false }));
+      } else {
+        this.setState({
+          loading: false,
+          notificationStatus: Notification.ERROR,
+          notificationMessage: t('common.missingId'),
+        });
+      }
     }
   }
 
   closeNotification() {
-    this.setState({ error: null });
+    this.setState({
+      notificationStatus: null,
+      notificationMessage: null,
+    });
   }
 
   render() {
     const { <%= entityInstance %>, notificationStatus, notificationMessage, loading } = this.state;
+    const { t, keycloak } = this.props;
 
     return (
       <ThemeProvider theme={this.theme}>
-        {loading && i18next.t('common.loading')}
-        {!loading && <<%= entityClass %>Details <%= entityInstance %>={<%= entityInstance %>} />}
+        <UnauthenticatedView keycloak={keycloak}>
+          {t('common.notAuthenticated')}
+        </UnauthenticatedView>
+        <AuthenticatedView keycloak={keycloak}>
+          {loading && t('common.loading')}
+          {!loading && <ConferenceDetails conference={conference} />}
+        </AuthenticatedView>
         <Notification
           status={notificationStatus}
           message={notificationMessage}
@@ -76,10 +114,12 @@ class <%= ComponentName %> extends React.Component {
 <%= ComponentName %>.propTypes = {
   id: PropTypes.string.isRequired,
   onError: PropTypes.func,
+  t: PropTypes.func.isRequired,
+  keycloak: keycloakType.isRequired,
 };
 
 <%= ComponentName %>.defaultProps = {
   onError: () => {},
 };
 
-export default <%= ComponentName %>;
+export default withKeycloak(withTranslation()(<%= ComponentName %>));
