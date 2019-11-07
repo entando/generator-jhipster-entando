@@ -11,8 +11,7 @@ describe('<%= entityClass %>Details component', () => {
   test('renders data in details widget', () => {
     const { getByText } = render(<<%= entityClass %>Details <%= entityInstance %>={<%= entityInstance %>Mock} />);
     <%# TODO: THIS ONLY APPLIES IF THE DATA IS NOT SHOWN AS A DIFFERENT ITEM (e.g. Boolean as checkbox) #%>
-    <%_ const singleEntityItem = mockData[0]; _%>
-    <%_ const firstEntityItemField = Object.keys(singleEntityItem)[0]; _%>
-    expect(getByText('<%= singleEntityItem[firstEntityItemField] %>')).toBeInTheDocument();
+    <%_ const firstField = fields[0].fieldName; _%>
+    expect(getByText('entities.<%= entityInstance %>.<%= firstField %>')).toBeInTheDocument();
   });
 });

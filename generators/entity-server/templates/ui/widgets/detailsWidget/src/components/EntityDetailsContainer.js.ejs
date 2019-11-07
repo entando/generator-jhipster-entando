@@ -99,7 +99,7 @@ class <%= ComponentName %> extends React.Component {
         </UnauthenticatedView>
         <AuthenticatedView keycloak={keycloak}>
           {loading && t('common.loading')}
-          {!loading && <ConferenceDetails conference={conference} />}
+          {!loading && <<%= entityClass %>Details <%= entityInstance %>={<%= entityInstance %>} />}
         </AuthenticatedView>
         <Notification
           status={notificationStatus}
