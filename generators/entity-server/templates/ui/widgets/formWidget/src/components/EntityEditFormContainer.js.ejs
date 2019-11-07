@@ -1,97 +1,131 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/${generator.entityClass}EditFormContainer.js`" } -%>
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import i18next from 'i18next';
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core';
-import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
-import Notification from 'components/common/Notification';
+import { withTranslation } from 'react-i18next';
+
+import keycloakType from 'components/__types__/keycloak';
+import { withKeycloak } from 'auth/KeycloakContext';
+import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
 import { api<%= entityClass %>Get, api<%= entityClass %>Put } from 'api/<%= entityInstancePlural %>';
+import Notification from 'components/common/Notification';
+import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
 
-<%_ const ComponentName = `${entityClass}EditFormContainer`; _%>
-class <%= ComponentName %> extends PureComponent {
-  theme = createMuiTheme();
-
-  state = {
-    <%= entityInstance %>: null,
-    notificationMessage: null,
-  };
-
+class <%= entityClass %>EditFormContainer extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      notificationMessage: null,
+      notificationStatus: null,
+    };
+
     this.closeNotification = this.closeNotification.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  async componentDidMount() {
-    const { id } = this.props;
-    if (!id) return;
-    try {
-      const <%= entityInstance %> = await api<%= entityClass %>Get(id);
-      this.setState({
-        <%= entityInstance %>,
-      });
-    } catch (err) {
-      this.handleError(err);
+  componentDidMount() {
+    const { keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    if (authenticated) {
+      this.fetchData();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { keycloak, id } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    const changedAuth = prevProps.keycloak.authenticated !== authenticated;
+    const changedId = id && id !== prevProps.id;
+
+    if (authenticated && (changedId || changedAuth)) {
+      this.fetchData();
+    }
+  }
+
+  async fetchData() {
+    const { keycloak, id } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    if (authenticated && id) {
+      try {
+        const <%= entityInstance %> = await api<%= entityClass %>Get(id);
+        this.setState(() => ({
+          <%= entityInstance %>,
+        }));
+      } catch (err) {
+        this.handleError(err);
+      }
     }
   }
 
   closeNotification() {
-    this.setState({ notificationMessage: null, notificationStatus: null });
+    this.setState(() => ({ notificationMessage: null }));
   }
 
   async handleSubmit(<%= entityInstance %>) {
-    try {
-      const updated<%= entityClass %> = await api<%= entityClass %>Put(<%= entityInstance %>);
-      const { onUpdate } = this.props;
-      onUpdate(updated<%= entityClass %>);
+    const { t, onUpdate, keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
 
-      this.setState({
-        <%= entityInstance %>: updated<%= entityClass %>,
-        notificationMessage: i18next.t('common.dataSaved'),
-        notificationStatus: 'success',
-      });
-    } catch (err) {
-      this.handleError(err);
+    if (authenticated) {
+      try {
+        const updated<%= entityClass %> = await api<%= entityClass %>Put(<%= entityInstance %>);
+        onUpdate(updated<%= entityClass %>);
+
+        this.setState({
+          <%= entityInstance %>: updated<%= entityClass %>,
+          notificationMessage: t('common.dataSaved'),
+          notificationStatus: Notification.SUCCESS,
+        });
+      } catch (err) {
+        this.handleError(err);
+      }
     }
   }
 
   handleError(err) {
-    const { onError } = this.props;
+    const { t, onError } = this.props;
     onError(err);
-    this.setState({
-      notificationMessage: i18next.t('errors.dataLoading'),
-      notificationStatus: 'error',
-    });
+    this.setState(() => ({
+      notificationMessage: t('errors.dataLoading'),
+      notificationStatus: Notification.ERROR,
+    }));
   }
 
   render() {
+    const { keycloak, t } = this.props;
     const { notificationMessage, notificationStatus, <%= entityInstance %> } = this.state;
+
     return (
-      <ThemeProvider theme={this.theme}>
-        <<%= entityClass %>Form
-          <%= entityInstance %>={<%= entityInstance %>}
-          onSubmit={this.handleSubmit}
-        />
+      <>
+        <UnauthenticatedView keycloak={keycloak}>
+          {t('common.notAuthenticated')}
+        </UnauthenticatedView>
+        <AuthenticatedView keycloak={keycloak}>
+          <<%= entityClass %>Form <%= entityInstance %>={<%= entityInstance %>} onSubmit={this.handleSubmit} />
+        </AuthenticatedView>
         <Notification
           status={notificationStatus}
           message={notificationMessage}
           onClose={this.closeNotification}
         />
-      </ThemeProvider>
+      </>
     );
   }
 }
 
-<%= ComponentName %>.propTypes = {
+<%= entityClass %>EditFormContainer.propTypes = {
   id: PropTypes.string.isRequired,
   onError: PropTypes.func,
   onUpdate: PropTypes.func,
+  t: PropTypes.func.isRequired,
+  keycloak: keycloakType.isRequired,
 };
 
-<%= ComponentName %>.defaultProps = {
-  onError: () => {},
+<%= entityClass %>EditFormContainer.defaultProps = {
   onUpdate: () => {},
+  onError: () => {},
 };
 
-export default <%= ComponentName %>;
+export default withKeycloak(withTranslation()(<%= entityClass %>EditFormContainer));
