@@ -2,9 +2,9 @@ INLINE_RUNTIME_CHUNK=false npm run build
 
 pushd build/static/js
 
-mv -f 2*.js vendor.conference-table.js
-mv -f main*.js main.conference-table.js
-mv -f runtime~main*.js runtime.conference-table.js
+mv -f 2*.js vendor.<%= entityInstance %>-table.js
+mv -f main*.js main.<%= entityInstance %>-table.js
+mv -f runtime~main*.js runtime.<%= entityInstance %>-table.js
 
 popd
 

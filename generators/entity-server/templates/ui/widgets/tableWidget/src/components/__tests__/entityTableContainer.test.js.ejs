@@ -2,6 +2,7 @@
 import React from 'react';
 import { render, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+
 import <%= entityInstance %>Mocks from 'components/__mocks__/<%= entityInstance %>Mocks';
 import { api<%= entityClassPlural %>Get } from 'api/<%= entityInstancePlural %>';
 import 'components/__mocks__/i18nMock';
@@ -26,7 +27,7 @@ jest.mock('auth/KeycloakContext', () => {
 });
 
 describe('<%= entityClass %>TableContainer', () => {
-    const errorMessageKey = 'conference.error.dataLoading';
+    const errorMessageKey = '<%= entityInstance %>.error.dataLoading';
 
     afterEach(() => {
         jest.clearAllMocks();

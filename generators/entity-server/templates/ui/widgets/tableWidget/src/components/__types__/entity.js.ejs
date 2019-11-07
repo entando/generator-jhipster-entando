@@ -4,14 +4,12 @@
 import PropTypes from 'prop-types';
 
 <%_ const ComponentName = `${entityInstance}Type`; _%>
-const <%= ComponentName %> = PropTypes.arrayOf(
-  PropTypes.shape({
-    id: PropTypes.number,
+const <%= ComponentName %> = PropTypes.shape({
+  id: PropTypes.number,
 
-    <%_ fields.forEach(function(field) { _%>
-    <%= field.fieldName %>: <%= getPropType(field) %>,
-    <%_ }) _%>
-  }),
-);
+  <%_ fields.forEach(function(field) { _%>
+  <%= field.fieldName %>: <%= getPropType(field) %>,
+  <%_ }) _%>
+});
 
 export default <%= ComponentName %>;

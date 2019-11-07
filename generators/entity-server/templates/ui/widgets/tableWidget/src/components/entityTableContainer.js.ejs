@@ -12,8 +12,8 @@ import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
 import <%= entityClass %>Table from 'components/<%= entityClass %>Table';
 import Notification from 'components/common/Notification';
 import { api<%= entityClassPlural %>Get } from 'api/<%= entityInstancePlural %>';
-import { reducer, initialState } from 'state/conference.reducer';
-import { ERROR_FETCH, CLEAR_ERRORS, READ_ALL } from 'state/conference.types';
+import { reducer, initialState } from 'state/<%= entityInstance %>.reducer';
+import { ERROR_FETCH, CLEAR_ERRORS, READ_ALL } from 'state/<%= entityInstance %>.types';
 
 const styles = {
   fab: {

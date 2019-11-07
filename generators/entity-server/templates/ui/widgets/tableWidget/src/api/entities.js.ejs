@@ -1,13 +1,12 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/api/${generator.entityInstancePlural}.js`" } -%>
 /* eslint-disable import/prefer-default-export */
-import { DOMAIN, JWT_TOKEN } from 'api/constants';
+import { DOMAIN } from 'api/constants';
 
 const getKeycloakToken = () => {
   if (
     window &&
     window.entando &&
     window.entando.keycloak &&
-    window.entando.keycloak.initialized &&
     window.entando.keycloak.authenticated
   ) {
     return window.entando.keycloak.token;
@@ -30,7 +29,7 @@ export const api<%= entityClassPlural %>Get = async () => {
 
   const defaultOptions = {
     headers: new Headers({
-      Authorization: `Bearer ${token || JWT_TOKEN}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     }),
   };
