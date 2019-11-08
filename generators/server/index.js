@@ -1,7 +1,8 @@
 /* eslint-disable consistent-return */
 const chalk = require('chalk');
 const ServerGenerator = require('generator-jhipster/generators/server');
-const serverFiles = require('./files').serverFiles;
+const writeFiles = require('./files').writeFiles;
+const customPrompts = require('./prompts');
 
 module.exports = class extends ServerGenerator {
     constructor(args, opts) {
@@ -18,12 +19,16 @@ module.exports = class extends ServerGenerator {
         jhContext.setupServerOptions(this, jhContext);
     }
 
-    get initializing() {
+    _initializing() {
         return super._initializing();
     }
 
+    get initializing() {
+        return this._initializing();
+    }
+
     _prompting() {
-        return super._prompting();
+        return customPrompts;
     }
 
     get prompting() {
@@ -79,7 +84,7 @@ module.exports = class extends ServerGenerator {
     }
 
     get writing() {
-        const jhipsterPhase = super._writing();
+        const customizedJhipsterPhase = writeFiles();
         const myCustomSteps = {
             updatePom() {
                 this._addMavenSnapshotRepository();
@@ -88,14 +93,8 @@ module.exports = class extends ServerGenerator {
                 this._addEntandoConfigServiceDependencies();
                 this._addEntandoAuthDependencies();
             },
-            writeApplicationYml() {
-                if (this.skipServer) return;
-
-                // write server side files
-                this.writeFilesToDisk(serverFiles, this, false, null);
-            }
         };
-        return { ...jhipsterPhase, ...myCustomSteps };
+        return { ...customizedJhipsterPhase, ...myCustomSteps };
     }
 
     get end() {

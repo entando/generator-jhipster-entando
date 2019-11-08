@@ -11,7 +11,7 @@ import { ThemeProvider } from '@material-ui/styles';
 
 const theme = createMuiTheme();
 
-describe('Conference Form', () => {
+describe('<%= entityClass %> Form', () => {
   it('shows form', () => {
     const { getByLabelText } = render(
       <ThemeProvider theme={theme}>

@@ -62,7 +62,7 @@ getYupValues = function(fields) {
       const fieldYupType = getYupType(field);
       const fieldYupRules = getYupValidationRules(field);
 
-      return `${field.fieldName}: yup.${[fieldYupType, ...fieldYupRules].join('.')},`;
+      return `${field.fieldName}: Yup.${[fieldYupType, ...fieldYupRules].join('.')},`;
     });
 }
 _%>

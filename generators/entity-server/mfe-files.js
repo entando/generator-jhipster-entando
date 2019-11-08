@@ -7,6 +7,16 @@ const files = {
             method: 'copy',
         },
         {
+            file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget-descriptor.yaml`,
+            method: 'copy',
+        },
+        {
+            file: '/detailsWidget/bundle/details-widget.ftl',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.ftl`,
+            method: 'copy',
+        },
+        {
             file: '/detailsWidget/jsconfig.json',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/jsconfig.json`,
             method: 'copy',
@@ -122,9 +132,34 @@ const files = {
             method: 'copy',
         },
         {
+            file: '/formWidget/README.md',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/README.md`,
+            useBluePrint: true,
+        },
+        {
+            file: '/formWidget/bundle/form-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget-descriptor.yaml`,
+            method: 'copy',
+        },
+        {
+            file: '/formWidget/bundle/form-widget.ftl',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget.ftl`,
+            method: 'copy',
+        },
+        {
+            file: '/formWidget/deploy-widget.sh',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/deploy-widget.sh`,
+            useBluePrint: true,
+        },
+        {
             file: '/formWidget/jsconfig.json',
             renameTo: generator => `/${generator.entityInstance}/formWidget/jsconfig.json`,
             method: 'copy',
+        },
+        {
+            file: '/formWidget/package-lock.json',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/package-lock.json`,
+            useBluePrint: true,
         },
         {
             file: '/formWidget/package.json',
@@ -162,6 +197,16 @@ const files = {
             useBluePrint: true,
         },
         {
+            file: '/formWidget/src/auth/KeycloakContext.js',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/src/auth/KeycloakContext.js`,
+            method: 'copy',
+        },
+        {
+            file: '/formWidget/src/auth/KeycloakViews.js',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/src/auth/KeycloakViews.js`,
+            method: 'copy',
+        },
+        {
             file: '/formWidget/src/components/EntityAddFormContainer.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/${generator.entityClass}AddFormContainer.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
@@ -180,11 +225,6 @@ const files = {
             file: '/formWidget/src/components/__mocks__/entityMocks.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
-        },
-        {
-            file: '/formWidget/src/components/__mocks__/i18nMock.js',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__mocks__/i18nMock.js`,
-            method: 'copy',
         },
         /*
         {
@@ -208,6 +248,11 @@ const files = {
             useBluePrint: true,
         },
         {
+            file: '/formWidget/src/components/__types__/keycloak.js',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__types__/keycloak.js`,
+            method: 'copy',
+        },
+        {
             file: '/formWidget/src/components/common/Notification.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/common/Notification.js`,
             method: 'copy',
@@ -216,6 +261,21 @@ const files = {
             file: '/formWidget/src/custom-elements/EntityFormElement.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/custom-elements/${generator.entityClass}FormElement.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
+        },
+        {
+            file: '/formWidget/src/custom-elements/widgetEventTypes.js',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/src/custom-elements/widgetEventTypes.js`,
+            useBluePrint: true,
+        },
+        {
+            file: '/formWidget/src/helpers/widgetEvents.js',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/src/helpers/widgetEvents.js`,
+            method: 'copy',
+        },
+        {
+            file: '/formWidget/src/i18n/__mocks__/i18nMock.js',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/src/i18n/__mocks__/i18nMock.js`,
+            method: 'copy',
         },
         {
             file: '/formWidget/src/i18n/constants.js',
@@ -250,7 +310,7 @@ const files = {
         {
             file: '/formWidget/src/i18n/yup.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/i18n/yup.js`,
-            method: 'copy',
+            useBluePrint: true,
         },
         {
             file: '/formWidget/src/index.js',
@@ -260,6 +320,16 @@ const files = {
         {
             file: '/tableWidget/.env',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/.env`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/bundle/table-widget-descriptor.yaml',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget-descriptor.yaml`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/bundle/table-widget.ftl',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget.ftl`,
             method: 'copy',
         },
         {

@@ -1,14 +1,26 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/api/${generator.entityInstancePlural}.js`" } -%>
-import { DOMAIN, JWT_TOKEN } from 'api/constants';
+import { DOMAIN } from 'api/constants';
 
-const resource = '<%= entityApiUrl %>';
+const getKeycloakToken = () => {
+  if (
+    window &&
+    window.entando &&
+    window.entando.keycloak &&
+    window.entando.keycloak.authenticated
+  ) {
+    return window.entando.keycloak.token;
+  }
+  return '';
+};
 
-const defaultOptions = {
+const getDefaultOptions = () => ({
   headers: new Headers({
-    Authorization: `Bearer ${JWT_TOKEN}`,
+    Authorization: `Bearer ${getKeycloakToken()}`,
     'Content-Type': 'application/json',
   }),
-};
+});
+
+const resource = '<%= entityApiUrl %>';
 
 const request = async (url, options) => {
   const response = await fetch(url, options);
@@ -21,7 +33,7 @@ const request = async (url, options) => {
 export const api<%= entityClass %>Get = async id => {
   const url = `${DOMAIN}/${resource}/${id}`;
   const options = {
-    ...defaultOptions,
+    ...getDefaultOptions(),
     method: 'GET',
   };
   return request(url, options);
@@ -30,7 +42,7 @@ export const api<%= entityClass %>Get = async id => {
 export const api<%= entityClass %>Post = async <%= entityInstance %> => {
   const url = `${DOMAIN}/${resource}`;
   const options = {
-    ...defaultOptions,
+    ...getDefaultOptions(),
     method: 'POST',
     body: <%= entityInstance %> ? JSON.stringify(<%= entityInstance %>) : null,
   };
@@ -40,7 +52,7 @@ export const api<%= entityClass %>Post = async <%= entityInstance %> => {
 export const api<%= entityClass %>Put = async <%= entityInstance %> => {
   const url = `${DOMAIN}/${resource}`;
   const options = {
-    ...defaultOptions,
+    ...getDefaultOptions(),
     method: 'PUT',
     body: <%= entityInstance %> ? JSON.stringify(<%= entityInstance %>) : null,
   };

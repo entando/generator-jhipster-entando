@@ -15,11 +15,6 @@ const serverFiles = {
                     renameTo: generator => `${generator.packageFolder}/web/rest/schema/${generator.entityClass}SchemaResource.java`,
                     useBluePrint: true,
                 },
-                {
-                    file: 'package/config/SecurityConfiguration.java',
-                    renameTo: generator => `${generator.packageFolder}/config/SecurityConfiguration.java`,
-                    useBluePrint: true,
-                },
             ],
         },
     ],

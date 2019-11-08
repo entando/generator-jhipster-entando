@@ -222,10 +222,6 @@ spring:
                 size: 2
     thymeleaf:
         mode: HTML
-    output:
-        ansi:
-          console-available: true
-<%_ if (authenticationType === 'oauth2') { _%>
     security:
         oauth2:
             client:
@@ -234,26 +230,8 @@ spring:
                         issuer-uri: http://localhost:9080/auth/realms/jhipster
                 registration:
                     oidc:
-                    <%_ if (applicationType === 'microservice') { _%>
                         client-id: internal
                         client-secret: internal
-                    <%_ } else { _%>
-                        client-id: web_app
-                        client-secret: web_app
-                    <%_ } _%>
-<%_ } else if (authenticationType === 'uaa') { _%>
-security:
-    oauth2:
-        client:
-            access-token-uri: http://localhost:9080/auth/realms/jhipster/protocol/openid-connect/token
-            user-authorization-uri: http://localhost:9080/auth/realms/jhipster/protocol/openid-connect/auth
-            client-id: web_app
-            client-secret: web_app
-            scope: openid profile email
-        resource:
-            filter-order: 3
-            user-info-uri: http://localhost:9080/auth/realms/jhipster/protocol/openid-connect/userinfo
-<%_ } _%>
 
 server:
     servlet:
@@ -279,17 +257,17 @@ jhipster:
     clientApp:
         name: "<%= angularAppName %>"
     # By default CORS is disabled. Uncomment to enable.
-    cors:
-        allowed-origins: "*"
-        allowed-methods: "*"
-        allowed-headers: "*"
+    # cors:
+    #     allowed-origins: "*"
+    #     allowed-methods: "*"
+    #     allowed-headers: "*"
     <%_ if (authenticationType === 'session') { _%>
-        exposed-headers: "Link,X-Total-Count"
+    #     exposed-headers: "Link,X-Total-Count"
     <%_ } else { _%>
-        exposed-headers: "Authorization,Link,X-Total-Count"
+    #     exposed-headers: "Authorization,Link,X-Total-Count"
     <%_ } _%>
-        allow-credentials: true
-        max-age: 1800
+    #     allow-credentials: true
+    #     max-age: 1800
     mail:
         from: <%= baseName %>@localhost
     swagger:
@@ -306,16 +284,11 @@ jhipster:
 
 # ===================================================================
 # Entando specific properties
-# Add your own application properties here, see the ApplicationProperties class
-# to have type-safe configuration, like in the JHipsterProperties above
-#
-# More documentation is available at:
-# https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 entando:
-    client-id: ${CLIENT_ID:<%=baseName%>}
-    client-secret: ${CLIENT_SECRET:<%=baseName%>}
+    client-id: ${KEYCLOAK_CLIENT_ID:<%=baseName%>}
+    client-secret: ${KEYCLOAK_CLIENT_SECRET:<%=baseName%>}
     access-token-uri: ${TOKEN_SERVICE:http://localhost:9080/auth/realms/entando-development}/protocol/openid-connect/token
     auth-service-uri: ${ENTANDO_AUTH:http://localhost:8082/}
     config-service-uri: ${ENTANDO_CONFIG:http://localhost:8083/}
@@ -330,4 +303,3 @@ entando:
 # ===================================================================
 
 # application:
-
