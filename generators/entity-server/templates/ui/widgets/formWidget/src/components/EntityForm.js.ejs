@@ -3,12 +3,19 @@
 <%_ include ../../../utils/import-mui _%>
 <%_ include ../../../utils/mui _%>
 <%_ const dependencies = getDependencies(fields); -%>
-import React from 'react';
+<%_ if (fieldsContainDate) { _%>
+import 'date-fns';
+<%_ } _%>
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import i18next from 'i18next';
-import { withStyles } from '@material-ui/styles';
-import Grid from '@material-ui/core/Grid';
+import { formValues, formTouched, formErrors } from 'components/__types__/<%= entityInstance %>';
+import { withFormik } from 'formik';
+import { withTranslation } from 'react-i18next';
+import { withStyles } from '@material-ui/core/styles';
+import { compose } from 'recompose';
+import * as Yup from 'yup';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 <%_ for (let dependency of dependencies) { _%>
 import <%=
   dependency[1].size > 1
@@ -16,12 +23,6 @@ import <%=
     : Array.from(dependency[1])
 %> from '<%= dependency[0] %>';
 <%_ } _%>
-import { withFormik } from 'formik';
-import * as yup from 'yup';
-
-import { compose } from 'recompose'; // TODO: REMOVE compose/recompose
-
-import { formValues, formTouched, formErrors } from 'components/__types__/<%= entityInstance %>';
 
 const styles = theme => ({
   root: {
@@ -33,106 +34,125 @@ const styles = theme => ({
 });
 
 <%_ const ComponentName = `${entityClass}Form`; _%>
-const <%= ComponentName %> = props => {
-  const {
-    classes,
-    values,
-    touched,
-    errors,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    setFieldValue,
-  } = props;
+class <%= ComponentName %> extends PureComponent {
+  render() {
+    const {
+      classes,
+      values,
+      touched,
+      errors,
+      handleChange,
+      handleBlur,
+      handleSubmit: formikHandleSubmit,
+      isSubmitting,
+      setFieldValue,
+      t,
+      i18n,
+    } = this.props;
 
-  <%_ if (fieldsContainDate) { _%>
-  const handleDateChange = field => value => {
-    setFieldValue(field, value);
-  };
-  <%_ } _%>
-  <%_ if (fieldsContainDate && (fieldsContainInstant || fieldsContainZonedDateTime)) { _%>
-  const dateTimeLabelFn = date => (date ? new Date(date).toLocaleString(i18next.language) : '');
-  <%_ } _%>
-  <%_ if (fieldsContainDate && fieldsContainLocalDate) { _%>
-  const dateLabelFn = date => (date ? new Date(date).toLocaleDateString(i18next.language) : '');
-  <%_ } _%>
-  const getHelperText = field => (errors[field] && touched[field] ? errors[field] : '');
-
-  return (
     <%_ if (fieldsContainDate) { _%>
-    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={dateFnsLocales[i18next.language]}>
+    const handleDateChange = field => value => {
+      setFieldValue(field, value);
+    };
     <%_ } _%>
-      <form onSubmit={handleSubmit} className={classes.root}>
-        <Grid container spacing={2}>
-          <%_ fields.forEach(field => { _%>
-          <Grid item xs={12} sm={6}>
-            <%_ if (field.fieldType === 'Boolean') { _%>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  id="<%= entityInstance %>-<%= field.fieldName %>"
-                  name="<%= field.fieldName %>"
-                  onChange={handleChange}
-                  checked={values.<%= field.fieldName %>}
-                  value="<%= entityInstance %>-<%= field.fieldName %>"
-                  color="primary"
-                />
-              }
-              label={i18next.t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
-            />
-            <%_ } else if (!field.fieldIsEnum) { _%>
-            <<%= getMuiInput(field) %>
-              id="<%= entityInstance %>-<%= field.fieldName %>"
-              error={errors.name && touched.name}
-              helperText={getHelperText('<%= field.fieldName %>')}
-              className={classes.textField}
-              onBlur={handleBlur}
-              value={values.<%= field.fieldName %>}
-              name="<%= field.fieldName %>"
-              <%_ if (['LocalDate', 'Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
-              onChange={handleDateChange('<%= field.fieldName %>')}
-              <%_ } else { _%>
-              onChange={handleChange}
+
+    <%_ if (fieldsContainDate && (fieldsContainInstant || fieldsContainZonedDateTime)) { _%>
+    const dateTimeLabelFn = date => (date ? new Date(date).toLocaleString(i18n.language) : '');
+    <%_ } _%>
+    <%_ if (fieldsContainDate && fieldsContainLocalDate) { _%>
+    const dateLabelFn = date => (date ? new Date(date).toLocaleDateString(i18n.language) : '');
+    <%_ } _%>
+    const getHelperText = field => (errors[field] && touched[field] ? errors[field] : '');
+
+    const handleSubmit = e => {
+      e.stopPropagation(); // avoids double submission caused by react-shadow-dom-retarget-events
+      formikHandleSubmit(e);
+    };
+
+    return (
+      <%_ if (fieldsContainDate) { _%>
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={dateFnsLocales[i18n.language]}>
+      <%_ } _%>
+        <form onSubmit={handleSubmit} className={classes.root} data-testid="conference-form">
+          <Grid container spacing={2}>
+            <%_ fields.forEach(field => { _%>
+            <Grid item xs={12} sm={6}>
+              <%_
+              if (field.fieldType === 'Boolean') {
+              _%>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    id="<%= entityInstance %>-<%= field.fieldName %>"
+                    name="<%= field.fieldName %>"
+                    onChange={handleChange}
+                    checked={values.<%= field.fieldName %>}
+                    value="<%= entityInstance %>-<%= field.fieldName %>"
+                    color="primary"
+                  />
+                }
+                label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              />
+              <%_
+              } else if (!field.fieldIsEnum) {
+              _%>
+              <<%= getMuiInput(field) %>
+                id="<%= entityInstance %>-<%= field.fieldName %>"
+                error={errors.<%= field.fieldName %> && touched.<%= field.fieldName %>}
+                helperText={getHelperText('<%= field.fieldName %>')}
+                className={classes.textField}
+                <%_ if (['LocalDate', 'Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
+                onChange={handleDateChange('<%= field.fieldName %>')}
+                <%_ } else { _%>
+                onChange={handleChange}
+                <%_ } _%>
+                <%_ if (!['LocalDate', 'Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
+                onBlur={handleBlur}
+                <%_ } _%>
+                value={values.<%= field.fieldName %>}
+                <%_ if (field.fieldType === 'LocalDate') { _%>
+                labelFunc={dateLabelFn}
+                <%_ } _%>
+                <%_ if (['Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
+                labelFunc={dateTimeLabelFn}
+                <%_ } _%>
+                name="<%= field.fieldName %>"
+                label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              />
+              <%_
+              } else if (field.fieldIsEnum) {
+              _%>
+              <%_ const ComponentName = getMuiInput(field); _%>
+              <InputLabel htmlFor="<%= entityInstance %>-<%= field.fieldName %>">
+                {t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              </InputLabel>
+              <<%= ComponentName %>
+                id="<%= entityInstance %>-<%= field.fieldName %>"
+                error={errors.<%= field.fieldName %> && touched.<%= field.fieldName %>}
+                className={classes.textField}
+                onBlur={handleBlur}
+                value={values.<%= field.fieldName %>}
+                name="<%= field.fieldName %>"
+                onChange={handleChange}
+              >
+                <%_ field.fieldValues.split(',').forEach(enumValue => { _%>
+                <MenuItem value="<%= enumValue %>"><%= enumValue %></MenuItem>
+                <%_ }) _%>
+              </<%= ComponentName %>>
               <%_ } _%>
-              <%_ if (field.fieldType === 'LocalDate') { _%>
-              labelFunc={dateLabelFn}
-              <%_ } _%>
-              <%_ if (['Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
-              labelFunc={dateTimeLabelFn}
-              <%_ } _%>
-              label={i18next.t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
-            />
-            <%_ } else if (field.fieldIsEnum) { _%>
-            <%_ const ComponentName = getMuiInput(field); _%>
-            <InputLabel htmlFor="<%= entityInstance %>-<%= field.fieldName %>">
-              {i18next.t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
-            </InputLabel>
-            <<%= ComponentName %>
-              id="<%= entityInstance %>-<%= field.fieldName %>"
-              error={errors.name && touched.name}
-              className={classes.textField}
-              onBlur={handleBlur}
-              value={values.<%= field.fieldName %>}
-              name="<%= field.fieldName %>"
-              onChange={handleChange}
-            >
-              <%_ field.fieldValues.split(',').forEach(enumValue => { _%>
-              <MenuItem value="<%= enumValue %>"><%= enumValue %></MenuItem>
-              <%_ }) _%>
-            </<%= ComponentName %>>
-            <%_ } _%>
+            </Grid>
+            <%_ }) _%>
+            <Button type="submit" color="primary" disabled={isSubmitting} data-testid="submit-btn">
+              {t('common.save')}
+            </Button>
           </Grid>
-          <%_ }) _%>
-          <Button type="submit" color="primary" data-testid="submit-btn">
-            {i18next.t('common.save')}
-          </Button>
-        </Grid>
-      </form>
-    <%_ if (fieldsContainDate) { _%>
-    </MuiPickersUtilsProvider>
-    <%_ } _%>
-  );
-};
+        </form>
+      <%_ if (fieldsContainDate) { _%>
+      </MuiPickersUtilsProvider>
+      <%_ } _%>
+    );
+  }
+}
 
 <%= ComponentName %>.propTypes = {
   classes: PropTypes.shape({
@@ -146,7 +166,10 @@ const <%= ComponentName %> = props => {
   handleChange: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
   setFieldValue: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  i18n: PropTypes.shape({ language: PropTypes.string }).isRequired,
 };
 
 <%= ComponentName %>.defaultProps = {
@@ -174,7 +197,7 @@ const empty<%= entityClass %> = {
 
 <%_ include ../../../utils/yup _%>
 <%_ const yupValues = getYupValues(fields); _%>
-const validationSchema = yup.object().shape({
+const validationSchema = Yup.object().shape({
   <%_ yupValues.forEach(yupField => { _%>
   <%= yupField %>
   <%_ }) _%>
@@ -187,8 +210,9 @@ const formikBag = {
 
   validationSchema,
 
-  handleSubmit: (values, { props: { onSubmit } }) => {
+  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
     onSubmit(values);
+    setSubmitting(false);
   },
 
   displayName: '<%= ComponentName %>',
@@ -196,5 +220,6 @@ const formikBag = {
 <%# // TODO: REMOVE compose/recompose %>
 export default compose(
   withStyles(styles, { withTheme: true }),
+  withTranslation(),
   withFormik(formikBag)
 )(<%= ComponentName %>);

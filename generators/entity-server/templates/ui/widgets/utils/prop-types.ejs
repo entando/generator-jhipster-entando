@@ -11,7 +11,7 @@ getPropType = function (field) {
     case 'Float':
     case 'Double':
     case 'BigDecimal':
-      return 'PropTypes.number';
+      return 'PropTypes.string';
     case 'LocalDate':
     case 'Instant':
     case 'ZonedDateTime':
@@ -46,7 +46,7 @@ getFormikValuePropType = function (field) {
     case 'Float':
     case 'Double':
     case 'BigDecimal':
-      return ['PropTypes.number'];
+      return ['PropTypes.string'];
     case 'LocalDate':
     case 'Instant':
     case 'ZonedDateTime':
@@ -82,7 +82,7 @@ getFormikTouchedPropType = function (field) {
     case 'ImageBlob':
     case 'BinaryFileBlob':
     case 'TextBlob':
-      return ['PropTypes.bool'];
+      return ['PropTypes.bool', 'PropTypes.shape()'];
   }
 
   return ['PropTypes.any'];

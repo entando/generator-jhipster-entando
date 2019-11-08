@@ -1,21 +1,23 @@
 <%# { "useBluePrint": true } -%>
+<%# { "useBluePrint": true } -%>
 {
   "errors": {
     "dataLoading": "Error during server connection"
   },
-  "entities": {
-    "conference": {
-      "name": "Name",
-      "summary": "Summary",
-      "start": "Start",
-      "end": "End"
-    }
-  },
   "common": {
     "save": "Save",
-    "dataSaved": "Data successfully saved"
+    "dataSaved": "Data successfully saved",
+    "notAuthenticated": "User is not authenticated."
   },
   "validation": {
     "required": "{{field}} is required"
+  },
+  "entities": {
+    "<%= entityInstance %>": {
+      "id": "ID",
+      <%_ fields.forEach(function(field){ _%>
+      "<%= field.fieldName %>": "entities.<%= entityInstance %>.<%= field.fieldName %>",
+      <%_ }) _%>
+    }
   }
 }

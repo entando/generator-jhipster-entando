@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Snackbar, SnackbarContent } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { green } from '@material-ui/core/colors';
+import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
-import { green } from '@material-ui/core/colors';
 
 const styles = theme => ({
   message: {
@@ -39,10 +39,19 @@ const statusIcon = {
   info: InfoIcon,
 };
 
-const Notification = ({ className, classes, status, message, onClose }) => {
-  if (!message) return '';
+const autoHideDurations = {
+  success: 3000,
+  error: null,
+  info: 5000,
+};
 
+const Notification = ({ className, classes, status: passedStatus, message, onClose }) => {
+  const isOpen = !!message;
+
+  const status = passedStatus || Notification.INFO;
   const Icon = statusIcon[status];
+  const autoHideDuration = autoHideDurations[status];
+
   const messageTemplate = (
     <span className={classes.message}>
       <Icon className={clsx(classes.icon, classes.iconStatus)} />
@@ -51,7 +60,7 @@ const Notification = ({ className, classes, status, message, onClose }) => {
   );
 
   return (
-    <Snackbar open onClose={onClose}>
+    <Snackbar open={isOpen} onClose={onClose} autoHideDuration={autoHideDuration}>
       <SnackbarContent
         className={clsx(classes[status], className)}
         message={messageTemplate}
@@ -65,6 +74,10 @@ const Notification = ({ className, classes, status, message, onClose }) => {
   );
 };
 
+Notification.SUCCESS = 'success';
+Notification.ERROR = 'error';
+Notification.INFO = 'info';
+
 Notification.propTypes = {
   classes: PropTypes.shape({
     message: PropTypes.string.isRequired,
@@ -73,7 +86,7 @@ Notification.propTypes = {
     error: PropTypes.string.isRequired,
   }).isRequired,
   className: PropTypes.string,
-  status: PropTypes.oneOf(['success', 'error', 'info']),
+  status: PropTypes.oneOf([Notification.SUCCESS, Notification.ERROR, Notification.INFO]),
   message: PropTypes.string,
   onClose: PropTypes.func,
 };
@@ -81,7 +94,7 @@ Notification.propTypes = {
 Notification.defaultProps = {
   message: null,
   className: '',
-  status: 'info',
+  status: Notification.INFO,
   onClose: () => {},
 };
 
