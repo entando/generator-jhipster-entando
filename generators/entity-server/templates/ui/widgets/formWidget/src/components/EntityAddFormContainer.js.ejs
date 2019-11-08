@@ -1,23 +1,24 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/components/${generator.entityClass}AddFormContainer.js`" } -%>
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core';
-import i18next from 'i18next';
+import { withTranslation } from 'react-i18next';
+
+import keycloakType from 'components/__types__/keycloak';
+import { withKeycloak } from 'auth/KeycloakContext';
+import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
 import { api<%= entityClass %>Post } from 'api/<%= entityInstancePlural %>';
-import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
 import Notification from 'components/common/Notification';
+import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
 
-<%_ const ComponentName = `${entityClass}AddFormContainer`; _%>
-class <%= ComponentName %> extends PureComponent {
-  theme = createMuiTheme();
-
-  state = {
-    notificationMessage: null,
-  };
-
+class <%= entityClass %>AddFormContainer extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      notificationMessage: null,
+      notificationStatus: null,
+    };
+
     this.closeNotification = this.closeNotification.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -27,52 +28,64 @@ class <%= ComponentName %> extends PureComponent {
   }
 
   async handleSubmit(<%= entityInstance %>) {
-    try {
-      const created<%= entityClass %> = await api<%= entityClass %>Post(<%= entityInstance %>);
-      const { onCreate } = this.props;
-      onCreate(created<%= entityClass %>);
+    const { t, onCreate, keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
 
-      this.setState({
-        notificationMessage: i18next.t('common.dataSaved'),
-        notificationStatus: 'success',
-      });
-    } catch (err) {
-      this.handleError(err);
+    if (authenticated) {
+      try {
+        const created<%= entityClass %> = await api<%= entityClass %>Post(<%= entityInstance %>);
+        onCreate(created<%= entityClass %>);
+        this.setState({
+          notificationMessage: t('common.dataSaved'),
+          notificationStatus: Notification.SUCCESS,
+        });
+      } catch (err) {
+        this.handleError(err);
+      }
     }
   }
 
   handleError(err) {
-    const { onError } = this.props;
+    const { onError, t } = this.props;
     onError(err);
     this.setState({
-      notificationMessage: i18next.t('errors.dataLoading'),
-      notificationStatus: 'error',
+      notificationMessage: t('errors.dataLoading'),
+      notificationStatus: Notification.ERROR,
     });
   }
 
   render() {
+    const { keycloak, t } = this.props;
     const { notificationMessage, notificationStatus } = this.state;
+
     return (
-      <ThemeProvider theme={this.theme}>
-        <<%= entityClass %>Form onSubmit={this.handleSubmit} />
+      <>
+        <UnauthenticatedView keycloak={keycloak}>
+          {t('common.notAuthenticated')}
+        </UnauthenticatedView>
+        <AuthenticatedView keycloak={keycloak}>
+          <<%= entityClass %>Form onSubmit={this.handleSubmit} />
+        </AuthenticatedView>
         <Notification
           status={notificationStatus}
           message={notificationMessage}
           onClose={this.closeNotification}
         />
-      </ThemeProvider>
+      </>
     );
   }
 }
 
-<%= ComponentName %>.propTypes = {
+<%= entityClass %>AddFormContainer.propTypes = {
   onError: PropTypes.func,
   onCreate: PropTypes.func,
+  t: PropTypes.func.isRequired,
+  keycloak: keycloakType.isRequired,
 };
 
-<%= ComponentName %>.defaultProps = {
+<%= entityClass %>AddFormContainer.defaultProps = {
   onError: () => {},
   onCreate: () => {},
 };
 
-export default <%= ComponentName %>;
+export default withKeycloak(withTranslation()(<%= entityClass %>AddFormContainer));

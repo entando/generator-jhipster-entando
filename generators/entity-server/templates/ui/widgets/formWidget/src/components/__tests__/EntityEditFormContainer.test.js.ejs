@@ -9,6 +9,22 @@ import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %
 
 jest.mock('api/<%= entityInstancePlural %>');
 
+jest.mock('auth/KeycloakContext', () => {
+  const withKeycloak = Component => {
+    return props => (
+      <Component
+        {...props} // eslint-disable-line react/jsx-props-no-spreading
+        keycloak={{
+          initialized: true,
+          authenticated: true,
+        }}
+      />
+    );
+  };
+
+  return { withKeycloak };
+});
+
 describe('ConferenceEditFormContainer', () => {
   beforeEach(() => {
     jest.clearAllMocks();
