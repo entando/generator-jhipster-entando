@@ -7,6 +7,11 @@ const files = {
             method: 'copy',
         },
         {
+            file: '/detailsWidget/README.md',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/README.md`,
+            method: 'copy',
+        },
+        {
             file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget-descriptor.yaml`,
             useBluePrint: true,
@@ -20,6 +25,11 @@ const files = {
             file: '/detailsWidget/jsconfig.json',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/jsconfig.json`,
             method: 'copy',
+        },
+        {
+            file: '/detailsWidget/package-lock.json',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/package-lock.json`,
+            useBluePrint: true,
         },
         {
             file: '/detailsWidget/package.json',
