@@ -9,12 +9,12 @@ const files = {
         {
             file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget-descriptor.yaml`,
-            method: 'copy',
+            useBluePrint: true,
         },
         {
             file: '/detailsWidget/bundle/details-widget.ftl',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.ftl`,
-            method: 'copy',
+            useBluePrint: true,
         },
         {
             file: '/detailsWidget/jsconfig.json',
