@@ -5,24 +5,24 @@ getYupType = function(field) {
   const fieldType = getJHipsterType(field); // from 'utils/jhipster'
   switch (fieldType) {
     case 'String':
-      return 'string()';
+      return ['string()'];
     case 'Integer':
     case 'Long':
     case 'Float':
     case 'Double':
     case 'BigDecimal':
-      return 'number()';
+      return ['number()'];
     case 'LocalDate':
     case 'Instant':
     case 'ZonedDateTime':
-      return 'date()';
+      return ['date()', 'nullable()'];
     case 'Boolean':
-      return 'boolean()';
+      return ['boolean()'];
     case 'Enum':
     case 'ImageBlob':
     case 'BinaryFileBlob':
     case 'TextBlob':
-      return 'string()';
+      return ['string()'];
   }
 }
 
@@ -62,7 +62,7 @@ getYupValues = function(fields) {
       const fieldYupType = getYupType(field);
       const fieldYupRules = getYupValidationRules(field);
 
-      return `${field.fieldName}: Yup.${[fieldYupType, ...fieldYupRules].join('.')},`;
+      return `${field.fieldName}: Yup.${[...fieldYupType, ...fieldYupRules].join('.')},`;
     });
 }
 _%>
