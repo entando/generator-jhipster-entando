@@ -61,7 +61,6 @@ describe('<%= entityClass %>AddFormContainer', () => {
     fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
     
     <%_ }) _%>
-
     rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
 
     const saveButton = await findByTestId('submit-btn');
@@ -89,9 +88,8 @@ describe('<%= entityClass %>AddFormContainer', () => {
     <%_ fields.forEach(field => { _%>
     const <%= field.fieldName %>Field = await findByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>');
     fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
-    
-    <%_ }) _%>
 
+    <%_ }) _%>
     rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
 
     const saveButton = await findByTestId('submit-btn');
