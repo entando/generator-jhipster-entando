@@ -27,31 +27,31 @@ jest.mock('auth/KeycloakContext', () => {
 });
 
 describe('<%= entityClass %>TableContainer', () => {
-    const errorMessageKey = '<%= entityInstance %>.error.dataLoading';
+  const errorMessageKey = '<%= entityInstance %>.error.dataLoading';
 
-    afterEach(() => {
-        jest.clearAllMocks();
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('calls API', async () => {
+    api<%= entityClassPlural %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mocks));
+    const { queryByText } = render(<<%= entityClass %>TableContainer />);
+
+    await wait(() => {
+      expect(api<%= entityClassPlural %>Get).toHaveBeenCalledTimes(1);
+      expect(queryByText(errorMessageKey)).not.toBeInTheDocument();
     });
+  });
 
-    it('calls API', async () => {
-        api<%= entityClassPlural %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mocks));
-        const { queryByText } = render(<<%= entityClass %>TableContainer />);
-
-        await wait(() => {
-            expect(api<%= entityClassPlural %>Get).toHaveBeenCalledTimes(1);
-            expect(queryByText(errorMessageKey)).not.toBeInTheDocument();
-        });
+  it('shows an error if the API call is not successful', async () => {
+    api<%= entityClassPlural %>Get.mockImplementation(() => {
+      throw new Error();
     });
+    const { getByText } = render(<<%= entityClass %>TableContainer />);
 
-    it('shows an error if the API call is not successful', async () => {
-        api<%= entityClassPlural %>Get.mockImplementation(() => {
-            throw new Error();
-        });
-        const { getByText } = render(<<%= entityClass %>TableContainer />);
-
-        wait(() => {
-            expect(api<%= entityClassPlural %>Get).toHaveBeenCalledTimes(1);
-            expect(getByText(errorMessageKey)).toBeInTheDocument();
-        });
+    wait(() => {
+      expect(api<%= entityClassPlural %>Get).toHaveBeenCalledTimes(1);
+      expect(getByText(errorMessageKey)).toBeInTheDocument();
     });
+  });
 });

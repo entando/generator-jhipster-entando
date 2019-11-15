@@ -1,6 +1,6 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/api/${generator.entityInstancePlural}.js`" } -%>
-/* eslint-disable import/prefer-default-export */
 import { DOMAIN } from 'api/constants';
+import { getFilterQuery } from 'components/filters/utils';
 
 const getKeycloakToken = () => {
   if (
@@ -22,8 +22,11 @@ const request = async (url, options) => {
     : Promise.reject(new Error(response.statusText || response.status));
 };
 
-export const api<%= entityClassPlural %>Get = async () => {
-  const url = `${DOMAIN}/<%= entityApiUrl %>`;
+/* eslint-disable-next-line import/prefer-default-export */
+export const api<%= entityClassPlural %>Get = async ({ filters = [] }) => {
+  const query = getFilterQuery(filters);
+
+  const url = `${DOMAIN}/<%= entityApiUrl %>${query ? `?${query}` : ''}`;
 
   const token = getKeycloakToken();
 

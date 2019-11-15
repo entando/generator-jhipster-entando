@@ -12,13 +12,13 @@ import TableHead from '@material-ui/core/TableHead';
 import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %>';
 
 const styles = {
-    root: {
-        cursor: 'pointer',
-    },
+  root: {
+    cursor: 'pointer',
+  },
 };
 
 <%_ const ComponentName = `${entityClass}Table`; _%>
-const <%= ComponentName %> = ({ items, onSelect, classes, t, i18n }) => {
+const <%= ComponentName %> = ({ items, onSelect, classes, t }) => {
   const tableRows = items.map(item => (
     <TableRow
       hover
@@ -38,14 +38,12 @@ const <%= ComponentName %> = ({ items, onSelect, classes, t, i18n }) => {
         <TableRow>
           <%_ for (field in fields) { _%>
           <TableCell>
-            <span>{ t('entities.<%= entityInstance %>.<%= fields[field].fieldName %>') }</span>
+            <span>{t('entities.<%= entityInstance %>.<%= fields[field].fieldName %>')}</span>
           </TableCell>
           <%_ } _%>
         </TableRow>
       </TableHead>
-      <TableBody>
-          { tableRows }
-      </TableBody>
+      <TableBody>{tableRows}</TableBody>
     </Table>
   ) : (
     t('entities.<%= entityInstance %>.noItems')
@@ -56,7 +54,7 @@ const <%= ComponentName %> = ({ items, onSelect, classes, t, i18n }) => {
   items: PropTypes.arrayOf(<%= entityInstance %>Type).isRequired,
   onSelect: PropTypes.func,
   classes: PropTypes.shape({
-      root: PropTypes.string,
+    root: PropTypes.string,
   }).isRequired,
   t: PropTypes.func.isRequired,
 };
