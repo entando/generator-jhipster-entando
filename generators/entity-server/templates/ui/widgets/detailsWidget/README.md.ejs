@@ -1,5 +1,5 @@
 <%# { "useBluePrint": true } -%>
-# Table Widget
+# Details Widget
 
 ## Running locally
 
@@ -20,7 +20,7 @@ Widgets use Keycloak for authentication. To use widget locally follow these step
     1. `.antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll()` after `.antMatchers("/api/auth-info").permitAll()`
 1. If needed (should be automated in future releases), uncomment CORS configurations at `<MICROSERVICE_FOLDER>/src/main/resources/config/application-dev.yml` and/or `<MICROSERVICE_FOLDER>/src/main/resources/config/application.yml`
 1. Authenticate at http://localhost:9080/auth/realms/jhipster/account/ using the user you have created.
-1. Go to widget source (<MICROSERVICE_FOLDER>/ui/widgets/<%= entityInstance %>/tableWidget/>):
+1. Go to widget source (<MICROSERVICE_FOLDER>/ui/widgets/<%= entityInstance %>/detailsWidget/>):
     1. Run `npm i`
     1. Add `.env` file with `REACT_APP_DOMAIN=http://localhost:<MICROSERICE_PORT=8081>/services/<MICROSERVICE_APPLICATION_NAME>/api`
     1. Run `npm start`
@@ -30,6 +30,7 @@ Widgets use Keycloak for authentication. To use widget locally follow these step
 ### Attributes
 
 - **locale** (default: `en`)
+- **id**
 
 ### Environment variables
 
@@ -37,28 +38,24 @@ There are several environment variables used in the widget that provide initial 
 
 - REACT_APP_DOMAIN - API endpoint for data (e.g., http://localhost:8081/services/jhipster/api)
 
-### Custom Events
+### Events
 
-- **<%= entityInstance %>.table.error** (fired when an error occurs)
-- **<%= entityInstance %>.table.select** (fired when a table row is selected)
-
-## Filters
-
-For filters to work, entities have to be built with this functionality enabled. Refer to JHipster documention for latest version (https://www.jhipster.tech/entities-filtering/).
-
-> When generating an entity with `jhipster entity` command, select services or service implementation to enable filtering on this entity.
-> If you want to enable filtering for existing entities, you can modify the entity configuration in your projects `.jhipster` directory, by setting `service` from `no` to `serviceClass` or `serviceImpl`, and `jpaMetamodelFiltering` to `true` and then re-generate with `jhipster entity <entity name>`.
-> When using JDL, add a line `filter <entity name>` to your JDL file and re-import the definitions with `jhipster import-jdl` command.
+- **<%= entityInstance %>.form.createError** (fired when an error occurs during <%= entityInstance %> creation)
+- **<%= entityInstance %>.form.create** (fired when the <%= entityInstance %> is successfully created)
+- **<%= entityInstance %>.form.updateError** (fired when an error occurs during <%= entityInstance %> update)
+- **<%= entityInstance %>.form.update** (fired when the <%= entityInstance %> is successfully updated)
 
 ## i18n
 
 To add a new locale:
 
 - add _[newLocaleName]_ under `options.lng` in `i18next-scanner-config.js` script
-- run `npm run i18n` from the terminal to add a new empty language file under `src/i18n/locales/[newLocaleName].json`
+- run `npm run i18n` from the terminal to add a new locale with empty translations file under `src/i18n/locales/[newLocaleName].json`
 - edit `src/i18n/locales.js`
-  - import the newly generated JSON file (use the en language import as a reference)
-  - export it alongside the other languages
+  - import the newly generated JSON file (use the en locale import as a reference)
+  - export it alongside the other locales
+
+Further translations can be required depending on the generated entity field types (e.g. if the entity has dates, we will need to add the `date-fns` locale used by the [Material UI Date Picker component](https://material-ui-pickers.dev/) and, potentially, we can [override `DateFnsUtils`'s methods](https://github.com/dmtrKovalenko/date-io/blob/master/packages/date-fns/src/date-fns-utils.ts) to customize date/time strings displayed in the date picker).
 
 ## Available Scripts
 

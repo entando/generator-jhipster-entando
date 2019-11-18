@@ -7,6 +7,11 @@ const files = {
             method: 'copy',
         },
         {
+            file: '/detailsWidget/README.md',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/README.md`,
+            useBluePrint: true,
+        },
+        {
             file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget-descriptor.yaml`,
             method: 'copy',
@@ -325,7 +330,7 @@ const files = {
         {
             file: '/tableWidget/README.md',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/README.md`,
-            method: 'copy',
+            useBluePrint: true,
         },
         {
             file: '/tableWidget/bundle/table-widget-descriptor.yaml',
