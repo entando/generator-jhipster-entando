@@ -134,10 +134,7 @@ module.exports = class extends EntityServerGenerator {
                 this.utils = {
                     getMockEntityData: this._getMockData,
                 };
-                this.mockData = [
-                    this._getMockData(this.fields),
-                    this._getMockData(this.fields),
-                ];
+                this.mockData = [this._getMockData(this.fields), this._getMockData(this.fields)];
             },
             writeEntityServerFiles() {
                 this.writeFilesToDisk(serverFiles, this, false, null);
@@ -164,7 +161,7 @@ module.exports = class extends EntityServerGenerator {
     }
 
     log(msg) {
-        console.log(msg)
+        console.log(msg);
     }
 
     fs() {

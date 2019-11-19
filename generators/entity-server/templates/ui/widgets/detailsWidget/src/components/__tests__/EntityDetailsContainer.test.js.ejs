@@ -10,6 +10,22 @@ import <%= entityClass %>DetailsContainer from 'components/<%= entityClass %>Det
 
 jest.mock('api/<%= entityInstance %>');
 
+jest.mock('auth/KeycloakContext', () => {
+  const withKeycloak = Component => {
+    return props => (
+      <Component
+        {...props} // eslint-disable-line react/jsx-props-no-spreading
+        keycloak={{
+          initialized: true,
+          authenticated: true,
+        }}
+      />
+    );
+  };
+
+  return { withKeycloak };
+});
+
 beforeEach(() => {
   get<%= entityClass %>.mockClear();
 });

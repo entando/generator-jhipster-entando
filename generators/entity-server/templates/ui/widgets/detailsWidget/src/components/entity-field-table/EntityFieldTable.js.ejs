@@ -20,7 +20,6 @@
     return `{${entityInstance}.${field.fieldName}}`;
   }
 _%>
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -32,7 +31,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %>';
 
-const <%= entityClass %>FieldTable = ({ t, i18n: { language }, <%= entityInstance %> }) => {
+const <%= entityClass %>FieldTable = ({ t, <% if (fieldsContainDate) { _%>i18n: { language }, <% } _%><%= entityInstance %> }) => {
   const translationKeyPrefix = `entities.<%= entityInstance %>.`;
 
   return (
@@ -70,9 +69,11 @@ const <%= entityClass %>FieldTable = ({ t, i18n: { language }, <%= entityInstanc
 <%= entityClass %>FieldTable.propTypes = {
   <%= entityInstance %>: <%= entityInstance %>Type,
   t: PropTypes.func.isRequired,
+  <%_ if (fieldsContainDate) { _%>
   i18n: PropTypes.shape({
     language: PropTypes.string,
   }).isRequired,
+  <%_ } _%>
 };
 
 <%= entityClass %>FieldTable.defaultProps = {
