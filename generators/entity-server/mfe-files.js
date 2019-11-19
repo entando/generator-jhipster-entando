@@ -353,19 +353,29 @@ const files = {
             useBluePrint: true,
         },
         {
-            file: '/tableWidget/.env',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/.env`,
+            file: '/tableWidget/.gitignore',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/.gitignore`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/README.md',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/README.md`,
             method: 'copy',
         },
         {
             file: '/tableWidget/bundle/table-widget-descriptor.yaml',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget-descriptor.yaml`,
-            method: 'copy',
+            useBluePrint: true,
         },
         {
             file: '/tableWidget/bundle/table-widget.ftl',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/bundle/table-widget.ftl`,
-            method: 'copy',
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/deploy-widget.sh',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/deploy-widget.sh`,
+            useBluePrint: true,
         },
         {
             file: '/tableWidget/jsconfig.json',
@@ -408,14 +418,19 @@ const files = {
             useBluePrint: true,
         },
         {
+            file: '/tableWidget/src/auth/KeycloakContext.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/auth/KeycloakContext.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/auth/KeycloakViews.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/auth/KeycloakViews.js`,
+            method: 'copy',
+        },
+        {
             file: '/tableWidget/src/components/__mocks__/entityMocks.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
-        },
-        {
-            file: '/tableWidget/src/components/__mocks__/i18nMock.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__mocks__/i18nMock.js`,
-            method: 'copy',
         },
         {
             file: '/tableWidget/src/components/__tests__/entityTable.test.js',
@@ -431,6 +446,11 @@ const files = {
             file: '/tableWidget/src/components/__types__/entity.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__types__/${generator.entityInstance}.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/components/__types__/keycloak.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__types__/keycloak.js`,
+            method: 'copy',
         },
         {
             file: '/tableWidget/src/components/common/Notification.js',
@@ -453,8 +473,28 @@ const files = {
             useBluePrint: true,
         },
         {
-            file: '/tableWidget/src/i18n/i18n.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/i18n.js`,
+            file: '/tableWidget/src/custom-elements/widgetEventTypes.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/custom-elements/widgetEventTypes.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/helpers/widgetEvents.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/helpers/widgetEvents.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/i18n/__mocks__/i18nMock.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/__mocks__/i18nMock.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/i18n/constants.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/constants.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/i18n/i18next.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/i18next.js`,
             method: 'copy',
         },
         {
@@ -468,13 +508,8 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/tableWidget/src/i18n/locales/it.json',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/locales/it.json`,
-            useBluePrint: true,
-        },
-        {
-            file: '/tableWidget/src/index.css',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/index.css`,
+            file: '/tableWidget/src/i18n/setLocale.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/i18n/setLocale.js`,
             method: 'copy',
         },
         {
@@ -483,30 +518,45 @@ const files = {
             useBluePrint: true,
         },
         {
+            file: '/tableWidget/src/state/entity.reducer.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/state/${generator.entityInstance}.reducer.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/state/entity.types.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/state/${generator.entityInstance}.types.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        /*
+        {
             file: '/utils/import-mui',
             renameTo: generator => `/${generator.entityInstance}/utils/import-mui`,
-            method: 'copy',
         },
+        */
+        /*
         {
             file: '/utils/jhipster',
             renameTo: generator => `/${generator.entityInstance}/utils/jhipster`,
-            method: 'copy',
         },
+        */
+        /*
         {
             file: '/utils/mui',
             renameTo: generator => `/${generator.entityInstance}/utils/mui`,
-            method: 'copy',
         },
+        */
+        /*
         {
             file: '/utils/prop-types',
             renameTo: generator => `/${generator.entityInstance}/utils/prop-types`,
-            method: 'copy',
         },
+        */
+        /*
         {
             file: '/utils/yup',
             renameTo: generator => `/${generator.entityInstance}/utils/yup`,
-            method: 'copy',
         },
+        */
     ],
 };
 

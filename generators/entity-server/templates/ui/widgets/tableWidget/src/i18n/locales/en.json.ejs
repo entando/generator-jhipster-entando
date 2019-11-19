@@ -11,6 +11,9 @@
       <%_ fields.forEach(function(field){ _%>
       "<%= field.fieldName %>": "entities.<%= entityInstance %>.<%= field.fieldName %>",
       <%_ }) _%>
+      "error": {
+        "dataLoading": "Error during server connection"
+      }
     }
   }
 }
