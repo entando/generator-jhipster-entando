@@ -47,7 +47,7 @@ getFormikValuePropType = function (field) {
     case 'Float':
     case 'Double':
     case 'BigDecimal':
-      return ['PropTypes.string'];
+      return ['PropTypes.string', 'PropTypes.number'];
     case 'LocalDate':
     case 'Instant':
     case 'ZonedDateTime':
