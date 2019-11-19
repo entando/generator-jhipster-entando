@@ -162,8 +162,8 @@ const files = {
             useBluePrint: true,
         },
         {
-            file: '/formWidget/.env',
-            renameTo: generator => `/${generator.entityInstance}/formWidget/.env`,
+            file: '/formWidget/.gitignore',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/.gitignore`,
             method: 'copy',
         },
         {
@@ -174,12 +174,12 @@ const files = {
         {
             file: '/formWidget/bundle/form-widget-descriptor.yaml',
             renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget-descriptor.yaml`,
-            method: 'copy',
+            useBluePrint: true,
         },
         {
             file: '/formWidget/bundle/form-widget.ftl',
             renameTo: generator => `/${generator.entityInstance}/formWidget/bundle/form-widget.ftl`,
-            method: 'copy',
+            useBluePrint: true,
         },
         {
             file: '/formWidget/deploy-widget.sh',
@@ -261,12 +261,11 @@ const files = {
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
-        /*
         {
             file: '/formWidget/src/components/__tests__/EntityAddFormContainer.test.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__tests__/${generator.entityClass}AddFormContainer.test.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
         },
-        */
         {
             file: '/formWidget/src/components/__tests__/EntityEditFormContainer.test.js',
             renameTo: generator => `/${generator.entityInstance}/formWidget/src/components/__tests__/${generator.entityClass}EditFormContainer.test.js`, // eslint-disable-line prettier/prettier

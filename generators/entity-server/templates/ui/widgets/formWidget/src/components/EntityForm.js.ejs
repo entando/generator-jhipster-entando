@@ -82,6 +82,7 @@ class <%= ComponentName %> extends PureComponent {
               _%>
               <FormControlLabel
                 control={
+                  // eslint-disable-next-line react/jsx-wrap-multilines
                   <Checkbox
                     id="<%= entityInstance %>-<%= field.fieldName %>"
                     name="<%= field.fieldName %>"
@@ -123,20 +124,20 @@ class <%= ComponentName %> extends PureComponent {
               } else if (field.fieldIsEnum) {
               _%>
               <%_ const ComponentName = getMuiInput(field); _%>
-              <InputLabel htmlFor="<%= entityInstance %>-<%= field.fieldName %>">
-                {t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
-              </InputLabel>
+              <InputLabel htmlFor="<%= entityInstance %>-<%= field.fieldName %>">{t('entities.<%= entityInstance %>.<%= field.fieldName %>')}</InputLabel>
               <<%= ComponentName %>
+                native
                 id="<%= entityInstance %>-<%= field.fieldName %>"
                 error={errors.<%= field.fieldName %> && touched.<%= field.fieldName %>}
                 className={classes.textField}
-                onBlur={handleBlur}
                 value={values.<%= field.fieldName %>}
                 name="<%= field.fieldName %>"
                 onChange={handleChange}
               >
+                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                <option value="" />
                 <%_ field.fieldValues.split(',').forEach(enumValue => { _%>
-                <MenuItem value="<%= enumValue %>"><%= enumValue %></MenuItem>
+                <option value="<%= enumValue %>"><%= enumValue %></option>
                 <%_ }) _%>
               </<%= ComponentName %>>
               <%_ } _%>

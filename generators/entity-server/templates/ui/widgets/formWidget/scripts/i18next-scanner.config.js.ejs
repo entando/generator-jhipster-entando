@@ -13,7 +13,7 @@ module.exports = {
       list: ['i18next.t', 'i18n.t', 't'],
       extensions: ['.js', '.jsx'],
     },
-    lngs: ['en', 'it'],
+    lngs: ['en'],
     ns: ['translation'],
     resource: {
       loadPath: 'src/i18n/locales/{{lng}}.json',
