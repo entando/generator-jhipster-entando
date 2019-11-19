@@ -1,5 +1,29 @@
 <%# { "useBluePrint": true } -%>
-# Table Widget
+# Form Widget
+
+## Running locally
+
+Widgets use Keycloak for authentication. To use widget locally follow these steps (where prompted for port, use defaults):
+1. Downlaod and install Keycloak standalone server (this widget has been tested with Keycloak 7.0.1) from https://www.keycloak.org/downloads.html
+1. Setup Keycloak by visiting http://localhost:9080/auth/ (administrator login `admin/admin`)
+    1. Create realm named `jhipster`
+    1. Add client with
+        * name - `jhipster-entando-react-client`
+        * client protocol - `openid-connect`
+        * root URL - `http://localhost:3000/`
+        * valid redirect URIs - `http://localhost:3000/*`
+    1. Add user with all roles assigned
+1. Go to <KEYCLOAK_SERVER_FOLDER>/bin and run `./standalone.sh -Djboss.socket.binding.port-offset=1000` - this will offset the Keycloak port to 9080 (which is a default port JHipster uses)
+1. Create microservice application, add entity (this should create the widgets) and start the application.
+1. If needed (should be automated in future releases), update SecurityConfiguration.java file (<MICROSERVICE_FOLDER>/src/main/java/<PACKAGE_NAME_FOLDERS>/config/SecurityConfiguration.java) to allow OPTIONS requests by adding:
+    1. `import org.springframework.http.HttpMethod;` at the top
+    1. `.antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll()` after `.antMatchers("/api/auth-info").permitAll()`
+1. If needed (should be automated in future releases), uncomment CORS configurations at `<MICROSERVICE_FOLDER>/src/main/resources/config/application-dev.yml` and/or `<MICROSERVICE_FOLDER>/src/main/resources/config/application.yml`
+1. Authenticate at http://localhost:9080/auth/realms/jhipster/account/ using the user you have created.
+1. Go to widget source (<MICROSERVICE_FOLDER>/ui/widgets/<%= entityInstance %>/formWidget/>):
+    1. Run `npm i`
+    1. Add `.env` file with `REACT_APP_DOMAIN=http://localhost:<MICROSERICE_PORT=8081>/services/<MICROSERVICE_APPLICATION_NAME>/api`
+    1. Run `npm start`
 
 ## API
 

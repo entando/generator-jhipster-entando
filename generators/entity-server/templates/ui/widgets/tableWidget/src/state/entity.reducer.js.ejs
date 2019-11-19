@@ -1,6 +1,10 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/state/${generator.entityInstance}.reducer.js`" } -%>
 import { INPUT_EVENT_TYPES } from 'custom-elements/widgetEventTypes';
 import {
+  ADD_FILTER,
+  UPDATE_FILTER,
+  DELETE_FILTER,
+  CLEAR_FILTERS,
   READ_ALL,
   ERROR_FETCH,
   CLEAR_ERRORS,
@@ -10,6 +14,7 @@ import {
 } from 'state/<%= entityInstance %>.types';
 
 export const initialState = {
+  filters: [],
   items: [],
   errorMessage: null,
   errorStatus: null,
@@ -18,6 +23,25 @@ export const initialState = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_FILTER:
+      return {
+        ...state,
+        filters: [...state.filters, { field: '', operator: '', value: '' }],
+      };
+    case UPDATE_FILTER:
+      return {
+        ...state,
+        filters: state.filters.map((filter, index) =>
+          index === action.payload.filterId ? { ...filter, ...action.payload.values } : filter
+        ),
+      };
+    case DELETE_FILTER:
+      return {
+        ...state,
+        filters: state.filters.filter((f, index) => index !== action.payload.filterId),
+      };
+    case CLEAR_FILTERS:
+      return { ...state, filters: initialState.filters };
     case READ_ALL:
       return { ...state, items: action.payload };
     case ERROR_FETCH:
