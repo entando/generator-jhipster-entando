@@ -422,6 +422,16 @@ const files = {
             method: 'copy',
         },
         {
+            file: '/tableWidget/src/components/EntityTable.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}Table.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/components/EntityTableContainer.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}TableContainer.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
             file: '/tableWidget/src/components/__mocks__/entityMocks.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
@@ -457,16 +467,6 @@ const files = {
             method: 'copy',
         },
         {
-            file: '/tableWidget/src/components/entityTable.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}Table.js`, // eslint-disable-line prettier/prettier
-            useBluePrint: true,
-        },
-        {
-            file: '/tableWidget/src/components/entityTableContainer.js',
-            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/${generator.entityClass}TableContainer.js`, // eslint-disable-line prettier/prettier
-            useBluePrint: true,
-        },
-        {
             file: '/tableWidget/src/components/filters/Filter.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/filters/Filter.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
@@ -482,7 +482,22 @@ const files = {
             useBluePrint: true,
         },
         {
-            file: '/tableWidget/src/custom-elements/entityTableElement.js',
+            file: '/tableWidget/src/components/pagination/PaginationContext.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/pagination/PaginationContext.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/components/pagination/PaginationWrapper.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/pagination/PaginationWrapper.js`,
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/components/pagination/TablePaginationActions.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/pagination/TablePaginationActions.js`,
+            method: 'copy',
+        },
+        {
+            file: '/tableWidget/src/custom-elements/EntityTableElement.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/custom-elements/${generator.entityClass}TableElement.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
@@ -539,6 +554,12 @@ const files = {
         {
             file: '/tableWidget/src/state/entity.types.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/state/${generator.entityInstance}.types.js`, // eslint-disable-line prettier/prettier
+            useBluePrint: true,
+        },
+        {
+            file: '/tableWidget/src/state/filter.types.js',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/src/state/filter.types.js`,
+            useBluePrint: true,
         },
         /*
         {
