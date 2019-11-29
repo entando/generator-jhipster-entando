@@ -8,12 +8,12 @@ const files = {
         },
         {
             file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget-descriptor.yaml`,
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/${generator.entityInstance}-details-widget-descriptor.yaml`,
             useBluePrint: true,
         },
         {
             file: '/detailsWidget/bundle/details-widget.ftl',
-            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget.ftl`,
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/${generator.entityInstance}-details-widget.ftl`,
             useBluePrint: true,
         },
         {
