@@ -78,15 +78,14 @@ export INJECTION_POINT="<#-- entando_resource_injection_point -->"
 # This command assumes that the widgets are all under ui/widgets/<entity>/<widget>. The command finds all of the micro-frontends in those folders and
 # copies the result of the build into the bundle resources folder so that the bundle can be deployed to a digital exchange instance (or imported on an existing page).
 # The command also copies css optionally with this structure since some widgets will be js only 2>/dev/null || :
-
+echo "Generating the bundle folder tree for widgets"
 find ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'createFolderTree "$@"' bash {} \;
-
 mkdir -p bundle/resources/static/{js,css}
 
 #Fetch the top level service name from the pom and use this as the context directory for the publishing of assets specific to the project when building the bundle
 artifactId=$(awk -F'[><]' '/<artifactId>.*<\/artifactId>/ {print $3; exit}' pom.xml)
-
 echo "Updating bundle for service ${artifactId}"
+
 # For each widget under the structure ui/widgets/<entity>/<widget> generate an FTL file that imports the css and js that goes with that widget.
 # The FTL file from the widget itself is preserved and the imports are added at the top of the widget
 find bundle/ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'updateFTLTemplate "$@"' bash {} "$artifactId" \;
