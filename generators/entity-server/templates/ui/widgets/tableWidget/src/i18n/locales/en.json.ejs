@@ -1,5 +1,8 @@
 <%# { "useBluePrint": true } -%>
 {
+  "error": {
+    "dataLoading": "Error during server connection"
+  },
   "common": {
     "couldNotFetchData": "Unfortunately we could not fetch entity data",
     "notAuthenticated": "User is not authenticated.",
@@ -14,6 +17,7 @@
     }
   },
   "filters": {
+    "field": "Field",
     "value": "Value",
     "addFilter": "Add filter",
     "clearFilters": "Clear filters",
@@ -34,9 +38,6 @@
       <%_ fields.forEach(function(field){ _%>
       "<%= field.fieldName %>": "entities.<%= entityInstance %>.<%= field.fieldName %>",
       <%_ }) _%>
-      "error": {
-        "dataLoading": "Error during server connection"
-      }
     }
   }
 }

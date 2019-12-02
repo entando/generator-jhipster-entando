@@ -28,6 +28,21 @@ const styles = theme => ({
   root: {
     margin: theme.spacing(3),
   },
+  <%_ if (fieldsContainBlob) { _%>
+  button: {
+    marginBottom: '10px',
+  },
+  downloadAnchor: {
+    color: 'inherit',
+    textDecoration: 'inherit',
+    fontWeight: 'inherit',
+    '&:link, &:visited, &:hover, &:active': {
+      color: 'inherit',
+      textDecoration: 'inherit',
+      fontWeight: 'inherit',
+    },
+  },
+  <%_ } _%>
   textField: {
     width: '100%',
   },
@@ -63,6 +78,28 @@ class <%= ComponentName %> extends PureComponent {
     const dateLabelFn = date => (date ? new Date(date).toLocaleDateString(i18n.language) : '');
     <%_ } _%>
     const getHelperText = field => (errors[field] && touched[field] ? errors[field] : '');
+    <%_ if (fieldsContainBlob) { _%>
+    const getFormattedTime = () => {
+      const today = new Date();
+      return `${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}`;
+    };
+    <%_ } _%>
+
+    <%_ if (fieldsContainBlob) { _%>
+    const handleFiles = field => event => {
+      const uploadedFile = event.target;
+      const reader = new FileReader();
+      reader.onload = function() {
+        const dataURL = reader.result;
+        const imageData = dataURL.match(/data:([^;]*);base64,(.*)$/);
+        if (imageData && imageData[1] && imageData[2]) {
+          setFieldValue(field, imageData[2]);
+          setFieldValue(`${field}ContentType`, imageData[1]);
+        }
+      };
+      reader.readAsDataURL(uploadedFile.files[0]);
+    };
+    <%_ } _%>
 
     const handleSubmit = e => {
       e.stopPropagation(); // avoids double submission caused by react-shadow-dom-retarget-events
@@ -75,10 +112,13 @@ class <%= ComponentName %> extends PureComponent {
       <%_ } _%>
         <form onSubmit={handleSubmit} className={classes.root} data-testid="conference-form">
           <Grid container spacing={2}>
-            <%_ fields.forEach(field => { _%>
+            <%_
+            fields.forEach(field => {
+              const fieldType = getJHipsterType(field);
+            _%>
             <Grid item xs={12} sm={6}>
               <%_
-              if (field.fieldType === 'Boolean') {
+              if (fieldType === 'Boolean') {
               _%>
               <FormControlLabel
                 control={
@@ -95,7 +135,74 @@ class <%= ComponentName %> extends PureComponent {
                 label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
               />
               <%_
-              } else if (!field.fieldIsEnum) {
+              } else if (fieldType === 'ImageBlob') {
+              _%>
+              <InputLabel>{t('entities.<%= entityInstance %>-<%= field.fieldName %>')}</InputLabel>
+              <div>
+                <input
+                  style={{ display: 'none' }}
+                  id="<%= entityInstance %>-upload-file-button"
+                  accept="image/*"
+                  type="file"
+                  onChange={handleFiles('<%= entityInstance %>')}
+                />
+                <label htmlFor="<%= entityInstance %>-upload-file-button">
+                  <Button className={classes.button} component="span">
+                    {t('common.selectImageFile')}
+                  </Button>
+                </label>
+              </div>
+              {values.<%= entityInstance %> && (
+                <div>
+                  <img src={`data:${values.<%= entityInstance %>ContentType};base64, ${values.<%= entityInstance %>}`} alt="" />
+                </div>
+              )}
+              <%_
+              } else if (fieldType === 'BinaryFileBlob') {
+              _%>
+              <InputLabel>{t('entities.<%= entityInstance %>-<%= field.fieldName %>')}</InputLabel>
+              {values.<%= entityInstance %> && (
+                <a
+                  className={classes.downloadAnchor}
+                  download={`<%= entityInstance %>-${getFormattedTime()}`}
+                  href={`data:${values.<%= entityInstance %>ContentType};base64, ${values.<%= entityInstance %>}`}
+                >
+                  <Button className={classes.button}>{t('common.download')}</Button>
+                </a>
+              )}
+              <input
+                style={{ display: 'none' }}
+                id="<%= entityInstance %>-upload-file-button"
+                type="file"
+                onChange={handleFiles('<%= entityInstance %>')}
+              />
+              <label htmlFor="<%= entityInstance %>-upload-file-button">
+                <Button className={classes.button} component="span">
+                  {t('common.selectFile')}
+                </Button>
+              </label>
+              <%_
+              } else if (fieldType === 'Enum') {
+              _%>
+              <%_ const ComponentName = getMuiInput(field); _%>
+              <InputLabel htmlFor="<%= entityInstance %>-<%= field.fieldName %>">{t('entities.<%= entityInstance %>.<%= field.fieldName %>')}</InputLabel>
+              <<%= ComponentName %>
+                native
+                id="<%= entityInstance %>-<%= field.fieldName %>"
+                error={errors.<%= field.fieldName %> && touched.<%= field.fieldName %>}
+                className={classes.textField}
+                value={values.<%= field.fieldName %>}
+                name="<%= field.fieldName %>"
+                onChange={handleChange}
+              >
+                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                <option value="" />
+                <%_ field.fieldValues.split(',').forEach(enumValue => { _%>
+                <option value="<%= enumValue %>"><%= enumValue %></option>
+                <%_ }) _%>
+              </<%= ComponentName %>>
+              <%_
+              } else {
               _%>
               <<%= getMuiInput(field) %>
                 id="<%= entityInstance %>-<%= field.fieldName %>"
@@ -120,26 +227,6 @@ class <%= ComponentName %> extends PureComponent {
                 name="<%= field.fieldName %>"
                 label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
               />
-              <%_
-              } else if (field.fieldIsEnum) {
-              _%>
-              <%_ const ComponentName = getMuiInput(field); _%>
-              <InputLabel htmlFor="<%= entityInstance %>-<%= field.fieldName %>">{t('entities.<%= entityInstance %>.<%= field.fieldName %>')}</InputLabel>
-              <<%= ComponentName %>
-                native
-                id="<%= entityInstance %>-<%= field.fieldName %>"
-                error={errors.<%= field.fieldName %> && touched.<%= field.fieldName %>}
-                className={classes.textField}
-                value={values.<%= field.fieldName %>}
-                name="<%= field.fieldName %>"
-                onChange={handleChange}
-              >
-                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-                <option value="" />
-                <%_ field.fieldValues.split(',').forEach(enumValue => { _%>
-                <option value="<%= enumValue %>"><%= enumValue %></option>
-                <%_ }) _%>
-              </<%= ComponentName %>>
               <%_ } _%>
             </Grid>
             <%_ }) _%>
@@ -160,6 +247,8 @@ class <%= ComponentName %> extends PureComponent {
     root: PropTypes.string,
     textField: PropTypes.string,
     submitButton: PropTypes.string,
+    button: PropTypes.string,
+    downloadAnchor: PropTypes.string,
   }),
   values: formValues,
   touched: formTouched,
