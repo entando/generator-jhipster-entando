@@ -50,7 +50,7 @@ module.exports = class extends ServerGenerator {
     }
 
     _addUnspecificDependencies() {
-        this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, '<scope>provided</scope>');
+        this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, null);
         this.addMavenDependency('org.springframework.boot', 'spring-boot-starter-undertow', null, '<scope>provided</scope>');
     }
 
