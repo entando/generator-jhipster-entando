@@ -137,46 +137,46 @@ class <%= ComponentName %> extends PureComponent {
               <%_
               } else if (fieldType === 'ImageBlob') {
               _%>
-              <InputLabel>{t('entities.<%= entityInstance %>-<%= field.fieldName %>')}</InputLabel>
+              <InputLabel>{t('entities.<%= entityInstance %>.<%= field.fieldName %>')}</InputLabel>
               <div>
                 <input
                   style={{ display: 'none' }}
-                  id="<%= entityInstance %>-upload-file-button"
+                  id="<%= field.fieldName %>-upload-file-button"
                   accept="image/*"
                   type="file"
-                  onChange={handleFiles('<%= entityInstance %>')}
+                  onChange={handleFiles('<%= field.fieldName %>')}
                 />
-                <label htmlFor="<%= entityInstance %>-upload-file-button">
+                <label htmlFor="<%= field.fieldName %>-upload-file-button">
                   <Button className={classes.button} component="span">
                     {t('common.selectImageFile')}
                   </Button>
                 </label>
               </div>
-              {values.<%= entityInstance %> && (
+              {values.<%= field.fieldName %> && (
                 <div>
-                  <img src={`data:${values.<%= entityInstance %>ContentType};base64, ${values.<%= entityInstance %>}`} alt="" />
+                  <img src={`data:${values.<%= field.fieldName %>ContentType};base64, ${values.<%= field.fieldName %>}`} alt="" />
                 </div>
               )}
               <%_
               } else if (fieldType === 'BinaryFileBlob') {
               _%>
-              <InputLabel>{t('entities.<%= entityInstance %>-<%= field.fieldName %>')}</InputLabel>
-              {values.<%= entityInstance %> && (
+              <InputLabel>{t('entities.<%= entityInstance %>.<%= field.fieldName %>')}</InputLabel>
+              {values.<%= field.fieldName %> && (
                 <a
                   className={classes.downloadAnchor}
-                  download={`<%= entityInstance %>-${getFormattedTime()}`}
-                  href={`data:${values.<%= entityInstance %>ContentType};base64, ${values.<%= entityInstance %>}`}
+                  download={`<%= field.fieldName %>-${getFormattedTime()}`}
+                  href={`data:${values.<%= field.fieldName %>ContentType};base64, ${values.<%= field.fieldName %>}`}
                 >
                   <Button className={classes.button}>{t('common.download')}</Button>
                 </a>
               )}
               <input
                 style={{ display: 'none' }}
-                id="<%= entityInstance %>-upload-file-button"
+                id="<%= field.fieldName %>-upload-file-button"
                 type="file"
-                onChange={handleFiles('<%= entityInstance %>')}
+                onChange={handleFiles('<%= field.fieldName %>')}
               />
-              <label htmlFor="<%= entityInstance %>-upload-file-button">
+              <label htmlFor="<%= field.fieldName %>-upload-file-button">
                 <Button className={classes.button} component="span">
                   {t('common.selectFile')}
                 </Button>

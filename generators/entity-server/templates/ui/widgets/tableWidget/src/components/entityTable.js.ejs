@@ -25,6 +25,9 @@ const styles = {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
+  noItems: {
+    margin: '15px',
+  },
 };
 
 <%_ const ComponentName = `${entityClass}Table`; _%>
@@ -38,6 +41,10 @@ const <%= ComponentName %> = ({ items, onSelect, classes, t, i18n }) => {
           if (['Instant', 'ZonedDateTime'].includes(fieldType)) {
       _%>
       <TableCell><span>{new Date(item.<%= field.fieldName %>).toLocaleString(i18n.language)}</span></TableCell>  
+      <%_ } else if (fieldType === 'Boolean') { _%>
+      <TableCell align="center">
+        <Checkbox disabled checked={item.<%= field.fieldName %>} />
+      </TableCell>
       <%_ } else if (fieldType === 'LocalDate') { _%>
       <TableCell><span>{new Date(item.<%= field.fieldName %>).toLocaleDateString(i18n.language)}</span></TableCell>
       <%_ } else if (fieldType === 'ImageBlob') { _%>
@@ -61,7 +68,10 @@ const <%= ComponentName %> = ({ items, onSelect, classes, t, i18n }) => {
     <Table className={classes.tableRoot} stickyHeader>
       <TableHead>
         <TableRow>
-          <%_ for (field in fields) { _%>
+          <%_
+          for (fieldIndex in fields) {
+            const field = fields[fieldIndex];  
+          _%>
           <TableCell>
             <span>{t('entities.<%= entityInstance %>.<%= field.fieldName %>')}</span>
           </TableCell>
@@ -71,7 +81,7 @@ const <%= ComponentName %> = ({ items, onSelect, classes, t, i18n }) => {
       <TableBody>{tableRows}</TableBody>
     </Table>
   ) : (
-    t('entities.<%= entityInstance %>.noItems')
+    <div className={classes.noItems}>{t('entities.<%= entityInstance %>.noItems')}</div>
   ));
 };
 
@@ -81,6 +91,7 @@ const <%= ComponentName %> = ({ items, onSelect, classes, t, i18n }) => {
   classes: PropTypes.shape({
     rowRoot: PropTypes.string,
     tableRoot: PropTypes.string,
+    noItems: PropTypes.string,
   }).isRequired,
   t: PropTypes.func.isRequired,
   i18n: PropTypes.shape({ language: PropTypes.string }).isRequired,

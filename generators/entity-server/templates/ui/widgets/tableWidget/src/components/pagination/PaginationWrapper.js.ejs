@@ -30,19 +30,21 @@ const PaginationWrapper = ({ children, pagination, paginationMode, items, itemCo
     return (
       <>
         {children}
-        <TablePagination
-          component="div"
-          rowsPerPageOptions={itemsPerPageOptions}
-          count={itemCount}
-          rowsPerPage={pagination.itemsPerPage}
-          page={pagination.currentPage}
-          SelectProps={{
-            native: true,
-          }}
-          onChangePage={pagination.onChangeCurrentPage}
-          onChangeRowsPerPage={pagination.onChangeItemsPerPage}
-          ActionsComponent={TablePaginationActions}
-        />
+        { itemCount > 0 && (
+          <TablePagination
+            component="div"
+            rowsPerPageOptions={itemsPerPageOptions}
+            count={itemCount}
+            rowsPerPage={pagination.itemsPerPage}
+            page={pagination.currentPage}
+            SelectProps={{
+              native: true,
+            }}
+            onChangePage={pagination.onChangeCurrentPage}
+            onChangeRowsPerPage={pagination.onChangeItemsPerPage}
+            ActionsComponent={TablePaginationActions}
+          />
+        )}
       </>
     );
   }
