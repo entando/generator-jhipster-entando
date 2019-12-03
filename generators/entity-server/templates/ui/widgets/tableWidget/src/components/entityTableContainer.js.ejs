@@ -23,6 +23,11 @@ const styles = {
   fab: {
     float: 'right',
   },
+  tableWrapper: {
+    width: '100%',
+    overflowX: 'auto',
+    overflowY: 'hidden',
+  },
 };
 
 <%_ const ComponentName = `${entityClass}TableContainer`; _%>
@@ -158,7 +163,9 @@ class <%= ComponentName %> extends Component {
             filters={filters}
           />
           <PaginationWrapper items={items} paginationMode={paginationMode} itemCount={itemCount}>
-            <<%= entityClass %>Table items={items} onSelect={onSelect} />
+            <div className={classes.tableWrapper}>
+              <<%= entityClass %>Table items={items} onSelect={onSelect} />
+            </div>
           </PaginationWrapper>
         </AuthenticatedView>
         <Notification
@@ -174,6 +181,7 @@ class <%= ComponentName %> extends Component {
 <%= ComponentName %>.propTypes = {
   classes: PropTypes.shape({
     fab: PropTypes.string,
+    tableWrapper: PropTypes.string,
   }).isRequired,
   onAdd: PropTypes.func,
   onError: PropTypes.func,
