@@ -27,14 +27,16 @@ jest.mock('auth/KeycloakContext', () => {
 });
 
 describe('<%= entityClass %>TableContainer', () => {
-  const errorMessageKey = '<%= entityInstance %>.error.dataLoading';
+  const errorMessageKey = 'error.dataLoading';
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('calls API', async () => {
-    api<%= entityClassPlural %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mocks));
+    api<%= entityClassPlural %>Get.mockImplementation(() =>
+      Promise.resolve({ <%= entityInstancePlural %>: <%= entityInstance %>Mocks, count: 2 })
+    );
     const { queryByText } = render(<<%= entityClass %>TableContainer />);
 
     await wait(() => {

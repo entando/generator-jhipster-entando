@@ -4,7 +4,8 @@
 ## Running locally
 
 Widgets use Keycloak for authentication. To use widget locally follow these steps (where prompted for port, use defaults):
-1. Downlaod and install Keycloak standalone server (this widget has been tested with Keycloak 7.0.1) from https://www.keycloak.org/downloads.html
+1. Download and install Keycloak standalone server (this widget has been tested with Keycloak 7.0.1) from https://www.keycloak.org/downloads.html
+1. Go to <KEYCLOAK_SERVER_FOLDER>/bin and run `./standalone.sh -Djboss.socket.binding.port-offset=1000` - this will offset the Keycloak port to 9080 (which is a default port JHipster uses)
 1. Setup Keycloak by visiting http://localhost:9080/auth/ (administrator login `admin/admin`)
     1. Create realm named `jhipster`
     1. Add client with
@@ -13,7 +14,6 @@ Widgets use Keycloak for authentication. To use widget locally follow these step
         * root URL - `http://localhost:3000/`
         * valid redirect URIs - `http://localhost:3000/*`
     1. Add user with all roles assigned
-1. Go to <KEYCLOAK_SERVER_FOLDER>/bin and run `./standalone.sh -Djboss.socket.binding.port-offset=1000` - this will offset the Keycloak port to 9080 (which is a default port JHipster uses)
 1. Create microservice application, add entity (this should create the widgets) and start the application.
 1. If needed (should be automated in future releases), update SecurityConfiguration.java file (<MICROSERVICE_FOLDER>/src/main/java/<PACKAGE_NAME_FOLDERS>/config/SecurityConfiguration.java) to allow OPTIONS requests by adding:
     1. `import org.springframework.http.HttpMethod;` at the top
@@ -30,6 +30,7 @@ Widgets use Keycloak for authentication. To use widget locally follow these step
 ### Attributes
 
 - **locale** (default: `en`)
+- **pagination-mode** (default: `''`), `''` | `'infinite-scroll'` | `'pagination'`
 
 ### Environment variables
 

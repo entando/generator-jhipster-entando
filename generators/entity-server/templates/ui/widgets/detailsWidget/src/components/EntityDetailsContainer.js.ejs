@@ -56,11 +56,11 @@ class <%= ComponentName %> extends React.Component {
     if (authenticated) {
       if (id) {
         get<%= entityClass %>({ id })
-          .then(response =>
+          .then(<%= entityInstance %> =>
             this.setState({
               notificationStatus: null,
               notificationMessage: null,
-              <%= entityInstance %>: response,
+              <%= entityInstance %>,
             })
           )
           .catch(e => {

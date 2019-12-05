@@ -11,6 +11,7 @@ const styles = {
   root: {
     flexGrow: 1,
     padding: '5px',
+    marginRight: '65px',
   },
   paper: {
     padding: '5px',

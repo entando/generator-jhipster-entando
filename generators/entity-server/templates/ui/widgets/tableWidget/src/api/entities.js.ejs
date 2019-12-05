@@ -17,16 +17,36 @@ const getKeycloakToken = () => {
 const request = async (url, options) => {
   const response = await fetch(url, options);
 
+  const headers = {
+    ...(response.headers.has('X-Total-Count')
+      ? { 'X-Total-Count': parseInt(response.headers.get('X-Total-Count'), 10) }
+      : {}),
+  };
+
   return response.status >= 200 && response.status < 300
-    ? response.json()
+    ? { <%= entityInstancePlural %>: await response.json(), headers }
     : Promise.reject(new Error(response.statusText || response.status));
 };
 
-/* eslint-disable-next-line import/prefer-default-export */
-export const api<%= entityClassPlural %>Get = async ({ filters = [] }) => {
-  const query = getFilterQuery(filters);
+const getUrl = (url, filters = '', pagination = '') => {
+  const hasQuery = !!(filters || pagination);
+  const parameters = `${filters}${filters ? '&' : ''}${pagination}`;
+  return `${url}${hasQuery ? `?${parameters}` : ''}`;
+};
 
-  const url = `${DOMAIN}/<%= entityApiUrl %>${query ? `?${query}` : ''}`;
+/* eslint-disable-next-line import/prefer-default-export */
+export const api<%= entityClassPlural %>Get = async ({ filters = [], pagination, mode }) => {
+  const filterQuery = getFilterQuery(filters);
+
+  const paginationQuery = pagination
+    ? `page=${pagination.page}&size=${pagination.rowsPerPage}`
+    : '';
+
+  const url = getUrl(
+    `${DOMAIN}/<%= entityApiUrl %>${mode === 'count' ? '/count' : ''}`,
+    filterQuery,
+    paginationQuery
+  );
 
   const token = getKeycloakToken();
 
