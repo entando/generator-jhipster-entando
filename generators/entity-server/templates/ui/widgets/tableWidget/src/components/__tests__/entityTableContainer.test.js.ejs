@@ -34,7 +34,9 @@ describe('<%= entityClass %>TableContainer', () => {
   });
 
   it('calls API', async () => {
-    api<%= entityClassPlural %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mocks));
+    api<%= entityClassPlural %>Get.mockImplementation(() =>
+      Promise.resolve({ <%= entityInstancePlural %>: <%= entityInstance %>Mocks, count: 2 })
+    );
     const { queryByText } = render(<<%= entityClass %>TableContainer />);
 
     await wait(() => {

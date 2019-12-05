@@ -1,11 +1,7 @@
-<%# { "renameTo": "`/${generator.entityInstance}/tableWidget/src/state/${generator.entityInstance}.types.js`" } -%>
-export const ADD_FILTER = 'addFilter';
-export const UPDATE_FILTER = 'updateFilter';
-export const DELETE_FILTER = 'deleteFilter';
-export const CLEAR_FILTERS = 'clearFilters';
-export const READ_ALL = 'readAll';
-export const ERROR_FETCH = 'error';
-export const CLEAR_ERRORS = 'clearErrors';
-export const CREATE = 'create';
-export const UPDATE = 'update';
-export const DELETE = 'delete';
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/tableWidget/src/state/${generator.entityInstance}.types.js`" } -%>
+export const READ_ALL = '<%= entityInstance %>-table/readAll';
+export const ERROR_FETCH = '<%= entityInstance %>-table/error';
+export const CLEAR_ERRORS = '<%= entityInstance %>-table/clearErrors';
+export const CREATE = '<%= entityInstance %>-table/create';
+export const UPDATE = '<%= entityInstance %>-table/update';
+export const DELETE = '<%= entityInstance %>-table/delete';
