@@ -5,7 +5,7 @@ import locales from 'i18n/locales';
 
 // adds the default namespace ('translation') to resources object per i18next documentation
 const resources = Object.keys(locales).reduce(
-  (acc, lang) => ({ ...acc, [lang]: { 'translation': locales[lang] } }),
+  (acc, lang) => ({ ...acc, [lang]: { translation: locales[lang] } }),
   {}
 );
 
