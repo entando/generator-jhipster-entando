@@ -12,14 +12,17 @@ module.exports = class extends EntityServerGenerator {
     constructor(args, opts) {
         super(args, Object.assign({ fromBlueprint: true }, opts)); // fromBlueprint variable is important
 
-        this.jhContext = this.jhipsterContext = this.options.jhipsterContext;
+        const jhContext = (this.jhipsterContext = this.options.jhipsterContext);
 
-        if (!this.jhContext) {
-            this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprint entando')}`);
+        if (!jhContext) {
+            this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprint helloworld')}`);
         }
 
-        this.configOptions = this.jhContext.configOptions || {};
-        if (this.jhContext.databaseType === 'cassandra') {
+        this.configOptions = jhContext.configOptions || {};
+        // This sets up options for this sub generator and is being reused from JHipster
+        jhContext.setupClientOptions(this, jhContext);
+
+        if (jhContext.databaseType === 'cassandra') {
             this.pkType = 'UUID';
         }
     }
@@ -37,7 +40,16 @@ module.exports = class extends EntityServerGenerator {
 
     get configuring() {
         // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
-        return super._configuring();
+
+        const jhipsterConfiguringPhase = super._configuring();
+        const entandoBlueprintConfiguringPhase = {
+            addPrettier() {
+                this.addNpmDevDependency('prettier', '1.19.1');
+                this.addNpmScript('prettier', 'prettier --write "ui/**/*.js"');
+            },
+        };
+
+        return Object.assign(jhipsterConfiguringPhase, entandoBlueprintConfiguringPhase);
     }
 
     get default() {
@@ -128,8 +140,8 @@ module.exports = class extends EntityServerGenerator {
 
     get writing() {
         // writing - Where you write the generator specific files (routes, controllers, etc)
-        const jhipsterPhase = super._writing();
-        const myCustomSteps = {
+        const jhipsterWritingPhase = super._writing();
+        const entandoBlueprintWritingPhase = {
             init() {
                 this.utils = {
                     getMockEntityData: this._getMockData,
@@ -142,7 +154,7 @@ module.exports = class extends EntityServerGenerator {
                 this.updateBundleDescriptor();
             },
         };
-        return { ...jhipsterPhase, ...myCustomSteps };
+        return Object.assign(jhipsterWritingPhase, entandoBlueprintWritingPhase);
     }
 
     get conflicts() {
@@ -152,12 +164,30 @@ module.exports = class extends EntityServerGenerator {
 
     get install() {
         // install - Where installations are run (npm, bower)
-        return super._install();
+
+        const jhipsterInstallPhase = super._install();
+        const entandoBlueprintInstallPhase = {
+            installRootNpmPackages() {
+                this.npmInstall();
+            },
+            installWidgetNpmPackages() {
+                this.npmInstall('', null, { cwd: './ui/widgets/conference/tableWidget' });
+            },
+        };
+
+        return Object.assign(jhipsterInstallPhase, entandoBlueprintInstallPhase);
     }
 
     get end() {
         // end - Called last, cleanup, say good bye, etc
-        return super._end();
+        const jhipsterEndPhase = super._end();
+        const entandoBlueprintEndPhase = {
+            runPrettier() {
+                this.spawnCommandSync('npm', ['run', 'prettier']);
+            },
+        };
+
+        return Object.assign(jhipsterEndPhase, entandoBlueprintEndPhase);
     }
 
     log(msg) {
