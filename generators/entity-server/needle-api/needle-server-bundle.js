@@ -22,10 +22,10 @@ module.exports = class extends needleServer {
         }
     }
 
-    addRolesToDescriptor(entityName) {
+    addRolesToDescriptor(baseName, entityName) {
         const errorMessage = `${chalk.yellow('Reference to widget in descriptor ')}
             ${chalk.yellow(' not added.\n')}`;
-        const mainPluginDescriptorPath = `${pluginsDirectory}/${entityName}-plugin.yaml`;
+        const mainPluginDescriptorPath = `${pluginsDirectory}/${baseName}-plugin.yaml`;
         const rewriteFileModelAdmin = this.generateFileModel(
             mainPluginDescriptorPath,
             'entando-needle-descriptor-add-roles',

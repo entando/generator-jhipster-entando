@@ -123,7 +123,7 @@ module.exports = class extends EntityServerGenerator {
     updateBundleDescriptor() {
         this.entandoNeedleApi = new EntandoNeedle(this);
         this.entandoNeedleApi.addWidgetToDescriptor(this.entityFileName);
-        this.entandoNeedleApi.addRolesToDescriptor(this.entityFileName);
+        this.entandoNeedleApi.addRolesToDescriptor(this.baseName.toLowerCase(), this.entityFileName);
     }
 
     get writing() {
