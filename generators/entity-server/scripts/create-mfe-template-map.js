@@ -1,9 +1,6 @@
 const fs = require('fs');
-const path = require('path');
-const ejs = require('ejs');
 
 const TEMPLATES_PATH = '../templates/ui/';
-const EXPORT_PATH = '../mfe-files.js';
 
 const IGNORED_TEMPLATES = [
     // ADD IGNORED TEMPLATES HERE (format example, `${TEMPLATES_PATH}widgets/common/file.js.ejs`)
@@ -44,12 +41,45 @@ function generate(file) {
     return template;
 }
 
-const files = getFiles(TEMPLATES_PATH).map(generate);
+function getRenameToFunction(file) {
+    if (file && file.options.renameTo) {
+        return function(generator) {
+            return eval(file.options.renameTo);
+        };
+    }
+    return function(generator) {
+        return `${generator.entityInstance}${file.filename}`;
+    };
+}
 
-const templateFile = fs.readFileSync(path.join(__dirname, '/mfe-files.js.ejs'), 'utf-8');
+module.exports.generateFiles = function(basePath) {
+    const files = getFiles(basePath).map(generate);
+    const templates = files.filter(file => !file.options.skip).map(file => {
+        file.filename = file.filename.substring(basePath.length);
+        const fileObj = {
+            file: file.filename,
+        };
+        Object.keys(file.options).forEach(opt => {
+            switch (opt) {
+                case 'skip':
+                    break;
+                case 'renameTo':
+                    fileObj.renameTo = getRenameToFunction(file);
+                    break;
+                default:
+                    fileObj[opt] = file.options[opt];
+            }
+        });
 
-const mfeFile = ejs.render(templateFile, { files });
+        return fileObj;
+    });
 
-fs.writeFileSync(EXPORT_PATH, mfeFile, 'utf8');
-
-console.log('Template mapping created!');
+    return {
+        microFrontEnd: [
+            {
+                path: 'ui/widgets',
+                templates,
+            },
+        ],
+    };
+};

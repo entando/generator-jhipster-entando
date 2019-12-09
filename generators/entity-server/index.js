@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable consistent-return */
 const fs = require('fs');
+const path = require('path');
 const chalk = require('chalk');
 const casual = require('casual');
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
 const EntandoNeedle = require('./needle-api/needle-server-bundle');
 const serverFiles = require('./files').serverFiles;
-const microFrontEndFiles = require('./files').microFrontEndFiles;
+const mfeFileGeneration = require('./scripts/create-mfe-template-map.js').generateFiles;
 
 module.exports = class extends EntityServerGenerator {
     constructor(args, opts) {
@@ -129,6 +130,8 @@ module.exports = class extends EntityServerGenerator {
     get writing() {
         // writing - Where you write the generator specific files (routes, controllers, etc)
         const jhipsterPhase = super._writing();
+        const mfeTemplates = path.join(__dirname, 'templates', 'ui', 'widgets');
+        const microFrontEndFiles = mfeFileGeneration(mfeTemplates);
         const myCustomSteps = {
             init() {
                 this.utils = {
