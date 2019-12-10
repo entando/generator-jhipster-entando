@@ -437,12 +437,12 @@ const files = {
             useBluePrint: true,
         },
         {
-            file: '/tableWidget/src/components/__tests__/entityTable.test.js',
+            file: '/tableWidget/src/components/__tests__/EntityTable.test.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__tests__/${generator.entityClass}Table.test.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
         {
-            file: '/tableWidget/src/components/__tests__/entityTableContainer.test.js',
+            file: '/tableWidget/src/components/__tests__/EntityTableContainer.test.js',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/src/components/__tests__/${generator.entityClass}TableContainer.test.js`, // eslint-disable-line prettier/prettier
             useBluePrint: true,
         },
