@@ -17,7 +17,7 @@ import Notification from 'components/common/Notification';
 import { api<%= entityClassPlural %>Get } from 'api/<%= entityInstancePlural %>';
 import { reducer, initialState } from 'state/<%= entityInstance %>.reducer';
 import { ADD_FILTER, UPDATE_FILTER, DELETE_FILTER, CLEAR_FILTERS } from 'state/filter.types';
-import { ERROR_FETCH, CLEAR_ERRORS, READ_ALL } from 'state/conference.types';
+import { ERROR_FETCH, CLEAR_ERRORS, READ_ALL } from 'state/<%= entityInstance %>.types';
 
 const styles = {
   fab: {
