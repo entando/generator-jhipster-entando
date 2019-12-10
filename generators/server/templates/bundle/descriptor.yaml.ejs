@@ -1,19 +1,9 @@
-version: entando.org/v1alpha1
 code: <%=baseName%>_bundle
 description: This is the <%=baseName%> bundle
 
 components:
-  service:
-    image: FIXME
-    ingressPath: /<%=baseName%>
-    healthCheckPath: /actuator/health
-    dbms: <%=prodDatabaseType%>
-    roles:
-    - name: <%=baseName%>-admin
-      code: "<%=baseName%>-admin"
-# entando-needle-descriptor-add-roles - Entando blueprint will add roles here
-
-    permissions: []
+  plugins:
+    - plugins/<%=baseName.toLowerCase()%>-plugin.yaml
 
   widgets:
 # entando-needle-descriptor-add-widgets - Entando blueprint will add widget bundle files here
