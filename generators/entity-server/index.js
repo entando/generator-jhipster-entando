@@ -50,7 +50,7 @@ module.exports = class extends EntityServerGenerator {
             },
         };
 
-        return Object.assign(jhipsterConfiguringPhase, entandoBlueprintConfiguringPhase);
+        return { ...jhipsterConfiguringPhase, ...entandoBlueprintConfiguringPhase };
     }
 
     get default() {
@@ -158,7 +158,7 @@ module.exports = class extends EntityServerGenerator {
                 this.updateBundleDescriptor();
             },
         };
-        return Object.assign(jhipsterWritingPhase, entandoBlueprintWritingPhase);
+        return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
     }
 
     get conflicts() {
@@ -179,7 +179,7 @@ module.exports = class extends EntityServerGenerator {
             },
         };
 
-        return Object.assign(jhipsterInstallPhase, entandoBlueprintInstallPhase);
+        return { ...jhipsterInstallPhase, ...entandoBlueprintInstallPhase };
     }
 
     get end() {
@@ -191,7 +191,7 @@ module.exports = class extends EntityServerGenerator {
             },
         };
 
-        return Object.assign(jhipsterEndPhase, entandoBlueprintEndPhase);
+        return { ...jhipsterEndPhase, ...entandoBlueprintEndPhase };
     }
 
     log(msg) {
