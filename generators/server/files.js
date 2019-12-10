@@ -49,16 +49,14 @@ const serverFiles = {
     ],
     packageJson: [
         {
-            templates: ['package.json']
+            templates: ['package.json'],
         },
         {
-            templates: ['buildWidgets.sh']
-        },
-        {
-            templates: ['installWidgets.sh']
-        },
-        {
-            templates: ['buildBundle.sh']
+            templates: [
+                { file: 'buildWidgets.sh', method: 'copy', noEjs: true },
+                { file: 'installWidgets.sh', method: 'copy', noEjs: true },
+                { file: 'buildBundle.sh', method: 'copy', noEjs: true },
+            ],
         },
         {
             PATH: '.',
@@ -66,10 +64,14 @@ const serverFiles = {
                 {
                     useBluePrint: true,
                     file: 'bundle/descriptor.yaml',
-                    renameTo: generator => `./bundle/descriptor.yaml`,
-                }
-            ]
-        }
+                },
+                {
+                    useBluePrint: true,
+                    file: 'bundle/plugins/myplugin.yaml',
+                    renameTo: generator => `bundle/plugins/${generator.baseName}-plugin.yaml`,
+                },
+            ],
+        },
     ],
     docker: [
         {
@@ -175,7 +177,11 @@ const serverFiles = {
             templates: [
                 'keycloak.yml',
                 { file: 'config/realm-config/jhipster-realm.json', renameTo: () => 'realm-config/jhipster-realm.json' },
-                { file: 'config/realm-config/jhipster-users-0.json', method: 'copy', renameTo: () => 'realm-config/jhipster-users-0.json' },
+                {
+                    file: 'config/realm-config/jhipster-users-0.json',
+                    method: 'copy',
+                    renameTo: () => 'realm-config/jhipster-users-0.json',
+                },
             ],
         },
     ],
