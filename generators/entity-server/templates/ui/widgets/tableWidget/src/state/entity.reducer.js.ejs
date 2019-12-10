@@ -5,6 +5,7 @@ import {
   READ_ALL,
   ERROR_FETCH,
   CLEAR_ERRORS,
+  CLEAR_ITEMS,
   CREATE,
   UPDATE,
   DELETE,
@@ -36,12 +37,22 @@ export const reducer = (state = initialState, action) => {
     case DELETE_FILTER:
       return {
         ...state,
+        items: initialState.items,
+        itemCount: initialState.itemCount,
         filters: state.filters.filter((f, index) => index !== action.payload.filterId),
       };
     case CLEAR_FILTERS:
       return {
         ...state,
+        items: initialState.items,
+        itemCount: initialState.itemCount,
         filters: initialState.filters,
+      };
+    case CLEAR_ITEMS:
+      return {
+        ...state,
+        items: initialState.items,
+        itemCount: initialState.itemCount,
       };
     case READ_ALL:
       return {

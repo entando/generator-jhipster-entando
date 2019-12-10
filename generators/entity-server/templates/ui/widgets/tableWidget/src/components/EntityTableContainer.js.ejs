@@ -17,7 +17,7 @@ import Notification from 'components/common/Notification';
 import { api<%= entityClassPlural %>Get } from 'api/<%= entityInstancePlural %>';
 import { reducer, initialState } from 'state/<%= entityInstance %>.reducer';
 import { ADD_FILTER, UPDATE_FILTER, DELETE_FILTER, CLEAR_FILTERS } from 'state/filter.types';
-import { ERROR_FETCH, CLEAR_ERRORS, READ_ALL } from 'state/<%= entityInstance %>.types';
+import { ERROR_FETCH, CLEAR_ERRORS, READ_ALL, CLEAR_ITEMS } from 'state/conference.types';
 
 const styles = {
   fab: {
@@ -44,6 +44,7 @@ class <%= ComponentName %> extends Component {
     this.addFilter = this.addFilter.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
+    this.applyFilters = this.applyFilters.bind(this);
   }
 
   componentDidMount() {
@@ -125,6 +126,10 @@ class <%= ComponentName %> extends Component {
     this.dispatch({ type: CLEAR_FILTERS }, this.fetchData);
   }
 
+  applyFilters() {
+    this.dispatch({ type: CLEAR_ITEMS }, this.fetchData);
+  }
+
   closeNotification() {
     this.dispatch({ type: CLEAR_ERRORS });
   }
@@ -155,7 +160,7 @@ class <%= ComponentName %> extends Component {
             <AddIcon />
           </Fab>
           <FiltersContainer
-            applyFilter={this.fetchData}
+            applyFilter={this.applyFilters}
             add={this.addFilter}
             update={this.updateFilter}
             remove={this.removeFilter}
