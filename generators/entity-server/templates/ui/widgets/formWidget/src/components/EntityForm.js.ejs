@@ -110,7 +110,7 @@ class <%= ComponentName %> extends PureComponent {
       <%_ if (fieldsContainDate) { _%>
       <MuiPickersUtilsProvider utils={DateFnsUtils} locale={dateFnsLocales[i18n.language]}>
       <%_ } _%>
-        <form onSubmit={handleSubmit} className={classes.root} data-testid="conference-form">
+        <form onSubmit={handleSubmit} className={classes.root} data-testid="<%= entityInstance %>-form">
           <Grid container spacing={2}>
             <%_
             fields.forEach(field => {

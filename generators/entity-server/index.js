@@ -174,9 +174,6 @@ module.exports = class extends EntityServerGenerator {
             installRootNpmPackages() {
                 this.npmInstall();
             },
-            installWidgetNpmPackages() {
-                this.npmInstall('', null, { cwd: './ui/widgets/conference/tableWidget' });
-            },
         };
 
         return { ...jhipsterInstallPhase, ...entandoBlueprintInstallPhase };
