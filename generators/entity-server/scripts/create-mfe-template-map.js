@@ -42,13 +42,14 @@ function generate(file) {
 }
 
 function getRenameToFunction(file) {
+
     if (file && file.options.renameTo) {
         return function(generator) {
             return eval(file.options.renameTo);
         };
     }
     return function(generator) {
-        return `${generator.entityInstance}${file.filename}`;
+        return `/${generator.entityInstance}/${file.filename}`;
     };
 }
 
@@ -59,6 +60,8 @@ module.exports.generateFiles = function(basePath) {
         const fileObj = {
             file: file.filename,
         };
+
+
         Object.keys(file.options).forEach(opt => {
             switch (opt) {
                 case 'skip':
@@ -71,6 +74,9 @@ module.exports.generateFiles = function(basePath) {
             }
         });
 
+        if(!fileObj.renameTo) {
+            fileObj.renameTo = getRenameToFunction(file);
+        }
         return fileObj;
     });
 
