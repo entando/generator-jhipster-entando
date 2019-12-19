@@ -38,6 +38,8 @@
   "scripts": {
     "install-build-bundle": "npm run install-widgets && npm run build-widgets && npm run bundle-widgets",
     "install-widgets": "chmod a+x installWidgets.sh && ./installWidgets.sh",
+    "parallel-install-widgets": "chmod a+x installParallelWidgets.sh && ./installParallelWidgets.sh",
+    "parallel-install-build-bundle": "npm run parallel-install-widgets && npm run build-widgets && npm run bundle-widgets",
     "build-widgets": "chmod a+x buildWidgets.sh && ./buildWidgets.sh",
     "bundle-widgets": "chmod a+x buildBundle.sh && ./buildBundle.sh"
   }

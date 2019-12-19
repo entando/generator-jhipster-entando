@@ -55,6 +55,7 @@ const serverFiles = {
             templates: [
                 { file: 'buildWidgets.sh', method: 'copy', noEjs: true },
                 { file: 'installWidgets.sh', method: 'copy', noEjs: true },
+                { file: 'installParallelWidgets.sh', method: 'copy', noEjs: true },
                 { file: 'buildBundle.sh', method: 'copy', noEjs: true },
             ],
         },
