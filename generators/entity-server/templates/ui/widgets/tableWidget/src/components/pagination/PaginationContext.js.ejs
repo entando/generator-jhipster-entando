@@ -34,7 +34,7 @@ export class PaginationProvider extends React.Component {
   onChangeItemsPerPage({ target: { value } }) {
     this.setState(state => ({
       ...state,
-      pagination: { ...state.pagination, itemsPerPage: parseInt(value, 10) },
+      pagination: { ...state.pagination, itemsPerPage: parseInt(value, 10), currentPage: 0 },
     }));
   }
 
