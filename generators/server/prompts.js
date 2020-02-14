@@ -28,6 +28,7 @@ module.exports = {
     askForServerSideOpts,
     askForOptionalItems,
     askFori18n,
+    askForBundleName,
     setSharedConfigOptions,
 };
 
@@ -428,6 +429,27 @@ function askFori18n() {
     this.aski18n(this);
 }
 
+function askForBundleName(meta) {
+    if (!meta && this.existingProject) return;
+
+    const done = this.async();
+
+    const applicationType = this.applicationType;
+    const prompts = [
+        {
+            when: response => applicationType === 'microservice',
+            type: 'input',
+            name: 'bundleName',
+            message: 'What name would you give to the bundle to share on an Entando digital-exchange?',
+            default: `${this.baseName}_bundle`,
+        },
+    ];
+    this.prompt(prompts).then(prompt => {
+        this.bundleName = prompt.bundleName;
+        done();
+    });
+}
+
 function setSharedConfigOptions() {
     this.configOptions.packageName = this.packageName;
     this.configOptions.cacheProvider = this.cacheProvider;
@@ -447,6 +469,7 @@ function setSharedConfigOptions() {
         this.configOptions.uaaBaseName = this.uaaBaseName;
     }
     this.configOptions.serverPort = this.serverPort;
+    this.configOptions.bundleName = this.bundleName;
 
     // Make dist dir available in templates
     this.BUILD_DIR = this.getBuildDirectoryForBuildTool(this.buildTool);

@@ -23,17 +23,17 @@ function injectResource() {
     local resource="$1"
     local destFile="$2"
 
-    echo "Injecting resource $resource in $destFile"
+    echo "- Injecting resource $resource in $destFile"
     sed -i 's|'"$INJECTION_POINT"'|'"$resource"'\n'"$INJECTION_POINT"'|g' "$destFile"
 }
 
 function updateFTLTemplate() {
     shopt -s nullglob # Set the results of globs in forloop to emptylist if no file is found
     local dir="$1"
-    local artifactId="$2"
+    local bundleCode="$2"
 
     widgetName=$(basename "$dir")
-    echo "Generating bundle ${widgetName} for $dir"
+    echo "Updating ${widgetName} micro-frontend resources for $dir"
 
     for ftlName in "$dir"/*.ftl;
     do
@@ -46,7 +46,7 @@ function updateFTLTemplate() {
 
 
             cp "$dir/resources/static/js/$jsfile" bundle/resources/static/js/
-            resource="<script src=\"<@wp.resourceURL />${artifactId}/static/js/${jsfile}\"></script>"
+            resource="<script src=\"<@wp.resourceURL />${bundleCode}/static/js/${jsfile}\"></script>"
             injectResource "$resource" "$ftlName"
         done
 
@@ -58,7 +58,7 @@ function updateFTLTemplate() {
           cssfile=$(basename "$csspath")
 
           cp "$dir/resources/static/css/$cssfile" bundle/resources/static/css/
-          resource="<link href=\"<@wp.resourceURL />${artifactId}/static/css/${cssfile}\" rel=\"stylesheet\">"
+          resource="<link href=\"<@wp.resourceURL />${bundleCode}/static/css/${cssfile}\" rel=\"stylesheet\">"
           injectResource "$resource" "$ftlName"
         done
     done
@@ -74,7 +74,9 @@ export -f injectResource
 export -f updateFTLTemplate
 export INJECTION_POINT="<#-- entando_resource_injection_point -->"
 
+BUNDLE_NAME=$(awk -F':' 'NR==1{print $2}' ./bundle/descriptor.yaml)
 WIDGET_FOLDER="ui/widgets"
+
 find "$WIDGET_FOLDER" -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" > /dev/null 2>&1
 HAS_WIDGETS=$?
 
@@ -82,7 +84,7 @@ if [ $HAS_WIDGETS -eq 0 ]; then
     # This command assumes that the widgets are all under ui/widgets/<entity>/<widget>. The command finds all of the micro-frontends in those folders and
     # copies the result of the build into the bundle resources folder so that the bundle can be deployed to a digital exchange instance (or imported on an existing page).
     # The command also copies css optionally with this structure since some widgets will be js only 2>/dev/null || :
-    echo "Generating the bundle folder tree for widgets"
+    echo "Generating the bundle folder tree for the micro-frontends"
     find "$WIDGET_FOLDER" -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'createFolderTree "$@"' bash {} \;
     mkdir -p bundle/resources/static/{js,css}
 
@@ -92,7 +94,7 @@ if [ $HAS_WIDGETS -eq 0 ]; then
 
     # For each widget under the structure ui/widgets/<entity>/<widget> generate an FTL file that imports the css and js that goes with that widget.
     # The FTL file from the widget itself is preserved and the imports are added at the top of the widget
-    find bundle/ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'updateFTLTemplate "$@"' bash {} "$artifactId" \;
+    find bundle/ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'updateFTLTemplate "$@"' bash {} "$BUNDLE_NAME" \;
 else
-    echo "No micro-frontend has been found in the $WIDGET_FOLDER, bundle doesn't require build"
+    echo "No micro-frontend has been found in the $WIDGET_FOLDER, skipping this step"
 fi

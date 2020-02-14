@@ -11,7 +11,7 @@ function processWidget() {
     BASE_DIR=$(pwd)
 
     echo "---"
-    echo "Processing MFE $MFE_NAME - $WIDGET_NAME"
+    echo "Processing micro-frontend $MFE_NAME - $WIDGET_NAME"
     echo "Logs available at $LOG_OUTPUT"
     echo ""
 
@@ -36,7 +36,7 @@ find "$WIDGET_FOLDER" -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" > /de
 HAS_WIDGETS=$?
 
 if [ $HAS_WIDGETS -eq 1 ]; then
-    echo "No widgets to process, no need to do anything"
+    echo "No micro-frontends found in $WIDGET_FOLDER, skipping this step"
     exit 0
 else
     WIDGETS=$(find "$WIDGET_FOLDER" -maxdepth 2 -mindepth 2 -type d -not -path "*utils*")
@@ -48,10 +48,6 @@ else
         processWidget "$WIDGET_PATH" "$MFE_NAME" "$WIDGET_NAME"
     done
 
-    echo "All MFE has been built correctly"
+    echo "All micro-frontends have been built correctly"
     echo ""
 fi
-
-echo "---"
-echo "Populating the bundle"
-e
