@@ -1,5 +1,5 @@
 #!/bin/bash
-BUNDLE_NAME=$(awk -F':' 'NR==1 {gsub(/ /, "", $2) print $2}' ./bundle/descriptor.yaml)
+BUNDLE_NAME=$(awk -F':' 'NR==1 {gsub(/ /, "", $2); print $2}' ./bundle/descriptor.yaml)
 
 echo "Generation of the $BUNDLE_NAME bundle"
 echo "====================================="
