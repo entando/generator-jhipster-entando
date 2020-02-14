@@ -48,6 +48,7 @@ else
         processWidget "$WIDGET_PATH" "$MFE_NAME" "$WIDGET_NAME"
     done
 
-    echo "All micro-frontends have been built correctly"
+    echo ""
+    echo "SUCCESS: All micro-frontends have been built correctly"
     echo ""
 fi
