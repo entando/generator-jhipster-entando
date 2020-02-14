@@ -283,17 +283,6 @@ jhipster:
         license-url:
 
 # ===================================================================
-# Entando specific properties
-# ===================================================================
-
-entando:
-    client-id: ${KEYCLOAK_CLIENT_ID:<%=baseName%>}
-    client-secret: ${KEYCLOAK_CLIENT_SECRET:<%=baseName%>}
-    access-token-uri: ${TOKEN_SERVICE:http://localhost:9080/auth/realms/entando-development}/protocol/openid-connect/token
-    auth-service-uri: ${ENTANDO_AUTH:http://localhost:8082/}
-    config-service-uri: ${ENTANDO_CONFIG:http://localhost:8083/}
-
-# ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
 # to have type-safe configuration, like in the JHipsterProperties above
