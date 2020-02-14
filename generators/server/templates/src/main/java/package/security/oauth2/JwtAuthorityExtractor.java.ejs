@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import <%=packageName%>.config.EntandoProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -36,10 +36,11 @@ import java.util.Collection;
 @Component
 public class JwtAuthorityExtractor extends JwtAuthenticationConverter {
 
-    private EntandoProperties entandoProperties;
+    private final String clientId;
 
-    public JwtAuthorityExtractor(EntandoProperties entandoProperties) {
-        this.entandoProperties = entandoProperties;
+    public JwtAuthorityExtractor(@Value("${spring.security.oauth2.client.registration.oidc.client-id}") String clientId)
+    {
+        this.clientId = clientId;
     }
 
     @Override
@@ -55,8 +56,8 @@ public class JwtAuthorityExtractor extends JwtAuthenticationConverter {
     @SuppressWarnings("unchecked")
     private Collection<String> getRolesFromClaims(Map<String, Object> claims) {
         Map<String, Object> resourceAccessClaim = (Map<String, Object>) claims.getOrDefault("resource_access", new HashMap<>());
-        if (resourceAccessClaim.containsKey(this.entandoProperties.getClientId())) {
-            return (Collection<String>) ((Map)resourceAccessClaim.get(this.entandoProperties.getClientId())).getOrDefault("roles", new ArrayList<>());
+        if (resourceAccessClaim.containsKey(this.clientId)) {
+            return (Collection<String>) ((Map)resourceAccessClaim.get(this.clientId)).getOrDefault("roles", new ArrayList<>());
         } else {
             return new ArrayList<>();
         }

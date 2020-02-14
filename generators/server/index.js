@@ -75,10 +75,6 @@ module.exports = class extends ServerGenerator {
         this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
     }
 
-    _addEntandoConfigServiceDependencies() {
-        this.addMavenDependency('org.entando', 'config-connector', '1.0.0-SNAPSHOT');
-    }
-
     _addEntandoAuthDependencies() {
         this.addMavenDependency('io.github.openfeign', 'feign-jackson', null, null);
     }
@@ -90,8 +86,6 @@ module.exports = class extends ServerGenerator {
                 this._addMavenSnapshotRepository();
                 this._addUnspecificDependencies();
                 this._addJsonSchemaDependencies();
-                this._addEntandoConfigServiceDependencies();
-                this._addEntandoAuthDependencies();
             },
         };
         return { ...customizedJhipsterPhase, ...myCustomSteps };
