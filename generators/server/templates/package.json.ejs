@@ -36,9 +36,6 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "install-build-bundle": "npm run install-widgets && npm run build-widgets && npm run bundle-widgets",
-    "install-widgets": "chmod a+x installWidgets.sh && ./installWidgets.sh",
-    "build-widgets": "chmod a+x buildWidgets.sh && ./buildWidgets.sh",
-    "bundle-widgets": "chmod a+x buildBundle.sh && ./buildBundle.sh"
+    "populate-bundle": "./buildBundle.sh"
   }
 }
