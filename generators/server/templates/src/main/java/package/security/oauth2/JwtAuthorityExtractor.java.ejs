@@ -38,7 +38,7 @@ public class JwtAuthorityExtractor extends JwtAuthenticationConverter {
 
     private final String clientId;
 
-    public JwtAuthorityExtractor(@Value("${spring.security.oauth2.client.registration.oidc.client-id}") String clientId)
+    public JwtAuthorityExtractor(@Value("${spring.security.oauth2.client.registration.oidc.client-id:'internal'}") String clientId)
     {
         this.clientId = clientId;
     }
