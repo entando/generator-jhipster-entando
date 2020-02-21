@@ -61,7 +61,7 @@ else
             echo ""
 
             mkdir -p "$LOG_OUTPUT_FOLDER"
-            processWidget "$WIDGET_PATH" "$MFE_NAME" "$WIDGET_NAME" >> "$LOG_OUTPUT" 2>&1
+            processWidget "$WIDGET_PATH" "$MFE_NAME" "$WIDGET_NAME" >> "$LOG_OUTPUT" 2>&1 &
             PIDS+=($!)
         done
     done
