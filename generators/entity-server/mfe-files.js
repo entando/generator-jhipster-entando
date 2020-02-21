@@ -7,6 +7,11 @@ const files = {
             useBluePrint: true,
         },
         {
+            file: '/detailsWidget/LICENSE',
+            renameTo: generator => `/${generator.entityInstance}/detailsWidget/LICENSE`,
+            useBluePrint: true,
+        },
+        {
             file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/bundle/details-widget-descriptor.yaml`,
             useBluePrint: true,
@@ -160,6 +165,11 @@ const files = {
             file: '/formWidget/.gitignore',
             renameTo: generator => `/${generator.entityInstance}/formWidget/.gitignore`,
             method: 'copy',
+        },
+        {
+            file: '/formWidget/LICENSE',
+            renameTo: generator => `/${generator.entityInstance}/formWidget/LICENSE`,
+            useBluePrint: true,
         },
         {
             file: '/formWidget/README.md',
@@ -350,6 +360,11 @@ const files = {
             file: '/tableWidget/.gitignore',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/.gitignore`,
             method: 'copy',
+        },
+        {
+            file: '/tableWidget/LICENSE',
+            renameTo: generator => `/${generator.entityInstance}/tableWidget/LICENSE`,
+            useBluePrint: true,
         },
         {
             file: '/tableWidget/README.md',
