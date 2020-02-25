@@ -10,9 +10,9 @@ module.exports = class extends needleServer {
             ${chalk.yellow(' not added.\n')}`;
 
         const widgets = [
-            `ui/widgets/${entityName}/${entityName}-table-widget-descriptor.yaml`,
-            `ui/widgets/${entityName}/${entityName}-details-widget-descriptor.yaml`,
-            `ui/widgets/${entityName}/${entityName}-form-widget-descriptor.yaml`,
+            `ui/widgets/${entityName}/tableWidget/${entityName}-table-widget-descriptor.yaml`,
+            `ui/widgets/${entityName}/detailsWidget/${entityName}-details-widget-descriptor.yaml`,
+            `ui/widgets/${entityName}/formWidget/${entityName}-form-widget-descriptor.yaml`,
         ];
         let i;
 
@@ -29,7 +29,7 @@ module.exports = class extends needleServer {
         const rewriteFileModelAdmin = this.generateFileModel(
             mainPluginDescriptorPath,
             'entando-needle-descriptor-add-roles',
-            `    - name: ${entityName}-admin\n      code: "${entityName}-admin"`
+            `  - name: ${entityName}-admin\n    code: "${entityName}-admin"`
         );
         this.addBlockContentToFile(rewriteFileModelAdmin, errorMessage);
     }
