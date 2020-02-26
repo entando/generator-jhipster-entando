@@ -9,7 +9,8 @@ const files = {
         {
             file: '/detailsWidget/LICENSE',
             renameTo: generator => `/${generator.entityInstance}/detailsWidget/LICENSE`,
-            useBluePrint: true,
+            method: 'copy',
+            noEjs: true,
         },
         {
             file: '/detailsWidget/bundle/details-widget-descriptor.yaml',
@@ -169,7 +170,8 @@ const files = {
         {
             file: '/formWidget/LICENSE',
             renameTo: generator => `/${generator.entityInstance}/formWidget/LICENSE`,
-            useBluePrint: true,
+            method: 'copy',
+            noEjs: true,
         },
         {
             file: '/formWidget/README.md',
@@ -364,7 +366,8 @@ const files = {
         {
             file: '/tableWidget/LICENSE',
             renameTo: generator => `/${generator.entityInstance}/tableWidget/LICENSE`,
-            useBluePrint: true,
+            method: 'copy',
+            noEjs: true,
         },
         {
             file: '/tableWidget/README.md',
