@@ -7,7 +7,7 @@ const casual = require('casual');
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
 const EntandoNeedle = require('./needle-api/needle-server-bundle');
 const serverFiles = require('./files').serverFiles;
-const mfeFileGeneration = require('./scripts/create-mfe-template-map.js').generateFiles;
+const mfeFileGeneration = require('./lib/create-mfe-template-map.js').generateFiles;
 
 module.exports = class extends EntityServerGenerator {
     constructor(args, opts) {
