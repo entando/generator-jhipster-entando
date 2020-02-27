@@ -72,7 +72,7 @@ const serverFiles = {
                 {
                     useBluePrint: true,
                     file: 'bundle/plugins/myplugin.yaml',
-                    renameTo: generator => `bundle/plugins/${generator.baseName}-plugin.yaml`,
+                    renameTo: generator => `bundle/plugins/${generator.baseName.toLowerCase()}-plugin.yaml`,
                 },
             ],
         },

@@ -441,7 +441,7 @@ function askForBundleName(meta) {
             type: 'input',
             name: 'bundleName',
             message: 'What name would you give to the bundle to share on an Entando digital-exchange?',
-            default: `${this.baseName}-bundle`,
+            default: `${this.baseName.toLowerCase()}-bundle`,
         },
     ];
     this.prompt(prompts).then(prompt => {
