@@ -24,14 +24,18 @@ function getFiles(path) {
     return files;
 }
 
-function generate(file) {
+function getFileGenerationOption(file) {
     const templateOptions = /<%#\s*(.*?)\s*-?%>/i;
     const firstLine = fs.readFileSync(file, 'utf-8').split('\n')[0];
     const match = templateOptions.exec(firstLine);
-
     const options = {
         ...(match ? JSON.parse(match[1]) : { method: 'copy' }),
     };
+    return options;
+}
+
+function generate(file) {
+    const options = getFileGenerationOption(file);
 
     const template = {
         filename: file.replace(`${TEMPLATES_PATH}widgets`, '').replace(/.ejs$/i, ''),
@@ -42,7 +46,6 @@ function generate(file) {
 }
 
 function getRenameToFunction(file) {
-
     if (file && file.options.renameTo) {
         return function(generator) {
             return eval(file.options.renameTo);
@@ -60,7 +63,6 @@ module.exports.generateFiles = function(basePath) {
         const fileObj = {
             file: file.filename,
         };
-
 
         Object.keys(file.options).forEach(opt => {
             switch (opt) {
