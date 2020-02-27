@@ -1,7 +1,7 @@
 kind: "EntandoPlugin"
 apiVersion: "entando.org/v1alpha1"
 metadata:
-  name: "<%=baseName%>-plugin"
+  name: "<%=baseName.toLowerCase()%>-plugin"
 spec:
   image: entando/<%= dasherizedBaseName %>:0.0.1-SNAPSHOT
   replicas: 1
