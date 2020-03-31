@@ -29,8 +29,10 @@ function injectResource() {
     local resource="$1"
     local destFile="$2"
 
+    local _NL=$'\\\n'
+
     echo "- Injecting resource $resource in $destFile"
-    sed -i 's|'"$INJECTION_POINT"'|'"$resource"'\n'"$INJECTION_POINT"'|g' "$destFile"
+    sed -i '.bak' 's|'"$INJECTION_POINT"'|'"$resource$_NL$INJECTION_POINT"'|g' "$destFile"
 }
 
 function updateFTLTemplate() {

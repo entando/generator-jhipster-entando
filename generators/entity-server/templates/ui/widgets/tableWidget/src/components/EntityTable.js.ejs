@@ -30,8 +30,16 @@ const styles = {
   },
 };
 
-<%_ const ComponentName = `${entityClass}Table`; _%>
-const <%= ComponentName %> = ({ items, onSelect, classes, t, i18n }) => {
+<%_
+  const ComponentName = `${entityClass}Table`;
+  const needI18n = Object.keys(fields).some((fieldKey) => {
+    const field = fields[fieldKey];
+    const fieldType = getJHipsterType(field);
+    return ['Instant', 'ZonedDateTime', 'LocalDate'].includes(fieldType);
+  });
+  const addI18nProp = needI18n ? ', i18n' : '';
+_%>
+const <%= ComponentName %> = ({ items, onSelect, classes, t<%= addI18nProp %> }) => {
   const tableRows = items.map(item => (
     <TableRow hover className={classes.rowRoot} key={item.id} onClick={() => onSelect(item)}>
       <%_
@@ -94,7 +102,9 @@ const <%= ComponentName %> = ({ items, onSelect, classes, t, i18n }) => {
     noItems: PropTypes.string,
   }).isRequired,
   t: PropTypes.func.isRequired,
+  <%_ if (needI18n) { _%>
   i18n: PropTypes.shape({ language: PropTypes.string }).isRequired,
+  <%_ } _%>
 };
 
 <%= ComponentName %>.defaultProps = {
