@@ -47,8 +47,10 @@ const styles = theme => ({
     width: '100%',
   },
 });
-
-<%_ const ComponentName = `${entityClass}Form`; _%>
+<%_ 
+  const fieldsContainDateOrBlob = fieldsContainDate || fieldsContainBlob;
+  const ComponentName = `${entityClass}Form`;
+_%>
 class <%= ComponentName %> extends PureComponent {
   render() {
     const {
@@ -60,9 +62,13 @@ class <%= ComponentName %> extends PureComponent {
       handleBlur,
       handleSubmit: formikHandleSubmit,
       isSubmitting,
+      <%_ if (fieldsContainDateOrBlob) { _%>
       setFieldValue,
+      <%_ } _%>
       t,
+      <%_ if (fieldsContainDate) { _%>
       i18n,
+      <%_ } _%>
     } = this.props;
 
     <%_ if (fieldsContainDate) { _%>
@@ -257,7 +263,9 @@ class <%= ComponentName %> extends PureComponent {
   handleBlur: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
+  <%_ if (fieldsContainDateOrBlob) { _%>
   setFieldValue: PropTypes.func.isRequired,
+  <%_ } _%>
   t: PropTypes.func.isRequired,
   i18n: PropTypes.shape({ language: PropTypes.string }).isRequired,
 };
