@@ -48,7 +48,7 @@ const styles = theme => ({
   },
 });
 <%_ 
-  const isFieldDateOrBlob = fieldsContainDate || fieldsContainBlob;
+  const fieldsContainDateOrBlob = fieldsContainDate || fieldsContainBlob;
   const ComponentName = `${entityClass}Form`;
 _%>
 class <%= ComponentName %> extends PureComponent {
@@ -62,7 +62,7 @@ class <%= ComponentName %> extends PureComponent {
       handleBlur,
       handleSubmit: formikHandleSubmit,
       isSubmitting,
-      <%_ if (isFieldDateOrBlob) { _%>
+      <%_ if (fieldsContainDateOrBlob) { _%>
       setFieldValue,
       <%_ } _%>
       t,
@@ -263,7 +263,7 @@ class <%= ComponentName %> extends PureComponent {
   handleBlur: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
-  <%_ if (isFieldDateOrBlob) { _%>
+  <%_ if (fieldsContainDateOrBlob) { _%>
   setFieldValue: PropTypes.func.isRequired,
   <%_ } _%>
   t: PropTypes.func.isRequired,
