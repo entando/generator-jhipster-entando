@@ -2,22 +2,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+
 import { Fab } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteForever from '@material-ui/icons/DeleteForever';
 import { withStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 
 import keycloakType from 'components/__types__/keycloak';
 import { withKeycloak } from 'auth/KeycloakContext';
 import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
+import ConfirmationDialogTrigger from 'components/common/ConfirmationDialogTrigger';
 import PaginationWrapper from 'components/pagination/PaginationWrapper';
 import { withPaginationContext } from 'components/pagination/PaginationContext';
 import FiltersContainer from 'components/filters/FiltersContainer';
 import <%= entityClass %>Table from 'components/<%= entityClass %>Table';
 import Notification from 'components/common/Notification';
-import { api<%= entityClassPlural %>Get } from 'api/<%= entityInstancePlural %>';
+import { api<%= entityClassPlural %>Get, api<%= entityClassPlural %>Delete } from 'api/<%= entityInstancePlural %>';
 import { reducer, initialState } from 'state/<%= entityInstance %>.reducer';
 import { ADD_FILTER, UPDATE_FILTER, DELETE_FILTER, CLEAR_FILTERS } from 'state/filter.types';
-import { ERROR_FETCH, CLEAR_ERRORS, READ_ALL, CLEAR_ITEMS } from 'state/<%= entityInstance %>.types';
+import { DELETE, ERROR_FETCH, CLEAR_ERRORS, READ_ALL, CLEAR_ITEMS } from 'state/<%= entityInstance %>.types';
 
 const styles = {
   fab: {
@@ -37,6 +41,7 @@ class <%= ComponentName %> extends Component {
 
     this.state = initialState;
 
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleError = this.handleError.bind(this);
     this.closeNotification = this.closeNotification.bind(this);
     this.fetchData = this.fetchData.bind(this);
@@ -146,9 +151,56 @@ class <%= ComponentName %> extends Component {
     });
   }
 
+  async handleDelete(item) {
+    const { onDelete, keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    if (authenticated) {
+      try {
+        await api<%= entityClassPlural %>Delete(item.id);
+        onDelete(item);
+        this.dispatch({ type: DELETE, payload: { id: item.id } });
+      } catch (err) {
+        this.handleError(err);
+      }
+    }
+  }
+
+  handleConfirmationDialogAction(action, item) {
+    switch (action) {
+      case ConfirmationDialogTrigger.CONFIRM: {
+        this.handleDelete(item);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
   render() {
     const { items, itemCount, errorMessage, errorStatus, filters } = this.state;
-    const { classes, onSelect, onAdd, t, keycloak, paginationMode = '' } = this.props;
+    const { classes, onSelect, onAdd, onDelete, t, keycloak, paginationMode = '' } = this.props;
+    const deleteLabel = t('common.delete');
+
+    const Actions = ({ item }) =>
+      onDelete ? (
+        <ConfirmationDialogTrigger
+          onCloseDialog={action => this.handleConfirmationDialogAction(action, item)}
+          dialog={{
+            title: t('entities.<%= entityInstance %>.deleteDialog.title'),
+            description: t('entities.<%= entityInstance %>.deleteDialog.description'),
+            confirmLabel: t('common.yes'),
+            discardLabel: t('common.no'),
+          }}
+          Renderer={({ onClick }) => (
+            <IconButton aria-label={deleteLabel} title={deleteLabel} onClick={onClick}>
+              <DeleteForever />
+            </IconButton>
+          )}
+        />
+      ) : (
+        ''
+      );
 
     return (
       <>
@@ -169,7 +221,7 @@ class <%= ComponentName %> extends Component {
           />
           <PaginationWrapper items={items} paginationMode={paginationMode} itemCount={itemCount}>
             <div className={classes.tableWrapper}>
-              <<%= entityClass %>Table items={items} onSelect={onSelect} />
+              <<%= entityClass %>Table items={items} onSelect={onSelect} Actions={Actions} />
             </div>
           </PaginationWrapper>
         </AuthenticatedView>
@@ -191,6 +243,7 @@ class <%= ComponentName %> extends Component {
   onAdd: PropTypes.func,
   onError: PropTypes.func,
   onSelect: PropTypes.func,
+  onDelete: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
   paginationMode: PropTypes.string,
@@ -202,6 +255,7 @@ class <%= ComponentName %> extends Component {
 
 <%= ComponentName %>.defaultProps = {
   onAdd: () => {},
+  onDelete: () => {},
   onError: () => {},
   onSelect: () => {},
   paginationMode: '',
