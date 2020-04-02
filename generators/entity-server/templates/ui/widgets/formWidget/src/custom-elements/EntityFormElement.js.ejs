@@ -5,7 +5,7 @@ import retargetEvents from 'react-shadow-dom-retarget-events';
 
 import { StylesProvider, ThemeProvider, jssPreset } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core';
-import { create } from 'jss';
+import { create as jssCreate } from 'jss';
 
 import { KeycloakContext } from 'auth/KeycloakContext';
 import setLocale from 'i18n/setLocale';
@@ -39,6 +39,8 @@ const ATTRIBUTES = {
 class <%= entityClass %>FormElement extends HTMLElement {
   jss;
 
+  container;
+
   mountPoint;
 
   keycloak = getKeycloakInstance();
@@ -48,6 +50,10 @@ class <%= entityClass %>FormElement extends HTMLElement {
   unsubscribeFromKeycloakEvent;
 
   onCreate = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.create);
+
+  onCancelEditing = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.cancelEditing);
+
+  onDelete = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.delete);
 
   onUpdate = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.update);
 
@@ -62,7 +68,7 @@ class <%= entityClass %>FormElement extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (!this.mountPoint || oldValue === newValue) {
+    if (!this.container || oldValue === newValue) {
       return;
     }
     if (!Object.values(ATTRIBUTES).includes(name)) {
@@ -72,14 +78,16 @@ class <%= entityClass %>FormElement extends HTMLElement {
   }
 
   connectedCallback() {
+    this.container = document.createElement('div');
     this.mountPoint = document.createElement('div');
+    this.container.appendChild(this.mountPoint);
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
-    shadowRoot.appendChild(this.mountPoint);
+    shadowRoot.appendChild(this.container);
 
-    this.jss = create({
+    this.jss = jssCreate({
       ...jssPreset(),
-      insertionPoint: this.mountPoint,
+      insertionPoint: this.container,
     });
 
     this.muiTheme = createMuiTheme({
@@ -116,10 +124,34 @@ class <%= entityClass %>FormElement extends HTMLElement {
 
   defaultWidgetEventHandler() {
     return evt => {
-      const { tableAdd, tableSelect } = INPUT_EVENT_TYPES;
+      const { 
+        tableAdd,
+        cancelEditing,
+        create,
+        edit,
+        delete: performDelete,
+        tableSelect,
+        update,
+      } = INPUT_EVENT_TYPES;
       const { id } = ATTRIBUTES;
       switch (evt.type) {
         case tableAdd: {
+          this.setAttribute(id, '');
+          break;
+        }
+        case edit: {
+          this.hidden = false;
+          this.setAttribute(id, evt.detail.payload.id);
+          break;
+        }
+        case create:
+        case cancelEditing:
+        case update: {
+          this.hidden = true;
+          break;
+        }
+        case performDelete: {
+          this.hidden = true;
           this.setAttribute(id, '');
           break;
         }

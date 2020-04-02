@@ -23,6 +23,7 @@ import <%=
     : Array.from(dependency[1])
 %> from '<%= dependency[0] %>';
 <%_ } _%>
+import ConfirmationDialogTrigger from 'components/common/ConfirmationDialogTrigger';
 
 const styles = theme => ({
   root: {
@@ -52,6 +53,23 @@ const styles = theme => ({
   const ComponentName = `${entityClass}Form`;
 _%>
 class <%= ComponentName %> extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleConfirmationDialogAction = this.handleConfirmationDialogAction.bind(this);
+  }
+
+  handleConfirmationDialogAction(action) {
+    const { onDelete, values } = this.props;
+    switch (action) {
+      case ConfirmationDialogTrigger.CONFIRM: {
+        onDelete(values);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
   render() {
     const {
       classes,
@@ -61,6 +79,8 @@ class <%= ComponentName %> extends PureComponent {
       handleChange,
       handleBlur,
       handleSubmit: formikHandleSubmit,
+      onDelete,
+      onCancelEditing,
       isSubmitting,
       <%_ if (fieldsContainDateOrBlob) { _%>
       setFieldValue,
@@ -95,7 +115,7 @@ class <%= ComponentName %> extends PureComponent {
     const handleFiles = field => event => {
       const uploadedFile = event.target;
       const reader = new FileReader();
-      reader.onload = function() {
+      reader.onload = () => {
         const dataURL = reader.result;
         const imageData = dataURL.match(/data:([^;]*);base64,(.*)$/);
         if (imageData && imageData[1] && imageData[2]) {
@@ -236,6 +256,27 @@ class <%= ComponentName %> extends PureComponent {
               <%_ } _%>
             </Grid>
             <%_ }) _%>
+            {onDelete && (
+              <ConfirmationDialogTrigger
+                onCloseDialog={this.handleConfirmationDialogAction}
+                dialog={{
+                  title: t('entities.<%= entityInstance %>.deleteDialog.title'),
+                  description: t('entities.<%= entityInstance %>.deleteDialog.description'),
+                  confirmLabel: t('common.yes'),
+                  discardLabel: t('common.no'),
+                }}
+                Renderer={({ onClick }) => (
+                  <Button onClick={onClick} disabled={isSubmitting}>
+                    {t('common.delete')}
+                  </Button>
+                )}
+              />
+            )}
+
+            <Button onClick={onCancelEditing} disabled={isSubmitting} data-testid="cancel-btn">
+              {t('common.cancel')}
+            </Button>
+
             <Button type="submit" color="primary" disabled={isSubmitting} data-testid="submit-btn">
               {t('common.save')}
             </Button>
@@ -262,6 +303,8 @@ class <%= ComponentName %> extends PureComponent {
   handleChange: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
+  onCancelEditing: PropTypes.func,
   isSubmitting: PropTypes.bool.isRequired,
   <%_ if (fieldsContainDateOrBlob) { _%>
   setFieldValue: PropTypes.func.isRequired,
@@ -271,10 +314,12 @@ class <%= ComponentName %> extends PureComponent {
 };
 
 <%= ComponentName %>.defaultProps = {
+  onCancelEditing: () => {},
   classes: {},
   values: {},
   touched: {},
   errors: {},
+  onDelete: null,
 };
 
 const empty<%= entityClass %> = {
