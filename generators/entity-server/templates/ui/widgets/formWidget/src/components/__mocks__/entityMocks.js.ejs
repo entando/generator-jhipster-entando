@@ -3,9 +3,19 @@
 const <%= entityInstance %>Mock = {
   <%_
     fields.forEach(field => {
+      const fieldType = getJHipsterType(field);
       const mockedValue = mockData[0][field.fieldName];
   _%>
   <%= field.fieldName %>: <%- typeof mockedValue === 'string' ? `'${mockedValue}'` : mockedValue %>,
+  <%_ if (fieldType === 'ImageBlob') { _%>
+  <%= field.fieldName %>ContentType: 'image/png',
+  <%_ } _%>
+  <%_ if (fieldType === 'BinaryFileBlob') { _%>
+  <%= field.fieldName %>ContentType: 'application/pdf',
+  <%_ } _%>
+  <%_ if (fieldType === 'TextBlob') { _%>
+  <%= field.fieldName %>ContentType: 'text/plain',
+  <%_ } _%>
   <%_ }) _%>
 };
 
