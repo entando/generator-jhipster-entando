@@ -58,3 +58,12 @@ export const api<%= entityClass %>Put = async <%= entityInstance %> => {
   };
   return request(url, options);
 };
+
+export const api<%= entityClass %>Delete = async id => {
+  const url = `${DOMAIN}/${resource}/${id}`;
+  const options = {
+    ...getDefaultOptions(),
+    method: 'DELETE',
+  };
+  return request(url, options);
+};

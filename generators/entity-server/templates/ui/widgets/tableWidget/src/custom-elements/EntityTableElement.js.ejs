@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import retargetEvents from 'react-shadow-dom-retarget-events';
 
-import { StylesProvider, jssPreset } from '@material-ui/core/styles';
+import { StylesProvider, jssPreset, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { create } from 'jss';
 
 import { KeycloakContext } from 'auth/KeycloakContext';
@@ -38,7 +38,11 @@ const ATTRIBUTES = {
 
 <%_ const ComponentName = `${entityClass}TableElement`; _%>
 class <%= ComponentName %> extends HTMLElement {
+  muiTheme;
+
   jss;
+
+  container;
 
   mountPoint;
 
@@ -53,6 +57,8 @@ class <%= ComponentName %> extends HTMLElement {
   onError = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.error);
 
   onSelect = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.select);
+  
+  onDelete = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.delete);
 
   reactRootRef = React.createRef();
 
@@ -61,7 +67,7 @@ class <%= ComponentName %> extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (!this.mountPoint || oldValue === newValue) {
+    if (!this.container || oldValue === newValue) {
       return;
     }
     if (!Object.values(ATTRIBUTES).includes(name)) {
@@ -71,14 +77,24 @@ class <%= ComponentName %> extends HTMLElement {
   }
 
   connectedCallback() {
+    this.container = document.createElement('div');
     this.mountPoint = document.createElement('div');
+    this.container.appendChild(this.mountPoint);
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
-    shadowRoot.appendChild(this.mountPoint);
+    shadowRoot.appendChild(this.container);
 
     this.jss = create({
       ...jssPreset(),
-      insertionPoint: this.mountPoint,
+      insertionPoint: this.container,
+    });
+
+    this.muiTheme = createMuiTheme({
+      props: {
+        MuiDialog: {
+          container: this.mountPoint,
+        },
+      },
     });
 
     this.keycloak = { ...getKeycloakInstance(), initialized: true };
@@ -140,15 +156,18 @@ class <%= ComponentName %> extends HTMLElement {
     ReactDOM.render(
       <KeycloakContext.Provider value={this.keycloak}>
         <StylesProvider jss={this.jss}>
-          <PaginationProvider paginationMode={paginationMode}>
-            <<%= entityClass %>TableContainer
-              ref={this.reactRootRef}
-              onAdd={this.onAdd}
-              onSelect={this.onSelect}
-              onError={this.onError}
-              paginationMode={paginationMode}
-            />
-          </PaginationProvider>
+          <ThemeProvider theme={this.muiTheme}>
+            <PaginationProvider paginationMode={paginationMode}>
+              <<%= entityClass %>TableContainer
+                ref={this.reactRootRef}
+                onAdd={this.onAdd}
+                onDelete={this.onDelete}
+                onSelect={this.onSelect}
+                onError={this.onError}
+                paginationMode={paginationMode}
+              />
+            </PaginationProvider>
+          </ThemeProvider>
         </StylesProvider>
       </KeycloakContext.Provider>,
       this.mountPoint

@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import keycloakType from 'components/__types__/keycloak';
 import { withKeycloak } from 'auth/KeycloakContext';
 import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
-import { api<%= entityClass %>Get, api<%= entityClass %>Put } from 'api/<%= entityInstancePlural %>';
+import { api<%= entityClass %>Get, api<%= entityClass %>Delete, api<%= entityClass %>Put } from 'api/<%= entityInstancePlural %>';
 import Notification from 'components/common/Notification';
 import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
 
@@ -20,6 +20,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
     };
 
     this.closeNotification = this.closeNotification.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -84,6 +85,20 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
     }
   }
 
+  async handleDelete(<%= entityInstance %>) {
+    const { onDelete, keycloak } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    if (authenticated) {
+      try {
+        await api<%= entityClass %>Delete(<%= entityInstance %>.id);
+        onDelete(<%= entityInstance %>);
+      } catch (err) {
+        this.handleError(err);
+      }
+    }
+  }
+
   handleError(err) {
     const { t, onError } = this.props;
     onError(err);
@@ -94,7 +109,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   }
 
   render() {
-    const { keycloak, t } = this.props;
+    const { keycloak, onCancelEditing, t } = this.props;
     const { notificationMessage, notificationStatus, <%= entityInstance %> } = this.state;
 
     return (
@@ -103,7 +118,11 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
           {t('common.notAuthenticated')}
         </UnauthenticatedView>
         <AuthenticatedView keycloak={keycloak}>
-          <<%= entityClass %>Form <%= entityInstance %>={<%= entityInstance %>} onSubmit={this.handleSubmit} />
+          <<%= entityClass %>Form 
+            <%= entityInstance %>={<%= entityInstance %>}
+            onSubmit={this.handleSubmit}
+            onCancelEditing={onCancelEditing}
+            onDelete={this.handleDelete} />
         </AuthenticatedView>
         <Notification
           status={notificationStatus}
@@ -117,13 +136,17 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
 
 <%= entityClass %>EditFormContainer.propTypes = {
   id: PropTypes.string.isRequired,
+  onCancelEditing: PropTypes.func,
   onError: PropTypes.func,
   onUpdate: PropTypes.func,
+  onDelete: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
 };
 
 <%= entityClass %>EditFormContainer.defaultProps = {
+  onCancelEditing: () => {},
+  onDelete: () => {},
   onUpdate: () => {},
   onError: () => {},
 };

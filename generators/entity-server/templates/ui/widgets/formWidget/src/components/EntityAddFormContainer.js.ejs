@@ -55,7 +55,7 @@ class <%= entityClass %>AddFormContainer extends PureComponent {
   }
 
   render() {
-    const { keycloak, t } = this.props;
+    const { keycloak, onCancelEditing, t } = this.props;
     const { notificationMessage, notificationStatus } = this.state;
 
     return (
@@ -64,7 +64,7 @@ class <%= entityClass %>AddFormContainer extends PureComponent {
           {t('common.notAuthenticated')}
         </UnauthenticatedView>
         <AuthenticatedView keycloak={keycloak}>
-          <<%= entityClass %>Form onSubmit={this.handleSubmit} />
+          <<%= entityClass %>Form onSubmit={this.handleSubmit} onCancelEditing={onCancelEditing} />
         </AuthenticatedView>
         <Notification
           status={notificationStatus}
@@ -78,6 +78,7 @@ class <%= entityClass %>AddFormContainer extends PureComponent {
 
 <%= entityClass %>AddFormContainer.propTypes = {
   onError: PropTypes.func,
+  onCancelEditing: PropTypes.func,
   onCreate: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
@@ -85,6 +86,7 @@ class <%= entityClass %>AddFormContainer extends PureComponent {
 
 <%= entityClass %>AddFormContainer.defaultProps = {
   onError: () => {},
+  onCancelEditing: () => {},
   onCreate: () => {},
 };
 

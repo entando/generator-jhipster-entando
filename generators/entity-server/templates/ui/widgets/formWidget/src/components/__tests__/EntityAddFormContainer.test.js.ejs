@@ -8,10 +8,9 @@ import 'i18n/__mocks__/i18nMock';
 import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
 
 jest.mock('api/<%= entityInstancePlural %>');
-jest.mock('@material-ui/pickers', () => ({
-  ...jest.requireActual('@material-ui/pickers'),
+jest.mock('@material-ui/pickers', () => {
   // eslint-disable-next-line react/prop-types
-  DateTimePicker: ({ id, value, name, label, onChange }) => {
+  const MockPicker = ({ id, value, name, label, onChange }) => {
     const handleChange = event => onChange(event.currentTarget.value);
     return (
       <span>
@@ -19,8 +18,29 @@ jest.mock('@material-ui/pickers', () => ({
         <input id={id} name={name} value={value || ''} onChange={handleChange} />
       </span>
     );
-  },
-}));
+  };
+  return {
+    ...jest.requireActual('@material-ui/pickers'),
+    DateTimePicker: MockPicker,
+    DatePicker: MockPicker,
+  };
+});
+<%_ if (fieldsContainBlob) { _%>
+const dataURLtoFile = (dataurl, filename) => { 
+  var arr = dataurl.split(','),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]), 
+    n = bstr.length, 
+    u8arr = new Uint8Array(n);
+      
+  while(n){
+    n -= 1;
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  
+  return new File([u8arr], filename, {type:mime});
+};
+<%_ } _%>
 
 jest.mock('auth/KeycloakContext', () => {
   const withKeycloak = Component => {
@@ -56,11 +76,28 @@ describe('<%= entityClass %>AddFormContainer', () => {
       <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
     );
 
-    <%_ fields.forEach(field => { _%>
+    <%_ 
+    fields.forEach(field => { 
+      const fieldType = getJHipsterType(field);
+      if (['ImageBlob', 'BinaryFileBlob'].includes(fieldType)) {
+        const sampleFilename = `${field.fieldName}.${fieldType === 'ImageBlob' ? 'png': 'pdf'}`;
+        const sampleFileType = fieldType === 'ImageBlob' ? 'image/png': 'application/pdf';
+    _%>
+    const <%= field.fieldName %>Field = await findByTestId('<%= field.fieldName %>-uploader');
+    const <%= field.fieldName %>File = dataURLtoFile(`data:<%= sampleFileType %>;base64,${<%= entityInstance %>Mock.<%= field.fieldName %>}`, '<%= sampleFilename %>');
+    fireEvent.change(<%= field.fieldName %>Field, { target: { files: [<%= field.fieldName %>File] } });
+    <%_ } else if (fieldType === 'Boolean') { _%>
+    if (<%= entityInstance %>Mock.<%= field.fieldName %>) {
+      const <%= field.fieldName %>Field = await findByTestId('<%= entityInstance %>-<%= field.fieldName %>-checkbox');
+      fireEvent.click(<%= field.fieldName %>Field);
+    }
+    <%_ } else { _%>
     const <%= field.fieldName %>Field = await findByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>');
     fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
-    
-    <%_ }) _%>
+    <%_ 
+      }
+    })
+    _%>
     rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
 
     const saveButton = await findByTestId('submit-btn');
@@ -85,11 +122,28 @@ describe('<%= entityClass %>AddFormContainer', () => {
       <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
     );
 
-    <%_ fields.forEach(field => { _%>
+    <%_ 
+    fields.forEach(field => {
+      const fieldType = getJHipsterType(field);
+      if (['ImageBlob', 'BinaryFileBlob'].includes(fieldType)) {
+        const sampleFilename = `${field.fieldName}.${fieldType === 'ImageBlob' ? 'png': 'txt'}`;
+        const sampleFileType = fieldType === 'ImageBlob' ? 'image/png': 'application/pdf';
+    _%>
+    const <%= field.fieldName %>Field = await findByTestId('<%= field.fieldName %>-uploader');
+    const <%= field.fieldName %>File = dataURLtoFile(`data:<%= sampleFileType %>;base64,${<%= entityInstance %>Mock.<%= field.fieldName %>}`, '<%= sampleFilename %>');
+    fireEvent.change(<%= field.fieldName %>Field, { target: { files: [<%= field.fieldName %>File] } });
+    <%_ } else if (fieldType === 'Boolean') { _%>
+    if (<%= entityInstance %>Mock.<%= field.fieldName %>) {
+      const <%= field.fieldName %>Field = await findByTestId('<%= entityInstance %>-<%= field.fieldName %>-checkbox');
+      fireEvent.click(<%= field.fieldName %>Field);
+    }
+    <%_ } else { _%>
     const <%= field.fieldName %>Field = await findByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>');
     fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
-
-    <%_ }) _%>
+    <%_ 
+      }
+    })
+    _%>
     rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
 
     const saveButton = await findByTestId('submit-btn');
