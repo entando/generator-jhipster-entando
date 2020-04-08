@@ -26,7 +26,7 @@
           const keycloak = Keycloak({
             url: 'http://localhost:9080/auth',
             realm: 'jhipster',
-            clientId: 'jhipster-entando-react-client',
+            clientId: 'web_app',
           });
 
           keycloak.onReady = createKcDispatcher({ eventType: 'onReady' });
@@ -43,7 +43,16 @@
             keycloak,
           };
 
-          window.entando.keycloak.init({ onLoad: 'check-sso' }).success(onInit);
+          if (window.location.hostname === 'localhost') {
+             window.entando.keycloak
+                    .init({ onLoad: 'login-required' })
+                    .success(onInit);
+          }
+          else {
+            window.entando.keycloak
+                    .init({ onLoad: 'check-sso' })
+                    .success(onInit);
+          }
         }
         return initKeycloak;
       })();
@@ -51,7 +60,7 @@
   </head>
   <body onLoad="onLoad();">
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <<%= entityFileName %>-table <% if (pagination !== 'no') { _%>pagination-mode="<%= pagination %>" <% } _%> />
+    <<%= entityFileName %>-table service-url="http://localhost:<%= serverPort %>/services/<%= baseName %>/api"  <% if (pagination !== 'no') { _%>pagination-mode="<%= pagination %>" <% } _%> />
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

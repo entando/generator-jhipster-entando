@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import keycloakType from 'components/__types__/keycloak';
-import { withKeycloak } from 'auth/KeycloakContext';
+import withKeycloak from 'auth/withKeycloak';
 import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
 import { api<%= entityClass %>Get, api<%= entityClass %>Delete, api<%= entityClass %>Put } from 'api/<%= entityInstancePlural %>';
 import Notification from 'components/common/Notification';
@@ -46,12 +46,12 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   }
 
   async fetchData() {
-    const { keycloak, id } = this.props;
+    const { keycloak, id, serviceUrl } = this.props;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated && id) {
       try {
-        const <%= entityInstance %> = await api<%= entityClass %>Get(id);
+        const <%= entityInstance %> = await api<%= entityClass %>Get(serviceUrl, id);
         this.setState(() => ({
           <%= entityInstance %>,
         }));
@@ -62,16 +62,18 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   }
 
   closeNotification() {
-    this.setState(() => ({ notificationMessage: null }));
+    this.setState(() => ({
+      notificationMessage: null
+    }));
   }
 
   async handleSubmit(<%= entityInstance %>) {
-    const { t, onUpdate, keycloak } = this.props;
+    const { t, onUpdate, keycloak, serviceUrl } = this.props;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
       try {
-        const updated<%= entityClass %> = await api<%= entityClass %>Put(<%= entityInstance %>);
+        const updated<%= entityClass %> = await api<%= entityClass %>Put(serviceUrl, <%= entityInstance %>);
         onUpdate(updated<%= entityClass %>);
 
         this.setState({
@@ -86,13 +88,18 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   }
 
   async handleDelete(<%= entityInstance %>) {
-    const { onDelete, keycloak } = this.props;
+    const { t, onDelete, keycloak, serviceUrl } = this.props;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
       try {
-        await api<%= entityClass %>Delete(<%= entityInstance %>.id);
+        await api<%= entityClass %>Delete(serviceUrl, <%= entityInstance %>.id);
         onDelete(<%= entityInstance %>);
+        this.setState({
+          customer: null,
+          notificationMessage: t('common.dataDeleted'),
+          notificationStatus: Notification.SUCCESS,
+        });
       } catch (err) {
         this.handleError(err);
       }
@@ -112,17 +119,28 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
     const { keycloak, onCancelEditing, t } = this.props;
     const { notificationMessage, notificationStatus, <%= entityInstance %> } = this.state;
 
+    let form;
+    if (typeof customer === 'undefined') {
+     form = t('entities.<%= entityInstance %>.notFound');
+    } else if (customer === null) {
+      form = t('entities.<%= entityInstance %>.deleted');;
+    } else {
+      form = (
+        <<%= entityClass %>Form
+          <%= entityInstance %>={<%= entityInstance %>}
+          onSubmit={this.handleSubmit}
+          onCancelEditing={onCancelEditing}
+          onDelete={this.handleDelete}
+        />
+      );
+    }
     return (
       <>
         <UnauthenticatedView keycloak={keycloak}>
           {t('common.notAuthenticated')}
         </UnauthenticatedView>
         <AuthenticatedView keycloak={keycloak}>
-          <<%= entityClass %>Form 
-            <%= entityInstance %>={<%= entityInstance %>}
-            onSubmit={this.handleSubmit}
-            onCancelEditing={onCancelEditing}
-            onDelete={this.handleDelete} />
+         {form}
         </AuthenticatedView>
         <Notification
           status={notificationStatus}
@@ -142,6 +160,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   onDelete: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
+  serviceUrl: PropTypes.string,
 };
 
 <%= entityClass %>EditFormContainer.defaultProps = {
@@ -149,6 +168,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   onDelete: () => {},
   onUpdate: () => {},
   onError: () => {},
+  serviceUrl: '',
 };
 
 export default withKeycloak(withTranslation()(<%= entityClass %>EditFormContainer));

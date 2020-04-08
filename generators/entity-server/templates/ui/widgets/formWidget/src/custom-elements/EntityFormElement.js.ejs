@@ -7,7 +7,7 @@ import { StylesProvider, ThemeProvider, jssPreset } from '@material-ui/core/styl
 import { createMuiTheme } from '@material-ui/core';
 import { create as jssCreate } from 'jss';
 
-import { KeycloakContext } from 'auth/KeycloakContext';
+import KeycloakContext from 'auth/KeycloakContext';
 import setLocale from 'i18n/setLocale';
 import {
   createWidgetEventPublisher,
@@ -34,6 +34,7 @@ const ATTRIBUTES = {
   hidden: 'hidden',
   locale: 'locale',
   disableDefaultEventHandler: 'disable-default-event-handler', // custom element attribute names MUST be written in kebab-case
+  serviceUrl: 'service-url',
 };
 
 class <%= entityClass %>FormElement extends HTMLElement {
@@ -124,7 +125,7 @@ class <%= entityClass %>FormElement extends HTMLElement {
 
   defaultWidgetEventHandler() {
     return evt => {
-      const { 
+      const {
         tableAdd,
         cancelEditing,
         create,
@@ -166,6 +167,8 @@ class <%= entityClass %>FormElement extends HTMLElement {
   }
 
   render() {
+    const serviceUrl = this.getAttribute(ATTRIBUTES.serviceUrl) || '';
+
     const hidden = this.getAttribute(ATTRIBUTES.hidden) === 'true';
     if (hidden) {
       ReactDOM.render(<></>);
@@ -197,12 +200,12 @@ class <%= entityClass %>FormElement extends HTMLElement {
     const FormContainer = id
       ? React.createElement(
           <%= entityClass %>EditFormContainer,
-          { id, onUpdate: this.onUpdate, onError: this.onErrorUpdate },
+          { id, onUpdate: this.onUpdate, onError: this.onErrorUpdate, serviceUrl: serviceUrl },
           null
         )
       : React.createElement(
           <%= entityClass %>AddFormContainer,
-          { onCreate: this.onCreate, onError: this.onErrorCreate },
+          { onCreate: this.onCreate, onError: this.onErrorCreate, serviceUrl: serviceUrl },
           null
         );
 

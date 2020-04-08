@@ -14,9 +14,9 @@ import {
 export const initialState = {
   filters: [],
   items: [],
-  itemCount: 0,
-  errorMessage: null,
-  errorStatus: null,
+  count: 0,
+  notificationMessage: null,
+  notificationStatus: null,
   loading: false,
 };
 
@@ -38,32 +38,39 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         items: initialState.items,
-        itemCount: initialState.itemCount,
+        count: initialState.count,
         filters: state.filters.filter((f, index) => index !== action.payload.filterId),
       };
     case CLEAR_FILTERS:
       return {
         ...state,
         items: initialState.items,
-        itemCount: initialState.itemCount,
+        count: initialState.count,
         filters: initialState.filters,
       };
     case CLEAR_ITEMS:
       return {
         ...state,
         items: initialState.items,
-        itemCount: initialState.itemCount,
+        count: initialState.count,
       };
     case READ_ALL:
       return {
         ...state,
         items: action.payload.items,
-        itemCount: action.payload.count,
+        count: action.payload.count,
       };
     case ERROR_FETCH:
-      return { ...state, errorMessage: action.payload.message, errorStatus: action.payload.status };
+      return {
+        ...state,
+        notificationMessage: action.payload.message,
+        notificationStatus: action.payload.status,
+      };
     case CLEAR_ERRORS:
-      return { ...state, errorMessage: null, errorStatus: null };
+      return {
+        ...state,
+        notificationMessage: null,
+      };
     case CREATE:
     case INPUT_EVENT_TYPES.formCreate:
       return { ...state, items: [...state.items, action.payload] };
