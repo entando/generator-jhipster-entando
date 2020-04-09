@@ -26,8 +26,8 @@ module.exports = class extends EntityServerGenerator {
         if (jhContext.databaseType === 'cassandra') {
             this.pkType = 'UUID';
         }
-        const jhipserConfig = this.getAllJhipsterConfig();
-        this.serverPort = jhipserConfig.serverPort;
+        const jhipsterConfig = this.getAllJhipsterConfig();
+        this.serverPort = jhipsterConfig.serverPort;
     }
 
     get initializing() {
