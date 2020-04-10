@@ -1,37 +1,10 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/api/${generator.entityInstancePlural}.js`" } -%>
-import { DOMAIN } from 'api/constants';
-
-const getKeycloakToken = () => {
-  if (
-    window &&
-    window.entando &&
-    window.entando.keycloak &&
-    window.entando.keycloak.authenticated
-  ) {
-    return window.entando.keycloak.token;
-  }
-  return '';
-};
-
-const getDefaultOptions = () => ({
-  headers: new Headers({
-    Authorization: `Bearer ${getKeycloakToken()}`,
-    'Content-Type': 'application/json',
-  }),
-});
+import { getDefaultOptions, request } from 'api/helpers';
 
 const resource = '<%= entityApiUrl %>';
 
-const request = async (url, options) => {
-  const response = await fetch(url, options);
-
-  return response.status >= 200 && response.status < 300
-    ? response.json()
-    : Promise.reject(new Error(response.statusText || response.status));
-};
-
-export const api<%= entityClass %>Get = async id => {
-  const url = `${DOMAIN}/${resource}/${id}`;
+export const api<%= entityClass %>Get = async (serviceUrl, id) => {
+  const url = `${serviceUrl}/${resource}/${id}`;
   const options = {
     ...getDefaultOptions(),
     method: 'GET',
@@ -39,8 +12,8 @@ export const api<%= entityClass %>Get = async id => {
   return request(url, options);
 };
 
-export const api<%= entityClass %>Post = async <%= entityInstance %> => {
-  const url = `${DOMAIN}/${resource}`;
+export const api<%= entityClass %>Post = async (serviceUrl, <%= entityInstance %>) => {
+  const url = `${serviceUrl}/${resource}`;
   const options = {
     ...getDefaultOptions(),
     method: 'POST',
@@ -49,8 +22,8 @@ export const api<%= entityClass %>Post = async <%= entityInstance %> => {
   return request(url, options);
 };
 
-export const api<%= entityClass %>Put = async <%= entityInstance %> => {
-  const url = `${DOMAIN}/${resource}`;
+export const api<%= entityClass %>Put = async (serviceUrl, <%= entityInstance %>) => {
+  const url = `${serviceUrl}/${resource}`;
   const options = {
     ...getDefaultOptions(),
     method: 'PUT',
@@ -59,8 +32,8 @@ export const api<%= entityClass %>Put = async <%= entityInstance %> => {
   return request(url, options);
 };
 
-export const api<%= entityClass %>Delete = async id => {
-  const url = `${DOMAIN}/${resource}/${id}`;
+export const api<%= entityClass %>Delete = async (serviceUrl, id) => {
+  const url = `${serviceUrl}/${resource}/${id}`;
   const options = {
     ...getDefaultOptions(),
     method: 'DELETE',

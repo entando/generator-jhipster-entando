@@ -5,17 +5,28 @@
   },
   "common": {
     "save": "Save",
-    "dataSaved": "Data successfully saved",
+    "dataSaved": "<%= entityNameCapitalized %> successfully saved",
+    "dataDeleted": "<%= entityNameCapitalized %> successfully deleted",
     "notAuthenticated": "User is not authenticated.",
     "selectFile": "Upload new file",
     "selectImageFile": "Upload new image",
-    "download": "Download"
+    "download": "Download",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "yes": "Yes",
+    "no": "No"
   },
   "validation": {
     "required": "{{field}} is required"
   },
   "entities": {
     "<%= entityInstance %>": {
+      "deleteDialog": {
+        "title": "Delete <%= entityInstance %>",
+        "description": "Are you sure?"
+      },
+      "notFound": "<%= entityNameCapitalized %> not found",
+      "deleted": "<%= entityNameCapitalized %> deleted",
       "id": "ID",
       <%_ fields.forEach(function(field){ _%>
       "<%= field.fieldName %>": "entities.<%= entityInstance %>.<%= field.fieldName %>",

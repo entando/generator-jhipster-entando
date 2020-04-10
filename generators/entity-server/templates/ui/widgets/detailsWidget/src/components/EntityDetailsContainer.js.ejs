@@ -6,11 +6,11 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core';
 
 import keycloakType from 'components/__types__/keycloak';
-import { withKeycloak } from 'auth/KeycloakContext';
+import withKeycloak from 'auth/withKeycloak';
 import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
 import <%= entityClass %>Details from 'components/<%= entityClass %>Details';
 import Notification from 'components/common/Notification';
-import get<%= entityClass %> from 'api/<%= entityInstance %>';
+import { api<%= entityClass %>Get } from 'api/<%= entityInstance %>';
 
 <%_ const ComponentName = `${entityClass}DetailsContainer`; _%>
 class <%= ComponentName %> extends React.Component {
@@ -49,42 +49,37 @@ class <%= ComponentName %> extends React.Component {
     }
   }
 
-  fetchData() {
-    const { id, onError, t, keycloak } = this.props;
+  async fetchData() {
+    const { keycloak, id, serviceUrl } = this.props;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
-    if (authenticated) {
-      if (id) {
-        get<%= entityClass %>({ id })
-          .then(<%= entityInstance %> =>
-            this.setState({
-              notificationStatus: null,
-              notificationMessage: null,
-              <%= entityInstance %>,
-            })
-          )
-          .catch(e => {
-            onError(e);
-            this.setState({
-              notificationStatus: Notification.ERROR,
-              notificationMessage: t('common.couldNotFetchData'),
-            });
-          })
-          .finally(() => this.setState({ loading: false }));
-      } else {
-        this.setState({
-          loading: false,
-          notificationStatus: Notification.ERROR,
-          notificationMessage: t('common.missingId'),
-        });
+    if (authenticated && id) {
+      try {
+        const <%= entityInstance %> = await api<%= entityClass %>Get(serviceUrl, id);
+        this.setState(() => ({
+          <%= entityInstance %>,
+          loading: false
+        }));
+      } catch (err) {
+        this.handleError(err);
       }
     }
   }
 
+
+  handleError(err) {
+    const { t, onError } = this.props;
+    onError(err);
+    this.setState(() => ({
+      notificationMessage: t('common.couldNotFetchData'),
+      notificationStatus: Notification.ERROR,
+      loading: false
+    }));
+  }
+
   closeNotification() {
     this.setState({
-      notificationStatus: null,
-      notificationMessage: null,
+      notificationMessage: null
     });
   }
 
@@ -116,10 +111,12 @@ class <%= ComponentName %> extends React.Component {
   onError: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
+  serviceUrl: PropTypes.string,
 };
 
 <%= ComponentName %>.defaultProps = {
   onError: () => {},
+  serviceUrl: '',
 };
 
 export default withKeycloak(withTranslation()(<%= ComponentName %>));

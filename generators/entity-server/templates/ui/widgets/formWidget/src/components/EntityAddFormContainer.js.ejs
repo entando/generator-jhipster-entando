@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import keycloakType from 'components/__types__/keycloak';
-import { withKeycloak } from 'auth/KeycloakContext';
+import withKeycloak from 'auth/withKeycloak';
 import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
 import { api<%= entityClass %>Post } from 'api/<%= entityInstancePlural %>';
 import Notification from 'components/common/Notification';
@@ -24,16 +24,18 @@ class <%= entityClass %>AddFormContainer extends PureComponent {
   }
 
   closeNotification() {
-    this.setState({ notificationMessage: null, notificationStatus: null });
+    this.setState({
+      notificationMessage: null
+    });
   }
 
   async handleSubmit(<%= entityInstance %>) {
-    const { t, onCreate, keycloak } = this.props;
+    const { t, onCreate, keycloak, serviceUrl } = this.props;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
       try {
-        const created<%= entityClass %> = await api<%= entityClass %>Post(<%= entityInstance %>);
+        const created<%= entityClass %> = await api<%= entityClass %>Post(serviceUrl, <%= entityInstance %>);
         onCreate(created<%= entityClass %>);
         this.setState({
           notificationMessage: t('common.dataSaved'),
@@ -82,12 +84,14 @@ class <%= entityClass %>AddFormContainer extends PureComponent {
   onCreate: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
+  serviceUrl: PropTypes.string,
 };
 
 <%= entityClass %>AddFormContainer.defaultProps = {
   onError: () => {},
   onCancelEditing: () => {},
   onCreate: () => {},
+  serviceUrl: '',
 };
 
 export default withKeycloak(withTranslation()(<%= entityClass %>AddFormContainer));

@@ -5,7 +5,6 @@ export const itemsPerPageOptions = [5, 10, 25];
 
 const initialState = {
   currentPage: 0,
-  totalItemCount: 0,
   itemsPerPage: itemsPerPageOptions[itemsPerPageOptions.length - 1],
 };
 
@@ -32,16 +31,20 @@ export class PaginationProvider extends React.Component {
   }
 
   onChangeItemsPerPage({ target: { value } }) {
+    const itemsPerPage = parseInt(value, 10);
+    const currentPage = 0;
+
     this.setState(state => ({
       ...state,
-      pagination: { ...state.pagination, itemsPerPage: parseInt(value, 10), currentPage: 0 },
+      pagination: { ...state.pagination, itemsPerPage, currentPage },
     }));
   }
 
   onChangeCurrentPage(newPage) {
+    const currentPage = parseInt(newPage, 10);
     this.setState(state => ({
       ...state,
-      pagination: { ...state.pagination, currentPage: parseInt(newPage, 10) },
+      pagination: { ...state.pagination, currentPage },
     }));
   }
 
@@ -70,14 +73,3 @@ PaginationProvider.propTypes = {
 PaginationProvider.defaultProps = {
   paginationMode: '',
 };
-
-export function withPaginationContext(Component) {
-  return function PaginatedComponent(props) {
-    return (
-      <PaginationContext.Consumer>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {context => <Component {...props} pagination={context} />}
-      </PaginationContext.Consumer>
-    );
-  };
-}

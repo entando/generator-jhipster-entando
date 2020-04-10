@@ -10,11 +10,11 @@ import { withStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 
 import keycloakType from 'components/__types__/keycloak';
-import { withKeycloak } from 'auth/KeycloakContext';
+import withKeycloak from 'auth/withKeycloak';
 import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
 import ConfirmationDialogTrigger from 'components/common/ConfirmationDialogTrigger';
 import PaginationWrapper from 'components/pagination/PaginationWrapper';
-import { withPaginationContext } from 'components/pagination/PaginationContext';
+import withPagination from 'components/pagination/withPagination';
 import FiltersContainer from 'components/filters/FiltersContainer';
 import <%= entityClass %>Table from 'components/<%= entityClass %>Table';
 import Notification from 'components/common/Notification';
@@ -82,7 +82,7 @@ class <%= ComponentName %> extends Component {
 
   async fetchData() {
     const { filters, items } = this.state;
-    const { keycloak, paginationMode, pagination } = this.props;
+    const { keycloak, paginationMode, pagination, serviceUrl } = this.props;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
@@ -99,7 +99,7 @@ class <%= ComponentName %> extends Component {
               }),
         };
 
-        const { <%= entityInstancePlural %>, headers } = await api<%= entityClassPlural %>Get(requestParameters);
+        const { <%= entityInstancePlural %>, headers } = await api<%= entityClassPlural %>Get(serviceUrl, requestParameters);
         const <%= entityInstance %>Count = (headers && headers['X-Total-Count']) || null;
 
         this.dispatch({
@@ -145,21 +145,25 @@ class <%= ComponentName %> extends Component {
     this.dispatch({
       type: ERROR_FETCH,
       payload: {
-        message: t('error.dataLoading'),
-        status: Notification.ERROR,
+        notificationMessage: t('error.dataLoading'),
+        notificationStatus: Notification.ERROR,
       },
     });
   }
 
   async handleDelete(item) {
-    const { onDelete, keycloak } = this.props;
+    const { t, onDelete, keycloak, serviceUrl } = this.props;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
       try {
-        await api<%= entityClassPlural %>Delete(item.id);
+        await api<%= entityClassPlural %>Delete(serviceUrl, item.id);
         onDelete(item);
         this.dispatch({ type: DELETE, payload: { id: item.id } });
+        this.setState({
+          notificationMessage: t('common.dataDeleted'),
+          notificationStatus: Notification.SUCCESS,
+        });
       } catch (err) {
         this.handleError(err);
       }
@@ -178,7 +182,7 @@ class <%= ComponentName %> extends Component {
   }
 
   render() {
-    const { items, itemCount, errorMessage, errorStatus, filters } = this.state;
+    const { items, count, notificationMessage, notificationStatus, filters } = this.state;
     const { classes, onSelect, onAdd, onDelete, t, keycloak, paginationMode = '' } = this.props;
     const deleteLabel = t('common.delete');
 
@@ -219,15 +223,15 @@ class <%= ComponentName %> extends Component {
             clear={this.clearFilters}
             filters={filters}
           />
-          <PaginationWrapper items={items} paginationMode={paginationMode} itemCount={itemCount}>
+          <PaginationWrapper items={items} paginationMode={paginationMode} count={count}>
             <div className={classes.tableWrapper}>
               <<%= entityClass %>Table items={items} onSelect={onSelect} Actions={Actions} />
             </div>
           </PaginationWrapper>
         </AuthenticatedView>
         <Notification
-          status={errorStatus}
-          message={errorMessage}
+          status={notificationStatus}
+          message={notificationMessage}
           onClose={this.closeNotification}
         />
       </>
@@ -251,6 +255,7 @@ class <%= ComponentName %> extends Component {
     currentPage: PropTypes.number,
     itemsPerPage: PropTypes.number,
   }),
+  serviceUrl: PropTypes.string,
 };
 
 <%= ComponentName %>.defaultProps = {
@@ -260,10 +265,11 @@ class <%= ComponentName %> extends Component {
   onSelect: () => {},
   paginationMode: '',
   pagination: null,
+  serviceUrl: '',
 };
 
 export default withKeycloak(
   withStyles(styles)(
-    withTranslation(undefined, { withRef: true })(withPaginationContext(<%= ComponentName %>))
+    withTranslation(undefined, { withRef: true })(withPagination(<%= ComponentName %>))
   )
 );

@@ -37,7 +37,8 @@ import org.springframework.beans.factory.InitializingBean;
     <%_ } _%>
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-    <%_ if (authenticationType !== 'uaa' && !(applicationType === 'microservice' && authenticationType === 'oauth2')) { _%>
+import org.springframework.http.HttpMethod;
+<%_ if (authenticationType !== 'uaa' && !(applicationType === 'microservice' && authenticationType === 'oauth2')) { _%>
 import org.springframework.http.HttpMethod;
     <%_ } _%>
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -256,6 +257,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     <%_ if (authenticationType === 'oauth2') { _%>
             .antMatchers("/api/auth-info").permitAll()
     <%_ } _%>
+            .antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll()
             .antMatchers("/api/**").authenticated()
     <%_ if (websocket === 'spring-websocket') { _%>
             .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)

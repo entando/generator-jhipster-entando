@@ -6,7 +6,7 @@ import retargetEvents from 'react-shadow-dom-retarget-events';
 import { StylesProvider, jssPreset, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { create } from 'jss';
 
-import { KeycloakContext } from 'auth/KeycloakContext';
+import KeycloakContext from 'auth/KeycloakContext';
 import { PaginationProvider } from 'components/pagination/PaginationContext';
 import <%= entityClass %>TableContainer from 'components/<%= entityClass %>TableContainer';
 import setLocale from 'i18n/setLocale';
@@ -34,6 +34,7 @@ const ATTRIBUTES = {
   locale: 'locale',
   paginationMode: 'pagination-mode',
   disableDefaultEventHandler: 'disable-default-event-handler', // custom element attribute names MUST be written in kebab-case
+  serviceUrl: 'service-url',
 };
 
 <%_ const ComponentName = `${entityClass}TableElement`; _%>
@@ -57,7 +58,7 @@ class <%= ComponentName %> extends HTMLElement {
   onError = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.error);
 
   onSelect = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.select);
-  
+
   onDelete = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.delete);
 
   reactRootRef = React.createRef();
@@ -136,6 +137,8 @@ class <%= ComponentName %> extends HTMLElement {
 
     const paginationMode = this.getAttribute(ATTRIBUTES.paginationMode) || '';
 
+    const serviceUrl = this.getAttribute(ATTRIBUTES.serviceUrl) || '';
+
     const disableEventHandler = this.getAttribute(ATTRIBUTES.disableDefaultEventHandler) === 'true';
     if (!disableEventHandler) {
       const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
@@ -165,6 +168,7 @@ class <%= ComponentName %> extends HTMLElement {
                 onSelect={this.onSelect}
                 onError={this.onError}
                 paginationMode={paginationMode}
+                serviceUrl={serviceUrl}
               />
             </PaginationProvider>
           </ThemeProvider>
