@@ -90,11 +90,6 @@ jhipster -d --blueprint entando
 
 ```
 
-# License
-
-GNU-3.0
-
-
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-entando.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-entando
 [travis-image]: https://travis-ci.org/kerruba/generator-jhipster-entando.svg?branch=master
