@@ -15,7 +15,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title><%= entityClassHumanized %> details</title>
-    <script src="http://localhost:9080/auth/js/keycloak.js"></script>
+    <script src="%REACT_APP_KEYCLOAK_URL%/js/keycloak.js"></script>
     <script>
       const onLoad = (function() {
         function createKcDispatcher(payload) {
@@ -24,9 +24,9 @@
 
         function initKeycloak() {
           const keycloak = Keycloak({
-            url: 'http://localhost:9080/auth',
-            realm: 'jhipster',
-            clientId: 'web_app',
+            url: '%REACT_APP_KEYCLOAK_URL%',
+            realm: '%REACT_APP_KEYCLOAK_REALM%',
+            clientId: '%REACT_APP_KEYCLOAK_CLIENT_ID%',
           });
 
           keycloak.onReady = createKcDispatcher({ eventType: 'onReady' });
@@ -43,16 +43,16 @@
             keycloak,
           };
 
-          if (window.location.hostname === 'localhost') {
-            window.entando.keycloak
-                    .init({ onLoad: 'login-required' })
-                    .success(onInit);
-          }
-          else {
-            window.entando.keycloak
-                    .init({ onLoad: 'check-sso' })
-                    .success(onInit);
-          }
+          /*
+            If you are locally running the widget in isolation and you are not logged in,
+            you are automatically redirected to keycloak login page to speed up development.
+          */
+          const onLoad = window.location.hostname === 'localhost' ? 'login-required' : 'check-sso';
+
+          window.entando.keycloak
+                  .init({ onLoad })
+                  .success(onInit);
+
         }
         return initKeycloak;
       })();
@@ -60,7 +60,7 @@
   </head>
   <body onLoad="onLoad();">
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <<%= entityFileName %>-details service-url="http://localhost:<%= serverPort %>/services/<%= baseName %>/api" id="1" />
+    <<%= entityFileName %>-details service-url="%REACT_APP_SERVICE_URL%" id="1" />
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
