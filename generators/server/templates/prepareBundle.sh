@@ -9,7 +9,7 @@ function createFolderTree() {
     cp "$widgetFolder"/bundle/* bundle/"$widgetFolder"/
 
     # Copying resources for widgets
-    cp "$widgetFolder"/build/static/js/*.js bundle/"$widgetFolder"/resources/static/js
+    cp -r "$widgetFolder"/build/static/js/*.js bundle/"$widgetFolder"/resources/static/js
 
     local jsExitStatus=$?
     if [ $jsExitStatus -ne 0 ]; then
@@ -32,7 +32,7 @@ function injectResource() {
     local _NL=$'\\\n'
 
     echo "- Injecting resource $resource in $destFile"
-    sed -i '.bak' 's|'"$INJECTION_POINT"'|'"$resource$_NL$INJECTION_POINT"'|g' "$destFile"
+    sed -i'.bak' 's|'"$INJECTION_POINT"'|'"$resource$_NL$INJECTION_POINT"'|g' "$destFile"
 }
 
 function updateFTLTemplate() {
