@@ -18,10 +18,22 @@ function processWidget() {
     (
        cd "$WIDGET_PATH"
 
+       THIS=$BASHPID
        echo "Installing micro-frontend dependencies"
-       npm install
+       npm install || return $?
        echo "Building micro-frontend code"
-       npm run build
+       npm run build | while read i
+        do
+            if [[ "$i" == *"Failed to compile"* ]]; then
+                echo "$i" 1>&2
+                echo "**ERROR DETECTED**" 1>&2
+                ( sleep 3; kill $THIS ) &
+            else
+                echo "$i"
+            fi
+        done
+
+       [ $? -ne 0 ] && return $?
 
        echo "$MFE_NAME - $WIDGET_NAME built successfully"
     ) || (
