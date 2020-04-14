@@ -340,10 +340,11 @@ function askForServerSideOpts(meta) {
         this.searchEngine = props.searchEngine;
         this.buildTool = props.buildTool;
         this.uaaBaseName = this.getUaaAppName(props.uaaBaseName).baseName;
-
+        this.prodDatabaseTypePlugin = props.prodDatabaseType;
         if (this.databaseType === 'no') {
             this.devDatabaseType = 'no';
             this.prodDatabaseType = 'no';
+            this.prodDatabaseTypePlugin = 'none';
             this.enableHibernateCache = false;
             if (this.authenticationType !== 'uaa') {
                 this.skipUserManagement = true;
@@ -351,14 +352,18 @@ function askForServerSideOpts(meta) {
         } else if (this.databaseType === 'mongodb') {
             this.devDatabaseType = 'mongodb';
             this.prodDatabaseType = 'mongodb';
+            this.prodDatabaseTypePlugin = 'mongodb';
             this.enableHibernateCache = false;
         } else if (this.databaseType === 'couchbase') {
             this.devDatabaseType = 'couchbase';
             this.prodDatabaseType = 'couchbase';
+            this.prodDatabaseTypePlugin = 'couchbase';
+
             this.enableHibernateCache = false;
         } else if (this.databaseType === 'cassandra') {
             this.devDatabaseType = 'cassandra';
             this.prodDatabaseType = 'cassandra';
+            this.prodDatabaseTypePlugin = 'cassandra';
             this.enableHibernateCache = false;
         }
         done();
@@ -470,7 +475,7 @@ function setSharedConfigOptions() {
     }
     this.configOptions.serverPort = this.serverPort;
     this.configOptions.bundleName = this.bundleName;
-
+    this.configOptions.prodDatabaseTypePlugin= this.prodDatabaseTypePlugin;
     // Make dist dir available in templates
     this.BUILD_DIR = this.getBuildDirectoryForBuildTool(this.buildTool);
     this.CLIENT_DIST_DIR = this.getResourceBuildDirectoryForBuildTool(this.configOptions.buildTool) + constants.CLIENT_DIST_DIR;
