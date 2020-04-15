@@ -96,7 +96,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
         await api<%= entityClass %>Delete(serviceUrl, <%= entityInstance %>.id);
         onDelete(<%= entityInstance %>);
         this.setState({
-          customer: null,
+          <%= entityInstance %>: null,
           notificationMessage: t('common.dataDeleted'),
           notificationStatus: Notification.SUCCESS,
         });
@@ -120,9 +120,9 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
     const { notificationMessage, notificationStatus, <%= entityInstance %> } = this.state;
 
     let form;
-    if (typeof customer === 'undefined') {
+    if (typeof <%= entityInstance %> === 'undefined') {
      form = t('entities.<%= entityInstance %>.notFound');
-    } else if (customer === null) {
+    } else if (<%= entityInstance %> === null) {
       form = t('entities.<%= entityInstance %>.deleted');;
     } else {
       form = (
