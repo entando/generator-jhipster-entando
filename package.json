@@ -1,5 +1,5 @@
 {
-  "name": "generator-jhipster-entando",
+  "name": "@entando/component-generator",
   "version": "6.1.0",
   "description": "",
   "keywords": [
@@ -7,19 +7,22 @@
     "jhipster-blueprint",
     "jhipster-6"
   ],
-  "homepage": "https://github.com/kerruba/generator-jhipster-entando",
+  "homepage": "https://entando.com",
   "author": {
-    "name": "Luca Cherubin",
-    "email": "l.cherubin@entando.com",
+    "name": "Entando Inc.",
+    "email": "info@entando.com",
     "url": ""
   },
   "files": [
     "generators"
   ],
   "main": "generators/app/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kerruba/generator-jhipster-entando.git"
+    "url": "git+https://github.com/entando/entando-blueprint"
   },
   "dependencies": {
     "casual": "^1.6.2",
