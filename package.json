@@ -1,6 +1,6 @@
 {
   "name": "generator-jhipster-entando",
-  "version": "6.0.0",
+  "version": "6.0.2",
   "description": "",
   "keywords": [
     "yeoman-generator",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://https://github.com/entando/entando-blueprint.git"
+    "url": "git+https://github.com/entando/entando-blueprint.git"
   },
   "dependencies": {
     "casual": "^1.6.2",
