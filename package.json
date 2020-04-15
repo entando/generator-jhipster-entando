@@ -77,6 +77,6 @@
   },
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/kerruba/generator-jhipster-entando/issues"
+    "url": "https://github.com/entando/entando-blueprint/issues"
   }
 }
