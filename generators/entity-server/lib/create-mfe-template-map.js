@@ -52,7 +52,7 @@ function getRenameToFunction(file) {
         };
     }
     return function(generator) {
-        return `/${generator.entityInstance}/${file.filename}`;
+        return `/${generator.entityFileName}/${file.filename}`;
     };
 }
 

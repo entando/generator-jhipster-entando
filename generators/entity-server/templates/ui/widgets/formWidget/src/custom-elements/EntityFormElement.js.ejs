@@ -1,4 +1,4 @@
-<%# { "useBluePrint": true, "renameTo": "`/${generator.entityInstance}/formWidget/src/custom-elements/${generator.entityClass}FormElement.js`" } -%>
+<%# { "useBluePrint": true, "renameTo": "`/${generator.entityFileName}/formWidget/src/custom-elements/${generator.entityClass}FormElement.js`" } -%>
 import React from 'react';
 import ReactDOM from 'react-dom';
 import retargetEvents from 'react-shadow-dom-retarget-events';
@@ -220,4 +220,4 @@ class <%= entityClass %>FormElement extends HTMLElement {
   }
 }
 
-customElements.define('<%= entityInstance %>-form', <%= entityClass %>FormElement);
+customElements.define('<%= entityFileName %>-form', <%= entityClass %>FormElement);
