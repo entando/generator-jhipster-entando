@@ -5,7 +5,7 @@ metadata:
 spec:
   image: entando/<%= dasherizedBaseName %>:0.0.1-SNAPSHOT
   replicas: 1
-  dbms: <%= prodDatabaseType%>
+  dbms: <%= prodDatabaseTypePlugin%>
   parameters: {}
   ingressPath: "/<%=baseName%>"
   healthCheckPath: "/management/health"
