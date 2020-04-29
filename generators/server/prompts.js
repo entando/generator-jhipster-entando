@@ -29,6 +29,7 @@ module.exports = {
     askForOptionalItems,
     askFori18n,
     askForBundleName,
+    askForDockerOrganization,
     setSharedConfigOptions,
 };
 
@@ -457,6 +458,28 @@ function askForBundleName(meta) {
     });
 }
 
+function askForDockerOrganization(meta) {
+    if (!meta && this.existingProject) return;
+
+    const done = this.async();
+
+    const applicationType = this.applicationType;
+    const prompts = [
+        {
+            when: response => applicationType === 'microservice',
+            type: 'input',
+            name: 'dockerImageOrganization',
+            message: 'Which is the organization name to use when publishing the docker image??',
+            default: `entando`,
+        },
+    ];
+    this.prompt(prompts).then(prompt => {
+        this.dockerImageOrganization = prompt.dockerImageOrganization;
+        done();
+    });
+}
+
+
 function setSharedConfigOptions() {
     this.configOptions.packageName = this.packageName;
     this.configOptions.cacheProvider = this.cacheProvider;
@@ -478,6 +501,7 @@ function setSharedConfigOptions() {
     this.configOptions.serverPort = this.serverPort;
     this.configOptions.bundleName = this.bundleName;
     this.configOptions.prodDatabaseTypePlugin= this.prodDatabaseTypePlugin;
+    this.configOptions.dockerImageOrganization = this.dockerImageOrganization;
     // Make dist dir available in templates
     this.BUILD_DIR = this.getBuildDirectoryForBuildTool(this.buildTool);
     this.CLIENT_DIST_DIR = this.getResourceBuildDirectoryForBuildTool(this.configOptions.buildTool) + constants.CLIENT_DIST_DIR;
