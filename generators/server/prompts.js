@@ -469,7 +469,7 @@ function askForDockerOrganization(meta) {
             when: response => applicationType === 'microservice',
             type: 'input',
             name: 'dockerImageOrganization',
-            message: 'Which is the organization name to use when publishing the docker image??',
+            message: 'Which is the organization name to use when publishing the docker image?',
             default: `entando`,
         },
     ];
