@@ -50,6 +50,8 @@ class <%= entityClass %>FormElement extends HTMLElement {
 
   unsubscribeFromKeycloakEvent;
 
+  defaultEventHandlerDisabled;
+
   onCreate = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.create);
 
   onCancelEditing = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.cancelEditing);
@@ -179,20 +181,23 @@ class <%= entityClass %>FormElement extends HTMLElement {
     setLocale(locale);
 
     const disableEventHandler = this.getAttribute(ATTRIBUTES.disableDefaultEventHandler) === 'true';
-    if (!disableEventHandler) {
-      const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
+    if (disableEventHandler !== this.defaultEventHandlerDisabled) {
+      if (!disableEventHandler) {
+        const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
 
-      this.unsubscribeFromWidgetEvents = subscribeToWidgetEvents(
-        Object.values(INPUT_EVENT_TYPES),
-        defaultWidgetEventHandler
-      );
-    } else {
-      if (this.unsubscribeFromWidgetEvents) {
-        this.unsubscribeFromWidgetEvents();
+        this.unsubscribeFromWidgetEvents = subscribeToWidgetEvents(
+          Object.values(INPUT_EVENT_TYPES),
+          defaultWidgetEventHandler
+        );
+      } else {
+        if (this.unsubscribeFromWidgetEvents) {
+          this.unsubscribeFromWidgetEvents();
+        }
+        if (this.unsubscribeFromKeycloakEvent) {
+          this.unsubscribeFromKeycloakEvent();
+        }
       }
-      if (this.unsubscribeFromKeycloakEvent) {
-        this.unsubscribeFromKeycloakEvent();
-      }
+      this.defaultEventHandlerDisabled = disableEventHandler;
     }
 
     const id = this.getAttribute(ATTRIBUTES.id);

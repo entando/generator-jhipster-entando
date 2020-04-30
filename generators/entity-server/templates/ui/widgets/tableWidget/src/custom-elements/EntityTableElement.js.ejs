@@ -51,6 +51,8 @@ class <%= ComponentName %> extends HTMLElement {
 
   unsubscribeFromKeycloakEvent;
 
+  defaultEventHandlerDisabled;
+
   keycloak = getKeycloakInstance();
 
   onAdd = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.add);
@@ -140,20 +142,24 @@ class <%= ComponentName %> extends HTMLElement {
     const serviceUrl = this.getAttribute(ATTRIBUTES.serviceUrl) || '';
 
     const disableEventHandler = this.getAttribute(ATTRIBUTES.disableDefaultEventHandler) === 'true';
-    if (!disableEventHandler) {
-      const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
 
-      this.unsubscribeFromWidgetEvents = subscribeToWidgetEvents(
-        Object.values(INPUT_EVENT_TYPES),
-        defaultWidgetEventHandler
-      );
-    } else {
-      if (this.unsubscribeFromWidgetEvents) {
-        this.unsubscribeFromWidgetEvents();
+    if (disableEventHandler !== this.defaultEventHandlerDisabled) {
+      if (!disableEventHandler) {
+        const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
+
+        this.unsubscribeFromWidgetEvents = subscribeToWidgetEvents(
+          Object.values(INPUT_EVENT_TYPES),
+          defaultWidgetEventHandler
+        );
+      } else {
+        if (this.unsubscribeFromWidgetEvents) {
+          this.unsubscribeFromWidgetEvents();
+        }
+        if (this.unsubscribeFromKeycloakEvent) {
+          this.unsubscribeFromKeycloakEvent();
+        }
       }
-      if (this.unsubscribeFromKeycloakEvent) {
-        this.unsubscribeFromKeycloakEvent();
-      }
+      this.defaultEventHandlerDisabled = disableEventHandler;
     }
 
     ReactDOM.render(
