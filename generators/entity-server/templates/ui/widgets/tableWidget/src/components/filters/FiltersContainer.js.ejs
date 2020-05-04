@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Filter from 'components/filters/Filter';
 import filterType from 'components/__types__/filter';
+import { FILTER_TYPE_NO_VALUE_SPEC } from 'components/filters/utils';
 
 const styles = {
   root: {
@@ -37,7 +38,7 @@ const FiltersContainer = props => {
 
   const handleApplyFilter = () => {
     const errors = hasFilters && filters.map((filt) => {
-      if (filt.field && filt.operator && ['specified', 'unspecified'].indexOf(filt.operator) === -1) {
+      if (filt.field && filt.operator && !FILTER_TYPE_NO_VALUE_SPEC.includes(filt.operator)) {
         return filt.value ? '' : 'missing filter parameters';
       }
       return '';

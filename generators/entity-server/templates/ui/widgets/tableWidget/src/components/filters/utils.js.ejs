@@ -1,6 +1,8 @@
 <%# { "useBluePrint": true } -%>
 <%_ include ../../../../utils/jhipster _%>
-const DEFAULT_FILTER_TYPES = ['equals', 'in', 'specified', 'unspecified'];
+export const FILTER_TYPE_NO_VALUE_SPEC = ['specified', 'unspecified'];
+
+const DEFAULT_FILTER_TYPES = ['equals', 'in', ...FILTER_TYPE_NO_VALUE_SPEC];
 const STRING_FILTER_TYPES = ['contains'];
 const DATE_NUMBER_FILTER_TYPES = [
   { value: 'greaterThan', title: '>' },
