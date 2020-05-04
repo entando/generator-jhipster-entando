@@ -100,7 +100,7 @@ class <%= ComponentName %> extends Component {
         };
 
         const { <%= entityInstancePlural %>, headers } = await api<%= entityClassPlural %>Get(serviceUrl, requestParameters);
-        const <%= entityInstance %>Count = (headers && headers['X-Total-Count']) || null;
+        const <%= entityInstance %>Count = (headers && headers['X-Total-Count']) || 0;
 
         this.dispatch({
           type: READ_ALL,
@@ -222,6 +222,7 @@ class <%= ComponentName %> extends Component {
             remove={this.removeFilter}
             clear={this.clearFilters}
             filters={filters}
+            error={this.handleError}
           />
           <PaginationWrapper items={items} paginationMode={paginationMode} count={count}>
             <div className={classes.tableWrapper}>
