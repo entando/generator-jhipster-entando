@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteForever from '@material-ui/icons/DeleteForever';
 
 import filterType from 'components/__types__/filter';
-import { getFieldFilterTypes } from 'components/filters/utils';
+import { getFieldFilterTypes, FILTER_TYPE_NO_VALUE_SPEC } from 'components/filters/utils';
 
 const styles = () => ({
   formControl: {
@@ -87,7 +87,7 @@ const Filter = ({ filter, t, update, remove, filterId, classes }) => {
         )}
       </Grid>
       <Grid item xs={3}>
-        {!!filter.operator && !['specified', 'unspecified'].includes(filter.operator) && (
+        {!!filter.operator && !FILTER_TYPE_NO_VALUE_SPEC.includes(filter.operator) && (
           <FormControl className={classes.formControl}>
             <TextField
               disabled={!filter.field}

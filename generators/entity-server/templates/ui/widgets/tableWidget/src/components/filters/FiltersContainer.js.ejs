@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Filter from 'components/filters/Filter';
 import filterType from 'components/__types__/filter';
+import { FILTER_TYPE_NO_VALUE_SPEC } from 'components/filters/utils';
 
 const styles = {
   root: {
@@ -31,9 +32,23 @@ const styles = {
 };
 
 const FiltersContainer = props => {
-  const { classes, filters, applyFilter, update, remove, clear, add, t } = props;
+  const { classes, filters, applyFilter, update, remove, clear, add, t, error } = props;
 
   const hasFilters = filters.length > 0;
+
+  const handleApplyFilter = () => {
+    const errors = hasFilters && filters.map((filt) => {
+      if (filt.field && filt.operator && !FILTER_TYPE_NO_VALUE_SPEC.includes(filt.operator)) {
+        return filt.value ? '' : 'missing filter parameters';
+      }
+      return '';
+    }).filter(f => !!f);
+    if (errors && errors.length > 0) {
+      error(errors[0]);
+    } else {
+      applyFilter();
+    }
+  };
 
   return (
     <Paper className={classes.root}>
@@ -62,7 +77,7 @@ const FiltersContainer = props => {
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={applyFilter}
+          onClick={handleApplyFilter}
         >
           {t('filters.filter')}
         </Button>
@@ -80,6 +95,7 @@ FiltersContainer.propTypes = {
   update: PropTypes.func,
   remove: PropTypes.func,
   clear: PropTypes.func,
+  error: PropTypes.func,
 };
 
 FiltersContainer.defaultProps = {
@@ -88,6 +104,7 @@ FiltersContainer.defaultProps = {
   update: () => {},
   remove: () => {},
   clear: () => {},
+  error: () => {},
 };
 
 export default withStyles(styles)(withTranslation()(FiltersContainer));
