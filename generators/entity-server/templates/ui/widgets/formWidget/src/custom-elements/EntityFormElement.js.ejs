@@ -50,6 +50,8 @@ class <%= entityClass %>FormElement extends HTMLElement {
 
   unsubscribeFromKeycloakEvent;
 
+  defaultEventHandlerDisabled;
+
   onCreate = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.create);
 
   onCancelEditing = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.cancelEditing);
@@ -74,6 +76,9 @@ class <%= entityClass %>FormElement extends HTMLElement {
     }
     if (!Object.values(ATTRIBUTES).includes(name)) {
       throw new Error(`Untracked changed attribute: ${name}`);
+    }
+    if (name === ATTRIBUTES.disableDefaultEventHandler) {
+      this.onToggleDisableDefaultEvent();
     }
     this.render();
   }
@@ -108,6 +113,8 @@ class <%= entityClass %>FormElement extends HTMLElement {
       this.keycloak = { ...getKeycloakInstance(), initialized: true };
       this.render();
     });
+
+    this.onToggleDisableDefaultEvent();
 
     this.render();
 
@@ -166,6 +173,29 @@ class <%= entityClass %>FormElement extends HTMLElement {
     };
   }
 
+  onToggleDisableDefaultEvent() {
+    const disableEventHandler = this.getAttribute(ATTRIBUTES.disableDefaultEventHandler) === 'true';
+
+    if (disableEventHandler !== this.defaultEventHandlerDisabled) {
+      if (!disableEventHandler) {
+        const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
+
+        this.unsubscribeFromWidgetEvents = subscribeToWidgetEvents(
+          Object.values(INPUT_EVENT_TYPES),
+          defaultWidgetEventHandler
+        );
+      } else {
+        if (this.unsubscribeFromWidgetEvents) {
+          this.unsubscribeFromWidgetEvents();
+        }
+        if (this.unsubscribeFromKeycloakEvent) {
+          this.unsubscribeFromKeycloakEvent();
+        }
+      }
+      this.defaultEventHandlerDisabled = disableEventHandler;
+    }
+  }
+
   render() {
     const serviceUrl = this.getAttribute(ATTRIBUTES.serviceUrl) || '';
 
@@ -177,23 +207,6 @@ class <%= entityClass %>FormElement extends HTMLElement {
 
     const locale = this.getAttribute(ATTRIBUTES.locale);
     setLocale(locale);
-
-    const disableEventHandler = this.getAttribute(ATTRIBUTES.disableDefaultEventHandler) === 'true';
-    if (!disableEventHandler) {
-      const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
-
-      this.unsubscribeFromWidgetEvents = subscribeToWidgetEvents(
-        Object.values(INPUT_EVENT_TYPES),
-        defaultWidgetEventHandler
-      );
-    } else {
-      if (this.unsubscribeFromWidgetEvents) {
-        this.unsubscribeFromWidgetEvents();
-      }
-      if (this.unsubscribeFromKeycloakEvent) {
-        this.unsubscribeFromKeycloakEvent();
-      }
-    }
 
     const id = this.getAttribute(ATTRIBUTES.id);
 

@@ -51,6 +51,8 @@ class <%= ComponentName %> extends HTMLElement {
 
   unsubscribeFromKeycloakEvent;
 
+  defaultEventHandlerDisabled;
+
   keycloak = getKeycloakInstance();
 
   onAdd = createWidgetEventPublisher(OUTPUT_EVENT_TYPES.add);
@@ -74,6 +76,11 @@ class <%= ComponentName %> extends HTMLElement {
     if (!Object.values(ATTRIBUTES).includes(name)) {
       throw new Error(`Untracked changed attribute: ${name}`);
     }
+
+    if (name === ATTRIBUTES.disableDefaultEventHandler) {
+      this.onToggleDisableDefaultEvent();
+    }
+    
     this.render();
   }
 
@@ -105,6 +112,8 @@ class <%= ComponentName %> extends HTMLElement {
       this.render();
     });
 
+    this.onToggleDisableDefaultEvent();
+
     this.render();
 
     retargetEvents(shadowRoot);
@@ -126,6 +135,29 @@ class <%= ComponentName %> extends HTMLElement {
     };
   }
 
+  onToggleDisableDefaultEvent() {
+    const disableEventHandler = this.getAttribute(ATTRIBUTES.disableDefaultEventHandler) === 'true';
+
+    if (disableEventHandler !== this.defaultEventHandlerDisabled) {
+      if (!disableEventHandler) {
+        const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
+
+        this.unsubscribeFromWidgetEvents = subscribeToWidgetEvents(
+          Object.values(INPUT_EVENT_TYPES),
+          defaultWidgetEventHandler
+        );
+      } else {
+        if (this.unsubscribeFromWidgetEvents) {
+          this.unsubscribeFromWidgetEvents();
+        }
+        if (this.unsubscribeFromKeycloakEvent) {
+          this.unsubscribeFromKeycloakEvent();
+        }
+      }
+      this.defaultEventHandlerDisabled = disableEventHandler;
+    }
+  }
+
   render() {
     const hidden = this.getAttribute(ATTRIBUTES.hidden) === 'true';
     if (hidden) {
@@ -138,23 +170,6 @@ class <%= ComponentName %> extends HTMLElement {
     const paginationMode = this.getAttribute(ATTRIBUTES.paginationMode) || '';
 
     const serviceUrl = this.getAttribute(ATTRIBUTES.serviceUrl) || '';
-
-    const disableEventHandler = this.getAttribute(ATTRIBUTES.disableDefaultEventHandler) === 'true';
-    if (!disableEventHandler) {
-      const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
-
-      this.unsubscribeFromWidgetEvents = subscribeToWidgetEvents(
-        Object.values(INPUT_EVENT_TYPES),
-        defaultWidgetEventHandler
-      );
-    } else {
-      if (this.unsubscribeFromWidgetEvents) {
-        this.unsubscribeFromWidgetEvents();
-      }
-      if (this.unsubscribeFromKeycloakEvent) {
-        this.unsubscribeFromKeycloakEvent();
-      }
-    }
 
     ReactDOM.render(
       <KeycloakContext.Provider value={this.keycloak}>
