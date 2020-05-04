@@ -77,6 +77,9 @@ class <%= entityClass %>FormElement extends HTMLElement {
     if (!Object.values(ATTRIBUTES).includes(name)) {
       throw new Error(`Untracked changed attribute: ${name}`);
     }
+    if (name === ATTRIBUTES.disableDefaultEventHandler) {
+      this.onToggleDisableDefaultEvent();
+    }
     this.render();
   }
 
@@ -110,6 +113,8 @@ class <%= entityClass %>FormElement extends HTMLElement {
       this.keycloak = { ...getKeycloakInstance(), initialized: true };
       this.render();
     });
+
+    this.onToggleDisableDefaultEvent();
 
     this.render();
 
@@ -168,19 +173,9 @@ class <%= entityClass %>FormElement extends HTMLElement {
     };
   }
 
-  render() {
-    const serviceUrl = this.getAttribute(ATTRIBUTES.serviceUrl) || '';
-
-    const hidden = this.getAttribute(ATTRIBUTES.hidden) === 'true';
-    if (hidden) {
-      ReactDOM.render(<></>);
-      return;
-    }
-
-    const locale = this.getAttribute(ATTRIBUTES.locale);
-    setLocale(locale);
-
+  onToggleDisableDefaultEvent() {
     const disableEventHandler = this.getAttribute(ATTRIBUTES.disableDefaultEventHandler) === 'true';
+
     if (disableEventHandler !== this.defaultEventHandlerDisabled) {
       if (!disableEventHandler) {
         const defaultWidgetEventHandler = this.defaultWidgetEventHandler();
@@ -199,6 +194,19 @@ class <%= entityClass %>FormElement extends HTMLElement {
       }
       this.defaultEventHandlerDisabled = disableEventHandler;
     }
+  }
+
+  render() {
+    const serviceUrl = this.getAttribute(ATTRIBUTES.serviceUrl) || '';
+
+    const hidden = this.getAttribute(ATTRIBUTES.hidden) === 'true';
+    if (hidden) {
+      ReactDOM.render(<></>);
+      return;
+    }
+
+    const locale = this.getAttribute(ATTRIBUTES.locale);
+    setLocale(locale);
 
     const id = this.getAttribute(ATTRIBUTES.id);
 
