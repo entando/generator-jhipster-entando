@@ -1,12 +1,12 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityFileName}/detailsWidget/src/custom-elements/${generator.entityClass}DetailsElement.js`" } -%>
 import React from 'react';
 import ReactDOM from 'react-dom';
-import i18next from 'i18next';
 
 import KeycloakContext from 'auth/KeycloakContext';
 import <%= entityClass %>DetailsContainer from 'components/<%= entityClass %>DetailsContainer';
 import { subscribeToWidgetEvent } from 'helpers/widgetEvents';
 import { KEYCLOAK_EVENT_TYPE } from 'custom-elements/widgetEventTypes';
+import setLocale from 'i18n/setLocale';
 
 const getKeycloakInstance = () =>
   (window &&
@@ -32,9 +32,6 @@ class <%= ComponentName %> extends HTMLElement {
     this.mountPoint = document.createElement('div');
     this.appendChild(this.mountPoint);
 
-    const locale = this.getAttribute('locale') || 'en';
-    i18next.changeLanguage(locale);
-
     this.keycloak = { ...getKeycloakInstance(), initialized: true };
 
     this.unsubscribeFromKeycloakEvent = subscribeToWidgetEvent(KEYCLOAK_EVENT_TYPE, () => {
@@ -58,6 +55,9 @@ class <%= ComponentName %> extends HTMLElement {
       });
       this.dispatchEvent(customEvent);
     };
+
+    const locale = this.getAttribute(ATTRIBUTES.locale);
+    setLocale(locale);
 
     const id = this.getAttribute('id');
 
