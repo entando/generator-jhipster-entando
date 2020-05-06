@@ -2,6 +2,7 @@
 <%_ include ../../../../utils/jhipster _%>
 <%_ include ../../../../utils/import-mui _%>
 <%_
+  const translationKeyPrefix = `entities.${entityInstance}.`;
   function convertValue(entityInstance, field, locale) {
     const fieldType = getJHipsterType(field); // from 'utils/jhipster'
     switch (fieldType) {
@@ -35,40 +36,36 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %>';
 
-const <%= entityClass %>FieldTable = ({ t, <% if (fieldsContainDate) { _%>i18n: { language }, <% } _%><%= entityInstance %> }) => {
-  const translationKeyPrefix = `entities.<%= entityInstance %>.`;
-
-  return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>{t('common.name')}</TableCell>
-          <TableCell>{t('common.value')}</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        <TableRow>
-          <TableCell>
-            <span>{t(`${translationKeyPrefix}id`)}</span>
-          </TableCell>
-          <TableCell>
-            <span>{<%= entityInstance %>.id}</span>
-          </TableCell>
-        </TableRow>
-        <%_ fields.forEach(function(field) { _%>
-        <TableRow>
-          <TableCell>
-            <span>{t(`${translationKeyPrefix}<%= field.fieldName %>`)}</span>
-          </TableCell>
-          <TableCell>
-            <span><%- convertValue(entityInstance, field) %></span>
-          </TableCell>
-        </TableRow>
-        <%_ }) _%>
-      </TableBody>
-    </Table>
-  );
-};
+const <%= entityClass %>FieldTable = ({ t, <% if (fieldsContainDate) { _%>i18n: { language }, <% } _%><%= entityInstance %> }) => (
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableCell>{t('common.name')}</TableCell>
+        <TableCell>{t('common.value')}</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell>
+          <span>{t('<%= translationKeyPrefix %>id')}</span>
+        </TableCell>
+        <TableCell>
+          <span>{<%= entityInstance %>.id}</span>
+        </TableCell>
+      </TableRow>
+      <%_ fields.forEach(function(field) { _%>
+      <TableRow>
+        <TableCell>
+          <span>{t('<%= `${translationKeyPrefix}${field.fieldName}` %>')}</span>
+        </TableCell>
+        <TableCell>
+          <span><%- convertValue(entityInstance, field) %></span>
+        </TableCell>
+      </TableRow>
+      <%_ }) _%>
+    </TableBody>
+  </Table>
+);
 
 <%= entityClass %>FieldTable.propTypes = {
   <%= entityInstance %>: <%= entityInstance %>Type,

@@ -25,7 +25,8 @@
     "coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint --fix ./src",
-    "i18n": "./node_modules/i18next-scanner/bin/cli.js --config ./scripts/i18next-scanner.config.js"
+    "i18n": "./node_modules/i18next-scanner/bin/cli.js --config ./scripts/i18next-scanner.config.js",
+    "postinstall": "npm run i18n"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
