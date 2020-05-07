@@ -3,7 +3,7 @@ apiVersion: "entando.org/v1"
 metadata:
   name: "<%=baseName.toLowerCase()%>-plugin"
 spec:
-  image: entando/<%= dasherizedBaseName %>:0.0.1-SNAPSHOT
+  image: <%= dockerImageOrganization %>/<%= dasherizedBaseName %>:0.0.1-SNAPSHOT
   replicas: 1
   dbms: <%= prodDatabaseTypePlugin%>
   parameters: {}
