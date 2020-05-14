@@ -468,9 +468,11 @@ function askForDockerOrganization(meta) {
         {
             when: response => applicationType === 'microservice',
             type: 'input',
+            validate: input => (/^([a-zA-Z0-9]{4,30})$/.test(input) ? true : 'Organization name should only contain 4 to 30 letters and/or numbers.'),
             name: 'dockerImageOrganization',
             message: 'Which is the organization name to use when publishing the docker image?',
             default: `entando`,
+
         },
     ];
     this.prompt(prompts).then(prompt => {
