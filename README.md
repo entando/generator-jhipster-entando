@@ -1,8 +1,10 @@
-# entando-blueprint
-Entando blueprint for generation JHipster services that function as an Entando plugin
-
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > JHipster blueprint,
+
+# entando-blueprint
+For more information and documentation visit: http://docs.entando.com, or http://forum.entando.org. Or for the latest news or product information please visit the main website: https://www.entando.com.
+
+Information below is for running locally or building from source. For usage information see the links above.
 
 # Introduction
 
