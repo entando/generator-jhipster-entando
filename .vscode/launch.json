@@ -1,0 +1,39 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Server generation for Entando blueprint",
+      "preLaunchTask": "server prebuild",
+      // "postDebugTask": "cleanup",
+      "program": "${workspaceFolder}/node_modules/generator-jhipster/cli/jhipster.js",
+      "args": [
+        "-d",
+        "--skip-checks",
+        "--skip-git",
+        "--skip-cache",
+        "--skip-install",
+        "--blueprints",
+        "entando"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "/tmp/debugEntandoBlueprint"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Entity generation for Entando blueprint",
+      "program": "${workspaceFolder}/node_modules/generator-jhipster/cli/jhipster.js",
+      "args": [
+        "entity",
+        "DebugEntity",
+      ],
+      "console": "integratedTerminal",
+      "cwd": "/tmp/debugEntandoBlueprint"
+    }
+  ]
+}
