@@ -1,6 +1,6 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityFileName}/detailsWidget/src/components/${generator.entityFileName}-field-table/${generator.entityClass}FieldTable.js`" } -%>
-<%_ include ../../../../utils/jhipster _%>
-<%_ include ../../../../utils/import-mui _%>
+<%- include('../../../../utils/jhipster') %>
+<%- include('../../../../utils/import-mui') %>
 <%_
   const translationKeyPrefix = `entities.${entityInstance}.`;
   function convertValue(entityInstance, field, locale) {
