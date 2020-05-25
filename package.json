@@ -45,9 +45,10 @@
     "prettier": "^2.0.5",
     "yaml": "^1.10.0",
     "yeoman-assert": "3.1.1",
-    "yeoman-test": "1.7.2"
+    "yeoman-test": "^2.6.0"
   },
   "scripts": {
+    "dev:setup": "npm install -g generator-jhipster@latest yo@latest",
     "lint": "eslint .",
     "lint-fix": "npm run lint -- --fix",
     "pretest": "npm run lint",
