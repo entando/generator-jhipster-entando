@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "init",
+			"type": "shell",
+			"command": "mkdir -p /tmp/debugEntandoBlueprint && cd /tmp/debugEntandoBlueprint && npm link generator-jhipster-entando"
+		},
+		{
+			"label": "cleanup",
+			"type": "shell",
+			"command": "rm -fr /tmp/debugEntandoBlueprint"
+		},
+		{
+			"label": "server prebuild",
+			"dependsOn": [
+				"cleanup",
+				"init"
+			]
+		}
+	]
+}
