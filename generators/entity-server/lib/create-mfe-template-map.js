@@ -47,7 +47,8 @@ function generate(file) {
 
 function getRenameToFunction(file) {
   if (file && file.options.renameTo) {
-    return function renameTo() {
+    // eslint-disable-next-line no-unused-vars
+    return function renameTo(generator) {
       return eval(file.options.renameTo); // eslint-disable-line no-eval
     };
   }
