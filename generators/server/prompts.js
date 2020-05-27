@@ -30,6 +30,7 @@ module.exports = {
     askFori18n,
     askForBundleName,
     askForDockerOrganization,
+    askForMicroFrontendGeneration,
     setSharedConfigOptions,
 };
 
@@ -468,11 +469,11 @@ function askForDockerOrganization(meta) {
         {
             when: response => applicationType === 'microservice',
             type: 'input',
-            validate: input => (/^([a-zA-Z0-9]{4,30})$/.test(input) ? true : 'Organization name should only contain 4 to 30 letters and/or numbers.'),
+            validate: input =>
+                /^([a-zA-Z0-9]{4,30})$/.test(input) ? true : 'Organization name should only contain 4 to 30 letters and/or numbers.',
             name: 'dockerImageOrganization',
             message: 'Which is the organization name to use when publishing the docker image?',
-            default: `entando`,
-
+            default: 'entando',
         },
     ];
     this.prompt(prompts).then(prompt => {
@@ -481,6 +482,39 @@ function askForDockerOrganization(meta) {
     });
 }
 
+function askForMicroFrontendGeneration(meta) {
+    if (!meta && this.existingProject) return;
+
+    const done = this.async();
+
+    const prompts = [
+        {
+            type: 'list',
+            name: 'generateMicroFrontends',
+            message: 'Would you like to generate micro frontends when creating entities?',
+            choices: [
+                {
+                    value: 'always',
+                    name: 'Always',
+                },
+                {
+                    value: 'never',
+                    name: 'Never',
+                },
+                {
+                    value: 'ask',
+                    name: 'Ask each time entity is being created',
+                },
+            ],
+            default: 'always',
+        },
+    ];
+    this.prompt(prompts).then(prompt => {
+        this.config.set('generateMicroFrontends', prompt.generateMicroFrontends);
+
+        done();
+    });
+}
 
 function setSharedConfigOptions() {
     this.configOptions.packageName = this.packageName;
@@ -502,7 +536,7 @@ function setSharedConfigOptions() {
     }
     this.configOptions.serverPort = this.serverPort;
     this.configOptions.bundleName = this.bundleName;
-    this.configOptions.prodDatabaseTypePlugin= this.prodDatabaseTypePlugin;
+    this.configOptions.prodDatabaseTypePlugin = this.prodDatabaseTypePlugin;
     this.configOptions.dockerImageOrganization = this.dockerImageOrganization;
     // Make dist dir available in templates
     this.BUILD_DIR = this.getBuildDirectoryForBuildTool(this.buildTool);
