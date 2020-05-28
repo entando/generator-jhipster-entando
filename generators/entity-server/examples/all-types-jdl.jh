@@ -1,0 +1,27 @@
+enum EnumerationFieldClass {
+  	ENUM_VALUE_ONE,
+  	ENUM_VALUE_TWO,
+  	ENUM_VALUE_THREE
+}
+
+entity AllFieldsEntity {
+	stringField String required
+    integerField Integer required
+    longField Long required
+    floatField Float required
+    doubleField Double required
+    bigDecimalField BigDecimal required
+    localDateField LocalDate required
+    instantField Instant required
+    zonedDateTimeField ZonedDateTime required
+    booleanField Boolean required
+    instantField Instant required
+    enumField EnumerationFieldClass required
+    binaryBlobField Blob required
+    imageBlobField ImageBlob required
+    textBlobField TextBlob required
+}
+
+
+// Set pagination options
+paginate AllFieldsEntity with pagination

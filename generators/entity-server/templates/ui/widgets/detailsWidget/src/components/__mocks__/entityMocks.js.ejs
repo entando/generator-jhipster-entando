@@ -3,6 +3,7 @@
 const <%= entityInstance %>ApiGetResponse = {
   <%_
     fields.forEach(field => {
+      
       const mockedValue = mockData[0][field.fieldName];
   _%>
   <%= field.fieldName %>: <%- typeof mockedValue === 'string' ? `'${mockedValue}'` : mockedValue %>,
