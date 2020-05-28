@@ -12,7 +12,7 @@ module.exports = class extends EntityGenerator {
     if (!jhContext) {
       this.error(
         `This is a JHipster blueprint and should be used only like ${chalk.yellow(
-          'jhipster --blueprint entando',
+          'jhipster --blueprints entando',
         )}`,
       );
     }

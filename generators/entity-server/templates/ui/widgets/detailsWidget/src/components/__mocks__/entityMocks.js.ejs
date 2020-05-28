@@ -1,8 +1,9 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityFileName}/detailsWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`" } -%>
-<%_ include ../../../../utils/jhipster _%>
+<%- include('../../../../utils/jhipster') %>
 const <%= entityInstance %>ApiGetResponse = {
   <%_
     fields.forEach(field => {
+      
       const mockedValue = mockData[0][field.fieldName];
   _%>
   <%= field.fieldName %>: <%- typeof mockedValue === 'string' ? `'${mockedValue}'` : mockedValue %>,

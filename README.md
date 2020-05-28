@@ -48,7 +48,7 @@ yarn global upgrade generator-jhipster-entando
 To use this blueprint, run the below command
 
 ```bash
-jhipster --blueprint entando
+jhipster --blueprints entando
 ```
 
 
@@ -86,7 +86,7 @@ mkdir my-app && cd my-app
 npm link generator-jhipster-entando
 npm link generator-jhipster (Optional: Needed only if you are using a non-released JHipster version)
 
-jhipster -d --blueprint entando
+jhipster -d --blueprints entando
 
 ```
 

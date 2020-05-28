@@ -1,21 +1,3 @@
-/**
- * Copyright 2013-2019 the original author or authors from the JHipster project.
- *
- * This file is part of the JHipster project, see https://www.jhipster.tech/
- * for more information.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const mkdirp = require('mkdirp');
 const cleanup = require('generator-jhipster/generators/cleanup');
 const constants = require('generator-jhipster/generators/generator-constants');
@@ -66,10 +48,6 @@ const serverFiles = {
         {
           useBluePrint: true,
           file: 'bundle/descriptor.yaml',
-        },
-        {
-          useBluePrint: true,
-          file: 'bundle/package.json',
         },
         {
           useBluePrint: true,
@@ -148,12 +126,7 @@ const serverFiles = {
     {
       condition: generator => !!generator.serviceDiscoveryType,
       path: DOCKER_DIR,
-      templates: [
-        {
-          file: 'config/README.md',
-          renameTo: () => 'central-server-config/README.md',
-        },
-      ],
+      templates: [{ file: 'config/README.md', renameTo: () => 'central-server-config/README.md' }],
     },
     {
       condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === 'consul',
@@ -216,28 +189,14 @@ const serverFiles = {
         'gradle.properties',
         'gradle/sonar.gradle',
         'gradle/docker.gradle',
-        {
-          file: 'gradle/profile_dev.gradle',
-          options: { interpolate: INTERPOLATE_REGEX },
-        },
-        {
-          file: 'gradle/profile_prod.gradle',
-          options: { interpolate: INTERPOLATE_REGEX },
-        },
+        { file: 'gradle/profile_dev.gradle', options: { interpolate: INTERPOLATE_REGEX } },
+        { file: 'gradle/profile_prod.gradle', options: { interpolate: INTERPOLATE_REGEX } },
         'gradle/war.gradle',
         'gradle/zipkin.gradle',
         { file: 'gradlew', method: 'copy', noEjs: true },
         { file: 'gradlew.bat', method: 'copy', noEjs: true },
-        {
-          file: 'gradle/wrapper/gradle-wrapper.jar',
-          method: 'copy',
-          noEjs: true,
-        },
-        {
-          file: 'gradle/wrapper/gradle-wrapper.properties',
-          method: 'copy',
-          noEjs: true,
-        },
+        { file: 'gradle/wrapper/gradle-wrapper.jar', method: 'copy', noEjs: true },
+        { file: 'gradle/wrapper/gradle-wrapper.properties', method: 'copy', noEjs: true },
       ],
     },
     {
@@ -250,21 +209,9 @@ const serverFiles = {
         { file: 'mvnw', method: 'copy', noEjs: true },
         { file: 'mvnw.cmd', method: 'copy', noEjs: true },
         { file: '.mvn/wrapper/maven-wrapper.jar', method: 'copy', noEjs: true },
-        {
-          file: '.mvn/wrapper/maven-wrapper.properties',
-          method: 'copy',
-          noEjs: true,
-        },
-        {
-          file: '.mvn/wrapper/MavenWrapperDownloader.java',
-          method: 'copy',
-          noEjs: true,
-        },
-        {
-          file: 'pom.xml',
-          options: { interpolate: INTERPOLATE_REGEX },
-          useBluePrint: true,
-        },
+        { file: '.mvn/wrapper/maven-wrapper.properties', method: 'copy', noEjs: true },
+        { file: '.mvn/wrapper/MavenWrapperDownloader.java', method: 'copy', noEjs: true },
+        { file: 'pom.xml', options: { interpolate: INTERPOLATE_REGEX }, useBluePrint: true },
       ],
     },
   ],
@@ -291,11 +238,7 @@ const serverFiles = {
         generator.devDatabaseType === 'h2Disk' || generator.devDatabaseType === 'h2Memory',
       path: SERVER_MAIN_RES_DIR,
       templates: [
-        {
-          file: 'h2.server.properties',
-          renameTo: () => '.h2.server.properties',
-          useBluePrint: true,
-        },
+        { file: 'h2.server.properties', renameTo: () => '.h2.server.properties', useBluePrint: true },
       ],
     },
     {
@@ -846,11 +789,7 @@ const serverFiles = {
         ) && generator.applicationType === 'microservice',
       path: SERVER_MAIN_RES_DIR,
       templates: [
-        {
-          file: 'static/microservices_index.html',
-          method: 'copy',
-          renameTo: () => 'static/index.html',
-        },
+        { file: 'static/microservices_index.html', method: 'copy', renameTo: () => 'static/index.html' },
       ],
     },
   ],

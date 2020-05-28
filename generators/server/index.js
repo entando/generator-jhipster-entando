@@ -13,7 +13,7 @@ module.exports = class extends ServerGenerator {
     if (!jhContext) {
       this.error(
         `This is a JHipster blueprint and should be used only like ${chalk.yellow(
-          'jhipster --blueprint entando',
+          'jhipster --blueprints entando',
         )}`,
       );
     }
@@ -70,13 +70,13 @@ module.exports = class extends ServerGenerator {
       'mbknor-jackson-jsonschema_2.12',
       '1.0.34',
       `
-      <exclusions>
-          <exclusion>
-              <groupId>org.scala-lang</groupId>
-              <artifactId>scala-library</artifactId>
-          </exclusion>
-      </exclusions>
-      `,
+            <exclusions>
+                <exclusion>
+                    <groupId>org.scala-lang</groupId>
+                    <artifactId>scala-library</artifactId>
+                </exclusion>
+            </exclusions>
+            `,
     );
   }
 

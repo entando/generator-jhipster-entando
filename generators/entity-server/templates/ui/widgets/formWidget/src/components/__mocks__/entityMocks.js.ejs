@@ -1,5 +1,5 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityFileName}/formWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`" } -%>
-<%_ include ../../../../utils/jhipster _%>
+<%- include('../../../../utils/jhipster') %>
 const <%= entityInstance %>Mock = {
   <%_
     fields.forEach(field => {

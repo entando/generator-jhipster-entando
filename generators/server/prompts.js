@@ -1,22 +1,3 @@
-/**
- * Copyright 2013-2019 the original author or authors from the JHipster project.
- *
- * This file is part of the JHipster project, see https://www.jhipster.tech/
- * for more information.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 const chalk = require('chalk');
 
 const constants = require('generator-jhipster/generators/generator-constants');
@@ -31,24 +12,21 @@ module.exports = {
   askFori18n,
   askForBundleName,
   askForDockerOrganization,
+  askForMicroFrontendGeneration,
   setSharedConfigOptions,
 };
 
 function askForModuleName() {
-  if (this.baseName) {
-    return;
-  }
+  if (this.baseName) return;
 
   this.askModuleName(this);
 }
 
 function askForServerSideOpts(meta) {
-  if (!meta && this.existingProject) {
-    return;
-  }
+  if (!meta && this.existingProject) return;
 
-  const { applicationType, reactive } = this;
-
+  const { applicationType } = this;
+  const { reactive } = this;
   let defaultPort = applicationType === 'gateway' ? '8080' : '8081';
   if (applicationType === 'uaa') {
     defaultPort = '9999';
@@ -304,9 +282,7 @@ function askForServerSideOpts(meta) {
     },
   ];
 
-  if (meta) {
-    return prompts; // eslint-disable-line consistent-return
-  }
+  if (meta) return prompts; // eslint-disable-line consistent-return
 
   const done = this.async();
 
@@ -390,9 +366,7 @@ function askForServerSideOpts(meta) {
 }
 
 function askForOptionalItems(meta) {
-  if (!meta && this.existingProject) {
-    return;
-  }
+  if (!meta && this.existingProject) return;
 
   const { applicationType } = this;
   const choices = [];
@@ -428,9 +402,7 @@ function askForOptionalItems(meta) {
     default: defaultChoice,
   };
 
-  if (meta) {
-    return PROMPTS; // eslint-disable-line consistent-return
-  }
+  if (meta) return PROMPTS; // eslint-disable-line consistent-return
 
   const done = this.async();
   if (choices.length > 0) {
@@ -452,17 +424,13 @@ function askForOptionalItems(meta) {
 }
 
 function askFori18n() {
-  if (this.existingProject || this.configOptions.skipI18nQuestion) {
-    return;
-  }
+  if (this.existingProject || this.configOptions.skipI18nQuestion) return;
 
   this.aski18n(this);
 }
 
 function askForBundleName(meta) {
-  if (!meta && this.existingProject) {
-    return;
-  }
+  if (!meta && this.existingProject) return;
 
   const done = this.async();
 
@@ -483,9 +451,7 @@ function askForBundleName(meta) {
 }
 
 function askForDockerOrganization(meta) {
-  if (!meta && this.existingProject) {
-    return;
-  }
+  if (!meta && this.existingProject) return;
 
   const done = this.async();
 
@@ -500,11 +466,45 @@ function askForDockerOrganization(meta) {
           : 'Organization name should only contain 4 to 30 letters and/or numbers.',
       name: 'dockerImageOrganization',
       message: 'Which is the organization name to use when publishing the docker image?',
-      default: `entando`,
+      default: 'entando',
     },
   ];
   this.prompt(prompts).then(prompt => {
     this.dockerImageOrganization = prompt.dockerImageOrganization;
+    done();
+  });
+}
+
+function askForMicroFrontendGeneration(meta) {
+  if (!meta && this.existingProject) return;
+
+  const done = this.async();
+
+  const prompts = [
+    {
+      type: 'list',
+      name: 'generateMicroFrontends',
+      message: 'Would you like to generate micro frontends when creating entities?',
+      choices: [
+        {
+          value: 'always',
+          name: 'Always',
+        },
+        {
+          value: 'never',
+          name: 'Never',
+        },
+        {
+          value: 'ask',
+          name: 'Ask each time entity is being created',
+        },
+      ],
+      default: 'always',
+    },
+  ];
+  this.prompt(prompts).then(prompt => {
+    this.config.set('generateMicroFrontends', prompt.generateMicroFrontends);
+
     done();
   });
 }

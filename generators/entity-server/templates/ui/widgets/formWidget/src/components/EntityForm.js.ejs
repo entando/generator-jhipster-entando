@@ -1,7 +1,7 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityFileName}/formWidget/src/components/${generator.entityClass}Form.js`" } -%>
-<%_ include ../../../utils/jhipster _%>
-<%_ include ../../../utils/import-mui _%>
-<%_ include ../../../utils/mui _%>
+<%- include('../../../utils/jhipster') %>
+<%- include('../../../utils/import-mui') %>
+<%- include('../../../utils/mui') %>
 <%_ const dependencies = getDependencies(fields); -%>
 <%_ if (fieldsContainDate) { _%>
 import 'date-fns';
@@ -348,7 +348,7 @@ const empty<%= entityClass %> = {
   <%_ }) _%>
 };
 
-<%_ include ../../../utils/yup _%>
+<%- include('../../../utils/yup') %>
 <%_ const yupValues = getYupValues(fields); _%>
 const validationSchema = Yup.object().shape({
   <%_ yupValues.forEach(yupField => { _%>
