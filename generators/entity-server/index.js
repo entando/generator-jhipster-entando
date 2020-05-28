@@ -16,7 +16,7 @@ module.exports = class extends EntityServerGenerator {
         const jhContext = (this.jhipsterContext = this.options.jhipsterContext);
 
         if (!jhContext) {
-            this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprint entando')}`);
+            this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprints entando')}`);
         }
 
         this.configOptions = jhContext.configOptions || {};
@@ -28,13 +28,11 @@ module.exports = class extends EntityServerGenerator {
         }
         const jhipsterConfig = this.getAllJhipsterConfig();
         this.serverPort = jhipsterConfig.serverPort;
-        this.generateMicroFrontends = jhipsterConfig.generateMicroFrontends;
     }
+
 
     get initializing() {
         // initializing - Your initialization methods (checking current project state, getting configs, etc)
-
-        this.lastMockDataId = 0; // used in test data mocking (writing phase)
 
         return super._initializing();
     }

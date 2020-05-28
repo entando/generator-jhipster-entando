@@ -7,22 +7,20 @@ const { getMockData } = require('./mfe-test-tools');
 
 function writingInit() {
     if (this.configOptions.generateMfeForEntity) {
-        this.utils = {
-            getMockEntityData: getMockData,
-        };
-        this.mockData = [getMockData(this.fields), getMockData(this.fields)];
+        this.mockData = getMockData(this.fields, 2);
     }
 }
 
-function writeServerFiles() {
+// overwriting super._writing().writeEntityServerFiles method
+function writeEntityServerFiles() {
     this.writeFilesToDisk(serverFiles, this, false, null);
 }
 
-function writeEntityServerFiles() {
+function writeMicroFrontendFiles() {
     if (this.configOptions.generateMfeForEntity) {
         const mfeTemplates = path.join(__dirname, '../..', 'templates', 'ui', 'widgets');
         const microFrontEndFiles = mfeFileGeneration(mfeTemplates);
-
+        debugger;
         this.writeFilesToDisk(microFrontEndFiles, this, false, null);
     }
 }
@@ -35,7 +33,7 @@ function updateBundleDescriptor() {
 
 module.exports = {
     writingInit,
-    writeServerFiles,
     writeEntityServerFiles,
+    writeMicroFrontendFiles,
     updateBundleDescriptor,
 };
