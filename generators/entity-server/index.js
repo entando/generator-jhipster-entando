@@ -10,83 +10,87 @@ const entandoBlueprintInstallPhase = require('./phases/install');
 const entandoBlueprintEndPhase = require('./phases/end');
 
 module.exports = class extends EntityServerGenerator {
-    constructor(args, opts) {
-        super(args, Object.assign({ fromBlueprint: true }, opts)); // fromBlueprint variable is important
+  constructor(args, opts) {
+    super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
 
-        const jhContext = (this.jhipsterContext = this.options.jhipsterContext);
+    this.jhipsterContext = this.options.jhipsterContext;
+    const jhContext = this.jhipsterContext;
 
-        if (!jhContext) {
-            this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprints entando')}`);
-        }
-
-        this.configOptions = jhContext.configOptions || {};
-        // This sets up options for this sub generator and is being reused from JHipster
-        jhContext.setupClientOptions(this, jhContext);
-
-        if (jhContext.databaseType === 'cassandra') {
-            this.pkType = 'UUID';
-        }
-        const jhipsterConfig = this.getAllJhipsterConfig();
-        this.serverPort = jhipsterConfig.serverPort;
+    if (!jhContext) {
+      this.error(
+        `This is a JHipster blueprint and should be used only like ${chalk.yellow(
+          'jhipster --blueprints entando',
+        )}`,
+      );
     }
 
+    this.configOptions = jhContext.configOptions || {};
+    // This sets up options for this sub generator and is being reused from JHipster
+    jhContext.setupClientOptions(this, jhContext);
 
-    get initializing() {
-        // initializing - Your initialization methods (checking current project state, getting configs, etc)
-
-        return super._initializing();
+    if (jhContext.databaseType === 'cassandra') {
+      this.pkType = 'UUID';
     }
+    const jhipsterConfig = this.getAllJhipsterConfig();
+    this.serverPort = jhipsterConfig.serverPort;
+  }
 
-    get prompting() {
-        // prompting - Where you prompt users for options (where you’d call this.prompt())
-        const jhipsterPromptingPhase = super._prompting();
+  get initializing() {
+    // initializing - Your initialization methods (checking current project state, getting configs, etc)
 
-        return { ...jhipsterPromptingPhase, ...entandoBlueprintPromptingPhase };
-    }
+    return super._initializing();
+  }
 
-    get configuring() {
-        // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
-        const jhipsterConfiguringPhase = super._configuring();
+  get prompting() {
+    // prompting - Where you prompt users for options (where you’d call this.prompt())
+    const jhipsterPromptingPhase = super._prompting();
 
-        return { ...jhipsterConfiguringPhase, ...entandoBlueprintConfiguringPhase };
-    }
+    return { ...jhipsterPromptingPhase, ...entandoBlueprintPromptingPhase };
+  }
 
-    get default() {
-        // default - If the method name doesn’t match a priority, it will be pushed to this group.
-        return super._default();
-    }
+  get configuring() {
+    // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
+    const jhipsterConfiguringPhase = super._configuring();
 
-    get writing() {
-        // writing - Where you write the generator specific files (routes, controllers, etc)
-        const jhipsterWritingPhase = super._writing();
+    return { ...jhipsterConfiguringPhase, ...entandoBlueprintConfiguringPhase };
+  }
 
-        return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
-    }
+  get default() {
+    // default - If the method name doesn’t match a priority, it will be pushed to this group.
+    return super._default();
+  }
 
-    get conflicts() {
-        // conflicts - Where conflicts are handled (used internally), no super._conflicts
-        return null;
-    }
+  get writing() {
+    // writing - Where you write the generator specific files (routes, controllers, etc)
+    const jhipsterWritingPhase = super._writing();
 
-    get install() {
-        // install - Where installations are run (npm, bower)
-        const jhipsterInstallPhase = super._install();
+    return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
+  }
 
-        return { ...jhipsterInstallPhase, ...entandoBlueprintInstallPhase };
-    }
+  get conflicts() {
+    // conflicts - Where conflicts are handled (used internally), no super._conflicts
+    return null;
+  }
 
-    get end() {
-        // end - Called last, cleanup, say good bye, etc
-        const jhipsterEndPhase = super._end();
+  get install() {
+    // install - Where installations are run (npm, bower)
+    const jhipsterInstallPhase = super._install();
 
-        return { ...jhipsterEndPhase, ...entandoBlueprintEndPhase };
-    }
+    return { ...jhipsterInstallPhase, ...entandoBlueprintInstallPhase };
+  }
 
-    log(msg) {
-        console.log(msg); // eslint-disable-line no-console
-    }
+  get end() {
+    // end - Called last, cleanup, say good bye, etc
+    const jhipsterEndPhase = super._end();
 
-    fs() {
-        return fs;
-    }
+    return { ...jhipsterEndPhase, ...entandoBlueprintEndPhase };
+  }
+
+  log(msg) {
+    console.log(msg); // eslint-disable-line no-console
+  }
+
+  fs() {
+    return fs;
+  }
 };
