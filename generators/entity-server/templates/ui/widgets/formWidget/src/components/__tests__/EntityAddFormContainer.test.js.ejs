@@ -27,11 +27,11 @@ jest.mock('@material-ui/pickers', () => {
 });
 <%_ if (fieldsContainBlob) { _%>
 const dataURLtoFile = (dataurl, filename) => { 
-  var arr = dataurl.split(','),
-    mime = arr[0].match(/:(.*?);/)[1],
-    bstr = atob(arr[1]), 
-    n = bstr.length, 
-    u8arr = new Uint8Array(n);
+  const arr = dataurl.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
       
   while(n){
     n -= 1;
@@ -42,7 +42,7 @@ const dataURLtoFile = (dataurl, filename) => {
 };
 <%_ } _%>
 
-jest.mock('auth/KeycloakContext', () => {
+jest.mock('auth/withKeycloak', () => {
   const withKeycloak = Component => {
     return props => (
       <Component
@@ -55,7 +55,7 @@ jest.mock('auth/KeycloakContext', () => {
     );
   };
 
-  return { withKeycloak };
+  return withKeycloak;
 });
 
 describe('<%= entityClass %>AddFormContainer', () => {
@@ -106,7 +106,7 @@ describe('<%= entityClass %>AddFormContainer', () => {
 
     await wait(() => {
       expect(api<%= entityClass %>Post).toHaveBeenCalledTimes(1);
-      expect(api<%= entityClass %>Post).toHaveBeenCalledWith(<%= entityInstance %>Mock);
+      expect(api<%= entityClass %>Post).toHaveBeenCalledWith('', <%= entityInstance %>Mock);
 
       expect(queryByText(successMessageKey)).toBeInTheDocument();
 
@@ -152,7 +152,7 @@ describe('<%= entityClass %>AddFormContainer', () => {
 
     await wait(() => {
       expect(api<%= entityClass %>Post).toHaveBeenCalledTimes(1);
-      expect(api<%= entityClass %>Post).toHaveBeenCalledWith(<%= entityInstance %>Mock);
+      expect(api<%= entityClass %>Post).toHaveBeenCalledWith('', <%= entityInstance %>Mock);
 
       expect(queryByText(successMessageKey)).not.toBeInTheDocument();
 

@@ -10,7 +10,7 @@ import <%= entityClass %>TableContainer from 'components/<%= entityClass %>Table
 
 jest.mock('api/<%= entityInstancePlural %>');
 
-jest.mock('auth/KeycloakContext', () => {
+jest.mock('auth/withKeycloak', () => {
   const withKeycloak = Component => {
     return props => (
       <Component
@@ -23,7 +23,23 @@ jest.mock('auth/KeycloakContext', () => {
     );
   };
 
-  return { withKeycloak };
+  return withKeycloak;
+});
+
+jest.mock('components/pagination/withPagination', () => {
+  const withPagination = Component => {
+    return props => (
+      <Component
+        {...props} // eslint-disable-line react/jsx-props-no-spreading
+        pagination={{
+          onChangeItemsPerPage: () => {},
+          onChangeCurrentPage: () => {},
+        }}
+      />
+    );
+  };
+
+  return withPagination;
 });
 
 describe('<%= entityClass %>TableContainer', () => {
