@@ -1,7 +1,9 @@
 <%# { "useBluePrint": true } -%>
-<%_ languages.forEach((lang) => { %>
+<%_ (languages || ['en']).forEach((lang) => { %>
 import <%= lang %> from 'i18n/locales/<%= lang %>.json';<%_ }); %>
 
 export default {
-  <%= languages %>
+  <%_ (languages || ['en']).forEach((lang) => { _%>
+  <%= lang %>,
+  <%_ }); _%>
 };
