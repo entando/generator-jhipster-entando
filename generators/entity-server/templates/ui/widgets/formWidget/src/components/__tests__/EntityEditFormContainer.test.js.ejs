@@ -9,7 +9,7 @@ import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %
 
 jest.mock('api/<%= entityInstancePlural %>');
 
-jest.mock('auth/KeycloakContext', () => {
+jest.mock('auth/withKeycloak', () => {
   const withKeycloak = Component => {
     return props => (
       <Component
@@ -22,7 +22,7 @@ jest.mock('auth/KeycloakContext', () => {
     );
   };
 
-  return { withKeycloak };
+  return withKeycloak;
 });
 
 describe('<%= entityClass %>EditFormContainer', () => {
@@ -44,11 +44,11 @@ describe('<%= entityClass %>EditFormContainer', () => {
 
     await wait(() => {
       expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
-      expect(api<%= entityClass %>Get).toHaveBeenCalledWith('1');
+      expect(api<%= entityClass %>Get).toHaveBeenCalledWith('', '1');
       expect(queryByText(errorMessageKey)).not.toBeInTheDocument();
       expect(onErrorMock).toHaveBeenCalledTimes(0);
     });
-  });
+  }, 7000);
 
   it('saves data', async () => {
     api<%= entityClass %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mock));
@@ -64,12 +64,12 @@ describe('<%= entityClass %>EditFormContainer', () => {
 
     await wait(() => {
       expect(api<%= entityClass %>Put).toHaveBeenCalledTimes(1);
-      expect(api<%= entityClass %>Put).toHaveBeenCalledWith(<%= entityInstance %>Mock);
+      expect(api<%= entityClass %>Put).toHaveBeenCalledWith('', <%= entityInstance %>Mock);
       expect(queryByText(successMessageKey)).toBeInTheDocument();
       expect(onErrorMock).toHaveBeenCalledTimes(0);
       expect(queryByText(errorMessageKey)).not.toBeInTheDocument();
     });
-  });
+  }, 7000);
 
   it('shows an error if data is not successfully loaded', async () => {
     api<%= entityClass %>Get.mockImplementation(() => Promise.reject());
@@ -79,12 +79,12 @@ describe('<%= entityClass %>EditFormContainer', () => {
 
     await wait(() => {
       expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
-      expect(api<%= entityClass %>Get).toHaveBeenCalledWith('1');
+      expect(api<%= entityClass %>Get).toHaveBeenCalledWith('', '1');
       expect(onErrorMock).toHaveBeenCalledTimes(1);
       expect(queryByText(errorMessageKey)).toBeInTheDocument();
       expect(queryByText(successMessageKey)).not.toBeInTheDocument();
     });
-  });
+  }, 7000);
 
   it('shows an error if data is not successfully saved', async () => {
     api<%= entityClass %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mock));
@@ -99,13 +99,13 @@ describe('<%= entityClass %>EditFormContainer', () => {
 
     await wait(() => {
       expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
-      expect(api<%= entityClass %>Get).toHaveBeenCalledWith('1');
+      expect(api<%= entityClass %>Get).toHaveBeenCalledWith('', '1');
 
       expect(api<%= entityClass %>Put).toHaveBeenCalledTimes(1);
-      expect(api<%= entityClass %>Put).toHaveBeenCalledWith(<%= entityInstance %>Mock);
+      expect(api<%= entityClass %>Put).toHaveBeenCalledWith('', <%= entityInstance %>Mock);
 
       expect(onErrorMock).toHaveBeenCalledTimes(1);
       expect(getByText(errorMessageKey)).toBeInTheDocument();
     });
-  });
+  }, 7000);
 });

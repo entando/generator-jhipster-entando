@@ -4,13 +4,13 @@ import { render, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import 'components/__mocks__/i18n';
-import get<%= entityClass %> from 'api/<%= entityInstance %>';
+import { api<%= entityClass %>Get } from 'api/<%= entityInstance %>';
 import <%= entityInstance %>ApiGetResponseMock from 'components/__mocks__/<%= entityInstance %>Mocks';
 import <%= entityClass %>DetailsContainer from 'components/<%= entityClass %>DetailsContainer';
 
 jest.mock('api/<%= entityInstance %>');
 
-jest.mock('auth/KeycloakContext', () => {
+jest.mock('auth/withKeycloak', () => {
   const withKeycloak = Component => {
     return props => (
       <Component
@@ -23,31 +23,31 @@ jest.mock('auth/KeycloakContext', () => {
     );
   };
 
-  return { withKeycloak };
+  return withKeycloak;
 });
 
 beforeEach(() => {
-  get<%= entityClass %>.mockClear();
+  api<%= entityClass %>Get.mockClear();
 });
 
 describe('<%= entityClass %>DetailsContainer component', () => {
   test('requests data when component is mounted', async () => {
-    get<%= entityClass %>.mockImplementation(() => Promise.resolve(<%= entityInstance %>ApiGetResponseMock));
+    api<%= entityClass %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>ApiGetResponseMock));
 
     render(<<%= entityClass %>DetailsContainer id="1" />);
 
     await wait(() => {
-      expect(get<%= entityClass %>).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
     });
   });
 
   test('data is shown after mount API call', async () => {
-    get<%= entityClass %>.mockImplementation(() => Promise.resolve(<%= entityInstance %>ApiGetResponseMock));
+    api<%= entityClass %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>ApiGetResponseMock));
 
     const { getByText } = render(<<%= entityClass %>DetailsContainer id="1" />);
 
     await wait(() => {
-      expect(get<%= entityClass %>).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
       <%_ fields.forEach(field => { _%>
       expect(getByText('entities.<%= entityInstance %>.<%= field.fieldName %>')).toBeInTheDocument();
       <%_ }) _%>
@@ -56,12 +56,12 @@ describe('<%= entityClass %>DetailsContainer component', () => {
 
   test('error is shown after failed API call', async () => {
     const onErrorMock = jest.fn();
-    get<%= entityClass %>.mockImplementation(() => Promise.reject());
+    api<%= entityClass %>Get.mockImplementation(() => Promise.reject());
 
     const { getByText } = render(<<%= entityClass %>DetailsContainer id="1" onError={onErrorMock} />);
 
     await wait(() => {
-      expect(get<%= entityClass %>).toHaveBeenCalledTimes(1);
+      expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
       expect(onErrorMock).toHaveBeenCalledTimes(1);
       expect(getByText('common.couldNotFetchData')).toBeInTheDocument();
     });

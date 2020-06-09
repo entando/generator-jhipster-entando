@@ -13,9 +13,6 @@ const <%= entityInstance %>Mock = {
   <%_ if (fieldType === 'BinaryFileBlob') { _%>
   <%= field.fieldName %>ContentType: 'application/pdf',
   <%_ } _%>
-  <%_ if (fieldType === 'TextBlob') { _%>
-  <%= field.fieldName %>ContentType: 'text/plain',
-  <%_ } _%>
   <%_ }) _%>
 };
 
