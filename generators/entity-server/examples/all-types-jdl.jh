@@ -15,7 +15,6 @@ entity AllFieldsEntity {
     instantField Instant required
     zonedDateTimeField ZonedDateTime required
     booleanField Boolean required
-    instantField Instant required
     enumField EnumerationFieldClass required
     binaryBlobField Blob required
     imageBlobField ImageBlob required
