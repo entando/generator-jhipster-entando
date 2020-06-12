@@ -53,7 +53,7 @@ function getGeneratedValue(fieldType, { fieldValues }) {
     case 'Double':
       return casual.double();
     case 'BigDecimal':
-      return `${casual.integer()}`;
+      return casual.integer();
     case 'LocalDate':
       return casual.date('YYYY-MM-DD');
     case 'Instant':
