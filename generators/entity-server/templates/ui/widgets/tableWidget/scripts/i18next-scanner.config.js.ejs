@@ -14,7 +14,7 @@ module.exports = {
       list: ['i18next.t', 'i18n.t', 't'],
       extensions: ['.js', '.jsx'],
     },
-    lngs: [<%- languages.map(lang => `'${lang}'`).join(', ') %>],
+    lngs: [<%- (languages || ['en']).map(lang => `'${lang}'`).join(', ') %>],
     ns: ['translation'],
     resource: {
       loadPath: 'src/i18n/locales/{{lng}}.json',
