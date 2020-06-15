@@ -242,7 +242,7 @@ class <%= ComponentName %> extends PureComponent {
                 error={errors.<%= field.fieldName %> && touched.<%= field.fieldName %>}
                 helperText={getHelperText('<%= field.fieldName %>')}
                 className={classes.textField}
-                <%_ if (['Integer', 'Long', 'Float', 'Double'].includes(field.fieldType)) { _%>
+                <%_ if (['Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(field.fieldType)) { _%>
                 type="number"
                 <%_ } _%>
                 <%_ if (['LocalDate', 'Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
