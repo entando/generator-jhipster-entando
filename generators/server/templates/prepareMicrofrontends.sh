@@ -22,7 +22,7 @@ function processWidget() {
        echo "Installing micro-frontend dependencies"
        npm install || return $?
        echo "Building micro-frontend code"
-       npm run build | while read i
+       npm run build --production | while read i
         do
             if [[ "$i" == *"Failed to compile"* ]]; then
                 echo "$i" 1>&2
