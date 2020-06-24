@@ -39,6 +39,7 @@ const serverFiles = {
       templates: [
         { file: 'prepareMicrofrontends.sh', method: 'copy', noEjs: true },
         { file: 'prepareBundle.sh', method: 'copy', noEjs: true },
+        { file: 'prepareDockerImage.sh', method: 'copy', noEjs: true },
         { file: 'buildBundle.sh', method: 'copy', noEjs: true },
       ],
     },

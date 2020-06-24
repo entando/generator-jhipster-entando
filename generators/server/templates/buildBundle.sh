@@ -6,10 +6,14 @@ echo "Generation of the $BUNDLE_NAME bundle"
 echo "====================================="
 echo ""
 
-echo "Step 1. Preparing micro-frontends for inclusion in the bundle"
+echo "Step 1. Preparing docker image"
+./prepareDockerImage.sh
+echo "---"
+
+echo "Step 2. Preparing micro-frontends for inclusion in the bundle"
 ./prepareMicrofrontends.sh
 echo "---"
-echo "Step 2. Including micro-frontends metadata and resources in the bundle package"
+echo "Step 3. Including micro-frontends metadata and resources in the bundle package"
 ./prepareBundle.sh
 echo "---"
 echo "All done! Bundle available in the $(pwd)/bundle folder"
