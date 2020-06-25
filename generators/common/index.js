@@ -1,11 +1,10 @@
 const chalk = require('chalk');
 
-const ServerGenerator = require('generator-jhipster/generators/server');
+const EntityServerGenerator = require('generator-jhipster/generators/common');
 
-const entandoBlueprintPromptingPhase = require('./phases/prompting');
 const entandoBlueprintWritingPhase = require('./phases/writing');
 
-module.exports = class extends ServerGenerator {
+module.exports = class extends EntityServerGenerator {
   constructor(args, opts) {
     super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
 
@@ -22,7 +21,13 @@ module.exports = class extends ServerGenerator {
 
     this.configOptions = jhContext.configOptions || {};
     // This sets up options for this sub generator and is being reused from JHipster
-    jhContext.setupServerOptions(this, jhContext);
+    jhContext.setupClientOptions(this, jhContext);
+
+    if (jhContext.databaseType === 'cassandra') {
+      this.pkType = 'UUID';
+    }
+    const jhipsterConfig = this.getAllJhipsterConfig();
+    this.serverPort = jhipsterConfig.serverPort;
   }
 
   get initializing() {
@@ -31,21 +36,8 @@ module.exports = class extends ServerGenerator {
     return super._initializing();
   }
 
-  get configuring() {
-    // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
-
-    return super._configuring();
-  }
-
-  get prompting() {
-    // prompting - Where you prompt users for options (where you’d call this.prompt())
-    const jhipsterPromptingPhase = super._prompting();
-
-    return { ...jhipsterPromptingPhase, ...entandoBlueprintPromptingPhase };
-  }
-
   get default() {
-    // Here we are not overriding this phase and hence its being handled by JHipster
+    // default - If the method name doesn’t match a priority, it will be pushed to this group.
     return super._default();
   }
 
@@ -53,11 +45,7 @@ module.exports = class extends ServerGenerator {
     // writing - Where you write the generator specific files (routes, controllers, etc)
     const jhipsterWritingPhase = super._writing();
 
+    // return entandoBlueprintWritingPhase;
     return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
-  }
-
-  get end() {
-    // Here we are not overriding this phase and hence its being handled by JHipster
-    return super._end();
   }
 };
