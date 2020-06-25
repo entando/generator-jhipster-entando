@@ -59,29 +59,31 @@ function getRenameToFunction(file) {
 
 module.exports.generateFiles = function generateFiles(basePath) {
   const files = getFiles(basePath).map(generate);
-  const templates = files.filter(file => !file.options.skip).map(iteratedFile => {
-    const file = { ...iteratedFile, filename: iteratedFile.filename.substring(basePath.length) };
-    const fileObj = {
-      file: file.filename,
-    };
+  const templates = files
+    .filter(file => !file.options.skip)
+    .map(iteratedFile => {
+      const file = { ...iteratedFile, filename: iteratedFile.filename.substring(basePath.length) };
+      const fileObj = {
+        file: file.filename,
+      };
 
-    Object.keys(file.options).forEach(opt => {
-      switch (opt) {
-        case 'skip':
-          break;
-        case 'renameTo':
-          fileObj.renameTo = getRenameToFunction(file);
-          break;
-        default:
-          fileObj[opt] = file.options[opt];
+      Object.keys(file.options).forEach(opt => {
+        switch (opt) {
+          case 'skip':
+            break;
+          case 'renameTo':
+            fileObj.renameTo = getRenameToFunction(file);
+            break;
+          default:
+            fileObj[opt] = file.options[opt];
+        }
+      });
+
+      if (!fileObj.renameTo) {
+        fileObj.renameTo = getRenameToFunction(file);
       }
+      return fileObj;
     });
-
-    if (!fileObj.renameTo) {
-      fileObj.renameTo = getRenameToFunction(file);
-    }
-    return fileObj;
-  });
 
   return {
     microFrontEnd: [
