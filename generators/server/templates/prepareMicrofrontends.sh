@@ -7,7 +7,7 @@ ERROR_OUTPUT="./.bundle_build/errors"
 PIDS=()
 
 function getMicrofrontendsNumber() {
-    find "$WIDGET_FOLDER" -type d -name bundle | wc -l
+    find "$WIDGET_FOLDER" -mindepth 3 -maxdepth 3 -type d -name bundle | wc -l
 }
 
 function processWidget() {
@@ -22,7 +22,7 @@ function processWidget() {
        echo "Installing micro-frontend dependencies"
        npm install || return $?
        echo "Building micro-frontend code"
-       npm run build | while read i
+       npm run build --production | while read i
         do
             if [[ "$i" == *"Failed to compile"* ]]; then
                 echo "$i" 1>&2
@@ -52,7 +52,7 @@ else
     rm -fr "$ERROR_OUTPUT" && mkdir -p "$ERROR_OUTPUT"
 
     # Get all entities
-    ALL_MFE_PATHS=$(find "$WIDGET_FOLDER" -type d -name bundle)
+    ALL_MFE_PATHS=$(find "$WIDGET_FOLDER" -mindepth 3 -maxdepth 3 -type d -name bundle)
     ENTITIES=$(echo "$ALL_MFE_PATHS" | awk -F'/' '{print $3}' | sort -u)
 
     for ENTITY in $ENTITIES; do

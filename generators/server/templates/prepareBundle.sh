@@ -1,4 +1,23 @@
 #!/bin/bash
+function syncResources() {
+    local widgetFolder="$1"
+
+    echo "> Processing widgets $(echo $widgetFolder | cut -d/ -f3-)"
+
+    echo "- Preparing target folder structure"
+    mkdir -p bundle{,"/$widgetFolder"}/resources
+
+    echo "- Copying bundle descriptor"
+    rsync -a "$widgetFolder"/bundle/ bundle/"$widgetFolder"
+    if [ -d "$widgetFolder/build/static" ]; then 
+        echo "- Copying bundle static resource"
+        rsync -a "$widgetFolder/build/static" bundle/resources 2>/dev/null 
+        rsync -a "$widgetFolder/build/static" "bundle/$widgetFolder/resources" 2>/dev/null 
+    else
+        echo " > no build/static folder found for $widgetFolder"
+    fi
+}
+
 function createFolderTree() {
     local widgetFolder="$1"
 
@@ -32,7 +51,7 @@ function injectResource() {
     local _NL=$'\\\n'
 
     echo "- Injecting resource $resource in $destFile"
-    sed -i'.bak' 's|'"$INJECTION_POINT"'|'"$resource$_NL$INJECTION_POINT"'|g' "$destFile"
+    sed -i'' 's|'"$INJECTION_POINT"'|'"$resource$_NL$INJECTION_POINT"'|g' "$destFile"
 }
 
 function updateFTLTemplate() {
@@ -41,6 +60,7 @@ function updateFTLTemplate() {
     local bundleCode="$2"
 
     widgetName=$(basename "$dir")
+    echo ""
     echo "> Updating ${widgetName} micro-frontend resources for $dir"
 
     for ftlName in "$dir"/*.ftl;
@@ -72,7 +92,9 @@ function updateFTLTemplate() {
     done
 
     #Cleanup the resources that were copied into the widget folders specifically. They are now copied into the main bundle folder
-    rm -rf "$dir/resources"
+    echo ""
+    echo "> Cleaning temporary resource folders"
+    rm -rvf "$dir/resources"
     shopt -u nullglob
 
 }
@@ -80,6 +102,7 @@ function updateFTLTemplate() {
 export -f createFolderTree
 export -f injectResource
 export -f updateFTLTemplate
+export -f syncResources
 export INJECTION_POINT="<#-- entando_resource_injection_point -->"
 
 BUNDLE_NAME=$(awk -F':' 'NR==1 {gsub(/ /, "", $2); print $2}' ./bundle/descriptor.yaml)
@@ -95,7 +118,7 @@ if [ $HAS_WIDGETS -eq 0 ]; then
     echo "---"
     echo "Generating the bundle folder tree for the micro-frontends"
     echo ""
-    find "$WIDGET_FOLDER" -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'createFolderTree "$@"' bash {} \;
+    find "$WIDGET_FOLDER" -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'syncResources "$@"' bash {} \;
     mkdir -p bundle/resources/static/{js,css}
     echo ""
 
