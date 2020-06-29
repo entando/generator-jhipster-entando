@@ -72,9 +72,7 @@ function askForMicroserviceJson() {
       }
       context.useConfigurationFile = true;
       context.useMicroserviceJson = true;
-      const fromPath = `${context.microservicePath}/${context.jhipsterConfigDirectory}/${
-        context.entityNameCapitalized
-      }.json`;
+      const fromPath = `${context.microservicePath}/${context.jhipsterConfigDirectory}/${context.entityNameCapitalized}.json`;
       this.loadEntityJson(fromPath);
     }
     done();
@@ -569,7 +567,7 @@ function askForField(done) {
         return false;
       },
       type: 'input',
-      name: 'fieldType',
+      name: 'enumType',
       validate: input => {
         if (input === '') {
           return 'Your class name cannot be empty.';
@@ -873,7 +871,7 @@ function askForField(done) {
     if (props.fieldAdd) {
       const field = {
         fieldName: props.fieldName,
-        fieldType: props.fieldIsEnum ? _.upperFirst(props.fieldType) : props.fieldType,
+        fieldType: props.enumType || (props.fieldIsEnum ? _.upperFirst(props.fieldType) : props.fieldType),
         fieldTypeBlobContent: props.fieldTypeBlobContent,
         fieldValues: props.fieldIsEnum ? props.fieldValues.toUpperCase() : props.fieldValues,
         fieldValidateRules: props.fieldValidateRules,
@@ -1030,9 +1028,7 @@ function askForRelationship(done) {
       type: 'input',
       name: 'otherEntityField',
       message: response =>
-        `When you display this relationship on client-side, which field from '${
-          response.otherEntityName
-        }' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
+        `When you display this relationship on client-side, which field from '${response.otherEntityName}' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
       default: 'id',
     },
     {
