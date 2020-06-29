@@ -27,7 +27,7 @@
   "dependencies": {
     "casual": "^1.6.2",
     "chalk": "^4.1.0",
-    "generator-jhipster": "^6.10.0",
+    "generator-jhipster": "6.10.0",
     "jhipster-core": "^7.3.4",
     "lodash": "^4.17.15",
     "mkdirp": "^1.0.4",
