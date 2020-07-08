@@ -36,8 +36,8 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "populate-bundle": "./buildBundle.sh",
-    "build-all": "./buildBundle.sh -d",
+    "populate-bundle": "sh ./buildBundle.sh",
+    "build-all": "sh ./buildBundle.sh -d",
     "keycloak": "docker-compose -f src/main/docker/keycloak.yml up"
   }
 }
