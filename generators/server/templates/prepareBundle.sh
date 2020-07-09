@@ -11,7 +11,7 @@ function syncResources() {
     [[ $? -eq 0 ]] && CPCMD="rsync -a" || CPCMD="cp -ra"
 
     echo "- Copying bundle descriptor"
-    $CPCMD "$widgetFolder"/bundle/ bundle/"$widgetFolder"
+    $CPCMD "$widgetFolder"/bundle/* bundle/"$widgetFolder"/
     if [ -d "$widgetFolder/build/static" ]; then
         echo "- Copying bundle static resource"
         $CPCMD "$widgetFolder/build/static" bundle/resources 2>/dev/null
