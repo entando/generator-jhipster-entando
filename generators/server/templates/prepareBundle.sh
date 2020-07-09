@@ -7,12 +7,15 @@ function syncResources() {
     echo "- Preparing target folder structure"
     mkdir -p bundle{,"/$widgetFolder"}/resources
 
+    rsync --version 1>/dev/null 2>&1
+    [[ $? -eq 0 ]] && CPCMD="rsync -a" || CPCMD="cp -ra"
+
     echo "- Copying bundle descriptor"
-    rsync -a "$widgetFolder"/bundle/ bundle/"$widgetFolder"
-    if [ -d "$widgetFolder/build/static" ]; then 
+    $CPCMD "$widgetFolder"/bundle/ bundle/"$widgetFolder"
+    if [ -d "$widgetFolder/build/static" ]; then
         echo "- Copying bundle static resource"
-        rsync -a "$widgetFolder/build/static" bundle/resources 2>/dev/null 
-        rsync -a "$widgetFolder/build/static" "bundle/$widgetFolder/resources" 2>/dev/null 
+        $CPCMD "$widgetFolder/build/static" bundle/resources 2>/dev/null
+        $CPCMD "$widgetFolder/build/static" "bundle/$widgetFolder/resources" 2>/dev/null
     else
         echo " > no build/static folder found for $widgetFolder"
     fi
@@ -133,7 +136,7 @@ if [ $HAS_WIDGETS -eq 0 ]; then
     echo "Updating micro-frontend templates to include static resources"
     echo ""
     find bundle/ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'updateFTLTemplate "$@"' bash {} "$BUNDLE_NAME" \;
-    
+
     echo ""
 else
     echo "No micro-frontend has been found in the $WIDGET_FOLDER, skipping this step"
