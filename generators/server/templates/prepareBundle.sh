@@ -52,9 +52,13 @@ function injectResource() {
     local destFile="$2"
 
     local _NL=$'\\\n'
-
+    SEDCMD="sed -i''"
+    echo $OSTYPE
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      SEDCMD='sed -i '''
+    fi
     echo "- Injecting resource $resource in $destFile"
-    sed -i'' 's|'"$INJECTION_POINT"'|'"$resource$_NL$INJECTION_POINT"'|g' "$destFile"
+    $SEDCMD 's|'"$INJECTION_POINT"'|'"$resource$_NL$INJECTION_POINT"'|g' "$destFile"
 }
 
 function updateFTLTemplate() {
