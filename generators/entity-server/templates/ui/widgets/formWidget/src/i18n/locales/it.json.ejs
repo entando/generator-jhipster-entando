@@ -1,0 +1,37 @@
+<%# { "useBluePrint": true } -%>
+{
+  "error": {
+    "dataLoading": "Errore durante la connessione al server"
+  },
+  "common": {
+    "save": "Salva",
+    "dataSaved": "<%= entityNameCapitalized %> salvato/a con successo",
+    "dataDeleted": "<%= entityNameCapitalized %> eliminato/a con successo",
+    "notAuthenticated": "L'utente non è autenticato.",
+    "selectFile": "Carica nuovo file",
+    "selectImageFile": "Carica nuova immagine",
+    "download": "Scarica",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "yes": "Si",
+    "no": "No"
+  },
+  "validation": {
+    "required": "{{field}} è mandatario"
+  },
+  "entities": {
+    "<%= entityInstance %>": {
+      "deleteDialog": {
+        "title": "Elimina <%= entityInstance %>",
+        "description": "Sei sicuro/a?"
+      },
+      "notFound": "<%= entityNameCapitalized %> non trovato/a",
+      "deleted": "<%= entityNameCapitalized %> eliminato/a",
+      "id": "ID",
+      <%_ fields.forEach(function(field){ _%>
+      "<%= field.fieldName %>": "entità.<%= entityInstance %>.<%= field.fieldName %>",
+      <%_ }) _%>
+    }
+  }
+}
+
