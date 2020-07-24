@@ -72,9 +72,7 @@ function askForMicroserviceJson() {
       }
       context.useConfigurationFile = true;
       context.useMicroserviceJson = true;
-      const fromPath = `${context.microservicePath}/${context.jhipsterConfigDirectory}/${
-        context.entityNameCapitalized
-      }.json`;
+      const fromPath = `${context.microservicePath}/${context.jhipsterConfigDirectory}/${context.entityNameCapitalized}.json`;
       this.loadEntityJson(fromPath);
     }
     done();
@@ -331,6 +329,27 @@ function askForFiltering() {
   });
 }
 
+function askForReadOnly() {
+  const { context } = this;
+  // don't prompt if data is imported from a file
+  if (context.useConfigurationFile) {
+    return;
+  }
+  const done = this.async();
+  const prompts = [
+    {
+      type: 'confirm',
+      name: 'readOnly',
+      message: 'Is this entity read-only?',
+      default: false,
+    },
+  ];
+  this.prompt(prompts).then(props => {
+    context.readOnly = props.readOnly;
+    done();
+  });
+}
+
 function askForDTO() {
   const { context } = this;
   // don't prompt if data is imported from a file or server is skipped or if no service layer
@@ -452,12 +471,14 @@ function askForPagination() {
 function askForField(done) {
   const { context } = this;
   this.log(chalk.green(`\nGenerating field #${context.fields.length + 1}\n`));
-  const { skipServer } = context;
-  const { prodDatabaseType } = context;
-  const { databaseType } = context;
-  const { clientFramework } = context;
-  const { fieldNamesUnderscored } = context;
-  const { skipCheckLengthOfIdentifier } = context;
+  const {
+    skipServer,
+    prodDatabaseType,
+    databaseType,
+    clientFramework,
+    fieldNamesUnderscored,
+    skipCheckLengthOfIdentifier,
+  } = context;
   const prompts = [
     {
       type: 'confirm',
@@ -503,7 +524,8 @@ function askForField(done) {
     },
     {
       when: response =>
-        response.fieldAdd === true && (skipServer || ['sql', 'mongodb', 'couchbase'].includes(databaseType)),
+        response.fieldAdd === true &&
+        (skipServer || ['sql', 'mongodb', 'neo4j', 'couchbase'].includes(databaseType)),
       type: 'list',
       name: 'fieldType',
       message: 'What is the type of your field?',
@@ -544,6 +566,11 @@ function askForField(done) {
           value: 'ZonedDateTime',
           name: 'ZonedDateTime',
         },
+        // ENG-287: new type that was not tested yet
+        // {
+        //   value: 'Duration',
+        //   name: 'Duration',
+        // },
         {
           value: 'Boolean',
           name: 'Boolean',
@@ -552,6 +579,11 @@ function askForField(done) {
           value: 'enum',
           name: 'Enumeration (Java enum type)',
         },
+        // ENG-287: new type that was not tested yet
+        // {
+        //   value: 'UUID',
+        //   name: 'UUID',
+        // },
         {
           value: 'byte[]',
           name: '[BETA] Blob',
@@ -569,7 +601,7 @@ function askForField(done) {
         return false;
       },
       type: 'input',
-      name: 'fieldType',
+      name: 'enumType',
       validate: input => {
         if (input === '') {
           return 'Your class name cannot be empty.';
@@ -871,11 +903,16 @@ function askForField(done) {
   ];
   this.prompt(prompts).then(props => {
     if (props.fieldAdd) {
+      if (props.fieldIsEnum) {
+        props.fieldType = _.upperFirst(props.fieldType); // eslint-disable-line no-param-reassign
+        props.fieldValues = props.fieldValues.toUpperCase(); // eslint-disable-line no-param-reassign
+      }
+
       const field = {
         fieldName: props.fieldName,
-        fieldType: props.fieldIsEnum ? _.upperFirst(props.fieldType) : props.fieldType,
+        fieldType: props.enumType || props.fieldType,
         fieldTypeBlobContent: props.fieldTypeBlobContent,
-        fieldValues: props.fieldIsEnum ? props.fieldValues.toUpperCase() : props.fieldValues,
+        fieldValues: props.fieldValues,
         fieldValidateRules: props.fieldValidateRules,
         fieldValidateRulesMinlength: props.fieldValidateRulesMinlength,
         fieldValidateRulesMaxlength: props.fieldValidateRulesMaxlength,
@@ -1030,9 +1067,7 @@ function askForRelationship(done) {
       type: 'input',
       name: 'otherEntityField',
       message: response =>
-        `When you display this relationship on client-side, which field from '${
-          response.otherEntityName
-        }' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
+        `When you display this relationship on client-side, which field from '${response.otherEntityName}' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
       default: 'id',
     },
     {

@@ -1,6 +1,6 @@
 set timeout -1
 
-spawn jhipster entity AutoFilledEntity11
+spawn jhipster entity AllFieldsEntity
 
 # String
 expect -re "Do you want to add a field to your entity?"
@@ -176,27 +176,31 @@ expect -re "Which validation rules do you want to add?"
 send -- " \r"
 
 
-# # EnumerationFieldClass
-# expect -re "Do you want to add a field to your entity?"
-# send "Y\r"
-# expect -re "What is the name of your field?"
-# send "enumField\r"
-# expect -re "What is the type of your field?"
-# send -- "\[B"
-# send -- "\[B"
-# send -- "\[B"
-# send -- "\[B"
-# send -- "\[B"
-# send -- "\[B"
-# send -- "\[B"
-# send -- "\[B"
-# send -- "\[B"
-# send -- "\[B"
-# send -- "\r"
-# expect -re "Do you want to add validation rules to your field?"
-# send "Y\r"
-# expect -re "Which validation rules do you want to add?"
-# send -- " \r"
+# EnumerationFieldClass
+expect -re "Do you want to add a field to your entity?"
+send "Y\r"
+expect -re "What is the name of your field?"
+send "enumField\r"
+expect -re "What is the type of your field?"
+send -- "\[B"
+send -- "\[B"
+send -- "\[B"
+send -- "\[B"
+send -- "\[B"
+send -- "\[B"
+send -- "\[B"
+send -- "\[B"
+send -- "\[B"
+send -- "\[B"
+send -- "\r"
+expect -re "What is the class name of your enumeration?"
+send "EnumerationFieldClass\r"
+expect -re "What are the values of your enumeration (separated by comma, no spaces)?"
+send "FIRST_ENUM_VALUE,SECOND_ENUM_VALUE,THIRD_ENUM_VALUE\r"
+expect -re "Do you want to add validation rules to your field?"
+send "Y\r"
+expect -re "Which validation rules do you want to add?"
+send -- " \r"
 
 
 # Blob
