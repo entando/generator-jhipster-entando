@@ -404,6 +404,16 @@ const serverFiles = {
       ],
     },
     {
+      condition: generator => !generator.reactive && generator.applicationType !== 'uaa',
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/config/SpringFoxConfiguration.java',
+          renameTo: generator => `${generator.javaDir}config/SpringFoxConfiguration.java`,
+        },
+      ],
+    },
+    {
       condition: generator => generator.reactive && generator.applicationType !== 'uaa',
       path: SERVER_MAIN_SRC_DIR,
       templates: [
