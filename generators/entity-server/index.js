@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const fs = require('fs');
 const chalk = require('chalk');
 
@@ -37,6 +38,7 @@ module.exports = class extends EntityServerGenerator {
 
   get initializing() {
     // initializing - Your initialization methods (checking current project state, getting configs, etc)
+    console.log('Paso per di qui');
 
     return super._initializing();
   }

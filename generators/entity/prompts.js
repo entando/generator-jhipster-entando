@@ -72,9 +72,7 @@ function askForMicroserviceJson() {
       }
       context.useConfigurationFile = true;
       context.useMicroserviceJson = true;
-      const fromPath = `${context.microservicePath}/${context.jhipsterConfigDirectory}/${
-        context.entityNameCapitalized
-      }.json`;
+      const fromPath = `${context.microservicePath}/${context.jhipsterConfigDirectory}/${context.entityNameCapitalized}.json`;
       this.loadEntityJson(fromPath);
     }
     done();
@@ -1030,9 +1028,7 @@ function askForRelationship(done) {
       type: 'input',
       name: 'otherEntityField',
       message: response =>
-        `When you display this relationship on client-side, which field from '${
-          response.otherEntityName
-        }' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
+        `When you display this relationship on client-side, which field from '${response.otherEntityName}' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
       default: 'id',
     },
     {
