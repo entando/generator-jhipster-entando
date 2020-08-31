@@ -19,17 +19,20 @@
 package <%= packageName %>.repository.impl;
 
 import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import <%= packageName %>.repository. <%= asEntity(entityClass) %>Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
 import java.lang.UnsupportedOperationException;
 
-public class <%= entityClass %>RepositoryImpl {
+@Repository
+public class <%= entityClass %>RepositoryImpl implements <%= entityClass %>Repository {
 
     Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
         throw new UnsupportedOperationException("Method not implemented!");

@@ -15,10 +15,31 @@ const serverFiles = {
         },
       ],
     },
+    ]
+  repository: [
+  {
+    path: SERVER_MAIN_SRC_DIR,
+    templates:
+    [
+      {
+        file: 'package/repository/NoDbEntityRepository.java',
+        renameTo: generator =>
+          `${generator.packageFolder}/repository/${generator.entityClass}Repository.java`,
+        override: true,
+      },
+      {
+        file: 'package/repository/impl/NoDbEntityRepositoryImpl.java',
+        renameTo: generator =>
+          `${generator.packageFolder}/repository/impl/${generator.entityClass}RepositoryImpl.java`,
+        override: true,
+      },
+    ]
+  }],
+  service: [
     {
-      condition: generator => generator.databaseType === 'no',
       path: SERVER_MAIN_SRC_DIR,
-      templates: [
+      templates:
+      [
         {
           file: 'package/repository/NoDbEntityRepository.java',
           renameTo: generator =>
@@ -31,10 +52,14 @@ const serverFiles = {
             `${generator.packageFolder}/repository/impl/${generator.entityClass}RepositoryImpl.java`,
           override: true,
         },
-      ],
-    },
-  ],
-};
+      ]
+    }
+  ]
+
+},
+],
+}
+;
 
 module.exports = {
   serverFiles,
