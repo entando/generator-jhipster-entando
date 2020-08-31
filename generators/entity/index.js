@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 const EntityGenerator = require('generator-jhipster/generators/entity');
-const customPrompts = require('./prompts');
+const customPrompts = require('./phases/prompting');
 const customInitializing = require('./phases/initializing');
 
 module.exports = class extends EntityGenerator {
@@ -31,9 +31,15 @@ module.exports = class extends EntityGenerator {
   }
 
   get initializing() {
+    const { context } = this;
     const jhipsterInitializing = super._initializing();
+    let initializingSteps = jhipsterInitializing;
 
-    return { ...jhipsterInitializing, ...customInitializing };
+    if (!context.databaseType || context.databaseType === 'no') {
+      initializingSteps = { ...initializingSteps, ...customInitializing };
+    }
+
+    return initializingSteps;
   }
 
   _prompting() {

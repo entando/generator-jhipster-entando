@@ -1,7 +1,12 @@
 function validateDbExistence() {
-  console.log('Override default validateDbExistence step');
+  console.log('Skipping default JHipster validateDbExistence step');
+}
+
+function validateTableName() {
+  console.log('Skipping default JHipster validateTableName');
 }
 
 module.exports = {
   validateDbExistence,
+  validateTableName,
 };

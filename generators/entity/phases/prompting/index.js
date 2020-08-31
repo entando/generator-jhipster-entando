@@ -501,7 +501,8 @@ function askForField(done) {
     },
     {
       when: response =>
-        response.fieldAdd === true && (skipServer || ['sql', 'mongodb', 'couchbase'].includes(databaseType)),
+        response.fieldAdd === true &&
+        (skipServer || ['sql', 'mongodb', 'couchbase', 'no'].includes(databaseType)),
       type: 'list',
       name: 'fieldType',
       message: 'What is the type of your field?',
