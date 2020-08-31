@@ -16,11 +16,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-package <%= packageName %>.service.impl;
+package <%= packageName %>.service<% if (service === 'serviceImpl') { %>.impl<% } %>;
 
-import <%= packageName %>.service.<%= asEntity(entityClass) %>;
 import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
+<% if (service === 'serviceImpl') { %>
 import <%= packageName %>.service.<%= asEntity(entityClass) %>Service;
+<% } %>
 import <%= packageName %>.repository.<%= asEntity(entityClass) %>Repository;
 
 import java.util.List;
@@ -33,12 +34,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class <%= asEntity(entityClass) %>ServiceImpl <% if (service === 'serviceImpl') { %> implements <%= entityClass %>Service<% } %> {
+public class <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl') { %>Impl<% } %> <% if (service === 'serviceImpl') { %> implements <%= entityClass %>Service<% } %> {
 
     private <%= asEntity(entityClass) %>Repository repository;
 
     @Autowired
-    public <%= asEntity(entityClass) %>ServiceImpl(<%= asEntity(entityClass) %>Repository repository) {
+    public <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl') { %>Impl<% } %>(<%= asEntity(entityClass) %>Repository repository) {
         this.repository = repository;
     }
 
@@ -59,7 +60,7 @@ public class <%= asEntity(entityClass) %>ServiceImpl <% if (service === 'service
 
     <% if (service === 'serviceImpl') { %> @Override <% } %>
     public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        return this.repository.delete(<%= asEntity(entityInstance) %>);
+        this.repository.delete(<%= asEntity(entityInstance) %>);
     }
 
     <% if (service === 'serviceImpl') { %> @Override <% } %>

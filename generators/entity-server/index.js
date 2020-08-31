@@ -64,7 +64,11 @@ module.exports = class extends EntityServerGenerator {
     // writing - Where you write the generator specific files (routes, controllers, etc)
     const jhipsterWritingPhase = super._writing();
 
-    return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
+    const temp = { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
+    console.log('##### ENTITY WRITING PHASE');
+    console.log(Object.keys(temp));
+
+    return temp;
   }
 
   get conflicts() {
