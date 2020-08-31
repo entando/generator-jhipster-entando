@@ -42,32 +42,32 @@ public class <%= asEntity(entityClass) %>ServiceImpl <% if (service === 'service
         this.repository = repository;
     }
 
-    @Override
+    <% if (service === 'serviceImpl') { %> @Override  <% } %>
     public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
         return this.repository.findAll(pageable);
     }
 
-    @Override
+    <% if (service === 'serviceImpl') { %> @Override <% } %>
     public List<<%= asEntity(entityClass) %>> findAll(Sort sort) {
         return this.repository.findAll(sort);
     }
 
-    @Override
+    <% if (service === 'serviceImpl') { %> @Override <% } %>
     public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.findOne(<%= asEntity(entityInstance) %>);
     }
 
-    @Override
+    <% if (service === 'serviceImpl') { %> @Override <% } %>
     public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.delete(<%= asEntity(entityInstance) %>);
     }
 
-    @Override
+    <% if (service === 'serviceImpl') { %> @Override <% } %>
     public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.save(<%= asEntity(entityInstance) %>);
     }
 
-    @Override
+    <% if (service === 'serviceImpl') { %> @Override <% } %>
     public <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.update(<%= asEntity(entityInstance) %>);
     }

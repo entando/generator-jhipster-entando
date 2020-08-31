@@ -37,14 +37,29 @@ const serverFiles = {
   ],
   service: [
     {
+      condition: generator => {
+        console.log(generator.service);
+        return generator.service === 'serviceImpl';
+      },
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
           file: 'package/service/NoDbService.java',
-          renameTo: generator =>
-            `${generator.packageFolder}/service/${generator.entityClass}Service.java`,
+          renameTo: generator => `${generator.packageFolder}/service/${generator.entityClass}Service.java`,
           override: true,
         },
+        {
+          file: 'package/service/impl/NoDbServiceImpl.java',
+          renameTo: generator =>
+            `${generator.packageFolder}/service/impl/${generator.entityClass}ServiceImpl.java`,
+          override: true,
+        },
+      ],
+    },
+    {
+      condition: generator => generator.service === 'serviceClass',
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
         {
           file: 'package/service/impl/NoDbServiceImpl.java',
           renameTo: generator =>
