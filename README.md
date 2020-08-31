@@ -97,7 +97,7 @@ jhipster -d --blueprints entando
 Once you have generated a microservice, you can start it using `./mvnw`. Swagger UI is automatically enabled in order to ease the API development process.
 At the end of the startup process, you will see a URL in the console. Opening it in a browser will show you some links, one of them is the Swagger UI one. 
 Swagger UI comes configured out of the box, the only thing you have to ensure is that your keycloak instance is already started as illustrated [here](https://dev.entando.org/next/tutorials/backend-developers/run-local.html#running-a-blueprint-generated-microservices-and-micro-frontend-in-local-dev).
-
+When you try to authenticate in the Swagger UI you should keep prefilled data (`swagger_ui/swagger_ui`). After clicking `Authorize`, the first time you will be redirected to the Keycloak login form. There you have to login with credential `admin/admin` and you will be redirected back  to the Swagger UI page. 
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-entando.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-entando
