@@ -15,31 +15,11 @@ const serverFiles = {
         },
       ],
     },
-    ]
+  ],
   repository: [
-  {
-    path: SERVER_MAIN_SRC_DIR,
-    templates:
-    [
-      {
-        file: 'package/repository/NoDbEntityRepository.java',
-        renameTo: generator =>
-          `${generator.packageFolder}/repository/${generator.entityClass}Repository.java`,
-        override: true,
-      },
-      {
-        file: 'package/repository/impl/NoDbEntityRepositoryImpl.java',
-        renameTo: generator =>
-          `${generator.packageFolder}/repository/impl/${generator.entityClass}RepositoryImpl.java`,
-        override: true,
-      },
-    ]
-  }],
-  service: [
     {
       path: SERVER_MAIN_SRC_DIR,
-      templates:
-      [
+      templates: [
         {
           file: 'package/repository/NoDbEntityRepository.java',
           renameTo: generator =>
@@ -52,14 +32,29 @@ const serverFiles = {
             `${generator.packageFolder}/repository/impl/${generator.entityClass}RepositoryImpl.java`,
           override: true,
         },
-      ]
-    }
-  ]
-
-},
-],
-}
-;
+      ],
+    },
+  ],
+  service: [
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/service/NoDbService.java',
+          renameTo: generator =>
+            `${generator.packageFolder}/service/${generator.entityClass}Service.java`,
+          override: true,
+        },
+        {
+          file: 'package/service/impl/NoDbServiceImpl.java',
+          renameTo: generator =>
+            `${generator.packageFolder}/service/impl/${generator.entityClass}ServiceImpl.java`,
+          override: true,
+        },
+      ],
+    },
+  ],
+};
 
 module.exports = {
   serverFiles,

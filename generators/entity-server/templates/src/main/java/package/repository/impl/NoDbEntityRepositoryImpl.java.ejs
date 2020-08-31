@@ -27,36 +27,41 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.lang.UnsupportedOperationException;
 
 @Repository
 public class <%= entityClass %>RepositoryImpl implements <%= entityClass %>Repository {
 
-    Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
+    @Override
+    public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
         throw new UnsupportedOperationException("Method not implemented!");
     }
 
-    List<<%= asEntity(entityClass) %>> findAll(Sort sort) {
+    @Override
+    public List<<%= asEntity(entityClass) %>> findAll(Sort sort) {
         throw new UnsupportedOperationException("Method not implemented!");
     }
 
-    Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+    @Override
+    public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         throw new UnsupportedOperationException("Method not implemented!");
     }
 
-    void;delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+    @Override
+    public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         throw new UnsupportedOperationException("Method not implemented!");
     }
 
-    <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+    @Override
+    public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         throw new UnsupportedOperationException("Method not implemented!");
     }
 
-    <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+    @Override
+    public <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         throw new UnsupportedOperationException("Method not implemented!");
     }
-
 
 }

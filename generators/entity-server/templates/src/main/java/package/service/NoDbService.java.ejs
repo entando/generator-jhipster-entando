@@ -30,13 +30,15 @@ import org.springframework.data.domain.Sort;
 
 public interface <%= asEntity(entityClass) %>Service {
 
-    public List<<%= asEntity(entityClass) %>> findAll(Sort sort);
-
     public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable);
+
+    public List<<%= asEntity(entityClass) %>> findAll(Sort sort);
 
     public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
     public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
     public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+
+    public <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 }

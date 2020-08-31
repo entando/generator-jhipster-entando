@@ -20,6 +20,8 @@ package <%= packageName %>.service.impl;
 
 import <%= packageName %>.service.<%= asEntity(entityClass) %>;
 import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
+import <%= packageName %>.service.<%= asEntity(entityClass) %>Service;
+import <%= packageName %>.repository.<%= asEntity(entityClass) %>Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,33 +30,45 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class <%= asEntity(entityClass) %>ServiceImpl implements <%= asEntity(entityClass) %>Service {
+public class <%= asEntity(entityClass) %>ServiceImpl <% if (service === 'serviceImpl') { %> implements <%= entityClass %>Service<% } %> {
 
     private <%= asEntity(entityClass) %>Repository repository;
 
+    @Autowired
     public <%= asEntity(entityClass) %>ServiceImpl(<%= asEntity(entityClass) %>Repository repository) {
         this.repository = repository;
     }
 
-    public List<<%= asEntity(entityClass) %>> findAll(Sort sort) {
-        return this.repository.findAll(sort);
-    }
-
+    @Override
     public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
         return this.repository.findAll(pageable);
     }
 
+    @Override
+    public List<<%= asEntity(entityClass) %>> findAll(Sort sort) {
+        return this.repository.findAll(sort);
+    }
+
+    @Override
     public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.findOne(<%= asEntity(entityInstance) %>);
     }
 
+    @Override
     public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.delete(<%= asEntity(entityInstance) %>);
     }
 
+    @Override
     public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.save(<%= asEntity(entityInstance) %>);
+    }
+
+    @Override
+    public <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+        return this.repository.update(<%= asEntity(entityInstance) %>);
     }
 }
