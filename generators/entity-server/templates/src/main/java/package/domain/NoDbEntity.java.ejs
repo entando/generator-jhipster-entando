@@ -1,0 +1,251 @@
+<%#
+ Copyright 2013-2020 the original author or authors from the JHipster project.
+
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+package <%= packageName %>.domain;
+
+<%_
+
+let { importApiModelProperty, importJsonIgnore, importJsonIgnoreProperties, importSet, uniqueEnums } = _processJavaEntityImports(fields, relationships);
+
+let hasDto = dto === 'mapstruct';
+let isUsingMapsId = false;
+let hasTextBlob = false;
+let hasRelationship = relationships.length !== 0;
+_%>
+<%_
+for (idx in fields) {
+    if (fields[idx].fieldTypeBlobContent === 'text') {
+        hasTextBlob = true;
+        break;
+    }
+}
+_%>
+<%_
+if (importJsonIgnore === true) { _%>
+import com.fasterxml.jackson.annotation.JsonIgnore;
+<%_ } if (importJsonIgnoreProperties === true) { _%>
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+<%_ } if (!hasDto && typeof javadoc != 'undefined') { _%>
+import io.swagger.annotations.ApiModel;
+<%_ } if (!hasDto && importApiModelProperty === true) { _%>
+import io.swagger.annotations.ApiModelProperty;
+<%_ } if (hasTextBlob === true || (fieldsContainUUID === true && ['mysql', 'mariadb'].includes(prodDatabaseType))) { _%>
+import org.hibernate.annotations.Type;
+<%_ } if (validation) { _%>
+import javax.validation.constraints.*;
+<%_ } _%>
+
+import java.io.Serializable;
+<%_
+if (fieldsContainBigDecimal === true) { _%>
+import java.math.BigDecimal;
+<%_ }
+if (fieldsContainInstant === true) { _%>
+import java.time.Instant;
+<%_ } if (fieldsContainLocalDate === true) { _%>
+import java.time.LocalDate;
+<%_ } if (fieldsContainZonedDateTime === true) { _%>
+import java.time.ZonedDateTime;
+<%_ } if (fieldsContainDuration === true) { _%>
+import java.time.Duration;
+<%_ } if (importSet === true) { _%>
+import java.util.HashSet;
+import java.util.Set;
+<%_ } _%>
+<%_
+if (fieldsContainUUID === true) { _%>
+import java.util.UUID;
+<%_ } Object.keys(uniqueEnums).forEach(function(element) { _%>
+import <%= packageName %>.domain.enumeration.<%= element %>;
+<%_ }); _%>
+
+<%_
+if (typeof javadoc == 'undefined') { _%>
+/**
+* A <%= asEntity(entityClass) %>.
+*/
+<%_ } else { _%>
+    <%- formatAsClassJavadoc(javadoc) %>
+    <%_
+    if (!hasDto) { _%>
+@ApiModel(description = "<%- formatAsApiDescription(javadoc) %>")
+    <%_ } _%>
+<%_ } _%>
+public class <%= asEntity(entityClass) %> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private <%= primaryKeyType %> id;
+
+    <%_
+            for (idx in fields) {
+        if (typeof fields[idx].javadoc !== 'undefined') { _%>
+        <%- formatAsFieldJavadoc(fields[idx].javadoc) %>
+    <%_ }
+        let required = false;
+        let unique = false;
+        const fieldValidate = fields[idx].fieldValidate;
+        const fieldValidateRules = fields[idx].fieldValidateRules;
+        const fieldValidateRulesMaxlength = fields[idx].fieldValidateRulesMaxlength;
+        const fieldType = fields[idx].fieldType;
+        const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+        const fieldName = fields[idx].fieldName;
+        const fieldNameUnderscored = fields[idx].fieldNameUnderscored;
+        const fieldNameAsDatabaseColumn = fields[idx].fieldNameAsDatabaseColumn;
+    if (fieldValidate === true) {
+        if (fieldValidateRules.includes('required')) {
+            required = true;
+        }
+        if (fieldValidateRules.includes('unique')) {
+            unique = true;
+        } _%>
+    <%- include('../common/field_validators'); -%>
+    <%_ } _%>
+    <%_
+    if (!hasDto && typeof fields[idx].javadoc != 'undefined') { _%>
+    @ApiModelProperty(value = "<%- formatAsApiDescription(fields[idx].javadoc) %>"<% if (required) { %>, required = true<% } %>)
+    <%_ } _%>
+    <%_
+    if (fieldTypeBlobContent !== 'text') { _%>
+    private <%= fieldType %> <%= fieldName %>;
+    <%_ } else { _%>
+    private String <%= fieldName %>;
+    <%_ } _%>
+
+    <%_
+    if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
+    private String <%= fieldName %>ContentType;
+    <%_ } } _%>
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+    public <%= primaryKeyType %> getId() {
+        return id;
+    }
+
+    public void setId(<%= primaryKeyType %> id) {
+        this.id = id;
+    }
+
+    <%_
+    for (idx in fields) {
+        const fieldType = fields[idx].fieldType;
+        const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+        const fieldName = fields[idx].fieldName;
+        const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod; _%>
+
+    <%_
+    if (fieldTypeBlobContent !== 'text') { _%>
+    public <%= fieldType %> <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<%_ } _%><%= fieldInJavaBeanMethod %>() {
+    <%_ } else { _%>
+    public String get<%= fieldInJavaBeanMethod %>() {
+    <%_ } _%>
+        return <%= fieldName %>;
+    }
+
+    <%_ if (fluentMethods) { _%>
+
+        <%_ if (fieldTypeBlobContent !== 'text') { _%>
+    public <%= asEntity(entityClass) %> <%= fieldName %>(<%= fieldType %> <%= fieldName %>) {
+        <%_ } else { _%>
+    public <%= asEntity(entityClass) %> <%= fieldName %>(String <%= fieldName %>) {
+        <%_ } _%>
+        this.<%= fieldName %> = <%= fieldName %>;
+        return this;
+    }
+    <%_ } _%>
+
+    <%_
+    if (fieldTypeBlobContent !== 'text') { _%>
+    public void set<%= fieldInJavaBeanMethod %>(<%= fieldType %> <%= fieldName %>) {
+    <%_ } else { _%>
+    public void set<%= fieldInJavaBeanMethod %>(String <%= fieldName %>) {
+    <%_ } _%>
+        this.<%= fieldName %> = <%= fieldName %>;
+    }
+    <%_
+    if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
+
+    public String get<%= fieldInJavaBeanMethod %>ContentType() {
+        return <%= fieldName %>ContentType;
+    }
+        <%_
+        if (fluentMethods) { _%>
+
+    public <%= asEntity(entityClass) %> <%= fieldName %>ContentType(String <%= fieldName %>ContentType) {
+        this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
+        return this;
+    }
+        <%_ } _%>
+
+    public void set<%= fieldInJavaBeanMethod %>ContentType(String <%= fieldName %>ContentType) {
+        this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
+    }
+    <%_ } _%>
+    <%_ } _%>
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof <%= asEntity(entityClass) %>)) {
+            return false;
+        }
+        return id != null && id.equals(((<%= asEntity(entityClass) %>) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+        return "<%= asEntity(entityClass) %>{" +
+    <%_ if (!embedded) { _%>
+        "id=" + getId() +
+    <%_ } _%>
+    <%_ for (idx in fields) {
+        const fieldType = fields[idx].fieldType;
+        const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+        const fieldName = fields[idx].fieldName;
+        const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
+        const isNumeric = ['integer', 'long', 'float', 'double', 'bigdecimal'].includes(fieldType.toLowerCase()); _%>
+            ", <%= fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<% } %><%= fieldInJavaBeanMethod %>() <% if (! isNumeric) { %>+ "'" <% } %>+
+        <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
+    ", <%= fieldName %>ContentType='" + get<%= fieldInJavaBeanMethod %>ContentType() + "'" +
+    <%_ } _%>
+    <%_ } _%>
+    <%_ for (idx in relationships) {
+        const relationshipType = relationships[idx].relationshipType;
+        const otherEntityIsEmbedded = relationships[idx].otherEntityIsEmbedded;
+        const relationshipFieldName = relationships[idx].relationshipFieldName;
+        const relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized;
+        const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
+        const relationshipNameCapitalizedPlural = relationships[idx].relationshipNameCapitalizedPlural;
+        const ownerSide = relationships[idx].ownerSide; _%>
+    <%_ if (otherEntityIsEmbedded) {
+    if (relationshipType === 'many-to-one') { _%>
+    ", <%= relationshipFieldNamePlural %>='" + get<%= relationshipNameCapitalizedPlural %>() + "'" +
+    <%_ } else if (relationshipType === 'one-to-one' && ownerSide === true) { _%>
+    ", <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %>() + "'" +
+    <%_ } } } _%> "}";
+    }
+}
