@@ -1,6 +1,6 @@
 const constants = require('generator-jhipster/generators/generator-constants');
 
-const { SERVER_MAIN_SRC_DIR } = constants;
+const { SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR } = constants;
 
 const serverFiles = {
   schema: [
@@ -86,6 +86,18 @@ const serverFiles = {
           file: 'package/web/rest/NoDbEntityResource.java',
           renameTo: generator => `${generator.packageFolder}/web/rest/${generator.entityClass}Resource.java`,
           override: true,
+        },
+      ],
+    },
+  ],
+  test: [
+    {
+      condition: generator => generator.databaseType === 'no',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/domain/NoDbEntityTest.java',
+          renameTo: generator => `${generator.packageFolder}/domain/${generator.entityClass}Test.java`,
         },
       ],
     },
