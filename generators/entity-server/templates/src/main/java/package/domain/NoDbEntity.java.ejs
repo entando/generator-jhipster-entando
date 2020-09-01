@@ -228,9 +228,9 @@ public class <%= asEntity(entityClass) %> implements Serializable {
         const fieldName = fields[idx].fieldName;
         const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
         const isNumeric = ['integer', 'long', 'float', 'double', 'bigdecimal'].includes(fieldType.toLowerCase()); _%>
-            ", <%= fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<% } %><%= fieldInJavaBeanMethod %>() <% if (! isNumeric) { %>+ "'" <% } %>+
+        ", <%= fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<% } %><%= fieldInJavaBeanMethod %>() <% if (! isNumeric) { %>+ "'" <% } %>+
         <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
-    ", <%= fieldName %>ContentType='" + get<%= fieldInJavaBeanMethod %>ContentType() + "'" +
+        ", <%= fieldName %>ContentType='" + get<%= fieldInJavaBeanMethod %>ContentType() + "'" +
     <%_ } _%>
     <%_ } _%>
     <%_ for (idx in relationships) {
@@ -243,9 +243,9 @@ public class <%= asEntity(entityClass) %> implements Serializable {
         const ownerSide = relationships[idx].ownerSide; _%>
     <%_ if (otherEntityIsEmbedded) {
     if (relationshipType === 'many-to-one') { _%>
-    ", <%= relationshipFieldNamePlural %>='" + get<%= relationshipNameCapitalizedPlural %>() + "'" +
+        ", <%= relationshipFieldNamePlural %>='" + get<%= relationshipNameCapitalizedPlural %>() + "'" +
     <%_ } else if (relationshipType === 'one-to-one' && ownerSide === true) { _%>
-    ", <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %>() + "'" +
+        ", <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %>() + "'" +
     <%_ } } } _%> "}";
     }
 }
