@@ -24,12 +24,14 @@ import <%= packageName %>.service.<%= asEntity(entityClass) %>Service;
 <% } %>
 import <%= packageName %>.repository.<%= asEntity(entityClass) %>Repository;
 
-import java.util.List;
 import java.util.Optional;
 
+<% if (pagination === 'no') {%>
+import java.util.List;
+<% } else { %>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+<% } %>
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -43,32 +45,58 @@ public class <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl'
         this.repository = repository;
     }
 
+    <%_ if (pagination === 'no' ) { _%>
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public List<<%= asEntity(entityClass) %>> findAll() {
+        return this.repository.findAll();
+    }
+    <%_ } else { _%>
     <% if (service === 'serviceImpl') { %> @Override  <% } %>
     public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
         return this.repository.findAll(pageable);
     }
+    <%_ } _%>
 
-    <% if (service === 'serviceImpl') { %> @Override <% } %>
-    public List<<%= asEntity(entityClass) %>> findAll(Sort sort) {
-        return this.repository.findAll(sort);
-    }
-
-    <% if (service === 'serviceImpl') { %> @Override <% } %>
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
     public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.findOne(<%= asEntity(entityInstance) %>);
     }
 
-    <% if (service === 'serviceImpl') { %> @Override <% } %>
-    public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        this.repository.delete(<%= asEntity(entityInstance) %>);
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public Optional<<%= asEntity(entityClass) %>> findOne(<%= primaryKeyType %> id) {
+        return this.repository.findById(id);
     }
 
-    <% if (service === 'serviceImpl') { %> @Override <% } %>
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+        this.repository.deleteById(<%= asEntity(entityInstance) %>.getId());
+    }
+
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public void delete(<%= primaryKeyType %> id) {
+        this.repository.deleteById(id);
+    }
+
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
     public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.save(<%= asEntity(entityInstance) %>);
     }
 
-    <% if (service === 'serviceImpl') { %> @Override <% } %>
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
     public <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.update(<%= asEntity(entityInstance) %>);
     }

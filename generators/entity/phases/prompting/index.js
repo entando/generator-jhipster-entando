@@ -187,6 +187,12 @@ function askForRelationships() {
   if (context.useConfigurationFile && context.updateEntity !== 'add') {
     return;
   }
+
+  // don't prompt for relationships if no database
+  if (context.databaseType === 'no') {
+    return;
+  }
+
   if (['cassandra', 'couchbase'].includes(context.databaseType)) {
     return;
   }
@@ -206,6 +212,11 @@ function askForRelationsToRemove() {
   ) {
     return;
   }
+
+  if (context.databaseType === 'no') {
+    return;
+  }
+
   if (['cassandra', 'couchbase'].includes(context.databaseType)) {
     return;
   }
@@ -927,7 +938,7 @@ function askForRelationship(done) {
           return 'Your other entity name cannot contain a Java reserved keyword';
         }
         if (input.toLowerCase() === 'user' && context.applicationType === 'microservice') {
-          return "Your entity cannot have a relationship with User because it's a gateway entity";
+          return 'Your entity cannot have a relationship with User because it\'s a gateway entity';
         }
         return true;
       },
@@ -1101,8 +1112,8 @@ function logFieldsAndRelationships() {
     this.log(
       chalk.red(
         chalk.white('\n================= ') +
-          context.entityNameCapitalized +
-          chalk.white(' ================='),
+        context.entityNameCapitalized +
+        chalk.white(' ================='),
       ),
     );
   }
@@ -1142,10 +1153,10 @@ function logFieldsAndRelationships() {
       }
       this.log(
         chalk.red(field.fieldName) +
-          chalk.white(
-            ` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `,
-          ) +
-          chalk.cyan(validationDetails.join(' ')),
+        chalk.white(
+          ` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `,
+        ) +
+        chalk.cyan(validationDetails.join(' ')),
       );
     });
     this.log();

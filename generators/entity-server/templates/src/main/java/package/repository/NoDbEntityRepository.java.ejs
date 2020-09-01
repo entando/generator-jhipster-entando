@@ -20,22 +20,27 @@ package <%= packageName %>.repository;
 
 import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
 
+import java.util.Optional;
+<% if (pagination === 'no') {%>
+import java.util.List;
+<% } else { %>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
-import java.util.List;
-import java.util.Optional;
+<% } %>
 
 public interface <%= entityClass %>Repository {
 
+    <%_ if (pagination === 'no' ) { _%>
+    List<<%= asEntity(entityClass) %>> findAll();
+    <%_ } else { _%>
     Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable);
-
-    List<<%= asEntity(entityClass) %>> findAll(Sort sort);
+    <%_ } _%>
 
     Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
-    void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKeyType %> id);
+
+    void deleteById(<%= primaryKeyType %> id);
 
     <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 

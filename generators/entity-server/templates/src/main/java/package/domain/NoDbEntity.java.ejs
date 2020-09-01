@@ -246,6 +246,7 @@ public class <%= asEntity(entityClass) %> implements Serializable {
         ", <%= relationshipFieldNamePlural %>='" + get<%= relationshipNameCapitalizedPlural %>() + "'" +
     <%_ } else if (relationshipType === 'one-to-one' && ownerSide === true) { _%>
         ", <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %>() + "'" +
-    <%_ } } } _%> "}";
+    <%_ } } } _%>
+        "}";
     }
 }

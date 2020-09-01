@@ -21,12 +21,13 @@ package <%= packageName %>.repository.impl;
 import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
 import <%= packageName %>.repository. <%= asEntity(entityClass) %>Repository;
 
-import java.util.List;
 import java.util.Optional;
-
+<%_ if (pagination === 'no') { _%>
+import java.util.List;
+<%_ } else { _%>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+<%_ } _%>
 import org.springframework.stereotype.Repository;
 
 import java.lang.UnsupportedOperationException;
@@ -34,15 +35,17 @@ import java.lang.UnsupportedOperationException;
 @Repository
 public class <%= entityClass %>RepositoryImpl implements <%= entityClass %>Repository {
 
+    <%_ if (pagination === 'no') { _%>
+    @Override
+    public List<<%= asEntity(entityClass) %>> findAll() {
+        throw new UnsupportedOperationException("Method not implemented!");
+    }
+    <%_ } else { _%>
     @Override
     public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
         throw new UnsupportedOperationException("Method not implemented!");
     }
-
-    @Override
-    public List<<%= asEntity(entityClass) %>> findAll(Sort sort) {
-        throw new UnsupportedOperationException("Method not implemented!");
-    }
+    <%_ } _%>
 
     @Override
     public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
@@ -50,7 +53,12 @@ public class <%= entityClass %>RepositoryImpl implements <%= entityClass %>Repos
     }
 
     @Override
-    public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+    public Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKeyType %> id) {
+        throw new UnsupportedOperationException("Method not implemented!");
+    }
+
+    @Override
+    public void deleteById(<%= primaryKeyType %> id) {
         throw new UnsupportedOperationException("Method not implemented!");
     }
 

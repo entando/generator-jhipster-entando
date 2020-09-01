@@ -20,24 +20,31 @@ package <%= packageName %>.service;
 
 import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
 
-import java.util.List;
 import java.util.Optional;
-
+<%_ if (pagination === 'no') { _%>
+import java.util.List;
+<%_ } else { _%>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+<%_ } _%>
 
 public interface <%= asEntity(entityClass) %>Service {
 
-    public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable);
+    <%_ if (pagination === 'no' ) { _%>
+    List<<%= asEntity(entityClass) %>> findAll();
+    <%_ } else { _%>
+    Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable);
+    <%_ } _%>
 
-    public List<<%= asEntity(entityClass) %>> findAll(Sort sort);
+    Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
-    public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    Optional<<%= asEntity(entityClass) %>> findOne(<%= primaryKeyType %> id);
 
-    public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
-    public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    void delete(<%= primaryKeyType %> id);
 
-    public <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+
+    <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 }
