@@ -19,23 +19,15 @@
 package <%= packageName %>.web.rest;
 
 <%_
+
+console.log('###### ', fields)
+
 let isUsingMapsId = false;
 let mapsIdAssoc;
 let mapsIdEntity;
 let mapsIdEntityInstance;
 let mapsIdRepoInstance;
 let hasOauthUser = false;
-for (idx in relationships) {
-    isUsingMapsId = relationships[idx].useJPADerivedIdentifier === true;
-    if (isUsingMapsId) {
-        mapsIdAssoc = relationships[idx];
-        mapsIdEntity = mapsIdAssoc.otherEntityNameCapitalized;
-        mapsIdEntityInstance =  mapsIdEntity.charAt(0).toLowerCase() + mapsIdEntity.slice(1);
-        mapsIdRepoInstance = `${mapsIdEntityInstance}Repository`;
-        hasOauthUser = relationships[idx].otherEntityName === 'user' && authenticationType === 'oauth2';
-        break;
-    }
-}
 let callBlock = '';
 let callListBlock = '';
 if (reactive) {
@@ -43,23 +35,8 @@ if (reactive) {
     callListBlock = ".collectList().block()";
 }
 let saveMethod = 'save';
-if (!reactive && databaseType === 'sql') {
-    saveMethod = 'saveAndFlush';
-}
-let idValue = `${asEntity(entityInstance)}.getId()`;
-if (primaryKeyType === 'Long') {
-    idValue = idValue + '.intValue()';
-} else if (primaryKeyType === 'UUID') {
-    idValue = idValue + '.toString()';
-}
-
+let idValue = `${asEntity(entityInstance)}.getId().intValue()`;
 _%>
-<%_ if (databaseType === 'cassandra') { _%>
-    import <%= packageName %>.AbstractCassandraTest;
-<%_ } _%>
-<%_ if (databaseType === 'neo4j') { _%>
-    import <%= packageName %>.AbstractNeo4jIT;
-<%_ } _%>
 <%_ if (cacheProvider === 'redis') { _%>
     import <%= packageName %>.RedisTestContainerExtension;
 <%_ } _%>
@@ -71,17 +48,6 @@ import <%= packageName %>.<%= mainClass %>;
     import <%= packageName %>.config.TestSecurityConfiguration;
 <%_ } _%>
 import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
-<%_
-var imported = [];
-        for (idx in relationships) { // import entities in required relationships
-    const relationshipValidate = relationships[idx].relationshipValidate;
-    const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
-    const isUsingMapsIdL1 = relationships[idx].useJPADerivedIdentifier;
-if (imported.indexOf(otherEntityNameCapitalized) === -1) {
-if ((relationshipValidate !== null && relationshipValidate === true) || jpaMetamodelFiltering || (isUsingMapsIdL1 === true)) { _%>
-    import <%= packageName %>.domain.<%= asEntity(otherEntityNameCapitalized) %>;
-<%_         imported.push(otherEntityNameCapitalized);
-} } } _%>
 <%_ if (saveUserSnapshot) { _%>
     import <%= packageName %>.repository.UserRepository;
 <%_ } _%>
@@ -111,9 +77,6 @@ import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 <%_ } _%>
-<%_ if (databaseType === 'neo4j') { _%>
-import org.junit.jupiter.api.extension.ExtendWith;
-<%_ } _%>
 import org.springframework.beans.factory.annotation.Autowired;
 <%_ if (!reactive) { _%>
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -126,19 +89,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 <%_ } _%>
 import org.springframework.http.MediaType;
-<%_ if (databaseType === 'couchbase') { _%>
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.TestSecurityContextHolder;
-<%_ } _%>
 import org.springframework.security.test.context.support.WithMockUser;
 <%_ if (reactiveRepositories) { _%>
 import org.springframework.test.web.reactive.server.WebTestClient;
 <%_ } _%>
 <%_ if (!reactive) { _%>
 import org.springframework.test.web.servlet.MockMvc;
-<%_ } _%>
-<%_ if (databaseType === 'sql') { _%>
-import org.springframework.transaction.annotation.Transactional;
 <%_ } _%>
 <%_ if (fieldsContainBlob === true) { _%>
 import org.springframework.util.Base64Utils;
@@ -147,17 +103,6 @@ import org.springframework.util.Base64Utils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 <%_ } _%>
-<%_ if (databaseType === 'sql') { _%>
-    import javax.persistence.EntityManager;<% } %><% if (fieldsContainBigDecimal === true) { %>
-    import java.math.BigDecimal;<% } %><% if (fieldsContainBlob === true && databaseType === 'cassandra') { %>
-    import java.nio.ByteBuffer;<% } %><% if (reactiveRepositories || fieldsContainDuration === true) { %>
-    import java.time.Duration;<% } %><% if (fieldsContainLocalDate === true) { %>
-    import java.time.LocalDate;<% } %><% if (fieldsContainInstant === true || fieldsContainZonedDateTime === true) { %>
-    import java.time.Instant;<% } %><% if (fieldsContainZonedDateTime === true) { %>
-    import java.time.ZonedDateTime;
-    import java.time.ZoneOffset;<% } %><% if (fieldsContainLocalDate === true || fieldsContainZonedDateTime === true) { %>
-    import java.time.ZoneId;<% } %><% if (fieldsContainInstant === true) { %>
-    import java.time.temporal.ChronoUnit;<% } %>
 <%_ if (fieldsContainOwnerManyToMany) { _%>
 import java.util.ArrayList;
 <%_ } _%>
@@ -165,9 +110,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 <%_ } _%>
 import java.util.List;
-<%_ if (databaseType === 'cassandra' || fieldsContainUUID === true || (databaseType === 'sql' && hasOauthUser === true)) { _%>
-import java.util.UUID;
-<%_ } _%>
 
 <%_ if (fieldsContainZonedDateTime === true) { _%>
     import static <%= packageName %>.web.rest.TestUtil.sameInstant;
@@ -211,9 +153,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
 <%_ } else if (searchEngine === 'elasticsearch' || fieldsContainOwnerManyToMany === true) { _%>
 @ExtendWith(MockitoExtension.class)
-<%_ } _%>
-<%_ if (databaseType === 'neo4j') { _%>
-@ExtendWith(AbstractNeo4jIT.class)
 <%_ } _%>
 <%_ if (!reactive) { _%>
 @AutoConfigureMockMvc
@@ -280,7 +219,7 @@ if (fieldType === 'String' || fieldTypeBlobContent === 'text') {
         sampleTextString += "A";
         updatedTextString += "B";
     }
-    if (!this._.isUndefined(fields[idx].fieldValidateRulesPattern)) {
+    if (!fields[idx].fieldValidateRulesPattern) {
         // Generate Strings, using pattern
         try {
             const patternRegExp = new RegExp(fields[idx].fieldValidateRulesPattern);
@@ -380,10 +319,6 @@ private static final String <%= updatedValueName %> = "<%- updatedTextString %>"
     private static final Boolean <%= updatedValueName %> = true;
 <%_ } else if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
 
-<%_ if (databaseType !== 'cassandra') { _%>
-    private static final byte[] <%= defaultValueName %> = TestUtil.createByteArray(1, "0");
-    private static final byte[] <%= updatedValueName %> = TestUtil.createByteArray(1, "1");
-<%_ } else { _%>
     private static final ByteBuffer <%= defaultValueName %> = ByteBuffer.wrap(TestUtil.createByteArray(1, "0"));
     private static final ByteBuffer <%= updatedValueName %> = ByteBuffer.wrap(TestUtil.createByteArray(1, "1"));
 <%_ } _%>
@@ -439,11 +374,6 @@ private <%= entityClass %>Service <%= entityInstance %>Service;
     @Autowired
     private <%= entityClass %>QueryService <%= entityInstance %>QueryService;
 <%_ } _%>
-<%_ if (databaseType === 'sql') { _%>
-
-@Autowired
-private EntityManager em;
-<%_ } _%>
 <%_ if (!reactive) { _%>
 
     @Autowired
@@ -463,7 +393,7 @@ private <%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>;
     * This is a static method, as tests for other entities might also need it,
     * if they test an entity which requires the current entity.
     */
-    public static <%= asEntity(entityClass) %> create<% if (fieldStatus === 'UPDATED_') { _%>Updated<%_ } %>Entity(<% if (databaseType === 'sql') { %>EntityManager em<% } %>) {
+    public static <%= asEntity(entityClass) %> create<% if (fieldStatus === 'UPDATED_') { _%>Updated<%_ } %>Entity() {
     <%_ if (fluentMethods) { _%>
         <%= asEntity(entityClass) %> <%= asEntity(entityInstance) %> = new <%= asEntity(entityClass) %>()<% for (idx in fields) { %>
             .<%= fields[idx].fieldName %>(<%= fieldStatus + fields[idx].fieldNameUnderscored.toUpperCase() %>)<% if ((fields[idx].fieldType === 'byte[]' || fields[idx].fieldType === 'ByteBuffer') && fields[idx].fieldTypeBlobContent !== 'text') { %>
@@ -537,7 +467,7 @@ webTestClient = webTestClient.mutateWith(csrf());
 <%_ } _%>
 @BeforeEach
 public void initTest() {
-<%= asEntity(entityInstance) %> = createEntity(<% if (databaseType === 'sql') { %>em<% } %>);
+<%= asEntity(entityInstance) %> = createEntity();
 }
 <%_ if (!readOnly) { _%>
 

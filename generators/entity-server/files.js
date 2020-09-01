@@ -1,4 +1,6 @@
 const constants = require('generator-jhipster/generators/generator-constants');
+const chalk = require('chalk');
+const fs = require('fs');
 
 const { SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR } = constants;
 
@@ -98,6 +100,19 @@ const serverFiles = {
         {
           file: 'package/domain/NoDbEntityTest.java',
           renameTo: generator => `${generator.packageFolder}/domain/${generator.entityClass}Test.java`,
+        },
+        {
+          file: 'package/web/rest/NoDbEntityResourceIT.java',
+          options: {
+            context: {
+              _,
+              chalkRed: chalk.red,
+              fs,
+              SERVER_TEST_SRC_DIR,
+            },
+          },
+          renameTo: generator =>
+            `${generator.packageFolder}/web/rest/NoDb${generator.entityClass}ResourceIT.java`,
         },
       ],
     },
