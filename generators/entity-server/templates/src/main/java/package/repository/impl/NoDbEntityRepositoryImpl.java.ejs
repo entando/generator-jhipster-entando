@@ -24,6 +24,7 @@ import <%= packageName %>.repository. <%= asEntity(entityClass) %>Repository;
 import java.util.Optional;
 <%_ if (pagination === 'no') { _%>
 import java.util.List;
+import java.util.ArrayList;
 <%_ } else { _%>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,38 +39,36 @@ public class <%= entityClass %>RepositoryImpl implements <%= entityClass %>Repos
     <%_ if (pagination === 'no') { _%>
     @Override
     public List<<%= asEntity(entityClass) %>> findAll() {
-        throw new UnsupportedOperationException("Method not implemented!");
+        return new ArrayList<<%= asEntity(entityClass) %>>();
     }
     <%_ } else { _%>
     @Override
     public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
-        throw new UnsupportedOperationException("Method not implemented!");
+        return Page.empty(pageable);
     }
     <%_ } _%>
 
     @Override
     public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        throw new UnsupportedOperationException("Method not implemented!");
+        return Optional.empty();
     }
 
     @Override
     public Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKeyType %> id) {
-        throw new UnsupportedOperationException("Method not implemented!");
+        return Optional.empty();
     }
 
     @Override
-    public void deleteById(<%= primaryKeyType %> id) {
-        throw new UnsupportedOperationException("Method not implemented!");
-    }
+    public void deleteById(<%= primaryKeyType %> id) { }
 
     @Override
     public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        throw new UnsupportedOperationException("Method not implemented!");
+        return <%= asEntity(entityInstance) %>
     }
 
     @Override
     public <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        throw new UnsupportedOperationException("Method not implemented!");
+        return <%= asEntity(entityInstance) %>
     }
 
 }
