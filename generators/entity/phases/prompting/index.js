@@ -571,6 +571,7 @@ function askForField(done) {
     },
     {
       when: response => {
+        console.log("Field type is " + response.fieldType);
         if (response.fieldType === 'enum') {
           response.fieldIsEnum = true;
           return true;
@@ -579,7 +580,7 @@ function askForField(done) {
         return false;
       },
       type: 'input',
-      name: 'fieldType',
+      name: 'enumType',
       validate: input => {
         if (input === '') {
           return 'Your class name cannot be empty.';
@@ -883,7 +884,7 @@ function askForField(done) {
     if (props.fieldAdd) {
       const field = {
         fieldName: props.fieldName,
-        fieldType: props.fieldIsEnum ? _.upperFirst(props.fieldType) : props.fieldType,
+        fieldType: props.enumType || props.fieldType,
         fieldTypeBlobContent: props.fieldTypeBlobContent,
         fieldValues: props.fieldIsEnum ? props.fieldValues.toUpperCase() : props.fieldValues,
         fieldValidateRules: props.fieldValidateRules,
