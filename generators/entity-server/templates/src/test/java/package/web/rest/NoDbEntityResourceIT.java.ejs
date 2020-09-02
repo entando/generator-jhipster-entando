@@ -26,9 +26,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+<%_ if (!reactive) { _%>
 import org.springframework.test.web.servlet.MockMvc;
+<%_ } else { _%>
+import org.springframework.test.web.reactive.server.WebTestClient;
+<%_ } _%>
+<%_ if (!reactive) { _%>
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+<%_ } _%>
 /**
 * Integration tests for the {@link <%= entityClass %>Resource} REST controller.
 */
@@ -42,22 +48,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class <%= entityClass %>ResourceIT {
 
+    <%_ if (!reactive) { _%>
     @Autowired
     private MockMvc rest<%= entityClass %>MockMvc;
+    <%_ } else { _%>
+    @Autowired
+    private WebTestClient webTestClient;
+    <%_ } _%>
 
     @Test
     public void getAll<%= entityClassPlural %>ReturnsEmptyList() throws Exception {
         // Get all the <%= entityInstance %>List
+        <%_ if (!reactive) { _%>
         rest<%= entityClass %>MockMvc.perform(get("/api/<%= entityApiUrl %>"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json("[]"));
+        <%_ } else { _%>
+        webTestClient.get().uri("/api/<%= entityApiUrl %>")
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody().isEmpty();
+        <%_ } _%>
     }
 
     @Test
     public void getNonExisting<%= entityClass %>() throws Exception {
         // Get the <%= entityInstance %>
+        <%_ if (!reactive) { _%>
         rest<%= entityClass %>MockMvc.perform(get("/api/<%= entityApiUrl %>/{id}", Long.MAX_VALUE))
         .andExpect(status().isNotFound());
-    }
+        <%_ } else { _%>
+        webTestClient.get().uri("/api/<%= entityApiUrl %>/{id}", Long.MAX_VALUE)
+        .exchange()
+        .expectStatus().isNotFound();
+        <%_ } _%>
+}
 }
