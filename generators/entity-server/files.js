@@ -100,19 +100,14 @@ const serverFiles = {
         {
           file: 'package/domain/NoDbEntityTest.java',
           renameTo: generator => `${generator.packageFolder}/domain/${generator.entityClass}Test.java`,
+          override: true,
         },
         {
           file: 'package/web/rest/NoDbEntityResourceIT.java',
-          options: {
-            context: {
-              _,
-              chalkRed: chalk.red,
-              fs,
-              SERVER_TEST_SRC_DIR,
-            },
-          },
+          path: SERVER_TEST_SRC_DIR,
           renameTo: generator =>
-            `${generator.packageFolder}/web/rest/NoDb${generator.entityClass}ResourceIT.java`,
+            `${generator.packageFolder}/web/rest/${generator.entityClass}ResourceIT.java`,
+          override: true,
         },
       ],
     },
