@@ -72,9 +72,7 @@ function askForMicroserviceJson() {
       }
       context.useConfigurationFile = true;
       context.useMicroserviceJson = true;
-      const fromPath = `${context.microservicePath}/${context.jhipsterConfigDirectory}/${
-        context.entityNameCapitalized
-      }.json`;
+      const fromPath = `${context.microservicePath}/${context.jhipsterConfigDirectory}/${context.entityNameCapitalized}.json`;
       this.loadEntityJson(fromPath);
     }
     done();
@@ -189,6 +187,12 @@ function askForRelationships() {
   if (context.useConfigurationFile && context.updateEntity !== 'add') {
     return;
   }
+
+  // don't prompt for relationships if no database
+  if (context.databaseType === 'no') {
+    return;
+  }
+
   if (['cassandra', 'couchbase'].includes(context.databaseType)) {
     return;
   }
@@ -208,6 +212,11 @@ function askForRelationsToRemove() {
   ) {
     return;
   }
+
+  if (context.databaseType === 'no') {
+    return;
+  }
+
   if (['cassandra', 'couchbase'].includes(context.databaseType)) {
     return;
   }
@@ -503,7 +512,8 @@ function askForField(done) {
     },
     {
       when: response =>
-        response.fieldAdd === true && (skipServer || ['sql', 'mongodb', 'couchbase'].includes(databaseType)),
+        response.fieldAdd === true &&
+        (skipServer || ['sql', 'mongodb', 'couchbase', 'no'].includes(databaseType)),
       type: 'list',
       name: 'fieldType',
       message: 'What is the type of your field?',
@@ -561,6 +571,7 @@ function askForField(done) {
     },
     {
       when: response => {
+        console.log("Field type is " + response.fieldType);
         if (response.fieldType === 'enum') {
           response.fieldIsEnum = true;
           return true;
@@ -569,7 +580,7 @@ function askForField(done) {
         return false;
       },
       type: 'input',
-      name: 'fieldType',
+      name: 'enumType',
       validate: input => {
         if (input === '') {
           return 'Your class name cannot be empty.';
@@ -873,7 +884,7 @@ function askForField(done) {
     if (props.fieldAdd) {
       const field = {
         fieldName: props.fieldName,
-        fieldType: props.fieldIsEnum ? _.upperFirst(props.fieldType) : props.fieldType,
+        fieldType: props.enumType || props.fieldType,
         fieldTypeBlobContent: props.fieldTypeBlobContent,
         fieldValues: props.fieldIsEnum ? props.fieldValues.toUpperCase() : props.fieldValues,
         fieldValidateRules: props.fieldValidateRules,
@@ -928,7 +939,7 @@ function askForRelationship(done) {
           return 'Your other entity name cannot contain a Java reserved keyword';
         }
         if (input.toLowerCase() === 'user' && context.applicationType === 'microservice') {
-          return "Your entity cannot have a relationship with User because it's a gateway entity";
+          return 'Your entity cannot have a relationship with User because it\'s a gateway entity';
         }
         return true;
       },
@@ -1030,9 +1041,7 @@ function askForRelationship(done) {
       type: 'input',
       name: 'otherEntityField',
       message: response =>
-        `When you display this relationship on client-side, which field from '${
-          response.otherEntityName
-        }' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
+        `When you display this relationship on client-side, which field from '${response.otherEntityName}' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
       default: 'id',
     },
     {
@@ -1104,8 +1113,8 @@ function logFieldsAndRelationships() {
     this.log(
       chalk.red(
         chalk.white('\n================= ') +
-          context.entityNameCapitalized +
-          chalk.white(' ================='),
+        context.entityNameCapitalized +
+        chalk.white(' ================='),
       ),
     );
   }
@@ -1145,10 +1154,10 @@ function logFieldsAndRelationships() {
       }
       this.log(
         chalk.red(field.fieldName) +
-          chalk.white(
-            ` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `,
-          ) +
-          chalk.cyan(validationDetails.join(' ')),
+        chalk.white(
+          ` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `,
+        ) +
+        chalk.cyan(validationDetails.join(' ')),
       );
     });
     this.log();

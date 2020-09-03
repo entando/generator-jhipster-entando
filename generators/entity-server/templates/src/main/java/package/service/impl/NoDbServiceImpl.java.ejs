@@ -1,0 +1,103 @@
+<%#
+ Copyright 2013-2020 the original author or authors from the JHipster project.
+
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+package <%= packageName %>.service<% if (service === 'serviceImpl') { %>.impl<% } %>;
+
+import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
+<% if (service === 'serviceImpl') { %>
+import <%= packageName %>.service.<%= asEntity(entityClass) %>Service;
+<% } %>
+import <%= packageName %>.repository.<%= asEntity(entityClass) %>Repository;
+
+import java.util.Optional;
+
+<% if (pagination === 'no') {%>
+import java.util.List;
+<% } else { %>
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+<% } %>
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+public class <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl') { %>Impl<% } %> <% if (service === 'serviceImpl') { %> implements <%= entityClass %>Service<% } %> {
+
+    private <%= asEntity(entityClass) %>Repository repository;
+
+    @Autowired
+    public <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl') { %>Impl<% } %>(<%= asEntity(entityClass) %>Repository repository) {
+        this.repository = repository;
+    }
+
+    <%_ if (pagination === 'no' ) { _%>
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public List<<%= asEntity(entityClass) %>> findAll() {
+        return this.repository.findAll();
+    }
+    <%_ } else { _%>
+    <% if (service === 'serviceImpl') { %> @Override  <% } %>
+    public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
+        return this.repository.findAll(pageable);
+    }
+    <%_ } _%>
+
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+        return this.repository.findOne(<%= asEntity(entityInstance) %>);
+    }
+
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public Optional<<%= asEntity(entityClass) %>> findOne(<%= primaryKeyType %> id) {
+        return this.repository.findById(id);
+    }
+
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+        this.repository.deleteById(<%= asEntity(entityInstance) %>.getId());
+    }
+
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public void delete(<%= primaryKeyType %> id) {
+        this.repository.deleteById(id);
+    }
+
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+        return this.repository.save(<%= asEntity(entityInstance) %>);
+    }
+
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+        return this.repository.update(<%= asEntity(entityInstance) %>);
+    }
+}
