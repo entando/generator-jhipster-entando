@@ -1,9 +1,9 @@
 function validateDbExistence() {
-  console.log('Skipping default JHipster validateDbExistence step');
+  this.info('Skipping default JHipster validateDbExistence step');
 }
 
 function validateTableName() {
-  console.log('Skipping default JHipster validateTableName');
+  this.info('Skipping default JHipster validateTableName');
 }
 
 module.exports = {

@@ -571,7 +571,6 @@ function askForField(done) {
     },
     {
       when: response => {
-        console.log(`Field type is ${response.fieldType}`);
         if (response.fieldType === 'enum') {
           response.fieldIsEnum = true;
           return true;
