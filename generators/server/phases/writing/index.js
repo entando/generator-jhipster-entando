@@ -31,6 +31,8 @@ function addMavenSnapshotRepository() {
   this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
 }
 
+// TODO Remove this method if we don't need it anymore
+// eslint-disable-next-line
 function addEntandoAuthDependencies() {
   this.addMavenDependency('io.github.openfeign', 'feign-jackson', null, null);
 }

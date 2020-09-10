@@ -1,6 +1,4 @@
 const constants = require('generator-jhipster/generators/generator-constants');
-const chalk = require('chalk');
-const fs = require('fs');
 
 const { SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR } = constants;
 
