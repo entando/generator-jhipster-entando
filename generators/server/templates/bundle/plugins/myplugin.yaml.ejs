@@ -1,18 +1,6 @@
-kind: "EntandoPlugin"
-apiVersion: "entando.org/v1"
-metadata:
-  name: "<%=baseName.toLowerCase()%>-plugin"
-spec:
-  image: <%= dockerImageOrganization %>/<%= dasherizedBaseName %>:0.0.1-SNAPSHOT
-  replicas: 1
-  dbms: <%= prodDatabaseTypePlugin%>
-  parameters: {}
-  ingressPath: "/<%=baseName%>"
-  healthCheckPath: "/management/health"
-  securityLevel: "strict"
-  connectionConfigNames: []
-  permissions: []
-  roles:
-  - name: <%=baseName%>-admin
-    code: <%=baseName%>-admin
+image: <%= dockerImageOrganization %>/<%= dasherizedBaseName %>:0.0.1-SNAPSHOT
+dbms: <%= prodDatabaseTypePlugin%>
+healthCheckPath: "/management/health"
+roles:
+  - "<%=baseName%>-admin"
 # entando-needle-descriptor-add-roles - Entando blueprint will add roles here
