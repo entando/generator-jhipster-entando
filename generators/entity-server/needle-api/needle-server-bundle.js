@@ -33,7 +33,7 @@ module.exports = class extends needleServer {
     const rewriteFileModelAdmin = this.generateFileModel(
       mainPluginDescriptorPath,
       'entando-needle-descriptor-add-roles',
-      `  - name: ${entityName}-admin\n    code: "${entityName}-admin"`,
+      `  - "${entityName}-admin"`,
     );
     this.addBlockContentToFile(rewriteFileModelAdmin, errorMessage);
   }
