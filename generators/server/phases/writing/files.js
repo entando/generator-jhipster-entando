@@ -801,6 +801,7 @@ const serverFiles = {
       path: SERVER_MAIN_RES_DIR,
       templates: [
         { file: 'static/microservices_index.html', method: 'copy', renameTo: () => 'static/index.html' },
+        { file: 'static/favicon.png', method: 'copy', renameTo: () => 'static/favicon.png' }
       ],
     },
   ],
