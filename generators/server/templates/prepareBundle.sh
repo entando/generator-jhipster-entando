@@ -1,4 +1,21 @@
 #!/bin/bash
+function sedReplace() {
+    local SEDCMD='sed -i'''
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      SEDCMD='sed -i '''
+    fi
+    $SEDCMD "$@"
+}
+
+function syncFiles() {
+    local CPCMD
+
+    rsync --version 1>/dev/null 2>&1
+    [[ $? -eq 0 ]] && CPCMD="rsync -a" || CPCMD="cp -ra"
+
+    $CPCMD "$@"
+}
+
 function syncResources() {
     local widgetFolder="$1"
 
@@ -7,15 +24,12 @@ function syncResources() {
     echo "- Preparing target folder structure"
     mkdir -p bundle{,"/$widgetFolder"}/resources
 
-    rsync --version 1>/dev/null 2>&1
-    [[ $? -eq 0 ]] && CPCMD="rsync -a" || CPCMD="cp -ra"
-
     echo "- Copying bundle descriptor"
-    $CPCMD "$widgetFolder"/bundle/* bundle/"$widgetFolder"/
+    syncFiles "$widgetFolder"/bundle/* bundle/"$widgetFolder"/
     if [ -d "$widgetFolder/build/static" ]; then
         echo "- Copying bundle static resource"
-        $CPCMD "$widgetFolder/build/static" bundle/resources 2>/dev/null
-        $CPCMD "$widgetFolder/build/static" "bundle/$widgetFolder/resources" 2>/dev/null
+        syncFiles "$widgetFolder/build/static" bundle/resources 2>/dev/null
+        syncFiles "$widgetFolder/build/static" "bundle/$widgetFolder/resources" 2>/dev/null
     else
         echo " > no build/static folder found for $widgetFolder"
     fi
@@ -52,27 +66,44 @@ function injectResource() {
     local destFile="$2"
 
     local _NL=$'\\\n'
-    SEDCMD="sed -i''"
-    echo $OSTYPE
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-      SEDCMD='sed -i '''
-    fi
     echo "- Injecting resource $resource in $destFile"
-    $SEDCMD 's|'"$INJECTION_POINT"'|'"$resource$_NL$INJECTION_POINT"'|g' "$destFile"
+    sedReplace 's|'"$INJECTION_POINT"'|'"$resource$_NL$INJECTION_POINT"'|g' "$destFile"
+}
+
+function getServiceUrlFromDockerImage() {
+    # Convert a docker image to the ingressPath which is /<organization>/<image-name>/<version> where
+    # each field only contains lowercase numbers and letters and "-"
+
+    shopt -s nullglob # Set the results of globs in forloop to emptylist if no file is found
+    local dockerImage="$1"
+
+    [ -z "$dockerImage" ] && echo ""
+    echo "$dockerImage" | tr : / | sed 's:[^a-zA-Z0-9/]:-:g' | tr "[:upper:]" "[:lower:]" | sed 's:^:/:g' 
+    
 }
 
 function updateFTLTemplate() {
     shopt -s nullglob # Set the results of globs in forloop to emptylist if no file is found
     local dir="$1"
     local bundleCode="$2"
+    local dockerImage="$3"
+    
 
     widgetName=$(basename "$dir")
+    ingressPath=$(getServiceUrlFromDockerImage "$dockerImage")
+
     echo ""
     echo "> Updating ${widgetName} micro-frontend resources for $dir"
 
     for ftlName in "$dir"/*.ftl;
     do
         [ -e "$ftlName" ] || continue
+
+        if [ -n "$ingressPath" ]; then
+            # Replace the service path with the correct ingressPath
+            sedReplace "s|service-url=\".*\"|service-url=\"$ingressPath\"|g" "$ftlName"
+        fi
+
         #For every JS file add a script reference in the widget FTL
         for jspath in "$dir"/resources/static/js/*;
         do
@@ -106,13 +137,17 @@ function updateFTLTemplate() {
 
 }
 
+export -f sedReplace
+export -f syncFiles
 export -f createFolderTree
 export -f injectResource
 export -f updateFTLTemplate
 export -f syncResources
+export -f getServiceUrlFromDockerImage
 export INJECTION_POINT="<#-- entando_resource_injection_point -->"
 
-BUNDLE_NAME=$(awk -F':' 'NR==1 {gsub(/ /, "", $2); print $2}' ./bundle/descriptor.yaml)
+BUNDLE_NAME=$(awk -F': ' '/^code/{print $2}' ./bundle/descriptor.yaml)
+DOCKER_IMAGE=$(awk -F': ' '/^image/{print $2}' ./bundle/plugins/*-plugin.yaml | head -1)
 WIDGET_FOLDER="ui/widgets"
 
 find "$WIDGET_FOLDER" -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" > /dev/null 2>&1
@@ -139,7 +174,7 @@ if [ $HAS_WIDGETS -eq 0 ]; then
     echo "---"
     echo "Updating micro-frontend templates to include static resources"
     echo ""
-    find bundle/ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'updateFTLTemplate "$@"' bash {} "$BUNDLE_NAME" \;
+    find bundle/ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'updateFTLTemplate "$@"' bash {} "$BUNDLE_NAME" "$DOCKER_IMAGE" \;
 
     echo ""
 else
