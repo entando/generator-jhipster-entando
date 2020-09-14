@@ -571,7 +571,6 @@ function askForField(done) {
     },
     {
       when: response => {
-        console.log("Field type is " + response.fieldType);
         if (response.fieldType === 'enum') {
           response.fieldIsEnum = true;
           return true;
@@ -939,7 +938,7 @@ function askForRelationship(done) {
           return 'Your other entity name cannot contain a Java reserved keyword';
         }
         if (input.toLowerCase() === 'user' && context.applicationType === 'microservice') {
-          return 'Your entity cannot have a relationship with User because it\'s a gateway entity';
+          return "Your entity cannot have a relationship with User because it's a gateway entity";
         }
         return true;
       },
@@ -1113,8 +1112,8 @@ function logFieldsAndRelationships() {
     this.log(
       chalk.red(
         chalk.white('\n================= ') +
-        context.entityNameCapitalized +
-        chalk.white(' ================='),
+          context.entityNameCapitalized +
+          chalk.white(' ================='),
       ),
     );
   }
@@ -1154,10 +1153,10 @@ function logFieldsAndRelationships() {
       }
       this.log(
         chalk.red(field.fieldName) +
-        chalk.white(
-          ` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `,
-        ) +
-        chalk.cyan(validationDetails.join(' ')),
+          chalk.white(
+            ` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `,
+          ) +
+          chalk.cyan(validationDetails.join(' ')),
       );
     });
     this.log();

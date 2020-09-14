@@ -31,10 +31,6 @@ function addMavenSnapshotRepository() {
   this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
 }
 
-function addEntandoAuthDependencies() {
-  this.addMavenDependency('io.github.openfeign', 'feign-jackson', null, null);
-}
-
 module.exports = {
   ...writeFiles(),
 

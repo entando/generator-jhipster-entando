@@ -446,7 +446,7 @@ function askForBundleName(meta) {
   ];
   this.prompt(prompts).then(prompt => {
     this.bundleName = prompt.bundleName;
-    this.config.set("bundleName", this.bundleName)
+    this.config.set('bundleName', this.bundleName);
     done();
   });
 }
@@ -471,7 +471,7 @@ function askForDockerOrganization(meta) {
   ];
   this.prompt(prompts).then(prompt => {
     this.dockerImageOrganization = prompt.dockerImageOrganization;
-    this.config.set("dockerOrganization", this.dockerImageOrganization)
+    this.config.set('dockerOrganization', this.dockerImageOrganization);
     done();
   });
 }

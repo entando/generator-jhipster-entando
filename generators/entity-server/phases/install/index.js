@@ -1,7 +1,7 @@
 function installRootNpmPackages() {
-    this.npmInstall();
+  this.npmInstall();
 }
 
 module.exports = {
-    installRootNpmPackages,
+  installRootNpmPackages,
 };
