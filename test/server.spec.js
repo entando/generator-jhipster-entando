@@ -51,13 +51,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.file(expectedFiles.server);
     });
 
-    it('verifies application configuration contains EntandoProperties reference', () => {
-      const applicationFile = expectedFiles.server.filter(item =>
-        item.endsWith('com/mycompany/myapp/EntandoPluginApp.java'),
-      )[0];
-      assert.fileContent(applicationFile, /EntandoProperties\.class/);
-    });
-
     it('verifies application.yml file contains entando properties', () => {
       const applicationYml = expectedFiles.server.filter(item => item.endsWith('application.yml'))[0];
       const fileContent = readFile(applicationYml, false);
