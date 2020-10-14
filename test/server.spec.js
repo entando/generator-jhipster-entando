@@ -50,31 +50,5 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
     it('creates expected files for the blueprint', () => {
       assert.file(expectedFiles.server);
     });
-
-    it('verifies application.yml file contains entando properties', () => {
-      const applicationYml = expectedFiles.server.filter(item => item.endsWith('application.yml'))[0];
-      const fileContent = readFile(applicationYml, false);
-      const config = YAML.parse(fileContent);
-
-      assert.ok(
-        Object.prototype.hasOwnProperty.call(config, 'entando'),
-        'application.yml should contain an entando property',
-      );
-
-      const entandoProperties = config.entando;
-      const expectedProperties = {
-        /* eslint-disable no-template-curly-in-string */
-        'client-id': '${CLIENT_ID:entandoPlugin}',
-        'client-secret': '${CLIENT_SECRET:entandoPlugin}',
-        'access-token-uri':
-          '${TOKEN_SERVICE:http://localhost:9080/auth/realms/entando-development}/protocol/openid-connect/token',
-        'auth-service-uri': '${ENTANDO_AUTH:http://localhost:8082/}',
-        'config-service-uri': '${ENTANDO_CONFIG:http://localhost:8083/}',
-      };
-      assert.ok(
-        _.isEqual(entandoProperties, expectedProperties),
-        'entando properties in application.yml not as expected',
-      );
-    });
   });
 });
