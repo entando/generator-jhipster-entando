@@ -6,7 +6,7 @@ const expectedFiles = require('./utils/expected-files');
 const appBaseName = 'entandoPlugin';
 
 describe('Subgenerator server of entando JHipster blueprint', () => {
-  describe('Default blueprint configuration', () => {
+  describe('With default blueprint configuration', () => {
     before(done => {
       helpers
         .run('generator-jhipster/generators/server')
