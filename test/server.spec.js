@@ -5,7 +5,7 @@ const constants = require('generator-jhipster/generators/generator-constants');
 const expectedFiles = require('./utils/expected-files');
 
 const appBaseName = 'entandoPlugin';
-const { DOCKER_DIR, SERVER_MAIN_SRC_DIR } = constants;
+const { DOCKER_DIR, SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR } = constants;
 
 describe('Subgenerator server of entando JHipster blueprint', () => {
   describe('With default blueprint configuration', () => {
@@ -270,6 +270,13 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '        }\n' +
           '      ]\n' +
           '    },',
+      );
+    });
+
+    it('Application yaml file contains Entando midification', () => {
+      assert.fileContent(
+        `${SERVER_MAIN_RES_DIR}config/application.yml`,
+        'swagger-ui:\n  client-id: swagger_ui\n  client-secret: swagger_ui',
       );
     });
   });
