@@ -273,10 +273,21 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('Application yaml file contains Entando midification', () => {
+    it('Application yaml files contains Entando midification', () => {
       assert.fileContent(
         `${SERVER_MAIN_RES_DIR}config/application.yml`,
         'swagger-ui:\n  client-id: swagger_ui\n  client-secret: swagger_ui',
+      );
+
+      assert.fileContent(
+        `${SERVER_MAIN_RES_DIR}config/application-dev.yml`,
+        '  cors:\n' +
+          "    allowed-origins: '*'\n" +
+          "    allowed-methods: '*'\n" +
+          "    allowed-headers: '*'\n" +
+          "    exposed-headers: 'Authorization,Link,X-Total-Count'\n" +
+          '    allow-credentials: true\n' +
+          '    max-age: 1800',
       );
     });
 
