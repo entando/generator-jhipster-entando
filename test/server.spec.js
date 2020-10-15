@@ -31,7 +31,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           devDatabaseType: 'h2Disk',
           prodDatabaseType: 'mysql',
           cacheProvider: 'ehcache',
-          authenticationType: 'oidc',
+          authenticationType: 'oauth2',
           enableTranslation: true,
           nativeLanguage: 'en',
           languages: ['fr', 'de'],
