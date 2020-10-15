@@ -315,5 +315,123 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         'implements InitializingBean',
       );
     });
+
+    it('CacheConfiguration file contains Entando modification', () => {
+      const cacheConfigurationFileName = `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/CacheConfiguration.java`;
+
+      assert.noFileContent(
+        cacheConfigurationFileName,
+        'import com.mycompany.myapp.repository.UserRepository;\n',
+      );
+      assert.noFileContent(cacheConfigurationFileName, 'UserRepository.USERS_BY_LOGIN_CACHE');
+      assert.noFileContent(cacheConfigurationFileName, 'UserRepository.USERS_BY_EMAIL_CACHE');
+      assert.noFileContent(cacheConfigurationFileName, 'Authority.class.getName()');
+      assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".authorities"');
+      assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".persistentTokens"');
+    });
+  });
+
+  describe('With Infinispan as cache configuration', () => {
+    before(done => {
+      helpers
+        .run('generator-jhipster/generators/server')
+        .withOptions({
+          'from-cli': true,
+          skipInstall: true,
+          blueprint: 'entando',
+          skipChecks: true,
+        })
+        .withGenerators([
+          [
+            require('../generators/server/index.js'), // eslint-disable-line global-require
+            'jhipster-entando:server',
+            path.join(__dirname, '../generators/server/index.js'),
+          ],
+        ])
+        .withPrompts({
+          baseName: appBaseName,
+          packageName: 'com.mycompany.myapp',
+          applicationType: 'microservice',
+          databaseType: 'sql',
+          devDatabaseType: 'h2Disk',
+          prodDatabaseType: 'mysql',
+          cacheProvider: 'infinispan',
+          authenticationType: 'oauth2',
+          enableTranslation: true,
+          nativeLanguage: 'en',
+          languages: ['fr', 'de'],
+          buildTool: 'maven',
+          rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
+          dockerImageOrganization: 'test',
+        })
+        .on('end', done);
+    });
+
+    it('creates expected files for the blueprint', () => {
+      assert.file(expectedFiles.server);
+      assert.file(`bundle/plugins/${appBaseName.toLowerCase()}-plugin.yaml`);
+    });
+
+    it('CacheConfiguration file contains Entando modification', () => {
+      const cacheConfigurationFileName = `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/CacheConfiguration.java`;
+
+      assert.noFileContent(
+        cacheConfigurationFileName,
+        'import com.mycompany.myapp.repository.UserRepository;\n',
+      );
+      assert.noFileContent(cacheConfigurationFileName, 'UserRepository.USERS_BY_LOGIN_CACHE');
+      assert.noFileContent(cacheConfigurationFileName, 'UserRepository.USERS_BY_EMAIL_CACHE');
+      assert.noFileContent(cacheConfigurationFileName, 'Authority.class.getName()');
+      assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".authorities"');
+      assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".persistentTokens"');
+      assert.fileContent(
+        cacheConfigurationFileName,
+        '        @Override\n' +
+          '    protected void configure(AuthenticationManagerBuilder auth)\n' +
+          '      throws Exception {\n' +
+          '        auth\n' +
+          '          .inMemoryAuthentication()\n' +
+          '          .withUser("user")\n' +
+          '            .password("password")\n' +
+          '            .roles("USER")\n' +
+          '            .and()\n' +
+          '          .withUser("admin")\n' +
+          '            .password("admin")\n' +
+          '            .roles("USER", "ADMIN");\n' +
+          '    }\n' +
+          ' \n' +
+          '    @Override\n' +
+          '    protected void configure(HttpSecurity http) throws Exception {\n' +
+          '        http\n' +
+          '          .authorizeRequests()\n' +
+          '          .anyRequest()\n' +
+          '          .authenticated()\n' +
+          '          .and()\n' +
+          '          .httpBasic();\n' +
+          '    }    @Override\n' +
+          '    protected void configure(AuthenticationManagerBuilder auth)\n' +
+          '      throws Exception {\n' +
+          '        auth\n' +
+          '          .inMemoryAuthentication()\n' +
+          '          .withUser("user")\n' +
+          '            .password("password")\n' +
+          '            .roles("USER")\n' +
+          '            .and()\n' +
+          '          .withUser("admin")\n' +
+          '            .password("admin")\n' +
+          '            .roles("USER", "ADMIN");\n' +
+          '    }\n' +
+          ' \n' +
+          '    @Override\n' +
+          '    protected void configure(HttpSecurity http) throws Exception {\n' +
+          '        http\n' +
+          '          .authorizeRequests()\n' +
+          '          .anyRequest()\n' +
+          '          .authenticated()\n' +
+          '          .and()\n' +
+          '          .httpBasic();\n' +
+          '    }',
+      );
+    });
   });
 });
