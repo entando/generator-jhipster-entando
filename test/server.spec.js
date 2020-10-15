@@ -191,5 +191,86 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         "            .contentSecurityPolicy(\"default-src 'self' http://localhost:9080; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:\")\n",
       );
     });
+
+    it('JHipster-realm.json file contains swagger-ui data', () => {
+      assert.fileContent(
+        `${DOCKER_DIR}realm-config/jhipster-realm.json`,
+        '{\n' +
+          '      "id": "d64b8b39-e190-44b8-aafb-13d589e3e21f",\n' +
+          '      "clientId": "swagger_ui",\n' +
+          '      "rootUrl": "http://localhost:8081",\n' +
+          '      "adminUrl": "http://localhost:8081",\n' +
+          '      "surrogateAuthRequired": false,\n' +
+          '      "enabled": true,\n' +
+          '      "clientAuthenticatorType": "client-secret",\n' +
+          '      "secret": "swagger_ui",\n' +
+          '      "redirectUris": ["http://localhost:*", "https://localhost:*", "http://127.0.0.1:*", "https://127.0.0.1:*", "dev.localhost.ionic:*"],\n' +
+          '      "webOrigins": ["*"],\n' +
+          '      "notBefore": 0,\n' +
+          '      "bearerOnly": false,\n' +
+          '      "consentRequired": false,\n' +
+          '      "standardFlowEnabled": true,\n' +
+          '      "implicitFlowEnabled": true,\n' +
+          '      "directAccessGrantsEnabled": false,\n' +
+          '      "serviceAccountsEnabled": false,\n' +
+          '      "publicClient": true,\n' +
+          '      "frontchannelLogout": false,\n' +
+          '      "protocol": "openid-connect",\n' +
+          '      "attributes": {\n' +
+          '        "saml.assertion.signature": "false",\n' +
+          '        "saml.force.post.binding": "false",\n' +
+          '        "saml.multivalued.roles": "false",\n' +
+          '        "saml.encrypt": "false",\n' +
+          '        "saml.server.signature": "false",\n' +
+          '        "saml.server.signature.keyinfo.ext": "false",\n' +
+          '        "exclude.session.state.from.auth.response": "false",\n' +
+          '        "saml_force_name_id_format": "false",\n' +
+          '        "saml.client.signature": "false",\n' +
+          '        "tls.client.certificate.bound.access.tokens": "false",\n' +
+          '        "saml.authnstatement": "false",\n' +
+          '        "display.on.consent.screen": "false",\n' +
+          '        "saml.onetimeuse.condition": "false"\n' +
+          '      },\n' +
+          '      "authenticationFlowBindingOverrides": {},\n' +
+          '      "fullScopeAllowed": true,\n' +
+          '      "nodeReRegistrationTimeout": -1,\n' +
+          '      "defaultClientScopes": ["web-origins", "jhipster", "role_list", "roles", "profile", "email"],\n' +
+          '      "optionalClientScopes": ["address", "phone", "offline_access"]\n' +
+          '    }\n' +
+          '  ],\n' +
+          '  "clientScopes": [\n' +
+          '    {\n' +
+          '      "id": "1dc1e050-891a-4f5b-ac9d-5ea0c2e3c05e",\n' +
+          '      "name": "address",\n' +
+          '      "description": "OpenID Connect built-in scope: address",\n' +
+          '      "protocol": "openid-connect",\n' +
+          '      "attributes": {\n' +
+          // eslint-disable-next-line no-template-curly-in-string
+          '        "consent.screen.text": "${addressScopeConsentText}",\n' +
+          '        "display.on.consent.screen": "true"\n' +
+          '      },\n' +
+          '      "protocolMappers": [\n' +
+          '        {\n' +
+          '          "id": "b9a92105-8ca5-45d1-8a99-626255ac174f",\n' +
+          '          "name": "address",\n' +
+          '          "protocol": "openid-connect",\n' +
+          '          "protocolMapper": "oidc-address-mapper",\n' +
+          '          "consentRequired": false,\n' +
+          '          "config": {\n' +
+          '            "user.attribute.formatted": "formatted",\n' +
+          '            "user.attribute.country": "country",\n' +
+          '            "user.attribute.postal_code": "postal_code",\n' +
+          '            "userinfo.token.claim": "true",\n' +
+          '            "user.attribute.street": "street",\n' +
+          '            "id.token.claim": "true",\n' +
+          '            "user.attribute.region": "region",\n' +
+          '            "access.token.claim": "true",\n' +
+          '            "user.attribute.locality": "locality"\n' +
+          '          }\n' +
+          '        }\n' +
+          '      ]\n' +
+          '    },',
+      );
+    });
   });
 });
