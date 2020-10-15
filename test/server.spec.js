@@ -1,9 +1,11 @@
 const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
+const constants = require('generator-jhipster/generators/generator-constants');
 const expectedFiles = require('./utils/expected-files');
 
 const appBaseName = 'entandoPlugin';
+const { DOCKER_DIR } = constants;
 
 describe('Subgenerator server of entando JHipster blueprint', () => {
   describe('With default blueprint configuration', () => {
@@ -161,6 +163,25 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '            <artifactId>springfox-swagger-ui</artifactId>\n' +
           '            <version>2.9.2</version>\n' +
           '        </dependency>',
+      );
+    });
+
+    it('Keycloack docker file contains the Entando modifications', () => {
+      assert.fileContent(`${DOCKER_DIR}keycloak.yml`, 'entando/entando-keycloak:6.0.15');
+      assert.fileContent(
+        `${DOCKER_DIR}keycloak.yml`,
+        '    command:\n' +
+          '      [\n' +
+          "        '-b',\n" +
+          "        '0.0.0.0',\n" +
+          "        '-Dkeycloak.profile.feature.scripts=enabled',\n" +
+          "        '-Dkeycloak.profile.feature.upload_scripts=enabled',\n" +
+          "        '-Dkeycloak.migration.action=import',\n" +
+          "        '-Dkeycloak.migration.provider=dir',\n" +
+          "        '-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config',\n" +
+          "        '-Dkeycloak.migration.strategy=OVERWRITE_EXISTING',\n" +
+          "        '-Djboss.socket.binding.port-offset=1000',\n" +
+          '      ]',
       );
     });
   });
