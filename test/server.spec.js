@@ -329,6 +329,19 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".authorities"');
       assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".persistentTokens"');
     });
+
+    it('CacheConfiguration file contains Entando modification', () => {
+      assert.noFileContent(
+        `${SERVER_MAIN_RES_DIR}banner.txt`,
+        // eslint-disable-next-line no-template-curly-in-string
+        "'${AnsiColor.BRIGHT_CYAN}███████╗███╗   ██╗████████╗ █████╗ ███╗   ██╗██████╗  ██████╗ \n" +
+          '██╔════╝████╗  ██║╚══██╔══╝██╔══██╗████╗  ██║██╔══██╗██╔═══██╗\n' +
+          '█████╗  ██╔██╗ ██║   ██║   ███████║██╔██╗ ██║██║  ██║██║   ██║\n' +
+          '██╔══╝  ██║╚██╗██║   ██║   ██╔══██║██║╚██╗██║██║  ██║██║   ██║\n' +
+          '███████╗██║ ╚████║   ██║   ██║  ██║██║ ╚████║██████╔╝╚██████╔╝\n' +
+          "╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ '",
+      );
+    });
   });
 
   describe('With Infinispan as cache configuration', () => {
