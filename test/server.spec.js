@@ -5,7 +5,7 @@ const constants = require('generator-jhipster/generators/generator-constants');
 const expectedFiles = require('./utils/expected-files');
 
 const appBaseName = 'entandoPlugin';
-const { DOCKER_DIR } = constants;
+const { DOCKER_DIR, SERVER_MAIN_SRC_DIR } = constants;
 
 describe('Subgenerator server of entando JHipster blueprint', () => {
   describe('With default blueprint configuration', () => {
@@ -182,6 +182,13 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           "        '-Dkeycloak.migration.strategy=OVERWRITE_EXISTING',\n" +
           "        '-Djboss.socket.binding.port-offset=1000',\n" +
           '      ]',
+      );
+    });
+
+    it('SecurityConfiguration file contains Entando modifications', () => {
+      assert.fileContent(
+        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/SecurityConfiguration.java`,
+        "            .contentSecurityPolicy(\"default-src 'self' http://localhost:9080; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:\")\n",
       );
     });
   });
