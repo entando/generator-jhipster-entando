@@ -301,5 +301,12 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '  }',
       );
     });
+
+    it('JwtAuthorityExtractor file contains Entando modification', () => {
+      assert.fileContent(
+        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/security/oauth2/JwtAuthorityExtractor.java`,
+        ":'internal'",
+      );
+    });
   });
 });
