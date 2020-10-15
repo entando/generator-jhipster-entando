@@ -279,5 +279,16 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         'swagger-ui:\n  client-id: swagger_ui\n  client-secret: swagger_ui',
       );
     });
+
+    it('package.json file contains Entando scripts', () => {
+      assert.fileContent(
+        'package.json',
+        '  "scripts": {\n' +
+          '    "populate-bundle": "bash ./buildBundle.sh",\n' +
+          '    "build-all": "bash ./buildBundle.sh -d",\n' +
+          '    "keycloak": "docker-compose -f src/main/docker/keycloak.yml up"\n' +
+          '  }',
+      );
+    });
   });
 });
