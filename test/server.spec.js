@@ -37,6 +37,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           languages: ['fr', 'de'],
           buildTool: 'maven',
           rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
+          dockerImageOrganization: 'test',
         })
         .on('end', done);
     });
@@ -104,6 +105,62 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '            <id>snapshot-repo</id>\n' +
           '            <url>https://oss.sonatype.org/content/repositories/snapshots</url>\n' +
           '        </repository>\n',
+      );
+    });
+
+    it('pom.xml contains the entando dockerImageOrganization', () => {
+      assert.fileContent(
+        'pom.xml',
+        '                    <configuration>\n' +
+          '                      <allowInsecureRegistries>true</allowInsecureRegistries>\n' +
+          '                      <from>\n' +
+          '                          <!-- Think of using the DOCKER_JAVA_JRE JHipster env variable -->\n' +
+          '                          <image>entando/entando-alpine-base:6.0.0</image>\n' +
+          '                      </from>\n' +
+          '                      <to>\n' +
+          // eslint-disable-next-line no-template-curly-in-string
+          '                          <image>/${project.artifactId}:${project.version}</image>\n' +
+          '                      </to>\n' +
+          '                      <extraDirectories>\n' +
+          '                          <paths>src/main/jib</paths>\n' +
+          '                          <permissions>\n' +
+          '                              <permission>\n' +
+          '                                  <file>/entrypoint.sh</file>\n' +
+          '                                  <mode>777</mode>\n' +
+          '                              </permission>\n' +
+          '                          </permissions>\n' +
+          '                      </extraDirectories>\n' +
+          '                      <container>\n' +
+          '                          <entrypoint>\n' +
+          '                              <shell>/bin/bash</shell>\n' +
+          '                              <option>-c</option>\n' +
+          '                              <arg>/entrypoint.sh</arg>\n' +
+          '                          </entrypoint>\n' +
+          '                          <ports>\n' +
+          '                              <port>8080</port>\n' +
+          '                          </ports>\n' +
+          '                          <environment>\n' +
+          '                              <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>\n' +
+          '                              <JHIPSTER_SLEEP>0</JHIPSTER_SLEEP>\n' +
+          '                          </environment>\n' +
+          '\t\t\t              <creationTime>USE_CURRENT_TIMESTAMP</creationTime>\n' +
+          '                      </container>\n' +
+          '                    </configuration>',
+      );
+    });
+
+    it('pom.xml contains the modified JIB creationTime', () => {
+      assert.fileContent('pom.xml', '\t\t\t              <creationTime>USE_CURRENT_TIMESTAMP</creationTime>');
+    });
+
+    it('pom.xml contains springfox-swagger-ui dependency', () => {
+      assert.fileContent(
+        'pom.xml',
+        '        <dependency>\n' +
+          '            <groupId>io.springfox</groupId>\n' +
+          '            <artifactId>springfox-swagger-ui</artifactId>\n' +
+          '            <version>2.9.2</version>\n' +
+          '        </dependency>',
       );
     });
   });
