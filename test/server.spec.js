@@ -308,5 +308,12 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         ":'internal'",
       );
     });
+
+    it('Main application file contains Entando modification', () => {
+      assert.fileContent(
+        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/${appBaseName}App.java`,
+        'implements InitializingBean',
+      );
+    });
   });
 });
