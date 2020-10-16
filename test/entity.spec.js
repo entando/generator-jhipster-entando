@@ -40,6 +40,10 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
     it('creates expected files for the blueprint', () => {
       assert.file(expectedFiles.entity.server.common);
     });
+
+    it('creates expected details widget files for the blueprint', () => {
+      assert.file(expectedFiles.entity.widget.detailsWidget);
+    });
   });
 
   describe('With noDb blueprint configuration', () => {
@@ -76,6 +80,10 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
     it('creates expected files for the blueprint', () => {
       assert.file(expectedFiles.entity.server.common);
       assert.file(expectedFiles.entity.server.noDb);
+    });
+
+    it('creates expected details widget files for the blueprint', () => {
+      assert.file(expectedFiles.entity.widget.detailsWidget);
     });
   });
 
@@ -115,6 +123,10 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
       assert.file(expectedFiles.entity.server.noDb);
       assert.file(expectedFiles.entity.server.serviceClass);
     });
+
+    it('creates expected details widget files for the blueprint', () => {
+      assert.file(expectedFiles.entity.widget.detailsWidget);
+    });
   });
 
   describe('With noDb with serviceImpl blueprint configuration', () => {
@@ -152,6 +164,10 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
       assert.file(expectedFiles.entity.server.common);
       assert.file(expectedFiles.entity.server.noDb);
       assert.file(expectedFiles.entity.server.serviceImpl);
+    });
+
+    it('creates expected details widget files for the blueprint', () => {
+      assert.file(expectedFiles.entity.widget.detailsWidget);
     });
   });
 });
