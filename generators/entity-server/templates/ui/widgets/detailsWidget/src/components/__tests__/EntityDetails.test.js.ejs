@@ -8,10 +8,11 @@ import <%= entityClass %>Details from 'components/<%= entityClass %>Details';
 import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
 
 describe('<%= entityClass %>Details component', () => {
+<%_ if(fields && fields.length){_%>
   test('renders data in details widget', () => {
     const { getByText } = render(<<%= entityClass %>Details <%= entityInstance %>={<%= entityInstance %>Mock} />);
     <%# TODO: THIS ONLY APPLIES IF THE DATA IS NOT SHOWN AS A DIFFERENT ITEM (e.g. Boolean as checkbox) #%>
-    <%_ const firstField = fields[0].fieldName; _%>
-    expect(getByText('entities.<%= entityInstance %>.<%= firstField %>')).toBeInTheDocument();
+      expect(getByText('entities.<%= entityInstance %>.<%= fields[0].fieldName %>')).toBeInTheDocument();
   });
+<%_ } _%>
 });
