@@ -1,10 +1,9 @@
 const chalk = require('chalk');
-
-const EntityServerGenerator = require('generator-jhipster/generators/common');
+const CommonGenerator = require('generator-jhipster/generators/common');
 
 const entandoBlueprintWritingPhase = require('./phases/writing');
 
-module.exports = class extends EntityServerGenerator {
+module.exports = class extends CommonGenerator {
   constructor(args, opts) {
     super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
 
