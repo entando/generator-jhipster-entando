@@ -69,11 +69,6 @@ const serverFiles = {
       templates: [{ file: generator => `${generator.prodDatabaseType}.yml` }],
     },
     {
-      condition: generator => generator.prodDatabaseType === 'mongodb',
-      path: DOCKER_DIR,
-      templates: ['mongodb-cluster.yml', 'mongodb/MongoDB.Dockerfile', 'mongodb/scripts/init_replicaset.js'],
-    },
-    {
       condition: generator => generator.cacheProvider === 'hazelcast',
       path: DOCKER_DIR,
       templates: ['hazelcast-management-center.yml'],
