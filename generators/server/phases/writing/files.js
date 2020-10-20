@@ -50,7 +50,7 @@ const entandoServerFiles = {
   serverBuild: [
     {
       condition: generator => generator.buildTool === 'maven',
-      templates: [{ file: 'pom.xml', options: { interpolate: INTERPOLATE_REGEX }, useBluePrint: true }],
+      templates: [{ file: 'pom.xml', options: { interpolate: INTERPOLATE_REGEX } }],
     },
   ],
   serverResource: [
