@@ -20,17 +20,6 @@ const shouldSkipUserManagement = generator =>
  * For any other config an object { file:.., method:.., template:.. } can be used
  */
 const serverFiles = {
-  jib: [
-    {
-      path: 'src/main/jib/',
-      templates: [
-        {
-          file: 'entrypoint.sh',
-          useBluePrint: true,
-        },
-      ],
-    },
-  ],
   packageJson: [
     {
       templates: ['package.json'],
