@@ -5,7 +5,6 @@ const constants = require('generator-jhipster/generators/generator-constants');
 const {
   INTERPOLATE_REGEX,
   DOCKER_DIR,
-  TEST_DIR,
   SERVER_MAIN_SRC_DIR,
   SERVER_MAIN_RES_DIR,
   SERVER_TEST_SRC_DIR,
@@ -118,20 +117,6 @@ const serverFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.authenticationType === 'oauth2',
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/oauth2/AudienceValidatorTest.java',
-          renameTo: generator => `${generator.javaDir}security/oauth2/AudienceValidatorTest.java`,
-        },
-        {
-          file: 'package/config/TestSecurityConfiguration.java',
-          renameTo: generator => `${generator.testDir}config/TestSecurityConfiguration.java`,
-        },
-      ],
-    },
   ],
   serverMicroservice: [
     {
@@ -170,15 +155,6 @@ const serverFiles = {
         },
       ],
     },
-    {
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/ArchTest.java',
-          renameTo: generator => `${generator.testDir}ArchTest.java`,
-        },
-      ],
-    },
   ],
   serverJavaConfig: [
     {
@@ -190,204 +166,6 @@ const serverFiles = {
         {
           file: 'package/config/CacheConfiguration.java',
           renameTo: generator => `${generator.javaDir}config/CacheConfiguration.java`,
-        },
-      ],
-    },
-  ],
-  serverTestFw: [
-    {
-      condition: generator => generator.databaseType === 'cassandra',
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/CassandraKeyspaceIT.java',
-          renameTo: generator => `${generator.testDir}CassandraKeyspaceIT.java`,
-        },
-        {
-          file: 'package/AbstractCassandraTest.java',
-          renameTo: generator => `${generator.testDir}AbstractCassandraTest.java`,
-        },
-        {
-          file: 'package/config/CassandraConfigurationIT.java',
-          renameTo: generator => `${generator.testDir}config/CassandraConfigurationIT.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseType === 'couchbase',
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/DatabaseConfigurationIT.java',
-          renameTo: generator => `${generator.testDir}config/DatabaseConfigurationIT.java`,
-        },
-      ],
-    },
-    {
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/TestUtil.java',
-          renameTo: generator => `${generator.testDir}web/rest/TestUtil.java`,
-        },
-        {
-          file: 'package/web/rest/errors/ExceptionTranslatorIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/errors/ExceptionTranslatorIT.java`,
-        },
-        {
-          file: 'package/web/rest/errors/ExceptionTranslatorTestController.java',
-          renameTo: generator => `${generator.testDir}web/rest/errors/ExceptionTranslatorTestController.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.skipClient && !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/ClientForwardControllerIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/ClientForwardControllerIT.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseType === 'sql',
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/timezone/HibernateTimeZoneIT.java',
-          renameTo: generator => `${generator.testDir}config/timezone/HibernateTimeZoneIT.java`,
-        },
-        {
-          file: 'package/repository/timezone/DateTimeWrapper.java',
-          renameTo: generator => `${generator.testDir}repository/timezone/DateTimeWrapper.java`,
-        },
-        {
-          file: 'package/repository/timezone/DateTimeWrapperRepository.java',
-          renameTo: generator => `${generator.testDir}repository/timezone/DateTimeWrapperRepository.java`,
-        },
-      ],
-    },
-    {
-      path: SERVER_TEST_RES_DIR,
-      templates: ['config/application.yml', 'logback.xml'],
-    },
-    {
-      // TODO : add these tests to reactive
-      condition: generator => !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/WebConfigurerTest.java',
-          renameTo: generator => `${generator.testDir}config/WebConfigurerTest.java`,
-        },
-        {
-          file: 'package/config/WebConfigurerTestController.java',
-          renameTo: generator => `${generator.testDir}config/WebConfigurerTestController.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.applicationType === 'gateway' && generator.serviceDiscoveryType,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        // Create Gateway tests files
-        {
-          file: 'package/gateway/responserewriting/SwaggerBasePathRewritingFilterTest.java',
-          renameTo: generator =>
-            `${generator.testDir}gateway/responserewriting/SwaggerBasePathRewritingFilterTest.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.serviceDiscoveryType,
-      path: SERVER_TEST_RES_DIR,
-      templates: ['config/bootstrap.yml'],
-    },
-    {
-      condition: generator => generator.authenticationType === 'uaa',
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/OAuth2TokenMockUtil.java',
-          renameTo: generator => `${generator.testDir}security/OAuth2TokenMockUtil.java`,
-        },
-        {
-          file: 'package/config/SecurityBeanOverrideConfiguration.java',
-          renameTo: generator => `${generator.testDir}config/SecurityBeanOverrideConfiguration.java`,
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        generator.authenticationType === 'uaa' && generator.applicationType === 'gateway',
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/oauth2/OAuth2CookieHelperTest.java',
-          renameTo: generator => `${generator.testDir}security/oauth2/OAuth2CookieHelperTest.java`,
-        },
-        {
-          file: 'package/security/oauth2/OAuth2AuthenticationServiceTest.java',
-          renameTo: generator => `${generator.testDir}security/oauth2/OAuth2AuthenticationServiceTest.java`,
-        },
-        {
-          file: 'package/security/oauth2/CookieTokenExtractorTest.java',
-          renameTo: generator => `${generator.testDir}security/oauth2/CookieTokenExtractorTest.java`,
-        },
-        {
-          file: 'package/security/oauth2/CookieCollectionTest.java',
-          renameTo: generator => `${generator.testDir}security/oauth2/CookieCollectionTest.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => {
-        if (generator.gatlingTests) {
-          mkdirp(`${TEST_DIR}gatling/user-files/data`);
-          mkdirp(`${TEST_DIR}gatling/user-files/bodies`);
-          mkdirp(`${TEST_DIR}gatling/user-files/simulations`);
-          return true;
-        }
-        return false;
-      },
-      path: TEST_DIR,
-      templates: [
-        // Create Gatling test files
-        'gatling/conf/gatling.conf',
-        'gatling/conf/logback.xml',
-      ],
-    },
-    {
-      condition: generator => generator.cucumberTests,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        // Create Cucumber test files
-        {
-          file: 'package/cucumber/CucumberIT.java',
-          renameTo: generator => `${generator.testDir}cucumber/CucumberIT.java`,
-        },
-        {
-          file: 'package/cucumber/stepdefs/StepDefs.java',
-          renameTo: generator => `${generator.testDir}cucumber/stepdefs/StepDefs.java`,
-        },
-        {
-          file: 'package/cucumber/CucumberContextConfiguration.java',
-          renameTo: generator => `${generator.testDir}cucumber/CucumberContextConfiguration.java`,
-        },
-        { file: '../features/gitkeep', noEjs: true },
-      ],
-    },
-    {
-      condition: generator => generator.messageBroker === 'kafka',
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/KafkaResourceIT.java',
-          renameTo: generator =>
-            `${generator.testDir}web/rest/${generator.upperFirstCamelCase(
-              generator.baseName,
-            )}KafkaResourceIT.java`,
         },
       ],
     },
