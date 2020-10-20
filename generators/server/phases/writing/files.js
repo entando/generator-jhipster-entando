@@ -70,105 +70,13 @@ const serverFiles = {
   ],
   serverResource: [
     {
-      condition: generator => generator.clientFramework === 'react',
-      path: SERVER_MAIN_RES_DIR,
-      templates: [
-        {
-          file: 'banner-react.txt',
-          method: 'copy',
-          noEjs: true,
-          renameTo: () => 'banner.txt',
-        },
-      ],
-    },
-    {
       condition: generator => generator.clientFramework !== 'react',
       path: SERVER_MAIN_RES_DIR,
       templates: [{ file: 'banner.txt', method: 'copy', noEjs: true }],
     },
     {
-      condition: generator =>
-        generator.devDatabaseType === 'h2Disk' || generator.devDatabaseType === 'h2Memory',
       path: SERVER_MAIN_RES_DIR,
-      templates: [
-        { file: 'h2.server.properties', renameTo: () => '.h2.server.properties', useBluePrint: true },
-      ],
-    },
-    {
-      condition: generator => !!generator.enableSwaggerCodegen,
-      path: SERVER_MAIN_RES_DIR,
-      templates: ['swagger/api.yml'],
-    },
-    {
-      path: SERVER_MAIN_RES_DIR,
-      templates: [
-        // Thymeleaf templates
-        { file: 'templates/error.html', method: 'copy' },
-        'logback-spring.xml',
-        'config/application.yml',
-        'config/application-dev.yml',
-        'config/application-tls.yml',
-        'config/application-prod.yml',
-        'i18n/messages.properties',
-      ],
-    },
-    {
-      condition: generator => generator.databaseType === 'sql',
-      path: SERVER_MAIN_RES_DIR,
-      templates: [
-        {
-          file: 'config/liquibase/changelog/initial_schema.xml',
-          renameTo: () => 'config/liquibase/changelog/00000000000000_initial_schema.xml',
-          options: { interpolate: INTERPOLATE_REGEX },
-        },
-        'config/liquibase/master.xml',
-      ],
-    },
-    {
-      condition: generator => generator.databaseType === 'couchbase',
-      path: SERVER_MAIN_RES_DIR,
-      templates: ['config/couchmove/changelog/V0__create_indexes.n1ql'],
-    },
-    {
-      condition: generator =>
-        generator.databaseType === 'couchbase' &&
-        (!generator.skipUserManagement || generator.authenticationType === 'oauth2'),
-      path: SERVER_MAIN_RES_DIR,
-      templates: [
-        'config/couchmove/changelog/V0.1__initial_setup/ROLE_ADMIN.json',
-        'config/couchmove/changelog/V0.1__initial_setup/ROLE_USER.json',
-        'config/couchmove/changelog/V0.1__initial_setup/user__admin.json',
-        'config/couchmove/changelog/V0.1__initial_setup/user__anonymoususer.json',
-        'config/couchmove/changelog/V0.1__initial_setup/user__system.json',
-        'config/couchmove/changelog/V0.1__initial_setup/user__user.json',
-      ],
-    },
-    {
-      condition: generator => generator.databaseType === 'cassandra',
-      path: SERVER_MAIN_RES_DIR,
-      templates: [
-        'config/cql/create-keyspace-prod.cql',
-        'config/cql/create-keyspace.cql',
-        'config/cql/drop-keyspace.cql',
-        { file: 'config/cql/changelog/README.md', method: 'copy' },
-      ],
-    },
-    {
-      condition: generator =>
-        generator.databaseType === 'cassandra' &&
-        generator.applicationType !== 'microservice' &&
-        (!generator.skipUserManagement || generator.authenticationType === 'oauth2'),
-      path: SERVER_MAIN_RES_DIR,
-      templates: [
-        {
-          file: 'config/cql/changelog/create-tables.cql',
-          renameTo: () => 'config/cql/changelog/00000000000000_create-tables.cql',
-        },
-        {
-          file: 'config/cql/changelog/insert_default_users.cql',
-          renameTo: () => 'config/cql/changelog/00000000000001_insert_default_users.cql',
-        },
-      ],
+      templates: ['config/application.yml', 'config/application-dev.yml'],
     },
   ],
   serverJavaAuthConfig: [
