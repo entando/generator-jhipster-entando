@@ -183,28 +183,6 @@ const serverFiles = {
   ],
   serverBuild: [
     {
-      condition: generator => generator.buildTool === 'gradle',
-      templates: [
-        'build.gradle',
-        'settings.gradle',
-        'gradle.properties',
-        'gradle/sonar.gradle',
-        'gradle/docker.gradle',
-        { file: 'gradle/profile_dev.gradle', options: { interpolate: INTERPOLATE_REGEX } },
-        { file: 'gradle/profile_prod.gradle', options: { interpolate: INTERPOLATE_REGEX } },
-        'gradle/war.gradle',
-        'gradle/zipkin.gradle',
-        { file: 'gradlew', method: 'copy', noEjs: true },
-        { file: 'gradlew.bat', method: 'copy', noEjs: true },
-        { file: 'gradle/wrapper/gradle-wrapper.jar', method: 'copy', noEjs: true },
-        { file: 'gradle/wrapper/gradle-wrapper.properties', method: 'copy', noEjs: true },
-      ],
-    },
-    {
-      condition: generator => generator.buildTool === 'gradle' && !!generator.enableSwaggerCodegen,
-      templates: ['gradle/swagger.gradle'],
-    },
-    {
       condition: generator => generator.buildTool === 'maven',
       templates: [{ file: 'pom.xml', options: { interpolate: INTERPOLATE_REGEX }, useBluePrint: true }],
     },
