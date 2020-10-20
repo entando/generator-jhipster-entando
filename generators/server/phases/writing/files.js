@@ -60,11 +60,6 @@ const serverFiles = {
   ],
   docker: [
     {
-      condition: generator => generator.prodDatabaseType !== 'no' && generator.prodDatabaseType !== 'oracle',
-      path: DOCKER_DIR,
-      templates: [{ file: generator => `${generator.prodDatabaseType}.yml` }],
-    },
-    {
       condition: generator => generator.authenticationType === 'oauth2',
       path: DOCKER_DIR,
       templates: [
