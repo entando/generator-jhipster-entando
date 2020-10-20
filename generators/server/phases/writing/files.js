@@ -91,20 +91,6 @@ const serverFiles = {
       ],
     },
     {
-      condition: generator => generator.prodDatabaseType === 'cassandra',
-      path: DOCKER_DIR,
-      templates: [
-        // docker-compose files
-        'cassandra-cluster.yml',
-        'cassandra-migration.yml',
-        // dockerfiles
-        'cassandra/Cassandra-Migration.Dockerfile',
-        // scripts
-        'cassandra/scripts/autoMigrate.sh',
-        'cassandra/scripts/execute-cql.sh',
-      ],
-    },
-    {
       condition: generator => generator.cacheProvider === 'hazelcast',
       path: DOCKER_DIR,
       templates: ['hazelcast-management-center.yml'],
