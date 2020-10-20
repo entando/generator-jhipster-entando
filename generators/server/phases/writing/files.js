@@ -94,19 +94,6 @@ const serverFiles = {
       templates: [{ file: 'config/README.md', renameTo: () => 'central-server-config/README.md' }],
     },
     {
-      condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === 'consul',
-      path: DOCKER_DIR,
-      templates: [
-        'consul.yml',
-        { file: 'config/git2consul.json', method: 'copy' },
-        {
-          file: 'config/consul-config/application.yml',
-          method: 'copy',
-          renameTo: () => 'central-server-config/application.yml',
-        },
-      ],
-    },
-    {
       condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === 'eureka',
       path: DOCKER_DIR,
       templates: [
