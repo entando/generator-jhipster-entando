@@ -1,21 +1,12 @@
-const mkdirp = require('mkdirp');
-const cleanup = require('generator-jhipster/generators/cleanup');
 const constants = require('generator-jhipster/generators/generator-constants');
 
-const {
-  INTERPOLATE_REGEX,
-  DOCKER_DIR,
-  SERVER_MAIN_SRC_DIR,
-  SERVER_MAIN_RES_DIR,
-  SERVER_TEST_SRC_DIR,
-  SERVER_TEST_RES_DIR,
-} = constants;
+const { INTERPOLATE_REGEX, DOCKER_DIR, SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR } = constants;
 
 /**
  * The default is to use a file path string. It implies use of the template method.
  * For any other config an object { file:.., method:.., template:.. } can be used
  */
-const serverFiles = {
+const entandoServerFiles = {
   packageJson: [
     {
       templates: ['package.json'],
@@ -179,33 +170,12 @@ const serverFiles = {
 
 function writeFiles() {
   return {
-    setUp() {
-      this.javaDir = `${this.packageFolder}/`;
-      this.testDir = `${this.packageFolder}/`;
-
-      // Create Java resource files
-      mkdirp(SERVER_MAIN_RES_DIR);
-      mkdirp(`${SERVER_TEST_SRC_DIR}/${this.testDir}`);
-      this.generateKeyStore();
-    },
-
-    cleanupOldServerFiles() {
-      cleanup.cleanupOldServerFiles(
-        this,
-        `${SERVER_MAIN_SRC_DIR}/${this.javaDir}`,
-        `${SERVER_TEST_SRC_DIR}/${this.testDir}`,
-        SERVER_MAIN_RES_DIR,
-        SERVER_TEST_RES_DIR,
-      );
-    },
-
-    writeFiles() {
-      this.writeFilesToDisk(serverFiles, this, false, null);
+    writeEntandoServerFiles() {
+      this.writeFilesToDisk(entandoServerFiles, this, false, null);
     },
   };
 }
 
 module.exports = {
   writeFiles,
-  serverFiles,
 };
