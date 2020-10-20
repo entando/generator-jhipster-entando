@@ -61,7 +61,7 @@ const serverFiles = {
   docker: [
     {
       path: DOCKER_DIR,
-      templates: ['app.yml', 'sonar.yml', 'monitoring.yml', 'prometheus/prometheus.yml'],
+      templates: ['app.yml', 'sonar.yml', 'monitoring.yml'],
     },
     {
       condition: generator => generator.prodDatabaseType !== 'no' && generator.prodDatabaseType !== 'oracle',
