@@ -60,10 +60,6 @@ const serverFiles = {
   ],
   docker: [
     {
-      path: DOCKER_DIR,
-      templates: ['app.yml', 'sonar.yml', 'monitoring.yml'],
-    },
-    {
       condition: generator => generator.prodDatabaseType !== 'no' && generator.prodDatabaseType !== 'oracle',
       path: DOCKER_DIR,
       templates: [{ file: generator => `${generator.prodDatabaseType}.yml` }],
