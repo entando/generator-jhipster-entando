@@ -65,53 +65,6 @@ const serverFiles = {
       templates: [{ file: generator => `${generator.prodDatabaseType}.yml` }],
     },
     {
-      condition: generator => generator.cacheProvider === 'hazelcast',
-      path: DOCKER_DIR,
-      templates: ['hazelcast-management-center.yml'],
-    },
-    {
-      condition: generator => generator.cacheProvider === 'memcached',
-      path: DOCKER_DIR,
-      templates: ['memcached.yml'],
-    },
-    {
-      condition: generator => generator.searchEngine === 'elasticsearch',
-      path: DOCKER_DIR,
-      templates: ['elasticsearch.yml'],
-    },
-    {
-      condition: generator => generator.messageBroker === 'kafka',
-      path: DOCKER_DIR,
-      templates: ['kafka.yml'],
-    },
-    {
-      condition: generator => !!generator.serviceDiscoveryType,
-      path: DOCKER_DIR,
-      templates: [{ file: 'config/README.md', renameTo: () => 'central-server-config/README.md' }],
-    },
-    {
-      condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === 'eureka',
-      path: DOCKER_DIR,
-      templates: [
-        'jhipster-registry.yml',
-        {
-          file: 'config/docker-config/application.yml',
-          method: 'copy',
-          renameTo: () => 'central-server-config/docker-config/application.yml',
-        },
-        {
-          file: 'config/localhost-config/application.yml',
-          method: 'copy',
-          renameTo: () => 'central-server-config/localhost-config/application.yml',
-        },
-      ],
-    },
-    {
-      condition: generator => !!generator.enableSwaggerCodegen,
-      path: DOCKER_DIR,
-      templates: ['swagger-editor.yml'],
-    },
-    {
       condition: generator => generator.authenticationType === 'oauth2',
       path: DOCKER_DIR,
       templates: [
