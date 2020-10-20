@@ -35,6 +35,8 @@ const serverFiles = {
     {
       templates: ['package.json'],
     },
+  ],
+  bundle: [
     {
       templates: [
         { file: 'prepareMicrofrontends.sh', method: 'copy', noEjs: true },
@@ -47,11 +49,9 @@ const serverFiles = {
       PATH: '.',
       templates: [
         {
-          useBluePrint: true,
           file: 'bundle/descriptor.yaml',
         },
         {
-          useBluePrint: true,
           file: 'bundle/plugins/myplugin.yaml',
           renameTo: generator => `bundle/plugins/${generator.baseName.toLowerCase()}-plugin.yaml`,
         },
