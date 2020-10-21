@@ -1,5 +1,5 @@
 <%#
- Copyright 2013-2019 the original author or authors from the JHipster project.
+ Copyright 2013-2020 the original author or authors from the JHipster project.
 
  This file is part of the JHipster project, see https://jhipster.github.io/
  for more information.
@@ -16,7 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-package <%=packageName%>.security.oauth2;
+package <%= packageName %>.security.oauth2;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,26 +25,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
 @Component
-public class JwtAuthorityExtractor extends JwtAuthenticationConverter {
+public class JwtGrantedAuthorityConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
 
-    private final String clientId;
+    @Value("${spring.security.oauth2.client.registration.oidc.client-id:'internal'}")
+    private String clientId;
 
-    public JwtAuthorityExtractor(@Value("${spring.security.oauth2.client.registration.oidc.client-id:'internal'}") String clientId)
-    {
-        this.clientId = clientId;
+    public JwtGrantedAuthorityConverter() {
     }
 
     @Override
-    protected Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
+    public Collection<GrantedAuthority> convert(Jwt jwt) {
         return this.extractAuthorityFromClaims(jwt.getClaims());
     }
 
