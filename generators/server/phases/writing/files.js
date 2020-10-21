@@ -141,17 +141,6 @@ const entandoServerFiles = {
       ],
     },
   ],
-  serverJavaApp: [
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/Application.java',
-          renameTo: generator => `${generator.javaDir}${generator.mainClass}.java`,
-        },
-      ],
-    },
-  ],
   serverJavaConfig: [
     {
       condition: generator =>
