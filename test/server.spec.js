@@ -5,6 +5,7 @@ const constants = require('generator-jhipster/generators/generator-constants');
 const expectedFiles = require('./utils/expected-files');
 
 const appBaseName = 'entandoPlugin';
+const mainClassName = 'EntandoPluginApp';
 const { DOCKER_DIR, SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR } = constants;
 
 describe('Subgenerator server of entando JHipster blueprint', () => {
@@ -311,7 +312,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
 
     it('Main application file contains Entando modification', () => {
       assert.fileContent(
-        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/${appBaseName}App.java`,
+        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/${mainClassName}.java`,
         'implements InitializingBean',
       );
     });
