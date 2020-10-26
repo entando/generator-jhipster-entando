@@ -1,128 +1,16 @@
 const chalk = require('chalk');
-const path = require('path');
 const _ = require('lodash');
 const jhiCore = require('jhipster-core');
-const shelljs = require('shelljs');
+const constants = require('generator-jhipster/generators/generator-constants');
+
+const { ANGULAR, REACT } = constants.SUPPORTED_CLIENT_FRAMEWORKS;
 
 module.exports = {
   /* eslint-disable no-use-before-define */
-  askForMicroserviceJson,
-  askForUpdate,
   askForFields,
-  askForFieldsToRemove,
   askForRelationships,
   askForRelationsToRemove,
-  askForTableName,
-  askForDTO,
-  askForService,
-  askForFiltering,
-  askForPagination,
 };
-
-function askForMicroserviceJson() {
-  const { context } = this;
-  if (context.applicationType !== 'gateway' || context.useConfigurationFile) {
-    return;
-  }
-
-  const done = this.async();
-  const { databaseType } = context;
-
-  const prompts = [
-    {
-      when: () => databaseType !== 'no',
-      type: 'confirm',
-      name: 'useMicroserviceJson',
-      message: 'Do you want to generate this entity from an existing microservice?',
-      default: true,
-    },
-    {
-      when: response => response.useMicroserviceJson === true || databaseType === 'no',
-      type: 'input',
-      name: 'microservicePath',
-      message: 'Enter the path to the microservice root directory:',
-      store: true,
-      validate: input => {
-        let fromPath = '';
-        if (path.isAbsolute(input)) {
-          fromPath = `${input}/${context.filename}`;
-        } else {
-          fromPath = this.destinationPath(`${input}/${context.filename}`);
-        }
-
-        if (shelljs.test('-f', fromPath)) {
-          return true;
-        }
-        return `${context.filename} not found in ${input}/`;
-      },
-    },
-  ];
-
-  this.prompt(prompts).then(props => {
-    if (props.microservicePath) {
-      this.log(
-        chalk.green(
-          `\nFound the ${context.filename} configuration file, entity can be automatically generated!\n`,
-        ),
-      );
-      if (path.isAbsolute(props.microservicePath)) {
-        context.microservicePath = props.microservicePath;
-      } else {
-        context.microservicePath = path.resolve(props.microservicePath);
-      }
-      context.useConfigurationFile = true;
-      context.useMicroserviceJson = true;
-      const fromPath = `${context.microservicePath}/${context.jhipsterConfigDirectory}/${context.entityNameCapitalized}.json`;
-      this.loadEntityJson(fromPath);
-    }
-    done();
-  });
-}
-
-function askForUpdate() {
-  const { context } = this;
-  // ask only if running an existing entity without arg option --force or --regenerate
-  const isForce = context.options.force || context.regenerate;
-  context.updateEntity = 'regenerate'; // default if skipping questions by --force
-  if (isForce || !context.useConfigurationFile) {
-    return;
-  }
-  const done = this.async();
-  const prompts = [
-    {
-      type: 'list',
-      name: 'updateEntity',
-      message:
-        'Do you want to update the entity? This will replace the existing files for this entity, all your custom code will be overwritten',
-      choices: [
-        {
-          value: 'regenerate',
-          name: 'Yes, re generate the entity',
-        },
-        {
-          value: 'add',
-          name: 'Yes, add more fields and relationships',
-        },
-        {
-          value: 'remove',
-          name: 'Yes, remove fields and relationships',
-        },
-        {
-          value: 'none',
-          name: 'No, exit',
-        },
-      ],
-      default: 0,
-    },
-  ];
-  this.prompt(prompts).then(props => {
-    context.updateEntity = props.updateEntity;
-    if (context.updateEntity === 'none') {
-      this.env.error(chalk.green('Aborting entity update, no changes were made.'));
-    }
-    done();
-  });
-}
 
 function askForFields() {
   const { context } = this;
@@ -140,60 +28,17 @@ function askForFields() {
   askForField.call(this, done);
 }
 
-function askForFieldsToRemove() {
-  const { context } = this;
-  // prompt only if data is imported from a file
-  if (
-    !context.useConfigurationFile ||
-    context.updateEntity !== 'remove' ||
-    context.fieldNameChoices.length === 0
-  ) {
-    return;
-  }
-  const done = this.async();
-
-  const prompts = [
-    {
-      type: 'checkbox',
-      name: 'fieldsToRemove',
-      message: 'Please choose the fields you want to remove',
-      choices: context.fieldNameChoices,
-    },
-    {
-      when: response => response.fieldsToRemove.length !== 0,
-      type: 'confirm',
-      name: 'confirmRemove',
-      message: 'Are you sure to remove these fields?',
-      default: true,
-    },
-  ];
-  this.prompt(prompts).then(props => {
-    if (props.confirmRemove) {
-      this.log(chalk.red(`\nRemoving fields: ${props.fieldsToRemove}\n`));
-      for (let i = context.fields.length - 1; i >= 0; i -= 1) {
-        const field = context.fields[i];
-        if (props.fieldsToRemove.filter(val => val === field.fieldName).length > 0) {
-          context.fields.splice(i, 1);
-        }
-      }
-    }
-    done();
-  });
-}
-
 function askForRelationships() {
   const { context } = this;
   // don't prompt if data is imported from a file
   if (context.useConfigurationFile && context.updateEntity !== 'add') {
     return;
   }
-
   // don't prompt for relationships if no database
   if (context.databaseType === 'no') {
     return;
   }
-
-  if (['cassandra', 'couchbase'].includes(context.databaseType)) {
+  if (context.databaseType === 'cassandra') {
     return;
   }
 
@@ -212,11 +57,9 @@ function askForRelationsToRemove() {
   ) {
     return;
   }
-
   if (context.databaseType === 'no') {
     return;
   }
-
   if (['cassandra', 'couchbase'].includes(context.databaseType)) {
     return;
   }
@@ -251,206 +94,6 @@ function askForRelationsToRemove() {
         }
       }
     }
-    done();
-  });
-}
-
-function askForTableName() {
-  const { context } = this;
-  // don't prompt if there are no relationships
-  const { entityTableName } = context;
-  const { prodDatabaseType } = context;
-  const { skipCheckLengthOfIdentifier } = context;
-  if (
-    skipCheckLengthOfIdentifier ||
-    !context.relationships ||
-    context.relationships.length === 0 ||
-    !((prodDatabaseType === 'oracle' && entityTableName.length > 14) || entityTableName.length > 30)
-  ) {
-    return;
-  }
-  const done = this.async();
-  const prompts = [
-    {
-      type: 'input',
-      name: 'entityTableName',
-      message:
-        'The table name for this entity is too long to form constraint names. Please use a shorter table name',
-      validate: input => {
-        if (!/^([a-zA-Z0-9_]*)$/.test(input)) {
-          return 'The table name cannot contain special characters';
-        }
-        if (input === '') {
-          return 'The table name cannot be empty';
-        }
-        if (prodDatabaseType === 'oracle' && input.length > 14 && !skipCheckLengthOfIdentifier) {
-          return 'The table name is too long for Oracle, try a shorter name';
-        }
-        if (input.length > 30 && !skipCheckLengthOfIdentifier) {
-          return 'The table name is too long, try a shorter name';
-        }
-        return true;
-      },
-      default: entityTableName,
-    },
-  ];
-  this.prompt(prompts).then(props => {
-    /* overwrite the table name for the entity using name obtained from the user */
-    if (props.entityTableName !== context.entityTableName) {
-      context.entityTableName = _.snakeCase(props.entityTableName).toLowerCase();
-    }
-    done();
-  });
-}
-
-function askForFiltering() {
-  const { context } = this;
-  // don't prompt if server is skipped, or the backend is not sql, or no service requested
-  if (
-    context.useConfigurationFile ||
-    context.skipServer ||
-    context.databaseType !== 'sql' ||
-    context.service === 'no' ||
-    context.useSpringDataRest
-  ) {
-    return;
-  }
-  const done = this.async();
-  const prompts = [
-    {
-      type: 'list',
-      name: 'filtering',
-      message: 'Do you want to add filtering?',
-      choices: [
-        {
-          value: 'no',
-          name: 'Not needed',
-        },
-        {
-          name: 'Dynamic filtering for the entities with JPA Static metamodel',
-          value: 'jpaMetamodel',
-        },
-      ],
-      default: 0,
-    },
-  ];
-  this.prompt(prompts).then(props => {
-    context.jpaMetamodelFiltering = props.filtering === 'jpaMetamodel';
-    done();
-  });
-}
-
-function askForDTO() {
-  const { context } = this;
-  // don't prompt if data is imported from a file or server is skipped or if no service layer
-  if (
-    context.useConfigurationFile ||
-    context.skipServer ||
-    context.service === 'no' ||
-    context.useSpringDataRest
-  ) {
-    context.dto = context.dto || 'no';
-    return;
-  }
-  const done = this.async();
-  const prompts = [
-    {
-      type: 'list',
-      name: 'dto',
-      message: 'Do you want to use a Data Transfer Object (DTO)?',
-      choices: [
-        {
-          value: 'no',
-          name: 'No, use the entity directly',
-        },
-        {
-          value: 'mapstruct',
-          name: 'Yes, generate a DTO with MapStruct',
-        },
-      ],
-      default: 0,
-    },
-  ];
-  this.prompt(prompts).then(props => {
-    context.dto = props.dto;
-    done();
-  });
-}
-
-function askForService() {
-  const { context } = this;
-  // don't prompt if data is imported from a file or server is skipped
-  if (context.useConfigurationFile || context.skipServer || context.includeQuerydsl) {
-    return;
-  }
-  const done = this.async();
-  const prompts = [
-    {
-      type: 'list',
-      name: 'service',
-      message: 'Do you want to use separate service class for your business logic?',
-      choices: [
-        {
-          value: 'no',
-          name: 'No, the REST controller should use the repository directly',
-        },
-        {
-          value: 'serviceClass',
-          name: 'Yes, generate a separate service class',
-        },
-        {
-          value: 'serviceImpl',
-          name: 'Yes, generate a separate service interface and implementation',
-        },
-      ],
-      default: 0,
-    },
-  ];
-  this.prompt(prompts).then(props => {
-    context.service = props.service;
-    done();
-  });
-}
-
-function askForPagination() {
-  const { context } = this;
-  // don't prompt if data are imported from a file
-  if (context.useConfigurationFile) {
-    return;
-  }
-  if (context.databaseType === 'cassandra') {
-    return;
-  }
-  if (context.useSpringDataRest) {
-    return;
-  }
-
-  const done = this.async();
-  const prompts = [
-    {
-      type: 'list',
-      name: 'pagination',
-      message: 'Do you want pagination on your entity?',
-      choices: [
-        {
-          value: 'no',
-          name: 'No',
-        },
-        {
-          value: 'pagination',
-          name: 'Yes, with pagination links',
-        },
-        {
-          value: 'infinite-scroll',
-          name: 'Yes, with infinite scroll',
-        },
-      ],
-      default: 0,
-    },
-  ];
-  this.prompt(prompts).then(props => {
-    context.pagination = props.pagination;
-    this.log(chalk.green('\nEverything is configured, generating the entity...\n'));
     done();
   });
 }
@@ -492,14 +135,14 @@ function askForField(done) {
           return 'Your field name cannot use an already existing field name';
         }
         if (
-          (clientFramework === undefined || clientFramework === 'angularX') &&
-          jhiCore.isReservedFieldName(input, 'angularX')
+          (clientFramework === undefined || clientFramework === ANGULAR) &&
+          jhiCore.isReservedFieldName(input, ANGULAR)
         ) {
           return 'Your field name cannot contain a Java or Angular reserved keyword';
         }
         if (
-          (clientFramework !== undefined || clientFramework === 'react') &&
-          jhiCore.isReservedFieldName(input, 'react')
+          (clientFramework !== undefined || clientFramework === REACT) &&
+          jhiCore.isReservedFieldName(input, REACT)
         ) {
           return 'Your field name cannot contain a Java or React reserved keyword';
         }
@@ -513,7 +156,7 @@ function askForField(done) {
     {
       when: response =>
         response.fieldAdd === true &&
-        (skipServer || ['sql', 'mongodb', 'couchbase', 'no'].includes(databaseType)),
+        (skipServer || ['sql', 'mongodb', 'neo4j', 'couchbase', 'no'].includes(databaseType)),
       type: 'list',
       name: 'fieldType',
       message: 'What is the type of your field?',
@@ -555,12 +198,20 @@ function askForField(done) {
           name: 'ZonedDateTime',
         },
         {
+          value: 'Duration',
+          name: 'Duration',
+        },
+        {
           value: 'Boolean',
           name: 'Boolean',
         },
         {
           value: 'enum',
           name: 'Enumeration (Java enum type)',
+        },
+        {
+          value: 'UUID',
+          name: 'UUID',
         },
         {
           value: 'byte[]',
@@ -746,7 +397,7 @@ function askForField(done) {
       message: 'Which validation rules do you want to add?',
       choices: response => {
         // Default rules applicable for fieldType 'LocalDate', 'Instant',
-        // 'ZonedDateTime', 'UUID', 'Boolean', 'ByteBuffer' and 'Enum'
+        // 'ZonedDateTime', 'Duration', 'UUID', 'Boolean', 'ByteBuffer' and 'Enum'
         const opts = [
           {
             name: 'Required',
@@ -881,6 +532,13 @@ function askForField(done) {
   ];
   this.prompt(prompts).then(props => {
     if (props.fieldAdd) {
+      if (props.fieldIsEnum) {
+        // eslint-disable-next-line no-param-reassign
+        props.fieldType = _.upperFirst(props.fieldType);
+        // eslint-disable-next-line no-param-reassign
+        props.fieldValues = props.fieldValues.toUpperCase();
+      }
+
       const field = {
         fieldName: props.fieldName,
         fieldType: props.enumType || props.fieldType,

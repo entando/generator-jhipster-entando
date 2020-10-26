@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 const EntityGenerator = require('generator-jhipster/generators/entity');
-const customPrompts = require('./phases/prompting');
+const entandoBlueprintPromptingPhase = require('./phases/prompting');
 const customInitializing = require('./phases/initializing');
 
 module.exports = class extends EntityGenerator {
@@ -36,7 +36,10 @@ module.exports = class extends EntityGenerator {
   }
 
   _prompting() {
-    return customPrompts;
+    // prompting - Where you prompt users for options (where you’d call this.prompt())
+    const jhipsterPromptingPhase = super._prompting();
+
+    return { ...jhipsterPromptingPhase, ...entandoBlueprintPromptingPhase };
   }
 
   get prompting() {
