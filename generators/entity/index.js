@@ -21,13 +21,6 @@ module.exports = class extends EntityGenerator {
     this.configOptions = jhContext.configOptions || {};
     // This sets up options for this sub generator and is being reused from JHipster
     jhContext.setupEntityOptions(this, jhContext, this);
-
-    this._extendContextWithCustomOptions();
-  }
-
-  _extendContextWithCustomOptions() {
-    this.context.useSpringDataRest = this.getAllJhipsterConfig().useSpringDataRest;
-    this.context.includeQuerydsl = this.getAllJhipsterConfig().includeQuerydsl;
   }
 
   get initializing() {
