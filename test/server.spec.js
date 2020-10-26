@@ -115,44 +115,47 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         'pom.xml',
         '                    <configuration>\n' +
           '                      <allowInsecureRegistries>true</allowInsecureRegistries>\n' +
-          '                      <from>\n' +
-          '                          <!-- Think of using the DOCKER_JAVA_JRE JHipster env variable -->\n' +
-          '                          <image>entando/entando-alpine-base:6.0.0</image>\n' +
-          '                      </from>\n' +
-          '                      <to>\n' +
+          '                        <from>\n' +
+          '                            <!-- Think of using the DOCKER_JAVA_JRE JHipster env variable -->\n' +
+          '                            <image>entando/entando-alpine-base:6.0.0</image>\n' +
+          '                        </from>\n' +
+          '                        <to>\n' +
           // eslint-disable-next-line no-template-curly-in-string
-          '                          <image>/${project.artifactId}:${project.version}</image>\n' +
-          '                      </to>\n' +
-          '                      <extraDirectories>\n' +
-          '                          <paths>src/main/jib</paths>\n' +
-          '                          <permissions>\n' +
-          '                              <permission>\n' +
-          '                                  <file>/entrypoint.sh</file>\n' +
-          '                                  <mode>777</mode>\n' +
-          '                              </permission>\n' +
-          '                          </permissions>\n' +
-          '                      </extraDirectories>\n' +
-          '                      <container>\n' +
-          '                          <entrypoint>\n' +
-          '                              <shell>/bin/bash</shell>\n' +
-          '                              <option>-c</option>\n' +
-          '                              <arg>/entrypoint.sh</arg>\n' +
-          '                          </entrypoint>\n' +
-          '                          <ports>\n' +
-          '                              <port>8080</port>\n' +
-          '                          </ports>\n' +
-          '                          <environment>\n' +
-          '                              <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>\n' +
-          '                              <JHIPSTER_SLEEP>0</JHIPSTER_SLEEP>\n' +
-          '                          </environment>\n' +
-          '\t\t\t              <creationTime>USE_CURRENT_TIMESTAMP</creationTime>\n' +
-          '                      </container>\n' +
-          '                    </configuration>',
+          '                            <image>/${project.artifactId}:${project.version}</image>\n' +
+          '                        </to>\n' +
+          '                        <container>\n' +
+          '                            <entrypoint>\n' +
+          '                                <shell>/bin/bash</shell>\n' +
+          '                                <option>-c</option>\n' +
+          '                                <arg>/entrypoint.sh</arg>\n' +
+          '                            </entrypoint>\n' +
+          '                            <ports>\n' +
+          '                                <port>8080</port>\n' +
+          '                            </ports>\n' +
+          '                            <environment>\n' +
+          '                                <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>\n' +
+          '                                <JHIPSTER_SLEEP>0</JHIPSTER_SLEEP>\n' +
+          '                            </environment>\n' +
+          '                            <creationTime>USE_CURRENT_TIMESTAMP</creationTime>\n' +
+          '                        </container>\n' +
+          '                        <extraDirectories>\n' +
+          '                            <paths>src/main/jib</paths>\n' +
+          '                            <permissions>\n' +
+          '                                <permission>\n' +
+          '                                    <file>/entrypoint.sh</file>\n' +
+          '                                    <mode>777</mode>\n' +
+          '                                </permission>\n' +
+          '                            </permissions>\n' +
+          '                        </extraDirectories>\n' +
+          '                    </configuration>\n',
       );
     });
 
     it('pom.xml contains the modified JIB creationTime', () => {
-      assert.fileContent('pom.xml', '\t\t\t              <creationTime>USE_CURRENT_TIMESTAMP</creationTime>');
+      assert.fileContent(
+        'pom.xml',
+        '                            <creationTime>USE_CURRENT_TIMESTAMP</creationTime>',
+      );
     });
 
     it('pom.xml contains springfox-swagger-ui dependency', () => {
@@ -161,7 +164,8 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         '        <dependency>\n' +
           '            <groupId>io.springfox</groupId>\n' +
           '            <artifactId>springfox-swagger-ui</artifactId>\n' +
-          '            <version>2.9.2</version>\n' +
+          // eslint-disable-next-line no-template-curly-in-string
+          '            <version>${springfox.version}</version>\n' +
           '        </dependency>',
       );
     });
@@ -302,9 +306,9 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('JwtAuthorityExtractor file contains Entando modification', () => {
+    it('JwtGrantedAuthorityConverter file contains Entando modification', () => {
       assert.fileContent(
-        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/security/oauth2/JwtAuthorityExtractor.java`,
+        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/security/oauth2/JwtGrantedAuthorityConverter.java`,
         ":'internal'",
       );
     });
