@@ -1,0 +1,52 @@
+<%_
+getDependencies = function(fields) {
+  const dependencies = new Map();
+  fields.forEach(field => {
+    if (['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(field.fieldType)) {
+      dependencies.has('@material-ui/core/TextField')
+        ? dependencies.get('@material-ui/core/TextField').add('TextField')
+        : dependencies.set('@material-ui/core/TextField', new Set(['TextField']))
+    }
+    if (['Boolean'].includes(field.fieldType)) {
+      dependencies.has('@material-ui/core/Checkbox')
+        ? dependencies.get('@material-ui/core/Checkbox').add('Checkbox')
+        : dependencies.set('@material-ui/core/Checkbox', new Set(['Checkbox']))
+      dependencies.has('@material-ui/core/FormControlLabel')
+        ? dependencies.get('@material-ui/core/FormControlLabel').add('FormControlLabel')
+        : dependencies.set('@material-ui/core/FormControlLabel', new Set(['FormControlLabel']))
+    }
+    if (['LocalDate'].includes(field.fieldType)) {
+      dependencies.has('@material-ui/pickers')
+        ? dependencies.get('@material-ui/pickers').add('DatePicker').add('MuiPickersUtilsProvider')
+        : dependencies.set('@material-ui/pickers', new Set(['DatePicker', 'MuiPickersUtilsProvider']))
+      dependencies.has('@date-io/date-fns')
+        ? dependencies.get('@date-io/date-fns').add('DateFnsUtils')
+        : dependencies.set('@date-io/date-fns', new Set(['DateFnsUtils']));
+      dependencies.has('i18n/dateFnsLocales')
+        ? dependencies.get('i18n/dateFnsLocales').add('dateFnsLocales')
+        : dependencies.set('i18n/dateFnsLocales', new Set(['dateFnsLocales']));
+    }
+    if (['Instant', 'ZonedDateTime'].includes(field.fieldType)) {
+      dependencies.has('@material-ui/pickers')
+        ? dependencies.get('@material-ui/pickers').add('DateTimePicker').add('MuiPickersUtilsProvider')
+        : dependencies.set('@material-ui/pickers', new Set(['DateTimePicker', 'MuiPickersUtilsProvider']))
+      dependencies.has('@date-io/date-fns')
+        ? dependencies.get('@date-io/date-fns').add('DateFnsUtils')
+        : dependencies.set('@date-io/date-fns', new Set(['DateFnsUtils']));
+      dependencies.has('i18n/dateFnsLocales')
+        ? dependencies.get('i18n/dateFnsLocales').add('dateFnsLocales')
+        : dependencies.set('i18n/dateFnsLocales', new Set(['dateFnsLocales']));
+    }
+    if (field.fieldIsEnum) {
+      dependencies.has('@material-ui/core/InputLabel')
+        ? dependencies.get('@material-ui/core/InputLabel').add('InputLabel')
+        : dependencies.set('@material-ui/core/InputLabel', new Set(['InputLabel']));
+      dependencies.has('@material-ui/core/Select')
+        ? dependencies.get('@material-ui/core/Select').add('Select')
+        : dependencies.set('@material-ui/core/Select', new Set(['Select']));
+    }
+    // TODO: ADD BLOBS
+  });
+  return dependencies;
+}
+_%>

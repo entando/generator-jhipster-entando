@@ -14,8 +14,9 @@ const SQL_DB_OPTIONS = [
   },
 ];
 
-const constants = {
-  SQL_DB_OPTIONS,
-};
+const MFE_MAIN_DIR = 'ui/widgets/';
 
-module.exports = constants;
+module.exports = {
+  SQL_DB_OPTIONS,
+  MFE_MAIN_DIR,
+};

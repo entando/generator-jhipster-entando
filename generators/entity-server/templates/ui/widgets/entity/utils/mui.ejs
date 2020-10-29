@@ -1,0 +1,29 @@
+<%_
+// these utilities expect 'utils/jhipster' in the template
+
+getMuiInput = function (field) {
+  const fieldType = getJHipsterType(field); // from 'utils/jhipster'
+  const { fieldIsEnum } = field;
+
+  if (['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(fieldType)) {
+    return 'TextField';
+  }
+  if (['LocalDate'].includes(fieldType)) {
+    return 'DatePicker';
+  }
+  if (['Instant', 'ZonedDateTime'].includes(fieldType)) {
+    return 'DateTimePicker';
+  }
+  if (['Boolean'].includes(fieldType)) {
+    return 'Checkbox';
+  }
+  if (['Enum'].includes(fieldType)) {
+    return 'Select';
+  }
+  if (['ImageBlob', 'BinaryFileBlob', 'TextBlob'].includes(fieldType)) {
+    return 'TextField';
+  }
+
+  return 'TextField';
+}
+_%>

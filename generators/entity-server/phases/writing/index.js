@@ -1,8 +1,5 @@
-const path = require('path');
-
 const EntandoNeedle = require('../../needle-api/needle-server-bundle');
-const { serverFiles } = require('../../files');
-const mfeFileGeneration = require('../../lib/create-mfe-template-map.js').generateFiles;
+const { serverFiles, microFrontendFiles } = require('../../files');
 const { getMockData } = require('./mfe-test-tools');
 
 function writingInit() {
@@ -11,17 +8,13 @@ function writingInit() {
   }
 }
 
-// overwriting super._writing().writeEntityServerFiles method
 function writeEntityServerFiles() {
   this.writeFilesToDisk(serverFiles, this, false, null);
 }
 
 function writeMicroFrontendFiles() {
   if (this.configOptions.generateMfeForEntity) {
-    const mfeTemplates = path.join(__dirname, '../..', 'templates', 'ui', 'widgets');
-    const microFrontEndFiles = mfeFileGeneration(mfeTemplates);
-
-    this.writeFilesToDisk(microFrontEndFiles, this, false, null);
+    this.writeFilesToDisk(microFrontendFiles, this, false, null);
   }
 }
 

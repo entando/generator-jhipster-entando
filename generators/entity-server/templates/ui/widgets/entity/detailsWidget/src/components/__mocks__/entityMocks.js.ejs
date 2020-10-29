@@ -1,0 +1,12 @@
+<%- include('../../../../utils/jhipster') %>
+const <%= entityInstance %>ApiGetResponse = {
+  <%_
+    fields.forEach(field => {
+
+      const mockedValue = mockData[0][field.fieldName];
+  _%>
+  <%= field.fieldName %>: <%- typeof mockedValue === 'string' ? `'${mockedValue}'` : mockedValue %>,
+  <%_ }) _%>
+};
+
+export default <%= entityInstance %>ApiGetResponse;
