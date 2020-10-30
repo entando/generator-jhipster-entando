@@ -16,7 +16,14 @@ const SQL_DB_OPTIONS = [
 
 const MFE_MAIN_DIR = 'ui/widgets/';
 
+const DETAILS_WIDGET = 'details';
+const FORM_WIDGET = 'form';
+const TABLE_WIDGET = 'table';
+
 module.exports = {
   SQL_DB_OPTIONS,
   MFE_MAIN_DIR,
+  DETAILS_WIDGET,
+  FORM_WIDGET,
+  TABLE_WIDGET,
 };

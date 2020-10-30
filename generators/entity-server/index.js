@@ -4,11 +4,14 @@ const chalk = require('chalk');
 
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
 
+const constants = require('../generator-constants');
 const entandoBlueprintPromptingPhase = require('./phases/prompting');
 const entandoBlueprintConfiguringPhase = require('./phases/configuring');
 const entandoBlueprintWritingPhase = require('./phases/writing');
 const entandoBlueprintInstallPhase = require('./phases/install');
 const entandoBlueprintEndPhase = require('./phases/end');
+
+const { DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
 
 module.exports = class extends EntityServerGenerator {
   constructor(args, opts) {
@@ -51,6 +54,7 @@ module.exports = class extends EntityServerGenerator {
   get configuring() {
     // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
     const jhipsterConfiguringPhase = super._configuring();
+    this.selectedWidgets = [DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET];
 
     return { ...jhipsterConfiguringPhase, ...entandoBlueprintConfiguringPhase };
   }
