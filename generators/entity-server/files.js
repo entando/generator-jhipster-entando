@@ -115,7 +115,7 @@ const serverFiles = {
 };
 
 const microFrontendFiles = {
-  common: [
+  detailscommon: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -150,7 +150,50 @@ const microFrontendFiles = {
       ],
     },
   ],
-  bundle: [
+  formCommon: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/.env.local`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/.env.local`,
+        },
+        {
+          file: `entity/formWidget/.env.production`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/.env.production`,
+        },
+        {
+          file: `entity/formWidget/.gitignore`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/.gitignore`,
+        },
+        {
+          file: `entity/formWidget/deploy-widget.sh`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/deploy-widget.sh`,
+        },
+        {
+          file: `entity/formWidget/jsconfig.json`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/jsconfig.json`,
+        },
+        {
+          file: `entity/formWidget/LICENSE`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/LICENSE`,
+        },
+        {
+          file: `entity/formWidget/package.json`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/package.json`,
+        },
+        {
+          file: `entity/formWidget/package-lock.json`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/package-lock.json`,
+        },
+        {
+          file: `entity/formWidget/README.md`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/README.md`,
+        },
+      ],
+    },
+  ],
+  detailsBundle: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -167,7 +210,24 @@ const microFrontendFiles = {
       ],
     },
   ],
-  public: [
+  formBundle: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/bundle/form-widget.ftl`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/bundle/${generator.entityFileName}-form-widget.ftl`,
+        },
+        {
+          file: `entity/formWidget/bundle/form-widget-descriptor.yaml`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/bundle/${generator.entityFileName}-form-widget-descriptor.yaml`,
+        },
+      ],
+    },
+  ],
+  detailsPublic: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -188,7 +248,28 @@ const microFrontendFiles = {
       ],
     },
   ],
-  scripts: [
+  formPublic: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/public/favicon.ico`,
+          noEjs: true,
+          method: 'copy',
+          renameTo: generator => `${generator.entityFileName}/formWidget/public/favicon.ico`,
+        },
+        {
+          file: `entity/formWidget/public/index.html`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/public/index.html`,
+        },
+        {
+          file: `entity/formWidget/public/robots.txt`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/public/robots.txt`,
+        },
+      ],
+    },
+  ],
+  detailsScripts: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -200,7 +281,18 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceApi: [
+  formScripts: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/scripts/i18next-scanner.config.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/scripts/i18next-scanner.config.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceApi: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -221,7 +313,28 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceAuth: [
+  formSourceApi: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/api/entities.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/api/${generator.entityInstancePlural}.js`,
+        },
+      ],
+    },
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/api/helpers.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/api/helpers.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceAuth: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -250,7 +363,36 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceMockComponents: [
+  formSourceAuth: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/auth/KeycloakContext.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/auth/KeycloakContext.js`,
+        },
+      ],
+    },
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/auth/KeycloakViews.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/auth/KeycloakViews.js`,
+        },
+      ],
+    },
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/auth/withKeycloak.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/auth/withKeycloak.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceMockComponents: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -271,7 +413,19 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceTestsComponents: [
+  formSourceMockComponents: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/__mocks__/entityMocks.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/__mocks__/${generator.entityFileName}Mocks.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceTestsComponents: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -293,7 +447,39 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceTypesComponents: [
+  formSourceTestsComponents: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/__tests__/EntityAddFormContainer.test.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityFileName}AddFormContainer.test.js`,
+        },
+      ],
+    },
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/__tests__/EntityEditFormContainer.test.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityFileName}EditFormContainer.test.js`,
+        },
+      ],
+    },
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/__tests__/EntityForm.test.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityFileName}Form.test.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceTypesComponents: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -324,7 +510,38 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceCommonComponents: [
+  formSourceTypesComponents: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/__types__/entity.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/__types__/${generator.entityFileName}.js`,
+        },
+      ],
+    },
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/__types__/keycloak.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/__types__/keycloak.js`,
+        },
+      ],
+    },
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/__types__/ref.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/__types__/ref.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceCommonComponents: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -336,7 +553,29 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceFieldTableComponents: [
+  formSourceCommonComponents: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/common/ConfirmationDialogTrigger.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/common/ConfirmationDialogTrigger.js`,
+        },
+      ],
+    },
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/common/Notification.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/common/Notification.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceFieldTableComponents: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -348,7 +587,7 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceComponents: [
+  detailsSourceComponents: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -365,7 +604,29 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceCustomElements: [
+  formSourceComponents: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/components/EntityAddFormContainer.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/${generator.entityFileName}AddFormContainer.js`,
+        },
+        {
+          file: `entity/formWidget/src/components/EntityEditFormContainer.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/${generator.entityFileName}EditFormContainer.js`,
+        },
+        {
+          file: `entity/formWidget/src/components/EntityForm.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/components/${generator.entityFileName}Form.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceCustomElements: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -382,7 +643,24 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceHelpers: [
+  formSourceCustomElements: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/custom-elements/EntityFormElement.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/custom-elements/${generator.entityFileName}FormElement.js`,
+        },
+        {
+          file: `entity/formWidget/src/custom-elements/widgetEventTypes.js`,
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/custom-elements/widgetEventTypes.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceHelpers: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -393,7 +671,18 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceI18n: [
+  FormSourceHelpers: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/helpers/widgetEvents.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/helpers/widgetEvents.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceI18n: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -424,7 +713,50 @@ const microFrontendFiles = {
       ],
     },
   ],
-  sourceRoot: [
+  formSourceI18n: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/i18n/__mocks__/i18nMock.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/__mocks__/i18nMock.js`,
+        },
+        {
+          file: `entity/formWidget/src/i18n/locales/en.json`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/locales/en.json`,
+        },
+        {
+          file: `entity/formWidget/src/i18n/locales/index.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/locales/index.js`,
+        },
+        {
+          file: `entity/formWidget/src/i18n/locales/en.json`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/locales/it.json`,
+        },
+        {
+          file: `entity/formWidget/src/i18n/constants.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/constants.js`,
+        },
+        {
+          file: `entity/formWidget/src/i18n/dateFnsLocales.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/dateFnsLocales.js`,
+        },
+        {
+          file: `entity/formWidget/src/i18n/i18next.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/i18next.js`,
+        },
+        {
+          file: `entity/formWidget/src/i18n/constants.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/setLocale.js`,
+        },
+        {
+          file: `entity/formWidget/src/i18n/yup.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/yup.js`,
+        },
+      ],
+    },
+  ],
+  detailsSourceRoot: [
     {
       path: MFE_MAIN_DIR,
       templates: [
@@ -435,6 +767,17 @@ const microFrontendFiles = {
         {
           file: `entity/detailsWidget/src/index.js`,
           renameTo: generator => `${generator.entityFileName}/detailsWidget/src/index.js`,
+        },
+      ],
+    },
+  ],
+  formSourceRoot: [
+    {
+      path: MFE_MAIN_DIR,
+      templates: [
+        {
+          file: `entity/formWidget/src/index.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/index.js`,
         },
       ],
     },
