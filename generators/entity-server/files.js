@@ -744,7 +744,7 @@ const microFrontendFiles = {
       condition: generator => generator.selectedWidgets.includes(TABLE_WIDGET),
       templates: [
         {
-          file: 'entity/tableWidget/src/components/EntityTABLE.js',
+          file: 'entity/tableWidget/src/components/EntityTable.js',
           renameTo: generator =>
             `${generator.entityFileName}/tableWidget/src/components/${generator.entityFileName}Table.js`,
         },
