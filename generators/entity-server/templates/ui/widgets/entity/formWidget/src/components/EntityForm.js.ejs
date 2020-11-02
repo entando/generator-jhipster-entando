@@ -1,7 +1,6 @@
 <%- include('../../../utils/jhipster') %>
-<%- include('../../../utils/import-mui') %>
 <%- include('../../../utils/mui') %>
-<%_ const dependencies = getDependencies(fields); -%>
+<%_ const dependencies = buildDependencies(fields); -%>
 <%_ if (fieldsContainDate) { _%>
 import 'date-fns';
 <%_ } _%>

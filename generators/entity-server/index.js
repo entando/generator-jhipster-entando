@@ -10,6 +10,7 @@ const entandoBlueprintConfiguringPhase = require('./phases/configuring');
 const entandoBlueprintWritingPhase = require('./phases/writing');
 const entandoBlueprintInstallPhase = require('./phases/install');
 const entandoBlueprintEndPhase = require('./phases/end');
+const lib = require('./lib');
 
 const { DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
 
@@ -40,8 +41,14 @@ module.exports = class extends EntityServerGenerator {
   }
 
   get initializing() {
-    // initializing - Your initialization methods (checking current project state, getting configs, etc)
-    return super._initializing();
+    const jhipsterPhase = super._initializing();
+    const entandoPhase = {
+      setupEntandoLib() {
+        this.buildDependencies = lib.buildDependencies;
+      },
+    };
+
+    return { ...jhipsterPhase, ...entandoPhase };
   }
 
   get prompting() {
