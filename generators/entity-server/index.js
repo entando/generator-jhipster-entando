@@ -54,6 +54,7 @@ module.exports = class extends EntityServerGenerator {
   get configuring() {
     // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
     const jhipsterConfiguringPhase = super._configuring();
+    // selectedWidgets can be used to select widgets we want to generate. For the moment all will be generated.
     this.selectedWidgets = [DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET];
 
     return { ...jhipsterConfiguringPhase, ...entandoBlueprintConfiguringPhase };
