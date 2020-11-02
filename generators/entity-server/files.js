@@ -530,12 +530,12 @@ const microFrontendFiles = {
         {
           file: 'entity/detailsWidget/src/components/__tests__/EntityDetails.test.js',
           renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/__tests__/${generator.entityFileName}Details.test.js`,
+            `${generator.entityFileName}/detailsWidget/src/components/__tests__/${generator.entityClass}Details.test.js`,
         },
         {
           file: 'entity/detailsWidget/src/components/__tests__/EntityDetailsContainer.test.js',
           renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/__tests__/${generator.entityFileName}DetailsContainer.test.js`,
+            `${generator.entityFileName}/detailsWidget/src/components/__tests__/${generator.entityClass}DetailsContainer.test.js`,
         },
       ],
     },
@@ -546,17 +546,17 @@ const microFrontendFiles = {
         {
           file: 'entity/formWidget/src/components/__tests__/EntityAddFormContainer.test.js',
           renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityFileName}AddFormContainer.test.js`,
+            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityClass}AddFormContainer.test.js`,
         },
         {
           file: 'entity/formWidget/src/components/__tests__/EntityEditFormContainer.test.js',
           renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityFileName}EditFormContainer.test.js`,
+            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityClass}EditFormContainer.test.js`,
         },
         {
           file: 'entity/formWidget/src/components/__tests__/EntityForm.test.js',
           renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityFileName}Form.test.js`,
+            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityClass}Form.test.js`,
         },
       ],
     },
@@ -567,12 +567,12 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/src/components/__tests__/EntityTable.test.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/__tests__/${generator.entityFileName}Table.test.js`,
+            `${generator.entityFileName}/tableWidget/src/components/__tests__/${generator.entityClass}Table.test.js`,
         },
         {
           file: 'entity/tableWidget/src/components/__tests__/EntityTableContainer.test.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/__tests__/${generator.entityFileName}TableContainer.test.js`,
+            `${generator.entityFileName}/tableWidget/src/components/__tests__/${generator.entityClass}TableContainer.test.js`,
         },
       ],
     },
@@ -696,7 +696,7 @@ const microFrontendFiles = {
         {
           file: 'entity/detailsWidget/src/components/entity-field-table/EntityFieldTable.js',
           renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/${generator.entityFileName}-field-table/${generator.entityFileName}FieldTable.js`,
+            `${generator.entityFileName}/detailsWidget/src/components/${generator.entityFileName}-field-table/${generator.entityClass}FieldTable.js`,
         },
       ],
     },
@@ -709,12 +709,12 @@ const microFrontendFiles = {
         {
           file: 'entity/detailsWidget/src/components/EntityDetails.js',
           renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/${generator.entityFileName}Details.js`,
+            `${generator.entityFileName}/detailsWidget/src/components/${generator.entityClass}Details.js`,
         },
         {
           file: 'entity/detailsWidget/src/components/EntityDetailsContainer.js',
           renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/${generator.entityFileName}DetailsContainer.js`,
+            `${generator.entityFileName}/detailsWidget/src/components/${generator.entityClass}DetailsContainer.js`,
         },
       ],
     },
@@ -725,17 +725,17 @@ const microFrontendFiles = {
         {
           file: 'entity/formWidget/src/components/EntityAddFormContainer.js',
           renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/${generator.entityFileName}AddFormContainer.js`,
+            `${generator.entityFileName}/formWidget/src/components/${generator.entityClass}AddFormContainer.js`,
         },
         {
           file: 'entity/formWidget/src/components/EntityEditFormContainer.js',
           renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/${generator.entityFileName}EditFormContainer.js`,
+            `${generator.entityFileName}/formWidget/src/components/${generator.entityClass}EditFormContainer.js`,
         },
         {
           file: 'entity/formWidget/src/components/EntityForm.js',
           renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/${generator.entityFileName}Form.js`,
+            `${generator.entityFileName}/formWidget/src/components/${generator.entityClass}Form.js`,
         },
       ],
     },
@@ -746,12 +746,12 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/src/components/EntityTable.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/${generator.entityFileName}Table.js`,
+            `${generator.entityFileName}/tableWidget/src/components/${generator.entityClass}Table.js`,
         },
         {
           file: 'entity/tableWidget/src/components/EntityTableContainer.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/${generator.entityFileName}TableContainer.js`,
+            `${generator.entityFileName}/tableWidget/src/components/${generator.entityClass}TableContainer.js`,
         },
       ],
     },
@@ -813,7 +813,7 @@ const microFrontendFiles = {
         {
           file: 'entity/detailsWidget/src/custom-elements/EntityDetailsElement.js',
           renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/custom-elements/${generator.entityFileName}DetailsElement.js`,
+            `${generator.entityFileName}/detailsWidget/src/custom-elements/${generator.entityClass}DetailsElement.js`,
         },
         {
           file: 'entity/detailsWidget/src/custom-elements/widgetEventTypes.js',
@@ -829,7 +829,7 @@ const microFrontendFiles = {
         {
           file: 'entity/formWidget/src/custom-elements/EntityFormElement.js',
           renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/custom-elements/${generator.entityFileName}FormElement.js`,
+            `${generator.entityFileName}/formWidget/src/custom-elements/${generator.entityClass}FormElement.js`,
         },
         {
           file: 'entity/formWidget/src/custom-elements/widgetEventTypes.js',
@@ -845,7 +845,7 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/src/custom-elements/EntityTableElement.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/custom-elements/${generator.entityFileName}TableElement.js`,
+            `${generator.entityFileName}/tableWidget/src/custom-elements/${generator.entityClass}TableElement.js`,
         },
         {
           file: 'entity/tableWidget/src/custom-elements/widgetEventTypes.js',
