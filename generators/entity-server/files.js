@@ -788,9 +788,9 @@ const microFrontendFiles = {
             `${generator.entityFileName}/tableWidget/src/components/pagination/PaginationContext.js`,
         },
         {
-          file: 'entity/tableWidget/src/components/pagination/paginationWrapper.js',
+          file: 'entity/tableWidget/src/components/pagination/PaginationWrapper.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/pagination/paginationWrapper.js`,
+            `${generator.entityFileName}/tableWidget/src/components/pagination/PaginationWrapper.js`,
         },
         {
           file: 'entity/tableWidget/src/components/pagination/TablePaginationActions.js',
