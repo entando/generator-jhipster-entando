@@ -1,8 +1,7 @@
-<%- include('../../../../utils/jhipster') %>
 <%_
   const translationKeyPrefix = `entities.${entityInstance}.`;
   function convertValue(entityInstance, field, locale) {
-    const fieldType = getJHipsterType(field); // from 'utils/jhipster'
+    const fieldType = getJHipsterType(field);
     switch (fieldType) {
       case 'Boolean':
         return `<Checkbox disabled checked={${entityInstance}.${field.fieldName}} />`;

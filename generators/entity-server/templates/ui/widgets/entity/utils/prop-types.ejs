@@ -1,8 +1,7 @@
 <%_
-// these utilities expect 'utils/jhipster' in the template
 
 getPropType = function (field) {
-  const fieldType = getJHipsterType(field); // from 'utils/jhipster'
+  const fieldType = getJHipsterType(field);
   switch (fieldType) {
     case 'String':
       return 'PropTypes.string';
@@ -36,7 +35,7 @@ isRequiredPropType = function (field) {
 
 // NOTE: update getFormikValuePropType accordingly if there are additional types needed
 getFormikValuePropType = function (field) {
-  const fieldType = getJHipsterType(field); // utils/jhipster
+  const fieldType = getJHipsterType(field);
 
   switch (fieldType) {
     case 'String':
@@ -65,7 +64,7 @@ getFormikValuePropType = function (field) {
 
 // NOTE: update getFormikTouchedPropType accordingly if there are additional types needed
 getFormikTouchedPropType = function (field) {
-  const fieldType = getJHipsterType(field); // utils/jhipster
+  const fieldType = getJHipsterType(field);
 
   switch (fieldType) {
     case 'String':
@@ -90,7 +89,7 @@ getFormikTouchedPropType = function (field) {
 
 // NOTE: update getFormikErrorPropType accordingly if there are additional types needed
 getFormikErrorPropType = function (field) {
-  const fieldType = getJHipsterType(field); // utils/jhipster
+  const fieldType = getJHipsterType(field);
 
   switch (fieldType) {
     case 'String':

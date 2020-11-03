@@ -1,8 +1,7 @@
 <%_
-// these utilities expect 'utils/jhipster' in the template
 
 getMuiInput = function (field) {
-  const fieldType = getJHipsterType(field); // from 'utils/jhipster'
+  const fieldType = getJHipsterType(field);
   const { fieldIsEnum } = field;
 
   if (['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(fieldType)) {

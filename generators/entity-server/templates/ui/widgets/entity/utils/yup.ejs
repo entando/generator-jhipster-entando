@@ -1,8 +1,7 @@
 <%_
-// these utilities expect 'utils/jhipster' in the template
 
 getYupType = function(field) {
-  const fieldType = getJHipsterType(field); // from 'utils/jhipster'
+  const fieldType = getJHipsterType(field);
   switch (fieldType) {
     case 'String':
       return ['string()'];
