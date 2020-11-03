@@ -21,9 +21,9 @@ describe('getPropType', () => {
   ['Integer', 'Long', 'Float', 'Double', 'BigDecimal'].forEach(type => {
     it(`should return PropTypes.number when JHipster fieldType is ${type}`, () => {
       getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
-      const yupType = getPropType({});
+      const propType = getPropType({});
 
-      expect(yupType).to.be.a('string').to.equal('PropTypes.number');
+      expect(propType).to.be.a('string').to.equal('PropTypes.number');
     });
   });
 
@@ -107,9 +107,9 @@ describe('getFormikValuePropType', () => {
   ['Integer', 'Long', 'Float', 'Double', 'BigDecimal'].forEach(type => {
     it(`should return PropTypes.number when JHipster fieldType is ${type}`, () => {
       getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
-      const yupType = getFormikValuePropType({});
+      const propType = getFormikValuePropType({});
 
-      expect(yupType)
+      expect(propType)
         .to.be.a('array')
         .to.have.lengthOf(2)
         .to.deep.equal(['PropTypes.string', 'PropTypes.number']);
