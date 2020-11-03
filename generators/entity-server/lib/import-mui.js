@@ -9,7 +9,6 @@ function setOrAdd(map, key, ...properties) {
 
 function buildDependencies(fields) {
   const dependencies = new Map();
-  /* eslint-disable no-unused-expressions */
   fields.forEach(field => {
     if (['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(field.fieldType)) {
       setOrAdd(dependencies, '@material-ui/core/TextField', 'TextField');
