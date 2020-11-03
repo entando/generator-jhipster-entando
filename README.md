@@ -1,4 +1,4 @@
-[![NPM version][npm-image]][npm-url] [![Build Status][github-actions-generator-image]][github-actions-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+[![NPM version][npm-image]][npm-url] [![Build Status][github-actions-generator-image]][github-actions-url]
 > JHipster blueprint,
 
 # entando-blueprint
@@ -101,9 +101,5 @@ When you try to authenticate in the Swagger UI you should keep prefilled data (`
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-entando.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-entando
-[travis-image]: https://travis-ci.org/kerruba/generator-jhipster-entando.svg?branch=master
-[travis-url]: https://travis-ci.org/kerruba/generator-jhipster-entando
-[daviddm-image]: https://david-dm.org/kerruba/generator-jhipster-entando.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/kerruba/generator-jhipster-entando
 [github-actions-generator-image]: https://github.com/entando/entando-blueprint/workflows/Generator/badge.svg
 [github-actions-url]: https://github.com/entando/entando-blueprint/actions
