@@ -45,6 +45,7 @@ module.exports = class extends EntityServerGenerator {
     const entandoPhase = {
       setupEntandoLib() {
         this.buildDependencies = lib.buildDependencies;
+        this.getJHipsterType = lib.getJHipsterType;
       },
     };
 
