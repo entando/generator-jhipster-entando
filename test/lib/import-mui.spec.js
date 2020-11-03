@@ -1,7 +1,11 @@
 const { expect } = require('chai');
-const buildDependencies = require('../../generators/entity-server/lib/import-mui');
+const sinon = require('sinon');
+const { buildDependencies, getMuiInput } = require('../../generators/entity-server/lib/material-ui.mapper');
+const jhipsterMapper = require('../../generators/entity-server/lib/jhipster-type.mapper');
 
-describe('with one field type', () => {
+let getJHipsterTypeStub;
+
+describe('buildDependencies with one field type', () => {
   ['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal'].forEach(type => {
     it(`should return ${type} dependencies when fieldType is ${type}`, () => {
       const expectedMap = new Map().set('@material-ui/core/TextField', new Set(['TextField']));
@@ -82,7 +86,7 @@ describe('with one field type', () => {
   });
 });
 
-describe('with many field type', () => {
+describe('buildDependencies with many field type', () => {
   it(`should return Boolean/String dependencies when fieldType are Boolean and String`, () => {
     const expectedMap = new Map()
       .set('@material-ui/core/Checkbox', new Set(['Checkbox']))
@@ -170,5 +174,85 @@ describe('with many field type', () => {
     const dependencies = buildDependencies(fields);
 
     expect(expectedMap).to.deep.equal(dependencies);
+  });
+});
+
+describe('Get Material input', () => {
+  afterEach(() => {
+    if (getJHipsterTypeStub) {
+      getJHipsterTypeStub.restore();
+    }
+  });
+
+  ['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal'].forEach(type => {
+    it(`Should return TextField when type is ${type}`, () => {
+      getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
+
+      const field = getMuiInput({
+        fieldType: `${type}`,
+      });
+      const result = getMuiInput(field);
+
+      expect(result).to.be.equal('TextField');
+    });
+  });
+
+  it('Should return DatePicker when type is LocalDate', () => {
+    getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns('LocalDate');
+
+    const field = getMuiInput({
+      fieldType: 'LocalDate',
+    });
+    const result = getMuiInput(field);
+
+    expect(result).to.be.equal('DatePicker');
+  });
+
+  ['Instant', 'ZonedDateTime'].forEach(type => {
+    it(`Should return DateTimePicker when type is ${type}`, () => {
+      getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
+
+      const field = getMuiInput({
+        fieldType: `${type}`,
+      });
+      const result = getMuiInput(field);
+
+      expect(result).to.be.equal('DateTimePicker');
+    });
+  });
+
+  it('Should return Checkbox when type is Boolean', () => {
+    getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns('Boolean');
+
+    const field = getMuiInput({
+      fieldType: 'Boolean',
+    });
+    const result = getMuiInput(field);
+
+    expect(result).to.be.equal('Checkbox');
+  });
+
+  it('Should return Select when type is Enum', () => {
+    getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns('Enum');
+
+    const field = getMuiInput({
+      fieldIsEnum: true,
+    });
+    const result = getMuiInput(field);
+
+    expect(result).to.be.equal('Select');
+  });
+
+  ['ImageBlob', 'BinaryFileBlob', 'TextBlob'].forEach(type => {
+    it(`Should return TextField when type is ${type}`, () => {
+      getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
+
+      const field = getMuiInput({
+        fieldType: `${type}`,
+      });
+      const result = getMuiInput(field);
+
+      expect(result).to.be.equal('TextField');
+    });
   });
 });

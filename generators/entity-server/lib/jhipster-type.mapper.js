@@ -42,4 +42,6 @@ function getJHipsterType({ fieldType, fieldIsEnum, fieldTypeBlobContent }) {
   );
 }
 
-module.exports = getJHipsterType;
+module.exports = {
+  getJHipsterType,
+};

@@ -46,6 +46,7 @@ module.exports = class extends EntityServerGenerator {
       setupEntandoLib() {
         this.buildDependencies = lib.buildDependencies;
         this.getJHipsterType = lib.getJHipsterType;
+        this.getMuiInput = lib.getMuiInput;
       },
     };
 

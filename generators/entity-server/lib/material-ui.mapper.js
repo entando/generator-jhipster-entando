@@ -1,3 +1,5 @@
+const jhipsterMapper = require('./jhipster-type.mapper');
+
 function setOrAdd(map, key, ...properties) {
   if (!map) return;
 
@@ -33,4 +35,32 @@ function buildDependencies(fields) {
   return dependencies;
 }
 
-module.exports = buildDependencies;
+function getMuiInput(field) {
+  const fieldType = jhipsterMapper.getJHipsterType(field);
+
+  if (['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(fieldType)) {
+    return 'TextField';
+  }
+  if (['LocalDate'].includes(fieldType)) {
+    return 'DatePicker';
+  }
+  if (['Instant', 'ZonedDateTime'].includes(fieldType)) {
+    return 'DateTimePicker';
+  }
+  if (['Boolean'].includes(fieldType)) {
+    return 'Checkbox';
+  }
+  if (['Enum'].includes(fieldType)) {
+    return 'Select';
+  }
+  if (['ImageBlob', 'BinaryFileBlob', 'TextBlob'].includes(fieldType)) {
+    return 'TextField';
+  }
+
+  return 'TextField';
+}
+
+module.exports = {
+  buildDependencies,
+  getMuiInput,
+};
