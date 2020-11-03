@@ -344,7 +344,6 @@ const empty<%= entityClass %> = {
   <%_ }) _%>
 };
 
-<%- include('../../../utils/yup') %>
 <%_ const yupValues = getYupValues(fields); _%>
 const validationSchema = Yup.object().shape({
   <%_ yupValues.forEach(yupField => { _%>

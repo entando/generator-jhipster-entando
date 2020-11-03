@@ -47,6 +47,7 @@ module.exports = class extends EntityServerGenerator {
         this.buildDependencies = lib.buildDependencies;
         this.getJHipsterType = lib.getJHipsterType;
         this.getMuiInput = lib.getMuiInput;
+        this.getYupValues = lib.getYupValues;
       },
     };
 
