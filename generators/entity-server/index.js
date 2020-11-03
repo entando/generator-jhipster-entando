@@ -48,6 +48,11 @@ module.exports = class extends EntityServerGenerator {
         this.getJHipsterType = lib.getJHipsterType;
         this.getMuiInput = lib.getMuiInput;
         this.getYupValues = lib.getYupValues;
+        this.getPropType = lib.getPropType;
+        this.isRequiredPropType = lib.isRequiredPropType;
+        this.getFormikValuePropType = lib.getFormikValuePropType;
+        this.getFormikTouchedPropType = lib.getFormikTouchedPropType;
+        this.getFormikErrorPropType = lib.getFormikErrorPropType;
       },
     };
 

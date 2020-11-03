@@ -1,9 +1,17 @@
-<%_
+const jhipsterMapper = require('./jhipster-type.mapper');
 
-getPropType = function (field) {
-  const fieldType = getJHipsterType(field);
+function getPropType(field) {
+  const fieldType = jhipsterMapper.getJHipsterType(field);
+
   switch (fieldType) {
     case 'String':
+    case 'LocalDate':
+    case 'Instant':
+    case 'ZonedDateTime':
+    case 'Enum':
+    case 'ImageBlob':
+    case 'BinaryFileBlob':
+    case 'TextBlob':
       return 'PropTypes.string';
     case 'Integer':
     case 'Long':
@@ -11,34 +19,26 @@ getPropType = function (field) {
     case 'Double':
     case 'BigDecimal':
       return 'PropTypes.number';
-    case 'LocalDate':
-    case 'Instant':
-    case 'ZonedDateTime':
-      return 'PropTypes.string';
     case 'Boolean':
       return 'PropTypes.bool';
+    default:
+      return 'PropTypes.any';
+  }
+}
+
+function isRequiredPropType(field) {
+  return field.fieldValidateRules && field.fieldValidateRules.includes('required') ? '.isRequired' : '';
+}
+
+function getFormikValuePropType(field) {
+  const fieldType = jhipsterMapper.getJHipsterType(field);
+
+  switch (fieldType) {
+    case 'String':
     case 'Enum':
     case 'ImageBlob':
     case 'BinaryFileBlob':
     case 'TextBlob':
-      return 'PropTypes.string';
-  }
-
-  return 'PropTypes.any';
-}
-
-isRequiredPropType = function (field) {
-  return field.fieldValidateRules && field.fieldValidateRules.includes('required')
-    ? '.isRequired'
-    : '';
-}
-
-// NOTE: update getFormikValuePropType accordingly if there are additional types needed
-getFormikValuePropType = function (field) {
-  const fieldType = getJHipsterType(field);
-
-  switch (fieldType) {
-    case 'String':
       return ['PropTypes.string'];
     case 'Integer':
     case 'Long':
@@ -52,19 +52,13 @@ getFormikValuePropType = function (field) {
       return ['PropTypes.string', 'PropTypes.instanceOf(Date)'];
     case 'Boolean':
       return ['PropTypes.bool'];
-    case 'Enum':
-    case 'ImageBlob':
-    case 'BinaryFileBlob':
-    case 'TextBlob':
-      return ['PropTypes.string'];
+    default:
+      return ['PropTypes.any'];
   }
-
-  return ['PropTypes.any'];
 }
 
-// NOTE: update getFormikTouchedPropType accordingly if there are additional types needed
-getFormikTouchedPropType = function (field) {
-  const fieldType = getJHipsterType(field);
+function getFormikTouchedPropType(field) {
+  const fieldType = jhipsterMapper.getJHipsterType(field);
 
   switch (fieldType) {
     case 'String':
@@ -82,14 +76,13 @@ getFormikTouchedPropType = function (field) {
     case 'BinaryFileBlob':
     case 'TextBlob':
       return ['PropTypes.bool', 'PropTypes.shape()'];
+    default:
+      return ['PropTypes.any'];
   }
-
-  return ['PropTypes.any'];
 }
 
-// NOTE: update getFormikErrorPropType accordingly if there are additional types needed
-getFormikErrorPropType = function (field) {
-  const fieldType = getJHipsterType(field);
+function getFormikErrorPropType(field) {
+  const fieldType = jhipsterMapper.getJHipsterType(field);
 
   switch (fieldType) {
     case 'String':
@@ -107,8 +100,15 @@ getFormikErrorPropType = function (field) {
     case 'BinaryFileBlob':
     case 'TextBlob':
       return ['PropTypes.string', 'PropTypes.shape()'];
+    default:
+      return ['PropTypes.any'];
   }
-
-  return ['PropTypes.any'];
 }
-_%>
+
+module.exports = {
+  getPropType,
+  isRequiredPropType,
+  getFormikValuePropType,
+  getFormikTouchedPropType,
+  getFormikErrorPropType,
+};
