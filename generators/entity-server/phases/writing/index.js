@@ -1,6 +1,6 @@
 const EntandoNeedle = require('../../needle-api/needle-server-bundle');
 const { serverFiles, microFrontendFiles } = require('../../files');
-const { getMockData } = require('./mfe-test-tools');
+const { getMockData } = require('../../lib/mfe-test-tools');
 
 function writingInit() {
   if (this.configOptions.generateMfeForEntity) {
