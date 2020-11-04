@@ -24,9 +24,17 @@ function updateBundleDescriptor() {
   this.entandoNeedleApi.addRolesToDescriptor(this.baseName.toLowerCase(), this.entityFileName);
 }
 
+function addPrettier() {
+  if (this.configOptions.generateMfeForEntity) {
+    this.addNpmDevDependency('prettier', '2.0.5');
+    this.addNpmScript('prettier', 'prettier --write "ui/**/*.js"');
+  }
+}
+
 module.exports = {
   writingInit,
   writeEntityServerFiles,
   writeMicroFrontendFiles,
   updateBundleDescriptor,
+  addPrettier,
 };

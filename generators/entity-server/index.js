@@ -6,7 +6,6 @@ const EntityServerGenerator = require('generator-jhipster/generators/entity-serv
 
 const constants = require('../generator-constants');
 const entandoBlueprintPromptingPhase = require('./phases/prompting');
-const entandoBlueprintConfiguringPhase = require('./phases/configuring');
 const entandoBlueprintWritingPhase = require('./phases/writing');
 const entandoBlueprintInstallPhase = require('./phases/install');
 const entandoBlueprintEndPhase = require('./phases/end');
@@ -67,12 +66,10 @@ module.exports = class extends EntityServerGenerator {
   }
 
   get configuring() {
-    // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
-    const jhipsterConfiguringPhase = super._configuring();
     // selectedWidgets can be used to select widgets we want to generate. For the moment all will be generated.
     this.selectedWidgets = [DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET];
 
-    return { ...jhipsterConfiguringPhase, ...entandoBlueprintConfiguringPhase };
+    return super._configuring();
   }
 
   get default() {
