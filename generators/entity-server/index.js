@@ -1,14 +1,10 @@
-/* eslint-disable no-console */
-const fs = require('fs');
 const chalk = require('chalk');
 
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
 
 const constants = require('../generator-constants');
-const entandoBlueprintPromptingPhase = require('./phases/prompting');
-const entandoBlueprintWritingPhase = require('./phases/writing');
-const entandoBlueprintInstallPhase = require('./phases/install');
-const entandoBlueprintEndPhase = require('./phases/end');
+const prompts = require('./prompts');
+const { writeEntandoFiles } = require('./files');
 const lib = require('./lib');
 
 const { DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
@@ -62,7 +58,7 @@ module.exports = class extends EntityServerGenerator {
     // prompting - Where you prompt users for options (where you’d call this.prompt())
     const jhipsterPromptingPhase = super._prompting();
 
-    return { ...jhipsterPromptingPhase, ...entandoBlueprintPromptingPhase };
+    return { ...jhipsterPromptingPhase, ...prompts };
   }
 
   get configuring() {
@@ -81,7 +77,7 @@ module.exports = class extends EntityServerGenerator {
     // writing - Where you write the generator specific files (routes, controllers, etc)
     const jhipsterWritingPhase = super._writing();
 
-    return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
+    return { ...jhipsterWritingPhase, ...writeEntandoFiles() };
   }
 
   get conflicts() {
@@ -93,21 +89,31 @@ module.exports = class extends EntityServerGenerator {
     // install - Where installations are run (npm, bower)
     const jhipsterInstallPhase = super._install();
 
-    return { ...jhipsterInstallPhase, ...entandoBlueprintInstallPhase };
+    const entandoPhase = {
+      installRootNpmPackages() {
+        this.npmInstall();
+      },
+    };
+
+    return { ...jhipsterInstallPhase, ...entandoPhase };
   }
 
   get end() {
     // end - Called last, cleanup, say good bye, etc
     const jhipsterEndPhase = super._end();
 
-    return { ...jhipsterEndPhase, ...entandoBlueprintEndPhase };
-  }
+    const entandoPhase = {
+      runPrettier() {
+        /*
+         * TODO V7 JHipster this Entando end phase have to be removed since JHipster handles js files
+         *   in prettier transformer when writing files on disk. This command will be useless.
+         */
+        if (this.configOptions.generateMfeForEntity) {
+          this.spawnCommandSync('npm', ['run', 'prettier']);
+        }
+      },
+    };
 
-  log(msg) {
-    console.log(msg); // eslint-disable-line no-console
-  }
-
-  fs() {
-    return fs;
+    return { ...jhipsterEndPhase, ...entandoPhase };
   }
 };

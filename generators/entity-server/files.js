@@ -1,5 +1,7 @@
 const jhiConstants = require('generator-jhipster/generators/generator-constants');
 const constants = require('../generator-constants');
+const EntandoNeedle = require('./needle-api/needle-server-bundle');
+const { getMockData } = require('./lib/mfe-test-tools');
 
 const { SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR } = jhiConstants;
 const { MFE_MAIN_DIR, DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
@@ -1055,7 +1057,41 @@ const microFrontendFiles = {
   ],
 };
 
+function writeEntandoFiles() {
+  return {
+    writingInit() {
+      if (this.configOptions.generateMfeForEntity) {
+        this.mockData = getMockData(this.fields, 2);
+      }
+    },
+
+    writeEntityServerFiles() {
+      this.writeFilesToDisk(serverFiles, this, false, null);
+    },
+
+    writeMicroFrontendFiles() {
+      if (this.configOptions.generateMfeForEntity) {
+        this.writeFilesToDisk(microFrontendFiles, this, false, null);
+      }
+    },
+
+    updateBundleDescriptor() {
+      this.entandoNeedleApi = new EntandoNeedle(this);
+      this.entandoNeedleApi.addWidgetToDescriptor(this.entityFileName);
+      this.entandoNeedleApi.addRolesToDescriptor(this.baseName.toLowerCase(), this.entityFileName);
+    },
+
+    addPrettier() {
+      if (this.configOptions.generateMfeForEntity) {
+        this.addNpmDevDependency('prettier', '2.0.5');
+        this.addNpmScript('prettier', 'prettier --write "ui/**/*.js"');
+      }
+    },
+  };
+}
+
 module.exports = {
   serverFiles,
   microFrontendFiles,
+  writeEntandoFiles,
 };
