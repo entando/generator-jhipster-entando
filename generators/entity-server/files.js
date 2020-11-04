@@ -131,6 +131,10 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/detailsWidget/.env.production`,
         },
         {
+          file: 'entity/detailsWidget/.gitignore',
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/.gitignore`,
+        },
+        {
           file: 'entity/detailsWidget/jsconfig.json',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/jsconfig.json`,
         },
