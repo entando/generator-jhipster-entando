@@ -1061,7 +1061,7 @@ const microFrontendFiles = {
   ],
 };
 
-function writeEntandoFiles() {
+function writeFiles() {
   return {
     writingInit() {
       if (this.configOptions.generateMfeForEntity) {
@@ -1069,7 +1069,7 @@ function writeEntandoFiles() {
       }
     },
 
-    writeEntityServerFiles() {
+    writeEntandoFiles() {
       this.writeFilesToDisk(serverFiles, this, false, null);
     },
 
@@ -1097,5 +1097,5 @@ function writeEntandoFiles() {
 module.exports = {
   serverFiles,
   microFrontendFiles,
-  writeEntandoFiles,
+  writeFiles,
 };
