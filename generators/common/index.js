@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const CommonGenerator = require('generator-jhipster/generators/common');
 
-const entandoBlueprintWritingPhase = require('./phases/writing');
+const { writeFiles } = require('./files');
 
 module.exports = class extends CommonGenerator {
   constructor(args, opts) {
@@ -43,8 +43,8 @@ module.exports = class extends CommonGenerator {
   get writing() {
     // writing - Where you write the generator specific files (routes, controllers, etc)
     const jhipsterWritingPhase = super._writing();
+    const entandoWritingPhase = writeFiles();
 
-    // return entandoBlueprintWritingPhase;
-    return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
+    return { ...jhipsterWritingPhase, ...entandoWritingPhase };
   }
 };

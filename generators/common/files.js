@@ -11,11 +11,15 @@ const commonFiles = {
   ],
 };
 
-function writeCommonFiles() {
-  this.writeFilesToDisk(commonFiles, this, false, null);
+function writeFiles() {
+  return {
+    writeEntandoFiles() {
+      this.writeFilesToDisk(commonFiles, this, false, null);
+    },
+  };
 }
 
 module.exports = {
-  writeCommonFiles,
+  writeFiles,
   commonFiles,
 };
