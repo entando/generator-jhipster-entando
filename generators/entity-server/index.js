@@ -1,14 +1,13 @@
-/* eslint-disable no-console */
-const fs = require('fs');
 const chalk = require('chalk');
 
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
 
-const entandoBlueprintPromptingPhase = require('./phases/prompting');
-const entandoBlueprintConfiguringPhase = require('./phases/configuring');
-const entandoBlueprintWritingPhase = require('./phases/writing');
-const entandoBlueprintInstallPhase = require('./phases/install');
-const entandoBlueprintEndPhase = require('./phases/end');
+const constants = require('../generator-constants');
+const prompts = require('./prompts');
+const { writeEntandoFiles } = require('./files');
+const lib = require('./lib');
+
+const { DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
 
 module.exports = class extends EntityServerGenerator {
   constructor(args, opts) {
@@ -37,22 +36,36 @@ module.exports = class extends EntityServerGenerator {
   }
 
   get initializing() {
-    // initializing - Your initialization methods (checking current project state, getting configs, etc)
-    return super._initializing();
+    const jhipsterPhase = super._initializing();
+    const entandoPhase = {
+      setupEntandoLib() {
+        this.buildDependencies = lib.buildDependencies;
+        this.getJHipsterType = lib.getJHipsterType;
+        this.getMuiInput = lib.getMuiInput;
+        this.getYupValues = lib.getYupValues;
+        this.getPropType = lib.getPropType;
+        this.isRequiredPropType = lib.isRequiredPropType;
+        this.getFormikValuePropType = lib.getFormikValuePropType;
+        this.getFormikTouchedPropType = lib.getFormikTouchedPropType;
+        this.getFormikErrorPropType = lib.getFormikErrorPropType;
+      },
+    };
+
+    return { ...jhipsterPhase, ...entandoPhase };
   }
 
   get prompting() {
     // prompting - Where you prompt users for options (where you’d call this.prompt())
     const jhipsterPromptingPhase = super._prompting();
 
-    return { ...jhipsterPromptingPhase, ...entandoBlueprintPromptingPhase };
+    return { ...jhipsterPromptingPhase, ...prompts };
   }
 
   get configuring() {
-    // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
-    const jhipsterConfiguringPhase = super._configuring();
+    // selectedWidgets can be used to select widgets we want to generate. For the moment all will be generated.
+    this.selectedWidgets = [DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET];
 
-    return { ...jhipsterConfiguringPhase, ...entandoBlueprintConfiguringPhase };
+    return super._configuring();
   }
 
   get default() {
@@ -64,7 +77,7 @@ module.exports = class extends EntityServerGenerator {
     // writing - Where you write the generator specific files (routes, controllers, etc)
     const jhipsterWritingPhase = super._writing();
 
-    return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
+    return { ...jhipsterWritingPhase, ...writeEntandoFiles() };
   }
 
   get conflicts() {
@@ -76,21 +89,31 @@ module.exports = class extends EntityServerGenerator {
     // install - Where installations are run (npm, bower)
     const jhipsterInstallPhase = super._install();
 
-    return { ...jhipsterInstallPhase, ...entandoBlueprintInstallPhase };
+    const entandoPhase = {
+      installRootNpmPackages() {
+        this.npmInstall();
+      },
+    };
+
+    return { ...jhipsterInstallPhase, ...entandoPhase };
   }
 
   get end() {
     // end - Called last, cleanup, say good bye, etc
     const jhipsterEndPhase = super._end();
 
-    return { ...jhipsterEndPhase, ...entandoBlueprintEndPhase };
-  }
+    const entandoPhase = {
+      runPrettier() {
+        /*
+         * TODO V7 JHipster this Entando end phase have to be removed since JHipster handles js files
+         *   in prettier transformer when writing files on disk. This command will be useless.
+         */
+        if (this.configOptions.generateMfeForEntity) {
+          this.spawnCommandSync('npm', ['run', 'prettier']);
+        }
+      },
+    };
 
-  log(msg) {
-    console.log(msg); // eslint-disable-line no-console
-  }
-
-  fs() {
-    return fs;
+    return { ...jhipsterEndPhase, ...entandoPhase };
   }
 };

@@ -1,0 +1,373 @@
+<%_ const dependencies = buildDependencies(fields); -%>
+<%_ if (fieldsContainDate) { _%>
+import 'date-fns';
+<%_ } _%>
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { formValues, formTouched, formErrors } from 'components/__types__/<%= entityInstance %>';
+import { withFormik } from 'formik';
+import { withTranslation } from 'react-i18next';
+import { withStyles } from '@material-ui/core/styles';
+import { compose } from 'recompose';
+import * as Yup from 'yup';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+<%_ for (let dependency of dependencies) { _%>
+import <%=
+  dependency[1].size > 1
+    ? `{ ${Array.from(dependency[1]).join(', ')} }`
+    : Array.from(dependency[1])
+%> from '<%= dependency[0] %>';
+<%_ } _%>
+import ConfirmationDialogTrigger from 'components/common/ConfirmationDialogTrigger';
+
+const styles = theme => ({
+  root: {
+    margin: theme.spacing(3),
+  },
+  <%_ if (fieldsContainBlob) { _%>
+  button: {
+    marginBottom: '10px',
+  },
+  downloadAnchor: {
+    color: 'inherit',
+    textDecoration: 'inherit',
+    fontWeight: 'inherit',
+    '&:link, &:visited, &:hover, &:active': {
+      color: 'inherit',
+      textDecoration: 'inherit',
+      fontWeight: 'inherit',
+    },
+  },
+  <%_ } _%>
+  textField: {
+    width: '100%',
+  },
+});
+<%_
+  const fieldsContainDateOrBlob = fieldsContainDate || fieldsContainBlob;
+  const ComponentName = `${entityClass}Form`;
+_%>
+class <%= ComponentName %> extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleConfirmationDialogAction = this.handleConfirmationDialogAction.bind(this);
+  }
+
+  handleConfirmationDialogAction(action) {
+    const { onDelete, values } = this.props;
+    switch (action) {
+      case ConfirmationDialogTrigger.CONFIRM: {
+        onDelete(values);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  render() {
+    const {
+      classes,
+      values,
+      touched,
+      errors,
+      handleChange,
+      handleBlur,
+      handleSubmit: formikHandleSubmit,
+      onDelete,
+      onCancelEditing,
+      isSubmitting,
+      <%_ if (fieldsContainDateOrBlob) { _%>
+      setFieldValue,
+      <%_ } _%>
+      t,
+      <%_ if (fieldsContainDate) { _%>
+      i18n,
+      <%_ } _%>
+    } = this.props;
+
+    <%_ if (fieldsContainDate) { _%>
+    const handleDateChange = field => value => {
+      setFieldValue(field, value);
+    };
+    <%_ } _%>
+
+    <%_ if (fieldsContainDate && (fieldsContainInstant || fieldsContainZonedDateTime)) { _%>
+    const dateTimeLabelFn = date => (date ? new Date(date).toLocaleString(i18n.language) : '');
+    <%_ } _%>
+    <%_ if (fieldsContainDate && fieldsContainLocalDate) { _%>
+    const dateLabelFn = date => (date ? new Date(date).toLocaleDateString(i18n.language) : '');
+    <%_ } _%>
+    const getHelperText = field => (errors[field] && touched[field] ? errors[field] : '');
+    <%_ if (fieldsContainBlob) { _%>
+    const getFormattedTime = () => {
+      const today = new Date();
+      return `${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}`;
+    };
+    <%_ } _%>
+
+    <%_ if (fieldsContainBlob) { _%>
+    const handleFiles = field => event => {
+      const uploadedFile = event.target;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataURL = reader.result;
+        const imageData = dataURL.match(/data:([^;]*);base64,(.*)$/);
+        if (imageData && imageData[1] && imageData[2]) {
+          setFieldValue(field, imageData[2]);
+          setFieldValue(`${field}ContentType`, imageData[1]);
+        }
+      };
+      reader.readAsDataURL(uploadedFile.files[0]);
+    };
+    <%_ } _%>
+
+    const handleSubmit = e => {
+      e.stopPropagation(); // avoids double submission caused by react-shadow-dom-retarget-events
+      formikHandleSubmit(e);
+    };
+
+    return (
+      <%_ if (fieldsContainDate) { _%>
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={dateFnsLocales[i18n.language]}>
+      <%_ } _%>
+        <form onSubmit={handleSubmit} className={classes.root} data-testid="<%= entityInstance %>-form">
+          <Grid container spacing={2}>
+            <%_
+            fields.forEach(field => {
+              const fieldType = getJHipsterType(field);
+            _%>
+            <Grid item xs={12} sm={6}>
+              <%_
+              if (fieldType === 'Boolean') {
+              _%>
+              <FormControlLabel
+                control={
+                  // eslint-disable-next-line react/jsx-wrap-multilines
+                  <Checkbox
+                    id="<%= entityInstance %>-<%= field.fieldName %>"
+                    name="<%= field.fieldName %>"
+                    onChange={handleChange}
+                    inputProps={{ 'data-testid': '<%= entityInstance %>-<%= field.fieldName %>-checkbox' }}
+                    checked={values.<%= field.fieldName %>}
+                    value="<%= entityInstance %>-<%= field.fieldName %>"
+                    color="primary"
+                  />
+                }
+                label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              />
+              <%_
+              } else if (fieldType === 'ImageBlob') {
+              _%>
+              <InputLabel htmlFor="<%= field.fieldName %>-upload-file-button">
+                {t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              </InputLabel>
+              <div>
+                <input
+                  data-testid="<%= field.fieldName %>-uploader"
+                  style={{ display: 'none' }}
+                  id="<%= field.fieldName %>-upload-file-button"
+                  accept="image/*"
+                  type="file"
+                  onChange={handleFiles('<%= field.fieldName %>')}
+                />
+                <label htmlFor="<%= field.fieldName %>-upload-file-button">
+                  <Button className={classes.button} component="span">
+                    {t('common.selectImageFile')}
+                  </Button>
+                </label>
+              </div>
+              {values.<%= field.fieldName %> && (
+                <div>
+                  <img src={`data:${values.<%= field.fieldName %>ContentType};base64, ${values.<%= field.fieldName %>}`} alt="" />
+                </div>
+              )}
+              <%_
+              } else if (fieldType === 'BinaryFileBlob') {
+              _%>
+              <InputLabel htmlFor="<%= field.fieldName %>-upload-file-button">
+                {t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              </InputLabel>
+              {values.<%= field.fieldName %> && (
+                <a
+                  className={classes.downloadAnchor}
+                  download={`<%= field.fieldName %>-${getFormattedTime()}`}
+                  href={`data:${values.<%= field.fieldName %>ContentType};base64, ${values.<%= field.fieldName %>}`}
+                >
+                  <Button className={classes.button}>{t('common.download')}</Button>
+                </a>
+              )}
+              <input
+                data-testid="<%= field.fieldName %>-uploader"
+                style={{ display: 'none' }}
+                id="<%= field.fieldName %>-upload-file-button"
+                type="file"
+                onChange={handleFiles('<%= field.fieldName %>')}
+              />
+              <label htmlFor="<%= field.fieldName %>-upload-file-button">
+                <Button className={classes.button} component="span">
+                  {t('common.selectFile')}
+                </Button>
+              </label>
+              <%_
+              } else if (fieldType === 'Enum') {
+              _%>
+              <%_ const ComponentName = getMuiInput(field); _%>
+              <InputLabel htmlFor="<%= entityInstance %>-<%= field.fieldName %>">{t('entities.<%= entityInstance %>.<%= field.fieldName %>')}</InputLabel>
+              <<%= ComponentName %>
+                native
+                id="<%= entityInstance %>-<%= field.fieldName %>"
+                error={errors.<%= field.fieldName %> && touched.<%= field.fieldName %>}
+                className={classes.textField}
+                value={values.<%= field.fieldName %>}
+                name="<%= field.fieldName %>"
+                onChange={handleChange}
+              >
+                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                <option value="" />
+                <%_ field.fieldValues.split(',').forEach(enumValue => { _%>
+                <option value="<%= enumValue %>"><%= enumValue %></option>
+                <%_ }) _%>
+              </<%= ComponentName %>>
+              <%_
+              } else {
+              _%>
+              <<%= getMuiInput(field) %>
+                id="<%= entityInstance %>-<%= field.fieldName %>"
+                error={errors.<%= field.fieldName %> && touched.<%= field.fieldName %>}
+                helperText={getHelperText('<%= field.fieldName %>')}
+                className={classes.textField}
+                <%_ if (['Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(field.fieldType)) { _%>
+                type="number"
+                <%_ } _%>
+                <%_ if (['LocalDate', 'Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
+                onChange={handleDateChange('<%= field.fieldName %>')}
+                <%_ } else { _%>
+                onChange={handleChange}
+                <%_ } _%>
+                <%_ if (!['LocalDate', 'Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
+                onBlur={handleBlur}
+                <%_ } _%>
+                value={values.<%= field.fieldName %>}
+                <%_ if (field.fieldType === 'LocalDate') { _%>
+                labelFunc={dateLabelFn}
+                <%_ } _%>
+                <%_ if (['Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
+                labelFunc={dateTimeLabelFn}
+                <%_ } _%>
+                name="<%= field.fieldName %>"
+                label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
+              />
+              <%_ } _%>
+            </Grid>
+            <%_ }) _%>
+            {onDelete && (
+              <ConfirmationDialogTrigger
+                onCloseDialog={this.handleConfirmationDialogAction}
+                dialog={{
+                  title: t('entities.<%= entityInstance %>.deleteDialog.title'),
+                  description: t('entities.<%= entityInstance %>.deleteDialog.description'),
+                  confirmLabel: t('common.yes'),
+                  discardLabel: t('common.no'),
+                }}
+                Renderer={({ onClick }) => (
+                  <Button onClick={onClick} disabled={isSubmitting}>
+                    {t('common.delete')}
+                  </Button>
+                )}
+              />
+            )}
+
+            <Button onClick={onCancelEditing} disabled={isSubmitting} data-testid="cancel-btn">
+              {t('common.cancel')}
+            </Button>
+
+            <Button type="submit" color="primary" disabled={isSubmitting} data-testid="submit-btn">
+              {t('common.save')}
+            </Button>
+          </Grid>
+        </form>
+      <%_ if (fieldsContainDate) { _%>
+      </MuiPickersUtilsProvider>
+      <%_ } _%>
+    );
+  }
+}
+
+<%= ComponentName %>.propTypes = {
+  classes: PropTypes.shape({
+    root: PropTypes.string,
+    textField: PropTypes.string,
+    submitButton: PropTypes.string,
+    button: PropTypes.string,
+    downloadAnchor: PropTypes.string,
+  }),
+  values: formValues,
+  touched: formTouched,
+  errors: formErrors,
+  handleChange: PropTypes.func.isRequired,
+  handleBlur: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
+  onCancelEditing: PropTypes.func,
+  isSubmitting: PropTypes.bool.isRequired,
+  <%_ if (fieldsContainDateOrBlob) { _%>
+  setFieldValue: PropTypes.func.isRequired,
+  <%_ } _%>
+  t: PropTypes.func.isRequired,
+  i18n: PropTypes.shape({ language: PropTypes.string }).isRequired,
+};
+
+<%= ComponentName %>.defaultProps = {
+  onCancelEditing: () => {},
+  classes: {},
+  values: {},
+  touched: {},
+  errors: {},
+  onDelete: null,
+};
+
+const empty<%= entityClass %> = {
+  <%_ fields.forEach(field => { _%>
+  <%_ if (['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(field.fieldType)) { _%>
+  <%= field.fieldName %>: '',
+  <%_ } else { _%>
+  <%_ if (['Boolean'].includes(field.fieldType)) { _%>
+  <%= field.fieldName %>: false,
+  <%_ } else { _%>
+  <%_ if (['LocalDate', 'Instant', 'ZonedDateTime'].includes(field.fieldType)) { _%>
+  <%= field.fieldName %>: null,
+  <%_ } else { _%>
+  <%= field.fieldName %>: '',
+  <%_ } } } _%>
+  <%_ }) _%>
+};
+
+<%_ const yupValues = getYupValues(fields); _%>
+const validationSchema = Yup.object().shape({
+  <%_ yupValues.forEach(yupField => { _%>
+  <%= yupField %>
+  <%_ }) _%>
+});
+
+const formikBag = {
+  mapPropsToValues: ({ <%= entityInstance %> }) => <%= entityInstance %> || empty<%= entityClass %>,
+
+  enableReinitialize: true,
+
+  validationSchema,
+
+  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
+    onSubmit(values);
+    setSubmitting(false);
+  },
+
+  displayName: '<%= ComponentName %>',
+};
+<%# // TODO: REMOVE compose/recompose %>
+export default compose(
+  withStyles(styles, { withTheme: true }),
+  withTranslation(),
+  withFormik(formikBag)
+)(<%= ComponentName %>);

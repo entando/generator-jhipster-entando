@@ -1,0 +1,50 @@
+{
+  "error": {
+    "dataLoading": "Errore durante la connessione al server"
+  },
+  "common": {
+    "couldNotFetchData": "Non è stato possibile caricare i dati dell'entità",
+    "notAuthenticated": "L'utente non è autenticato.",
+    "loadingMore": "Caricamento in corso...",
+    "download": "Scarica file",
+    "dataDeleted": "<%= entityNameCapitalized %> eliminato/a con successo",
+    "yes": "Si",
+    "no": "No"
+  },
+  "pagination": {
+    "ariaLabels": {
+      "firstPage": "prima pagina",
+      "previousPage": "pagina precedente",
+      "nextPage": "pagina successiva",
+      "lastPage": "ultima pagina"
+    }
+  },
+  "filters": {
+    "field": "Campo",
+    "value": "Valore",
+    "addFilter": "Aggiungi filtro",
+    "clearFilters": "Rimuovi filtri",
+    "filter": "Filtro",
+    "operator": "Operatore",
+    "operators": {
+      "equals": "è uguale a",
+      "in": "in",
+      "specified": "specificato",
+      "unspecified": "non specificato",
+      "contains": "contiene"
+    }
+  },
+  "entities": {
+    "<%= entityInstance %>": {
+      "deleteDialog": {
+        "title": "Elimina <%= entityInstance %>",
+        "description": "Sei sicuro/a?"
+      },
+      "noItems": "Nessun <%= entityInstancePlural %> disponibile",
+      "id": "ID",
+      <%_ fields.forEach(function(field){ _%>
+      "<%= field.fieldName %>": "entità.<%= entityInstance %>.<%= field.fieldName %>",
+      <%_ }) _%>
+    }
+  }
+}

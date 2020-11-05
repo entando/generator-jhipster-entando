@@ -63,6 +63,7 @@ const expectedFiles = {
         'ui/widgets/foo/detailsWidget/src/index.js',
         'ui/widgets/foo/detailsWidget/.env.local',
         'ui/widgets/foo/detailsWidget/.env.production',
+        'ui/widgets/foo/formWidget/.gitignore',
         'ui/widgets/foo/detailsWidget/jsconfig.json',
         'ui/widgets/foo/detailsWidget/LICENSE',
         'ui/widgets/foo/detailsWidget/package.json',
