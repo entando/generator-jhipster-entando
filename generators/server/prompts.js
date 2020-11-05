@@ -2,8 +2,8 @@ const chalk = require('chalk');
 
 const constants = require('generator-jhipster/generators/generator-constants');
 const { getBase64Secret, getRandomHex } = require('generator-jhipster/generators/utils');
-const entandoConstants = require('../../../generator-constants');
-const entandoDefaultPrompts = require('./entando_default_prompts').default;
+const entandoConstants = require('../generator-constants');
+const { DEFAULT_SERVER_PROMPTS } = require('../generator-constants');
 
 module.exports = {
   /* eslint-disable no-use-before-define */
@@ -171,8 +171,8 @@ function askForServerSideOpts(meta) {
   const done = this.async();
 
   this.prompt(prompts).then(props => {
-    this.serviceDiscoveryType = entandoDefaultPrompts.SERVICE_DISCOVERY_TYPE;
-    this.authenticationType = entandoDefaultPrompts.AUTHENTICATION_TYPE;
+    this.serviceDiscoveryType = DEFAULT_SERVER_PROMPTS.SERVICE_DISCOVERY_TYPE;
+    this.authenticationType = DEFAULT_SERVER_PROMPTS.AUTHENTICATION_TYPE;
 
     // JWT authentication is mandatory with Eureka, so the JHipster Registry
     // can control the applications

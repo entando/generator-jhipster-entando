@@ -4,7 +4,7 @@ const EntityServerGenerator = require('generator-jhipster/generators/entity-serv
 
 const constants = require('../generator-constants');
 const prompts = require('./prompts');
-const { writeEntandoFiles } = require('./files');
+const { writeFiles } = require('./files');
 const lib = require('./lib');
 
 const { DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
@@ -76,8 +76,9 @@ module.exports = class extends EntityServerGenerator {
   get writing() {
     // writing - Where you write the generator specific files (routes, controllers, etc)
     const jhipsterWritingPhase = super._writing();
+    const entandoWritingPhase = writeFiles();
 
-    return { ...jhipsterWritingPhase, ...writeEntandoFiles() };
+    return { ...jhipsterWritingPhase, ...entandoWritingPhase };
   }
 
   get conflicts() {

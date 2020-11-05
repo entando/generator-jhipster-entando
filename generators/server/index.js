@@ -2,8 +2,8 @@ const chalk = require('chalk');
 
 const ServerGenerator = require('generator-jhipster/generators/server');
 
-const entandoBlueprintPromptingPhase = require('./phases/prompting');
-const entandoBlueprintWritingPhase = require('./phases/writing');
+const prompts = require('./prompts');
+const { writeFiles } = require('./files');
 
 module.exports = class extends ServerGenerator {
   constructor(args, opts) {
@@ -41,7 +41,7 @@ module.exports = class extends ServerGenerator {
     // prompting - Where you prompt users for options (where you’d call this.prompt())
     const jhipsterPromptingPhase = super._prompting();
 
-    return { ...jhipsterPromptingPhase, ...entandoBlueprintPromptingPhase };
+    return { ...jhipsterPromptingPhase, ...prompts };
   }
 
   get default() {
@@ -52,8 +52,9 @@ module.exports = class extends ServerGenerator {
   get writing() {
     // writing - Where you write the generator specific files (routes, controllers, etc)
     const jhipsterWritingPhase = super._writing();
+    const entandoWritingPhase = writeFiles();
 
-    return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
+    return { ...jhipsterWritingPhase, ...entandoWritingPhase };
   }
 
   get end() {
