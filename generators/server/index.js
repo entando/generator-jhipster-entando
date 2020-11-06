@@ -27,8 +27,22 @@ module.exports = class extends ServerGenerator {
 
   get initializing() {
     // initializing - Your initialization methods (checking current project state, getting configs, etc)
+    const jhipsterPhase = super._initializing();
+    const entandoPhase = {
+      setupEntandoContext() {
+        // TODO JHipster v7 use getJhipsterConfig instead https://github.com/jhipster/generator-jhipster/pull/12022
+        const configuration = this.getAllJhipsterConfig(this, true);
+        this.bundleName = configuration.get('bundleName');
+        this.dockerImageOrganization = configuration.get('dockerOrganization');
+        this.prodDatabaseTypePlugin = ['mongodb', 'neo4j', 'couchbase', 'cassandra', 'no'].includes(
+          this.databaseType,
+        )
+          ? 'none'
+          : this.prodDatabaseType;
+      },
+    };
 
-    return super._initializing();
+    return { ...jhipsterPhase, ...entandoPhase };
   }
 
   get configuring() {
@@ -39,9 +53,9 @@ module.exports = class extends ServerGenerator {
 
   get prompting() {
     // prompting - Where you prompt users for options (where you’d call this.prompt())
-    const jhipsterPromptingPhase = super._prompting();
+    const jhipsterPhase = super._prompting();
 
-    return { ...jhipsterPromptingPhase, ...prompts };
+    return { ...jhipsterPhase, ...prompts };
   }
 
   get default() {
@@ -51,10 +65,10 @@ module.exports = class extends ServerGenerator {
 
   get writing() {
     // writing - Where you write the generator specific files (routes, controllers, etc)
-    const jhipsterWritingPhase = super._writing();
-    const entandoWritingPhase = writeFiles();
+    const jhipsterPhase = super._writing();
+    const entandoPhase = writeFiles();
 
-    return { ...jhipsterWritingPhase, ...entandoWritingPhase };
+    return { ...jhipsterPhase, ...entandoPhase };
   }
 
   get end() {
