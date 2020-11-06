@@ -19,14 +19,6 @@ module.exports = class extends CommonGenerator {
     }
 
     this.configOptions = jhContext.configOptions || {};
-    // This sets up options for this sub generator and is being reused from JHipster
-    jhContext.setupClientOptions(this, jhContext);
-
-    if (jhContext.databaseType === 'cassandra') {
-      this.pkType = 'UUID';
-    }
-    const jhipsterConfig = this.getAllJhipsterConfig();
-    this.serverPort = jhipsterConfig.serverPort;
   }
 
   get initializing() {

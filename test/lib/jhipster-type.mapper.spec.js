@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { getJHipsterType } = require('../../generators/entity-server/lib');
+const { getJHipsterType } = require('../../generators/entity-microfrontend/lib');
 
 describe('JHipster type mapper', () => {
   [
