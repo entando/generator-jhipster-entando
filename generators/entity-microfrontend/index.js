@@ -30,7 +30,8 @@ module.exports = class extends GeneratorBaseBlueprint {
         this.getFormikTouchedPropType = lib.getFormikTouchedPropType;
         this.getFormikErrorPropType = lib.getFormikErrorPropType;
       },
-      setupMfeConstants() {
+      setupMfeContext() {
+        // TODO JHipster v7 use getJhipsterConfig instead https://github.com/jhipster/generator-jhipster/pull/12022
         const jhipsterConfig = this.getAllJhipsterConfig(this, true);
         this.serverPort = jhipsterConfig.serverPort;
         this.generateMicroFrontends = jhipsterConfig.generateMicroFrontends || 'ask';

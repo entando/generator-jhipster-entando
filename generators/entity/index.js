@@ -21,6 +21,7 @@ module.exports = class extends EntityGenerator {
     // This sets up options for this sub generator and is being reused from JHipster
     jhContext.setupEntityOptions(this, jhContext, this);
 
+    // TODO JHipster v7 use getJhipsterConfig instead https://github.com/jhipster/generator-jhipster/pull/12022
     const configuration = this.getAllJhipsterConfig();
     this.databaseType = configuration.databaseType;
   }
