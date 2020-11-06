@@ -1,12 +1,12 @@
 function askForMfeGeneration(meta) {
   // defaulting to asking about MFE generation
-  const serverSetting = this.config.get('generateMicroFrontends') || 'ask';
+  const { generateMicroFrontends } = this;
 
   if (!meta && this.existingProject) {
     return;
   }
 
-  if (serverSetting === 'ask') {
+  if (generateMicroFrontends === 'ask') {
     const done = this.async();
     const prompts = [
       {
@@ -21,10 +21,10 @@ function askForMfeGeneration(meta) {
       done();
     });
   } else {
-    if (serverSetting === 'never') {
+    if (generateMicroFrontends === 'never') {
       this.configOptions.generateMfeForEntity = false;
     }
-    if (serverSetting === 'always') {
+    if (generateMicroFrontends === 'always') {
       this.configOptions.generateMfeForEntity = true;
     }
   }

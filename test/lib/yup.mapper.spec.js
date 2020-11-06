@@ -4,9 +4,9 @@ const {
   getYupType,
   getYupValidationRules,
   getYupValues,
-} = require('../../generators/entity-server/lib/yup.mapper');
-const yupMapper = require('../../generators/entity-server/lib/yup.mapper');
-const jhipsterMapper = require('../../generators/entity-server/lib/jhipster-type.mapper');
+} = require('../../generators/entity-microfrontend/lib/yup.mapper');
+const yupMapper = require('../../generators/entity-microfrontend/lib/yup.mapper');
+const jhipsterMapper = require('../../generators/entity-microfrontend/lib/jhipster-type.mapper');
 
 let getJHipsterTypeStub;
 let getYupTypeStub;

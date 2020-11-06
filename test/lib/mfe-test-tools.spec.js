@@ -5,8 +5,11 @@ const chaiDateString = require('chai-date-string');
 const moment = require('moment');
 const sinon = require('sinon');
 
-const { getMockData, getGeneratedValue } = require('../../generators/entity-server/lib/mfe-test-tools');
-const jhipsterMapper = require('../../generators/entity-server/lib/jhipster-type.mapper');
+const {
+  getMockData,
+  getGeneratedValue,
+} = require('../../generators/entity-microfrontend/lib/mfe-test-tools');
+const jhipsterMapper = require('../../generators/entity-microfrontend/lib/jhipster-type.mapper');
 
 let getJHipsterTypeStub;
 
@@ -14,7 +17,7 @@ chai.use(chaiDateString);
 
 describe('getGeneratedValue', () => {
   it(`should return random text when JHipster fieldType is String`, () => {
-    const value = getGeneratedValue('string', {});
+    const value = getGeneratedValue('String', {});
 
     // eslint-disable-next-line no-unused-expressions
     expect(value).to.be.a('string').to.be.not.empty;

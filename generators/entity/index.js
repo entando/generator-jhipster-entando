@@ -61,8 +61,20 @@ module.exports = class extends EntityGenerator {
   }
 
   get writing() {
-    // Here we are not overriding this phase and hence its being handled by JHipster
-    return super._writing();
+    const jhipsterWritingPhase = super._writing();
+    const { context, configOptions } = this;
+
+    return {
+      ...jhipsterWritingPhase,
+      ...{
+        composeMicrofrontend() {
+          this.composeWith(require.resolve('../entity-microfrontend'), {
+            context,
+            configOptions,
+          });
+        },
+      },
+    };
   }
 
   get install() {

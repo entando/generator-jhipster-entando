@@ -6,8 +6,8 @@ const {
   getFormikValuePropType,
   getFormikTouchedPropType,
   getFormikErrorPropType,
-} = require('../../generators/entity-server/lib/prop-types.mapper');
-const jhipsterMapper = require('../../generators/entity-server/lib/jhipster-type.mapper');
+} = require('../../generators/entity-microfrontend/lib/prop-types.mapper');
+const jhipsterMapper = require('../../generators/entity-microfrontend/lib/jhipster-type.mapper');
 
 let getJHipsterTypeStub;
 

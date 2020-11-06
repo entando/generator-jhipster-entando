@@ -1,7 +1,10 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const { buildDependencies, getMuiInput } = require('../../generators/entity-server/lib/material-ui.mapper');
-const jhipsterMapper = require('../../generators/entity-server/lib/jhipster-type.mapper');
+const {
+  buildDependencies,
+  getMuiInput,
+} = require('../../generators/entity-microfrontend/lib/material-ui.mapper');
+const jhipsterMapper = require('../../generators/entity-microfrontend/lib/jhipster-type.mapper');
 
 let getJHipsterTypeStub;
 
@@ -254,5 +257,14 @@ describe('Get Material input', () => {
 
       expect(result).to.be.equal('TextField');
     });
+  });
+
+  it('Should return TextField when type is UNKNOWN', () => {
+    getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns('UNKNOWN');
+
+    const field = getMuiInput({});
+    const result = getMuiInput(field);
+
+    expect(result).to.be.equal('TextField');
   });
 });
