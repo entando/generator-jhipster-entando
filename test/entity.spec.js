@@ -46,7 +46,7 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
         assert.file(expectedFiles.entity.widget.detailsWidget);
       });
 
-      it('creates expected details widget files for the blueprint', () => {
+      it('creates expected form widget files for the blueprint', () => {
         assert.file(expectedFiles.entity.widget.formWidget);
       });
 
@@ -182,7 +182,7 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
         assert.file(expectedFiles.entity.widget.detailsWidget);
       });
 
-      it('creates expected details widget files for the blueprint', () => {
+      it('creates expected form widget files for the blueprint', () => {
         assert.file(expectedFiles.entity.widget.formWidget);
       });
 
@@ -233,7 +233,7 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
         assert.file(expectedFiles.entity.widget.detailsWidget);
       });
 
-      it('creates expected details widget files for the blueprint', () => {
+      it('creates expected form widget files for the blueprint', () => {
         assert.file(expectedFiles.entity.widget.formWidget);
       });
 
@@ -373,7 +373,7 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
         assert.file(expectedFiles.entity.widget.detailsWidget);
       });
 
-      it('creates expected details widget files for the blueprint', () => {
+      it('creates expected form widget files for the blueprint', () => {
         assert.file(expectedFiles.entity.widget.formWidget);
       });
 
