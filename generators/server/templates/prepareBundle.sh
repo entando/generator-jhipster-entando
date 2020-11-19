@@ -1,11 +1,14 @@
 #!/bin/bash
-function sedReplace() {
-    local SEDCMD='sed -i'''
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-      SEDCMD='sed -i '''
-    fi
-    $SEDCMD "$@"
-}
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  function sedReplace() {
+    sed -i '' "$@"
+  }
+else
+  function sedReplace() {
+    sed -i'' "$@"
+  }
+fi
 
 function syncFiles() {
     local CPCMD
