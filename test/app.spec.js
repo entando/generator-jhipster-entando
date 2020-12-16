@@ -35,6 +35,7 @@ describe('Subgenerator app of entando JHipster blueprint', () => {
           cacheProvider: 'ehcache',
           authenticationType: 'oauth2',
           enableTranslation: true,
+          skipUserManagement: true,
           nativeLanguage: 'en',
           languages: ['fr', 'de'],
           buildTool: 'maven',
