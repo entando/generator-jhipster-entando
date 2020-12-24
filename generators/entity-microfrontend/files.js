@@ -795,7 +795,7 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/detailsWidget/src/i18n/locales/index.js`,
         },
         {
-          file: 'entity/detailsWidget/src/i18n/locales/en.json',
+          file: 'entity/detailsWidget/src/i18n/locales/it.json',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/src/i18n/locales/it.json`,
         },
         {
@@ -803,11 +803,11 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/detailsWidget/src/i18n/constants.js`,
         },
         {
-          file: 'entity/detailsWidget/src/i18n/constants.js',
+          file: 'entity/detailsWidget/src/i18n/i18n.js',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/src/i18n/i18n.js`,
         },
         {
-          file: 'entity/detailsWidget/src/i18n/constants.js',
+          file: 'entity/detailsWidget/src/i18n/setLocale.js',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/src/i18n/setLocale.js`,
         },
       ],
@@ -829,7 +829,7 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/locales/index.js`,
         },
         {
-          file: 'entity/formWidget/src/i18n/locales/en.json',
+          file: 'entity/formWidget/src/i18n/locales/it.json',
           renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/locales/it.json`,
         },
         {
@@ -845,7 +845,7 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/i18next.js`,
         },
         {
-          file: 'entity/formWidget/src/i18n/constants.js',
+          file: 'entity/formWidget/src/i18n/setLocale.js',
           renameTo: generator => `${generator.entityFileName}/formWidget/src/i18n/setLocale.js`,
         },
         {
@@ -871,7 +871,7 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/tableWidget/src/i18n/locales/index.js`,
         },
         {
-          file: 'entity/tableWidget/src/i18n/locales/en.json',
+          file: 'entity/tableWidget/src/i18n/locales/it.json',
           renameTo: generator => `${generator.entityFileName}/tableWidget/src/i18n/locales/it.json`,
         },
         {
@@ -883,7 +883,7 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/tableWidget/src/i18n/i18next.js`,
         },
         {
-          file: 'entity/tableWidget/src/i18n/constants.js',
+          file: 'entity/tableWidget/src/i18n/setLocale.js',
           renameTo: generator => `${generator.entityFileName}/tableWidget/src/i18n/setLocale.js`,
         },
       ],
