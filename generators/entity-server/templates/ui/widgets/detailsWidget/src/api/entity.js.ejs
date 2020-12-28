@@ -1,7 +1,7 @@
 <%# { "useBluePrint": true, "renameTo": "`/${generator.entityFileName}/detailsWidget/src/api/${generator.entityInstance}.js`" } -%>
 import { getDefaultOptions, request } from 'api/helpers';
 
-const resource = '<%= entityApiUrl %>';
+const resource = 'api/<%= entityApiUrl %>';
 
 /* eslint-disable-next-line import/prefer-default-export */
 export const api<%= entityClass %>Get = async (serviceUrl, id) => {
