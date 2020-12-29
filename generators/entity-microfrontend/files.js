@@ -23,6 +23,10 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/detailsWidget/.gitignore`,
         },
         {
+          file: 'entity/detailsWidget/cypress.json',
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/cypress.json`,
+        },
+        {
           file: 'entity/detailsWidget/jsconfig.json',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/jsconfig.json`,
         },
@@ -885,6 +889,43 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/src/i18n/setLocale.js',
           renameTo: generator => `${generator.entityFileName}/tableWidget/src/i18n/setLocale.js`,
+        },
+      ],
+    },
+  ],
+  sourceTest: [
+    {
+      path: MFE_MAIN_DIR,
+      condition: generator => generator.selectedWidgets.includes(DETAILS_WIDGET),
+      templates: [
+        {
+          file: 'entity/detailsWidget/src/test/cypress/fixtures/users/user.json',
+          renameTo: generator =>
+            `${generator.entityFileName}/detailsWidget/src/test/cypress/fixtures/users/user.json`,
+          noEjs: true,
+        },
+        {
+          file: 'entity/detailsWidget/src/test/cypress/integration/main.spec.js',
+          renameTo: generator =>
+            `${generator.entityFileName}/detailsWidget/src/test/cypress/integration/main.spec.js`,
+        },
+        {
+          file: 'entity/detailsWidget/src/test/cypress/plugins/index.js',
+          renameTo: generator =>
+            `${generator.entityFileName}/detailsWidget/src/test/cypress/plugins/index.js`,
+          noEjs: true,
+        },
+        {
+          file: 'entity/detailsWidget/src/test/cypress/support/index.js',
+          renameTo: generator =>
+            `${generator.entityFileName}/detailsWidget/src/test/cypress/support/index.js`,
+          noEjs: true,
+        },
+        {
+          file: 'entity/detailsWidget/src/test/cypress/support/keycloak-oauth2.js',
+          renameTo: generator =>
+            `${generator.entityFileName}/detailsWidget/src/test/cypress/support/keycloak-oauth2.js`,
+          noEjs: true,
         },
       ],
     },
