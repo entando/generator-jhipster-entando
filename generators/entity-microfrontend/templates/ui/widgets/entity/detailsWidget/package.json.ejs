@@ -20,6 +20,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --verbose",
+    "cypress": "cypress open",
+    "cypress:run": "cypress run --browser chrome",
+    "cypress:run:headless": "npm run cypress:run -- --headless",
     "eject": "react-scripts eject",
     "lint": "eslint --fix ./src",
     "i18n": "node ./node_modules/i18next-scanner/bin/cli.js --config ./scripts/i18next-scanner.config.js",
@@ -82,6 +85,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.1.4",
+    "cypress": "^6.2.0",
     "eslint": "^6.4.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.3.0",
