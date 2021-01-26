@@ -1,7 +1,7 @@
 import { getFilterQuery } from 'components/filters/utils';
 import { getDefaultOptions, request, getUrl } from 'api/helpers';
 
-const resource = '<%= entityApiUrl %>';
+const resource = 'api/<%= entityApiUrl %>';
 
 export const api<%= entityClassPlural %>Delete = async (serviceUrl, id) => {
   const url = `${serviceUrl}/${resource}/${id}`;

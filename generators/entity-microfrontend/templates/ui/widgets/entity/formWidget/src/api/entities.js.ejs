@@ -1,6 +1,6 @@
 import { getDefaultOptions, request } from 'api/helpers';
 
-const resource = '<%= entityApiUrl %>';
+const resource = 'api/<%= entityApiUrl %>';
 
 export const api<%= entityClass %>Get = async (serviceUrl, id) => {
   const url = `${serviceUrl}/${resource}/${id}`;
