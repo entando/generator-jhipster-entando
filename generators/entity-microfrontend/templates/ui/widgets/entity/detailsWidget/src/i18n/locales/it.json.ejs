@@ -1,0 +1,18 @@
+{
+  "common": {
+    "couldNotFetchData": "Non è stato possibile caricare i dati dell'entità",
+    "widgetName": "Dettagli a proposito di '{{widgetNamePlaceholder}}'",
+    "name": "Nome",
+    "value": "Valore",
+    "loading": "Caricamento in corso...",
+    "notAuthenticated": "L'utente non è autenticato.",
+  },
+  "entities": {
+    "<%= entityInstance %>": {
+      "id": "ID",
+      <%_ fields.forEach(function(field){ _%>
+      "<%= field.fieldName %>": "entità.<%= entityInstance %>.<%= field.fieldName %>",
+      <%_ }) _%>
+    }
+  }
+}

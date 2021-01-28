@@ -38,7 +38,7 @@ describe('Subgenerator common of entando JHipster blueprint', () => {
         .on('end', done);
     });
 
-    it('creates expected files for the blueprint', () => {
+    it('should have Entando bundle in the .gitignore file', () => {
       assert.fileContent(
         '.gitignore',
         '######################\n' +

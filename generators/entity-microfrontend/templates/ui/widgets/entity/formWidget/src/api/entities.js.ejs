@@ -1,0 +1,41 @@
+import { getDefaultOptions, request } from 'api/helpers';
+
+const resource = 'api/<%= entityApiUrl %>';
+
+export const api<%= entityClass %>Get = async (serviceUrl, id) => {
+  const url = `${serviceUrl}/${resource}/${id}`;
+  const options = {
+    ...getDefaultOptions(),
+    method: 'GET',
+  };
+  return request(url, options);
+};
+
+export const api<%= entityClass %>Post = async (serviceUrl, <%= entityInstance %>) => {
+  const url = `${serviceUrl}/${resource}`;
+  const options = {
+    ...getDefaultOptions(),
+    method: 'POST',
+    body: <%= entityInstance %> ? JSON.stringify(<%= entityInstance %>) : null,
+  };
+  return request(url, options);
+};
+
+export const api<%= entityClass %>Put = async (serviceUrl, <%= entityInstance %>) => {
+  const url = `${serviceUrl}/${resource}`;
+  const options = {
+    ...getDefaultOptions(),
+    method: 'PUT',
+    body: <%= entityInstance %> ? JSON.stringify(<%= entityInstance %>) : null,
+  };
+  return request(url, options);
+};
+
+export const api<%= entityClass %>Delete = async (serviceUrl, id) => {
+  const url = `${serviceUrl}/${resource}/${id}`;
+  const options = {
+    ...getDefaultOptions(),
+    method: 'DELETE',
+  };
+  return request(url, options);
+};

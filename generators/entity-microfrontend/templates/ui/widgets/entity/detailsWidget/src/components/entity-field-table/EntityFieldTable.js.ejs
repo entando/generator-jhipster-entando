@@ -1,0 +1,81 @@
+<%_
+  const translationKeyPrefix = `entities.${entityInstance}.`;
+  function convertValue(entityInstance, field, locale) {
+    const fieldType = getJHipsterType(field);
+    switch (fieldType) {
+      case 'Boolean':
+        return `<Checkbox disabled checked={${entityInstance}.${field.fieldName}} />`;
+      case 'LocalDate':
+        return `{${entityInstance}.${field.fieldName} && new Date(${entityInstance}.${field.fieldName}).toLocaleDateString(language)}`;
+      case 'ZonedDateTime':
+      case 'Instant':
+        return `{${entityInstance}.${field.fieldName} && new Date(${entityInstance}.${field.fieldName}).toLocaleString(language)}`;
+      case 'ImageBlob':
+        return `<img src={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} alt="" />`;
+      case 'BinaryFileBlob':
+        return `<a download="filename" href={ \`data:\${${entityInstance}.${field.fieldName + 'ContentType'}};base64, \${${entityInstance}.${field.fieldName}}\`} >{t('common.download')}</a>`;
+    }
+
+    return `{${entityInstance}.${field.fieldName}}`;
+  }
+_%>
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+<%_ if (fields.find(field => field.fieldType === 'Boolean')) { _%>
+import Checkbox from '@material-ui/core/Checkbox';
+<%_ } _%>
+
+import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %>';
+
+const <%= entityClass %>FieldTable = ({ t, <% if (fieldsContainDate) { _%>i18n: { language }, <% } _%><%= entityInstance %> }) => (
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableCell>{t('common.name')}</TableCell>
+        <TableCell>{t('common.value')}</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell>
+          <span>{t('<%= translationKeyPrefix %>id')}</span>
+        </TableCell>
+        <TableCell>
+          <span>{<%= entityInstance %>.id}</span>
+        </TableCell>
+      </TableRow>
+      <%_ fields.forEach(function(field) { _%>
+      <TableRow>
+        <TableCell>
+          <span>{t('<%= `${translationKeyPrefix}${field.fieldName}` %>')}</span>
+        </TableCell>
+        <TableCell>
+          <span><%- convertValue(entityInstance, field) %></span>
+        </TableCell>
+      </TableRow>
+      <%_ }) _%>
+    </TableBody>
+  </Table>
+);
+
+<%= entityClass %>FieldTable.propTypes = {
+  <%= entityInstance %>: <%= entityInstance %>Type,
+  t: PropTypes.func.isRequired,
+  <%_ if (fieldsContainDate) { _%>
+  i18n: PropTypes.shape({
+    language: PropTypes.string,
+  }).isRequired,
+  <%_ } _%>
+};
+
+<%= entityClass %>FieldTable.defaultProps = {
+  <%= entityInstance %>: [],
+};
+
+export default withTranslation()(<%= entityClass %>FieldTable);

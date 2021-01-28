@@ -1,7 +1,6 @@
 const chalk = require('chalk');
 const EntityGenerator = require('generator-jhipster/generators/entity');
-const customPrompts = require('./phases/prompting');
-const customInitializing = require('./phases/initializing');
+const prompts = require('./prompts');
 
 module.exports = class extends EntityGenerator {
   constructor(args, opts) {
@@ -22,28 +21,34 @@ module.exports = class extends EntityGenerator {
     // This sets up options for this sub generator and is being reused from JHipster
     jhContext.setupEntityOptions(this, jhContext, this);
 
-    this._extendContextWithCustomOptions();
-  }
-
-  _extendContextWithCustomOptions() {
-    this.context.useSpringDataRest = this.getAllJhipsterConfig().useSpringDataRest;
-    this.context.includeQuerydsl = this.getAllJhipsterConfig().includeQuerydsl;
+    // TODO JHipster v7 use getJhipsterConfig instead https://github.com/jhipster/generator-jhipster/pull/12022
+    const configuration = this.getAllJhipsterConfig();
+    this.databaseType = configuration.databaseType;
   }
 
   get initializing() {
-    const { context } = this;
-    const jhipsterInitializing = super._initializing();
-    let initializingSteps = jhipsterInitializing;
+    const jhipsterInitializingPhase = super._initializing();
 
-    if (!context.databaseType || context.databaseType === 'no') {
-      initializingSteps = { ...initializingSteps, ...customInitializing };
+    if (!this.databaseType || this.databaseType === 'no') {
+      return {
+        ...jhipsterInitializingPhase,
+        validateDbExistence() {
+          this.info('Skipping default JHipster validateDbExistence step');
+        },
+        validateTableName() {
+          this.info('Skipping default JHipster validateTableName');
+        },
+      };
     }
 
-    return initializingSteps;
+    return jhipsterInitializingPhase;
   }
 
   _prompting() {
-    return customPrompts;
+    // prompting - Where you prompt users for options (where you’d call this.prompt())
+    const jhipsterPromptingPhase = super._prompting();
+
+    return { ...jhipsterPromptingPhase, ...prompts };
   }
 
   get prompting() {
@@ -57,8 +62,20 @@ module.exports = class extends EntityGenerator {
   }
 
   get writing() {
-    // Here we are not overriding this phase and hence its being handled by JHipster
-    return super._writing();
+    const jhipsterWritingPhase = super._writing();
+    const { context, configOptions } = this;
+
+    return {
+      ...jhipsterWritingPhase,
+      ...{
+        composeMicrofrontend() {
+          this.composeWith(require.resolve('../entity-microfrontend'), {
+            context,
+            configOptions,
+          });
+        },
+      },
+    };
   }
 
   get install() {

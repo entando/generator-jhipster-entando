@@ -1,0 +1,69 @@
+export const FILTER_TYPE_NO_VALUE_SPEC = ['specified', 'unspecified'];
+
+const DEFAULT_FILTER_TYPES = ['equals', 'in', ...FILTER_TYPE_NO_VALUE_SPEC];
+const STRING_FILTER_TYPES = ['contains'];
+const DATE_NUMBER_FILTER_TYPES = [
+  { value: 'greaterThan', title: '>' },
+  { value: 'lessThan', title: '<' },
+  { value: 'greaterOrEqualThan', title: '>=' },
+  { value: 'lessOrEqualThan', title: '<=' },
+];
+
+const STRING_FIELDS = [
+  <%_
+    fields
+      .filter(field => ['String', 'Enum', 'TextBlob'].includes(getJHipsterType(field)))
+      .map(field => {
+  _%>
+  '<%= field.fieldName %>',
+  <%_ }) _%>
+];
+const DATE_FIELDS = [
+  <%_
+    fields
+      .filter(field => ['LocalDate', 'Instant', 'ZonedDateTime'].includes(getJHipsterType(field)))
+      .map(field => {
+  _%>
+  '<%= field.fieldName %>',
+  <%_ }) _%>
+];
+const NUMBER_FIELDS = [
+  <%_
+    fields
+      .filter(field => ['Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(getJHipsterType(field)))
+      .map(field => {
+  _%>
+  '<%= field.fieldName %>',
+  <%_ }) _%>
+];
+
+export const getFieldFilterTypes = field => {
+  return [
+    ...DEFAULT_FILTER_TYPES,
+    ...(STRING_FIELDS.includes(field) ? STRING_FILTER_TYPES : []),
+    ...(DATE_FIELDS.includes(field) ? DATE_NUMBER_FILTER_TYPES : []),
+    ...(NUMBER_FIELDS.includes(field) ? DATE_NUMBER_FILTER_TYPES : []),
+  ];
+};
+
+export const getFilterQuery = (filters = []) => {
+  if (filters.length) {
+    return filters
+      .filter(f => f.field && f.operator)
+      .reduce((acc, f) => {
+        switch (f.operator) {
+          case 'specified':
+            return [...acc, `${encodeURIComponent(`${f.field}.specified`)}=true`];
+          case 'unspecified':
+            return [...acc, `${encodeURIComponent(`${f.field}.specified`)}=false`];
+          default:
+        }
+        return [
+          ...acc,
+          `${encodeURIComponent(`${f.field}.${f.operator}`)}=${encodeURIComponent(f.value)}`,
+        ];
+      }, [])
+      .join('&');
+  }
+  return '';
+};

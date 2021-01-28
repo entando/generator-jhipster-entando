@@ -1,0 +1,96 @@
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+
+import keycloakType from 'components/__types__/keycloak';
+import withKeycloak from 'auth/withKeycloak';
+import { AuthenticatedView, UnauthenticatedView } from 'auth/KeycloakViews';
+import { api<%= entityClass %>Post } from 'api/<%= entityInstancePlural %>';
+import Notification from 'components/common/Notification';
+import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
+
+class <%= entityClass %>AddFormContainer extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      notificationMessage: null,
+      notificationStatus: null,
+    };
+
+    this.closeNotification = this.closeNotification.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  closeNotification() {
+    this.setState({
+      notificationMessage: null
+    });
+  }
+
+  async handleSubmit(<%= entityInstance %>) {
+    const { t, onCreate, keycloak, serviceUrl } = this.props;
+    const authenticated = keycloak.initialized && keycloak.authenticated;
+
+    if (authenticated) {
+      try {
+        const created<%= entityClass %> = await api<%= entityClass %>Post(serviceUrl, <%= entityInstance %>);
+        onCreate(created<%= entityClass %>);
+        this.setState({
+          notificationMessage: t('common.dataSaved'),
+          notificationStatus: Notification.SUCCESS,
+        });
+      } catch (err) {
+        this.handleError(err);
+      }
+    }
+  }
+
+  handleError(err) {
+    const { onError, t } = this.props;
+    onError(err);
+    this.setState({
+      notificationMessage: t('error.dataLoading'),
+      notificationStatus: Notification.ERROR,
+    });
+  }
+
+  render() {
+    const { keycloak, onCancelEditing, t } = this.props;
+    const { notificationMessage, notificationStatus } = this.state;
+
+    return (
+      <>
+        <UnauthenticatedView keycloak={keycloak}>
+          {t('common.notAuthenticated')}
+        </UnauthenticatedView>
+        <AuthenticatedView keycloak={keycloak}>
+          <<%= entityClass %>Form onSubmit={this.handleSubmit} onCancelEditing={onCancelEditing} />
+        </AuthenticatedView>
+        <Notification
+          status={notificationStatus}
+          message={notificationMessage}
+          onClose={this.closeNotification}
+        />
+      </>
+    );
+  }
+}
+
+<%= entityClass %>AddFormContainer.propTypes = {
+  onError: PropTypes.func,
+  onCancelEditing: PropTypes.func,
+  onCreate: PropTypes.func,
+  t: PropTypes.func.isRequired,
+  keycloak: keycloakType.isRequired,
+  serviceUrl: PropTypes.string,
+};
+
+<%= entityClass %>AddFormContainer.defaultProps = {
+  onError: () => {},
+  onCancelEditing: () => {},
+  onCreate: () => {},
+  serviceUrl: '',
+};
+
+export default withKeycloak(withTranslation()(<%= entityClass %>AddFormContainer));

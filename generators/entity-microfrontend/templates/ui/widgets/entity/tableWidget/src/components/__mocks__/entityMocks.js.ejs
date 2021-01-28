@@ -1,0 +1,11 @@
+const <%= entityInstance %>Mocks = [
+  <%_ mockData.forEach(iteratedMockData => { _%>
+  {
+    <%_ Object.keys(iteratedMockData).forEach(field => { _%>
+    <%= field %>: <%- typeof iteratedMockData[field] === 'string' ? `'${iteratedMockData[field]}'` : iteratedMockData[field] %>,
+    <%_ }) _%>
+  },
+  <%_ }) _%>
+];
+
+export default <%= entityInstance %>Mocks;

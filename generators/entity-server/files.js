@@ -1,6 +1,6 @@
-const constants = require('generator-jhipster/generators/generator-constants');
+const jhiConstants = require('generator-jhipster/generators/generator-constants');
 
-const { SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR } = constants;
+const { SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR } = jhiConstants;
 
 const serverFiles = {
   schema: [
@@ -112,6 +112,15 @@ const serverFiles = {
   ],
 };
 
+function writeFiles() {
+  return {
+    writeEntandoFiles() {
+      this.writeFilesToDisk(serverFiles, this, false, null);
+    },
+  };
+}
+
 module.exports = {
   serverFiles,
+  writeFiles,
 };

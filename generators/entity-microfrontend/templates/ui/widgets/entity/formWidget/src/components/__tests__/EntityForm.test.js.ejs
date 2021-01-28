@@ -1,0 +1,42 @@
+import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render, wait } from '@testing-library/react';
+import 'i18n/__mocks__/i18nMock';
+import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
+import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
+import { createMuiTheme } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/styles';
+
+const theme = createMuiTheme();
+
+describe('<%= entityClass %> Form', () => {
+  it('shows form', () => {
+    const { getByLabelText } = render(
+      <ThemeProvider theme={theme}>
+        <<%= entityClass %>Form <%= entityInstance %>={<%= entityInstance %>Mock} />
+      </ThemeProvider>
+    );
+    <%_ const singleEntityItem = mockData[0]; _%>
+    <%_ const firstNonIdField = Object.keys(singleEntityItem)[1]; _%>
+    <%_ const mockValue = mockData[0][firstNonIdField]; _%>
+    expect(getByLabelText('entities.<%= entityInstance %>.<%= firstNonIdField %>').value).toBe(
+      '<%= mockValue %>'
+    );
+  });
+
+  it('submits form', async () => {
+    const handleSubmit = jest.fn();
+    const { getByTestId } = render(
+      <ThemeProvider theme={theme}>
+        <<%= entityClass %>Form <%= entityInstance %>={<%= entityInstance %>Mock} onSubmit={handleSubmit} />
+      </ThemeProvider>
+    );
+
+    const form = getByTestId('<%= entityInstance %>-form');
+    fireEvent.submit(form);
+
+    await wait(() => {
+      expect(handleSubmit).toHaveBeenCalledTimes(1);
+    });
+  });
+});

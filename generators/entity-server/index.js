@@ -1,14 +1,8 @@
-/* eslint-disable no-console */
-const fs = require('fs');
 const chalk = require('chalk');
 
 const EntityServerGenerator = require('generator-jhipster/generators/entity-server');
 
-const entandoBlueprintPromptingPhase = require('./phases/prompting');
-const entandoBlueprintConfiguringPhase = require('./phases/configuring');
-const entandoBlueprintWritingPhase = require('./phases/writing');
-const entandoBlueprintInstallPhase = require('./phases/install');
-const entandoBlueprintEndPhase = require('./phases/end');
+const { writeFiles } = require('./files');
 
 module.exports = class extends EntityServerGenerator {
   constructor(args, opts) {
@@ -26,33 +20,20 @@ module.exports = class extends EntityServerGenerator {
     }
 
     this.configOptions = jhContext.configOptions || {};
-    // This sets up options for this sub generator and is being reused from JHipster
-    jhContext.setupClientOptions(this, jhContext);
-
-    if (jhContext.databaseType === 'cassandra') {
-      this.pkType = 'UUID';
-    }
-    const jhipsterConfig = this.getAllJhipsterConfig();
-    this.serverPort = jhipsterConfig.serverPort;
   }
 
   get initializing() {
-    // initializing - Your initialization methods (checking current project state, getting configs, etc)
     return super._initializing();
   }
 
   get prompting() {
     // prompting - Where you prompt users for options (where you’d call this.prompt())
-    const jhipsterPromptingPhase = super._prompting();
-
-    return { ...jhipsterPromptingPhase, ...entandoBlueprintPromptingPhase };
+    return super._prompting();
   }
 
   get configuring() {
-    // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
-    const jhipsterConfiguringPhase = super._configuring();
-
-    return { ...jhipsterConfiguringPhase, ...entandoBlueprintConfiguringPhase };
+    // selectedWidgets can be used to select widgets we want to generate. For the moment all will be generated.
+    return super._configuring();
   }
 
   get default() {
@@ -63,8 +44,9 @@ module.exports = class extends EntityServerGenerator {
   get writing() {
     // writing - Where you write the generator specific files (routes, controllers, etc)
     const jhipsterWritingPhase = super._writing();
+    const entandoWritingPhase = writeFiles();
 
-    return { ...jhipsterWritingPhase, ...entandoBlueprintWritingPhase };
+    return { ...jhipsterWritingPhase, ...entandoWritingPhase };
   }
 
   get conflicts() {
@@ -74,23 +56,11 @@ module.exports = class extends EntityServerGenerator {
 
   get install() {
     // install - Where installations are run (npm, bower)
-    const jhipsterInstallPhase = super._install();
-
-    return { ...jhipsterInstallPhase, ...entandoBlueprintInstallPhase };
+    return super._install();
   }
 
   get end() {
     // end - Called last, cleanup, say good bye, etc
-    const jhipsterEndPhase = super._end();
-
-    return { ...jhipsterEndPhase, ...entandoBlueprintEndPhase };
-  }
-
-  log(msg) {
-    console.log(msg); // eslint-disable-line no-console
-  }
-
-  fs() {
-    return fs;
+    return super._end();
   }
 };

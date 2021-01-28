@@ -2,7 +2,7 @@ const chalk = require('chalk');
 
 const AppGenerator = require('generator-jhipster/generators/app');
 
-const entandoBlueprintPromptingPhase = require('./phases/prompting');
+const prompts = require('./prompts');
 
 module.exports = class extends AppGenerator {
   constructor(args, opts) {
@@ -31,11 +31,9 @@ module.exports = class extends AppGenerator {
 
   get prompting() {
     // prompting - Where you prompt users for options (where you’d call this.prompt())
+    const jhipsterPromptingPhase = super._prompting();
 
-    // overriding askForApplicationType prompt to skip reactive with Spring WebFlux question
-    const { askForApplicationType, ...jhipsterPromptingPhase } = super._prompting();
-
-    return { ...entandoBlueprintPromptingPhase, ...jhipsterPromptingPhase };
+    return { ...jhipsterPromptingPhase, ...prompts };
   }
 
   get configuring() {

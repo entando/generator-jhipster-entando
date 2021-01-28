@@ -1,0 +1,11 @@
+import PropTypes from 'prop-types';
+
+const <%= entityInstance %>Type = PropTypes.shape({
+  id: PropTypes.number,
+
+  <%_ fields.forEach(function(field) { _%>
+  <%= field.fieldName %>: <%= getPropType(field) %>,
+  <%_ }) _%>
+});
+
+export default <%= entityInstance %>Type;
