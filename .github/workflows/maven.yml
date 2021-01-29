@@ -1,0 +1,31 @@
+name: Maven
+on: ['push', 'pull_request']
+env:
+  JHI_SCRIPTS: ./test-integration/scripts
+  JHI_VERSION: 6.9.0
+jobs:
+  applications:
+    name: ${{ matrix.app }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node_version: [ 14.15.0 ]
+        os: [ ubuntu-20.04 ]
+        include:
+          - app: default
+    env:
+      JHI_APP: ${{ matrix.app }}
+
+    steps:
+      - name: 'SETUP: Checkout generator-jhipster-entando'
+        uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11.x'
+      - name: git history
+        run: git --no-pager log -n 10 --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit
+      - name: Prepare JHipster env
+        run: sudo $JHI_SCRIPTS/01-install-global-jhipster.sh
+
