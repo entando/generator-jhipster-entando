@@ -38,3 +38,5 @@ jobs:
         run: $JHI_SCRIPTS/02-generate-project.sh $JHI_APP
       - name: 'RUN: Run Docker compose'
         run: $JHI_SCRIPTS/03-docker-compose.sh $JHI_APP
+      - name: 'RUN: Run backend tests'
+        run: $JHI_SCRIPTS/04-run-server-tests.sh $JHI_APP
