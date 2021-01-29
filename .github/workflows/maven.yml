@@ -36,3 +36,5 @@ jobs:
         run: $JHI_SCRIPTS/01-install-global-jhipster.sh
       - name: 'GENERATION: Generate JHipster Application'
         run: $JHI_SCRIPTS/02-generate-project.sh $JHI_APP
+      - name: 'RUN: Run Docker compose'
+        run: $JHI_SCRIPTS/03-docker-compose.sh $JHI_APP
