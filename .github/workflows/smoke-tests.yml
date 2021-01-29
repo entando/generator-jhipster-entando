@@ -1,4 +1,4 @@
-name: Maven
+name: Smoke tests
 on: ['push', 'pull_request']
 env:
   JHI_SCRIPTS: ./test-integration/scripts
@@ -13,8 +13,12 @@ jobs:
       matrix:
         node_version: [ 14.15.0 ]
         os: [ ubuntu-20.04 ]
+        app:
+          - maven-default
+          - gradle-default
         include:
           - app: maven-default
+          - app: gradle-default
     env:
       JHI_APP: ${{ matrix.app }}
     steps:
