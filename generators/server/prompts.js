@@ -249,7 +249,7 @@ function askForBundleName(meta) {
       when: () => applicationType === 'microservice',
       type: 'input',
       name: 'bundleName',
-      message: 'What name would you give to the bundle to share on an Entando digital-exchange?',
+      message: 'What name would you give to the bundle to share on an Entando Component Repository?',
       default: `${this.baseName.toLowerCase()}-bundle`,
     },
   ];

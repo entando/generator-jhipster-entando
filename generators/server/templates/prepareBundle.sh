@@ -81,8 +81,8 @@ function getServiceUrlFromDockerImage() {
     local dockerImage="$1"
 
     [ -z "$dockerImage" ] && echo ""
-    echo "$dockerImage" | tr : / | sed 's:[^a-zA-Z0-9/]:-:g' | tr "[:upper:]" "[:lower:]" | sed 's:^:/:g' 
-    
+    echo "$dockerImage" | tr : / | sed 's:[^a-zA-Z0-9/]:-:g' | tr "[:upper:]" "[:lower:]" | sed 's:^:/:g'
+
 }
 
 function updateFTLTemplate() {
@@ -90,7 +90,7 @@ function updateFTLTemplate() {
     local dir="$1"
     local bundleCode="$2"
     local dockerImage="$3"
-    
+
 
     widgetName=$(basename "$dir")
     ingressPath=$(getServiceUrlFromDockerImage "$dockerImage")
@@ -158,7 +158,7 @@ HAS_WIDGETS=$?
 
 if [ $HAS_WIDGETS -eq 0 ]; then
     # This command assumes that the widgets are all under ui/widgets/<entity>/<widget>. The command finds all of the micro-frontends in those folders and
-    # copies the result of the build into the bundle resources folder so that the bundle can be deployed to a digital exchange instance (or imported on an existing page).
+    # copies the result of the build into the bundle resources folder so that the bundle can be deployed to a Entando Component Repository instance (or imported on an existing page).
     # The command also copies css optionally with this structure since some widgets will be js only 2>/dev/null || :
     echo "---"
     echo "Generating the bundle folder tree for the micro-frontends"
