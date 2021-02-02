@@ -25,7 +25,7 @@ docs
 *debug.log*
 yarn.lock
 .DS_Store
-.jhipster
+/.jhipster
 .favorites.json
 
 .nyc_output/
