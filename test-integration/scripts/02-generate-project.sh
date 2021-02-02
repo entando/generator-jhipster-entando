@@ -12,10 +12,12 @@ fi
 #-------------------------------------------------------------------------------
 rm -rf "$JHI_FOLDER_APP"
 mkdir -p "$JHI_FOLDER_APP"
+mkdir -p "$JHI_FOLDER_APP/.jhipster"
 cp -f "$JHI_SAMPLES"/"$JHI_APP"/.yo-rc.json "$JHI_FOLDER_APP"/
+cp -f "$JHI_SAMPLES"/.jhipster/BankAccount.json "$JHI_FOLDER_APP"/.jhipster/
 cd "$JHI_FOLDER_APP"
 ls -al .
 
-runOptions="--blueprints entando --skip-checks --force --no-insight --skip-install"
+runOptions="--blueprints entando --skip-checks --force --no-insight --skip-install --with-entities"
 
 jhipster $runOptions
