@@ -75,6 +75,17 @@ const entandoServerFiles = {
       path: SERVER_MAIN_RES_DIR,
       templates: ['config/application.yml', 'config/application-dev.yml'],
     },
+    {
+      condition: generator => generator.databaseType === 'sql',
+      path: SERVER_MAIN_RES_DIR,
+      templates: [
+        {
+          file: 'config/liquibase/changelog/initial_schema.xml',
+          renameTo: () => 'config/liquibase/changelog/00000000000000_initial_schema.xml',
+          options: { interpolate: INTERPOLATE_REGEX },
+        },
+      ],
+    },
   ],
   serverJavaAuthConfig: [
     {
