@@ -49,6 +49,10 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.file(`bundle/plugins/${appBaseName.toLowerCase()}-plugin.yaml`);
     });
 
+    it('Should not contains user management files', () => {
+      assert.noFile(expectedFiles.userManagement);
+    });
+
     it('application.yml contains swagger-ui', () => {
       assert.fileContent(
         `${SERVER_MAIN_RES_DIR}config/application.yml`,
