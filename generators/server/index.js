@@ -23,6 +23,8 @@ module.exports = class extends ServerGenerator {
     this.configOptions = jhContext.configOptions || {};
     // This sets up options for this sub generator and is being reused from JHipster
     jhContext.setupServerOptions(this, jhContext);
+
+    this.delete = this._delete;
   }
 
   get initializing() {
@@ -74,5 +76,10 @@ module.exports = class extends ServerGenerator {
   get end() {
     // Here we are not overriding this phase and hence its being handled by JHipster
     return super._end();
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  _delete(templatePathFrom, templatePathTo, _this, options, useTemplate) {
+    this.fs.delete(templatePathTo);
   }
 };
