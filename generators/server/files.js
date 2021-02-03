@@ -5,6 +5,7 @@ const {
   DOCKER_DIR,
   SERVER_MAIN_SRC_DIR,
   SERVER_MAIN_RES_DIR,
+  SERVER_TEST_SRC_DIR,
   SERVER_TEST_RES_DIR,
 } = constants;
 
@@ -169,10 +170,474 @@ const entandoServerFiles = {
   ],
 };
 
+const toDeleteServerFiles = {
+  serverJavaUserManagement: [
+    {
+      condition: generator =>
+        (generator.authenticationType === 'oauth2' && generator.applicationType !== 'microservice') ||
+        (!generator.skipUserManagement && generator.databaseType === 'sql'),
+      path: SERVER_MAIN_RES_DIR,
+      templates: [{ file: 'config/liquibase/data/user.csv', method: 'delete' }],
+    },
+    {
+      condition: generator =>
+        (generator.authenticationType === 'oauth2' &&
+          generator.applicationType !== 'microservice' &&
+          generator.databaseType === 'sql') ||
+        (!generator.skipUserManagement && generator.databaseType === 'sql'),
+      path: SERVER_MAIN_RES_DIR,
+      templates: [
+        { file: 'config/liquibase/data/authority.csv', method: 'delete' },
+        { file: 'config/liquibase/data/user_authority.csv', method: 'delete' },
+      ],
+    },
+    {
+      condition: generator => generator.authenticationType === 'oauth2',
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/service/UserService.java',
+          renameTo: generator => `${generator.javaDir}service/UserService.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/dto/UserDTO.java',
+          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => generator.authenticationType === 'oauth2' && generator.databaseType !== 'no',
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/domain/User.java',
+          renameTo: generator => `${generator.javaDir}domain/${generator.asEntity('User')}.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/domain/Authority.java',
+          renameTo: generator => `${generator.javaDir}domain/Authority.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/mapper/UserMapper.java',
+          renameTo: generator => `${generator.javaDir}service/mapper/UserMapper.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/repository/UserRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/UserRepository.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/repository/AuthorityRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/AuthorityRepository.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/UserResource.java',
+          renameTo: generator => `${generator.javaDir}web/rest/UserResource.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/vm/ManagedUserVM.java',
+          renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => generator.authenticationType === 'oauth2',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/service/UserServiceIT.java',
+          renameTo: generator => `${generator.testDir}service/UserServiceIT.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => generator.authenticationType === 'oauth2' && generator.databaseType !== 'no',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/service/mapper/UserMapperTest.java',
+          renameTo: generator => `${generator.testDir}service/mapper/UserMapperTest.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/UserResourceIT.java',
+          renameTo: generator => `${generator.testDir}web/rest/UserResourceIT.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator =>
+        generator.authenticationType === 'oauth2' && generator.searchEngine === 'elasticsearch',
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/repository/search/UserSearchRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/search/UserSearchRepository.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator =>
+        generator.authenticationType === 'oauth2' && generator.searchEngine === 'elasticsearch',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/repository/search/UserSearchRepositoryMockConfiguration.java',
+          renameTo: generator =>
+            `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator =>
+        generator.authenticationType === 'oauth2' &&
+        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/repository/AuthorityRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/AuthorityRepository.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/repository/PersistenceAuditEventRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/PersistenceAuditEventRepository.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/AuditEventService.java',
+          renameTo: generator => `${generator.javaDir}service/AuditEventService.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/AuditResource.java',
+          renameTo: generator => `${generator.javaDir}web/rest/AuditResource.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator =>
+        !generator.reactive &&
+        generator.authenticationType === 'oauth2' &&
+        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/repository/CustomAuditEventRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/CustomAuditEventRepository.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator =>
+        generator.authenticationType === 'oauth2' &&
+        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/web/rest/AuditResourceIT.java',
+          renameTo: generator => `${generator.testDir}web/rest/AuditResourceIT.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator =>
+        !generator.reactive &&
+        generator.authenticationType === 'oauth2' &&
+        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/repository/CustomAuditEventRepositoryIT.java',
+          renameTo: generator => `${generator.testDir}repository/CustomAuditEventRepositoryIT.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement,
+      path: SERVER_MAIN_RES_DIR,
+      templates: [
+        { file: 'templates/mail/activationEmail.html', method: 'delete' },
+        { file: 'templates/mail/creationEmail.html', method: 'delete' },
+        { file: 'templates/mail/passwordResetEmail.html', method: 'delete' },
+      ],
+    },
+    {
+      condition: generator =>
+        !generator.skipUserManagement &&
+        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/domain/Authority.java',
+          renameTo: generator => `${generator.javaDir}domain/Authority.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/repository/AuthorityRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/AuthorityRepository.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/repository/PersistenceAuditEventRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/PersistenceAuditEventRepository.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/AuditEventService.java',
+          renameTo: generator => `${generator.javaDir}service/AuditEventService.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/AuditResource.java',
+          renameTo: generator => `${generator.javaDir}web/rest/AuditResource.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator =>
+        !generator.reactive &&
+        !generator.skipUserManagement &&
+        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/repository/CustomAuditEventRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/CustomAuditEventRepository.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement,
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        /* User management java domain files */
+        {
+          file: 'package/domain/User.java',
+          renameTo: generator => `${generator.javaDir}domain/${generator.asEntity('User')}.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/repository/UserRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/UserRepository.java`,
+          method: 'delete',
+        },
+
+        /* User management java service files */
+        {
+          file: 'package/service/UserService.java',
+          renameTo: generator => `${generator.javaDir}service/UserService.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/MailService.java',
+          renameTo: generator => `${generator.javaDir}service/MailService.java`,
+          method: 'delete',
+        },
+
+        /* User management java web files */
+        {
+          file: 'package/service/dto/UserDTO.java',
+          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/dto/PasswordChangeDTO.java',
+          renameTo: generator => `${generator.javaDir}service/dto/PasswordChangeDTO.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/vm/ManagedUserVM.java',
+          renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/AccountResource.java',
+          renameTo: generator => `${generator.javaDir}web/rest/AccountResource.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/UserResource.java',
+          renameTo: generator => `${generator.javaDir}web/rest/UserResource.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/vm/KeyAndPasswordVM.java',
+          renameTo: generator => `${generator.javaDir}web/rest/vm/KeyAndPasswordVM.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/mapper/UserMapper.java',
+          renameTo: generator => `${generator.javaDir}service/mapper/UserMapper.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement && generator.searchEngine === 'elasticsearch',
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/repository/search/UserSearchRepository.java',
+          renameTo: generator => `${generator.javaDir}repository/search/UserSearchRepository.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement && generator.searchEngine === 'elasticsearch',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/repository/search/UserSearchRepositoryMockConfiguration.java',
+          renameTo: generator =>
+            `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => generator.authenticationType === 'jwt',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/security/jwt/TokenProviderTest.java',
+          renameTo: generator => `${generator.testDir}security/jwt/TokenProviderTest.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/security/jwt/JWTFilterTest.java',
+          renameTo: generator => `${generator.testDir}security/jwt/JWTFilterTest.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator =>
+        !generator.skipUserManagement &&
+        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/web/rest/AuditResourceIT.java',
+          renameTo: generator => `${generator.testDir}web/rest/AuditResourceIT.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/AuditEventServiceIT.java',
+          renameTo: generator => `${generator.testDir}service/AuditEventServiceIT.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator =>
+        !generator.reactive &&
+        !generator.skipUserManagement &&
+        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/repository/CustomAuditEventRepositoryIT.java',
+          renameTo: generator => `${generator.testDir}repository/CustomAuditEventRepositoryIT.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement && generator.cucumberTests,
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/cucumber/stepdefs/UserStepDefs.java',
+          renameTo: generator => `${generator.testDir}cucumber/stepdefs/UserStepDefs.java`,
+          method: 'delete',
+        },
+        { file: '../features/user/user.feature', method: 'delete' },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement,
+      path: SERVER_TEST_RES_DIR,
+      templates: [
+        /* User management java test files */
+        { file: 'templates/mail/testEmail.html', method: 'delete' },
+        { file: 'i18n/messages_en.properties', method: 'delete' },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement,
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/service/MailServiceIT.java',
+          renameTo: generator => `${generator.testDir}service/MailServiceIT.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/UserServiceIT.java',
+          renameTo: generator => `${generator.testDir}service/UserServiceIT.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/service/mapper/UserMapperTest.java',
+          renameTo: generator => `${generator.testDir}service/mapper/UserMapperTest.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/AccountResourceIT.java',
+          renameTo: generator => `${generator.testDir}web/rest/AccountResourceIT.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/config/NoOpMailConfiguration.java',
+          renameTo: generator => `${generator.testDir}config/NoOpMailConfiguration.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/UserResourceIT.java',
+          renameTo: generator => `${generator.testDir}web/rest/UserResourceIT.java`,
+          method: 'delete',
+        },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement && generator.authenticationType !== 'oauth2',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/web/rest/WithUnauthenticatedMockUser.java',
+          renameTo: generator => `${generator.testDir}web/rest/WithUnauthenticatedMockUser.java`,
+          method: 'delete',
+        },
+      ],
+    },
+  ],
+};
+
 function writeFiles() {
   return {
     writeEntandoFiles() {
       this.writeFilesToDisk(entandoServerFiles, this, false, null);
+      this.writeFilesToDisk(toDeleteServerFiles, this, false, null);
     },
 
     addUnspecificDependencies() {
