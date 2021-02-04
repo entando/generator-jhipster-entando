@@ -1,6 +1,12 @@
 const constants = require('generator-jhipster/generators/generator-constants');
 
-const { INTERPOLATE_REGEX, DOCKER_DIR, SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR } = constants;
+const {
+  INTERPOLATE_REGEX,
+  DOCKER_DIR,
+  SERVER_MAIN_SRC_DIR,
+  SERVER_MAIN_RES_DIR,
+  SERVER_TEST_RES_DIR,
+} = constants;
 
 /**
  * The default is to use a file path string. It implies use of the template method.
@@ -153,6 +159,12 @@ const entandoServerFiles = {
           renameTo: generator => `${generator.javaDir}config/CacheConfiguration.java`,
         },
       ],
+    },
+  ],
+  serverTestFw: [
+    {
+      path: SERVER_TEST_RES_DIR,
+      templates: ['config/application.yml'],
     },
   ],
 };
