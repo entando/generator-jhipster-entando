@@ -13,8 +13,10 @@ fi
 rm -rf "$JHI_FOLDER_APP"
 mkdir -p "$JHI_FOLDER_APP"
 mkdir -p "$JHI_FOLDER_APP/.jhipster"
+# Copy the project definition file
 cp -f "$JHI_SAMPLES"/"$JHI_APP"/.yo-rc.json "$JHI_FOLDER_APP"/
-cp -f "$JHI_SAMPLES"/.jhipster/BankAccount.json "$JHI_FOLDER_APP"/.jhipster/
+# Copy the entities definition files
+cp -f "$JHI_SAMPLES"/.jhipster/* "$JHI_FOLDER_APP"/.jhipster/
 cd "$JHI_FOLDER_APP"
 ls -al .
 
