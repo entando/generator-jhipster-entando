@@ -1,5 +1,14 @@
 {
     "fluentMethods": true,
+    "relationships": [
+        { "relationshipName": "user", "otherEntityName": "user", "relationshipType": "many-to-one", "otherEntityField": "login" },
+        {
+            "relationshipName": "operation",
+            "otherEntityName": "operation",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "bankAccount"
+        }
+    ],
     "fields": [
         { "fieldName": "name", "fieldType": "String", "fieldValidateRules": ["required"] },
         { "fieldName": "bankNumber", "fieldType": "Integer" },
@@ -19,5 +28,6 @@
     "pagination": "no",
     "jpaMetamodelFiltering": true,
     "service": "serviceImpl",
+    "angularJSSuffix": "",
     "clientRootFolder": "test-root"
 }

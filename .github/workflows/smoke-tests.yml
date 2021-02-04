@@ -36,11 +36,13 @@ jobs:
         run: git --no-pager log -n 10 --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit
       - name: 'SETUP: Prepare JHipster env'
         run: $JHI_SCRIPTS/01-install-global-jhipster.sh
-      - name: 'GENERATION: Generate JHipster Application'
-        run: $JHI_SCRIPTS/02-generate-project.sh $JHI_APP
-      - name: 'RUN: Run Docker compose'
-        run: $JHI_SCRIPTS/03-docker-compose.sh $JHI_APP
-      - name: 'RUN: Run backend tests'
-        run: $JHI_SCRIPTS/04-run-server-tests.sh $JHI_APP
-      - name: 'RUN: Run widgets tests'
-        run: $JHI_SCRIPTS/05-run-widgets-tests.sh $JHI_APP
+      - name: 'SETUP: Prepare project'
+        run: $JHI_SCRIPTS/02-prepare-project.sh $JHI_APP
+      - name: 'GENERATION: JHipster Application'
+        run: $JHI_SCRIPTS/03-generate-project.sh $JHI_APP
+      - name: 'RUN: Docker compose'
+        run: $JHI_SCRIPTS/04-docker-compose.sh $JHI_APP
+      - name: 'RUN: backend tests'
+        run: $JHI_SCRIPTS/05-run-server-tests.sh $JHI_APP
+      - name: 'RUN: widgets tests'
+        run: $JHI_SCRIPTS/06-run-widgets-tests.sh $JHI_APP
