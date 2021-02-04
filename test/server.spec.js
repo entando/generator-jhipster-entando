@@ -96,22 +96,20 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('pom.xml contains the mbknor-jackson-jsonschema dependecy', () => {
+    it('pom.xml contains the mbknor-jackson-jsonschema dependency', () => {
       assert.fileContent(
         'pom.xml',
         '        <dependency>\n' +
           '            <groupId>com.kjetland</groupId>\n' +
           '            <artifactId>mbknor-jackson-jsonschema_2.12</artifactId>\n' +
           '            <version>1.0.34</version>\n' +
-          '\n' +
-          '          <exclusions>\n' +
-          '              <exclusion>\n' +
-          '                  <groupId>org.scala-lang</groupId>\n' +
-          '                  <artifactId>scala-library</artifactId>\n' +
-          '              </exclusion>\n' +
-          '          </exclusions>\n' +
-          '          \n' +
-          '        </dependency>\n',
+          '            <exclusions>\n' +
+          '                <exclusion>\n' +
+          '                    <groupId>org.scala-lang</groupId>\n' +
+          '                    <artifactId>scala-library</artifactId>\n' +
+          '                </exclusion>\n' +
+          '            </exclusions>\n' +
+          '        </dependency>',
       );
     });
 
@@ -352,6 +350,62 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '██╔══╝  ██║╚██╗██║   ██║   ██╔══██║██║╚██╗██║██║  ██║██║   ██║\n' +
           '███████╗██║ ╚████║   ██║   ██║  ██║██║ ╚████║██████╔╝╚██████╔╝\n' +
           "╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ '",
+      );
+    });
+  });
+
+  describe('With Gradle blueprint configuration', () => {
+    before(done => {
+      helpers
+        .run('generator-jhipster/generators/server')
+        .withOptions({
+          'from-cli': true,
+          skipInstall: true,
+          blueprint: 'entando',
+          skipChecks: true,
+        })
+        .withGenerators([
+          [
+            require('../generators/server/index.js'), // eslint-disable-line global-require
+            'jhipster-entando:server',
+            path.join(__dirname, '../generators/server/index.js'),
+          ],
+        ])
+        .withPrompts({
+          baseName: appBaseName,
+          packageName: 'com.mycompany.myapp',
+          applicationType: 'microservice',
+          databaseType: 'sql',
+          devDatabaseType: 'h2Disk',
+          prodDatabaseType: 'mysql',
+          cacheProvider: 'ehcache',
+          authenticationType: 'oauth2',
+          enableTranslation: true,
+          nativeLanguage: 'en',
+          languages: ['fr', 'de'],
+          buildTool: 'gradle',
+          rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
+          dockerImageOrganization: 'test',
+        })
+        .on('end', done);
+    });
+
+    it('creates expected files for the blueprint', () => {
+      assert.file(expectedFiles.server);
+      assert.file(`bundle/plugins/${appBaseName.toLowerCase()}-plugin.yaml`);
+    });
+
+    it('Should not contains user management files', () => {
+      assert.noFile(expectedFiles.userManagement);
+    });
+
+    it('Should contains gradle dependencies', () => {
+      assert.fileContent(
+        'build.gradle',
+        '    implementation "javax.servlet:javax.servlet-api"\n' +
+          '    compileOnly "org.springframework.boot:spring-boot-starter-undertow"\n' +
+          '    implementation "org.scala-lang:scala-library:2.12.1"\n' +
+          '    implementation "com.kjetland:mbknor-jackson-jsonschema_2.12:1.0.34"',
       );
     });
   });

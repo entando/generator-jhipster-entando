@@ -1,4 +1,5 @@
 const constants = require('generator-jhipster/generators/generator-constants');
+const entConstants = require('../generator-constants');
 
 const {
   INTERPOLATE_REGEX,
@@ -8,6 +9,8 @@ const {
   SERVER_TEST_SRC_DIR,
   SERVER_TEST_RES_DIR,
 } = constants;
+
+const { SCALA_LIBRARY_VERSION, MBKNOR_JACKSON_JSONSCHEMA_VERSION } = entConstants;
 
 /**
  * The default is to use a file path string. It implies use of the template method.
@@ -652,34 +655,53 @@ function writeFiles() {
     },
 
     addUnspecificDependencies() {
-      this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, null);
-      this.addMavenDependency(
-        'org.springframework.boot',
-        'spring-boot-starter-undertow',
-        null,
-        '<scope>provided</scope>',
-      );
+      if (this.buildTool === 'maven') {
+        this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, null);
+        this.addMavenDependency(
+          'org.springframework.boot',
+          'spring-boot-starter-undertow',
+          null,
+          '<scope>provided</scope>',
+        );
+      } else if (this.buildTool === 'gradle') {
+        this.addGradleDependency('implementation', 'javax.servlet', 'javax.servlet-api', null);
+        this.addGradleDependency(
+          'compileOnly',
+          'org.springframework.boot',
+          'spring-boot-starter-undertow',
+          null,
+        );
+      }
     },
 
     addJsonSchemaDependencies() {
-      this.addMavenDependency('org.scala-lang', 'scala-library', '2.12.1');
-      this.addMavenDependency(
-        'com.kjetland',
-        'mbknor-jackson-jsonschema_2.12',
-        '1.0.34',
-        `
-          <exclusions>
-              <exclusion>
-                  <groupId>org.scala-lang</groupId>
-                  <artifactId>scala-library</artifactId>
-              </exclusion>
-          </exclusions>
-          `,
-      );
+      if (this.buildTool === 'maven') {
+        this.addMavenDependency('org.scala-lang', 'scala-library', SCALA_LIBRARY_VERSION);
+        this.addMavenDependency(
+          'com.kjetland',
+          'mbknor-jackson-jsonschema_2.12',
+          MBKNOR_JACKSON_JSONSCHEMA_VERSION,
+          '            <exclusions>\n' +
+            '                <exclusion>\n' +
+            '                    <groupId>org.scala-lang</groupId>\n' +
+            '                    <artifactId>scala-library</artifactId>\n' +
+            '                </exclusion>\n' +
+            '            </exclusions>',
+        );
+      } else if (this.buildTool === 'gradle') {
+        this.addGradleDependency('implementation', 'org.scala-lang', 'scala-library', SCALA_LIBRARY_VERSION);
+        this.addGradleDependency(
+          'implementation',
+          'com.kjetland',
+          'mbknor-jackson-jsonschema_2.12',
+          MBKNOR_JACKSON_JSONSCHEMA_VERSION,
+        );
+      }
     },
 
     addMavenSnapshotRepository() {
       this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
+      this.addGradleMavenRepository('https://oss.sonatype.org/content/repositories/snapshots', null, null);
     },
   };
 }
