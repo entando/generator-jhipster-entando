@@ -20,6 +20,10 @@ describe('<%= entityClass %> Form', () => {
       fields.forEach(field => {
         const fieldType = getJHipsterType(field);
         const mockedValue = mockData[0][field.fieldName];
+
+        if(['ImageBlob', 'BinaryFileBlob'].includes(fieldType)) {
+          return;
+        }
     _%>
     expect(getByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>').value).toBe(
       <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
