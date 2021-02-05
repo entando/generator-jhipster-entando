@@ -26,6 +26,8 @@ describe('<%= entityClass %> Form', () => {
         new Date('<%= mockedValue %>').toLocaleString('en')
       <%_ } else if(fieldType === 'LocalDate') { _%>
         new Date('<%= mockedValue %>').toLocaleDateString('en')
+      <%_ } else if(fieldType === 'Boolean') { _%>
+        '<%= entityInstance %>-active'
       <%_ } else { _%>
         '<%= mockedValue %>'
       <%_ } _%>
