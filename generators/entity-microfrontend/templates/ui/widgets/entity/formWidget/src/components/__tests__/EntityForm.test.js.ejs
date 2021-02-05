@@ -24,6 +24,8 @@ describe('<%= entityClass %> Form', () => {
     expect(getByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>').value).toBe(
       <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
         new Date('<%= mockedValue %>').toLocaleString('en')
+      <%_ } else if(fieldType === 'LocalDate') { _%>
+        new Date('<%= mockedValue %>').toLocaleDateString('en')
       <%_ } else { _%>
         '<%= mockedValue %>'
       <%_ } _%>
