@@ -15,9 +15,11 @@ jobs:
         os: [ ubuntu-20.04 ]
         app:
           - maven-default
+          - maven-postgres-redis
           - gradle-default
         include:
           - app: maven-default
+          - app: maven-postgres-redis
           - app: gradle-default
     env:
       JHI_APP: ${{ matrix.app }}
