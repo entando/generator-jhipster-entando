@@ -16,10 +16,10 @@ describe('<%= entityClass %> Form', () => {
         <<%= entityClass %>Form <%= entityInstance %>={<%= entityInstance %>Mock} />
       </ThemeProvider>
     );
+
     <%_
       fields.forEach(field => {
         const fieldType = getJHipsterType(field);
-        const mockedValue = mockData[0][field.fieldName];
 
         if(['ImageBlob', 'BinaryFileBlob'].includes(fieldType)) {
           return;
@@ -27,13 +27,15 @@ describe('<%= entityClass %> Form', () => {
     _%>
     expect(getByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>').value).toBe(
       <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
-        new Date('<%= mockedValue %>').toLocaleString('en')
+        new Date(<%= entityInstance %>Mock.<%= field.fieldName %>).toLocaleString('en')
       <%_ } else if(fieldType === 'LocalDate') { _%>
-        new Date('<%= mockedValue %>').toLocaleDateString('en')
+        new Date(<%= entityInstance %>Mock.<%= field.fieldName %>).toLocaleDateString('en')
       <%_ } else if(fieldType === 'Boolean') { _%>
         '<%= entityInstance %>-active'
+      <%_ } else if(['Integer','Long', 'BigDecimal', 'Float', 'Double'].includes(fieldType)) { _%>
+        <%= entityInstance %>Mock.<%= field.fieldName %>.toString()
       <%_ } else { _%>
-        '<%= mockedValue %>'
+        <%= entityInstance %>Mock.<%= field.fieldName %>
       <%_ } _%>
     );
     <%_ }); _%>
