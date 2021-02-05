@@ -40,7 +40,3 @@ moveEntity Operation
 #-------------------------------------------------------------------------------
 echo "*** Entities:"
 ls -alR .
-
-runOptions="--blueprints entando --skip-checks --force --no-insight --skip-install --with-entities"
-
-jhipster $runOptions
