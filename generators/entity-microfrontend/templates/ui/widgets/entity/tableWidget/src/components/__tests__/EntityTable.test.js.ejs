@@ -67,11 +67,14 @@ describe('<%= entityClass %>Table', () => {
     const { getByText } = render(
       <<%= entityClass %>Table items={<%= entityInstance %>Mocks} onSelect={onSelectMock} />
     );
-    fireEvent.click(getByText(
-    <%_ const field = fields[0];
-        const fieldType = getJHipsterType(field);
 
-      if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
+    <%_
+    const field = fields[0];
+    if(field) {
+      const fieldType = getJHipsterType(field);
+    _%>
+    fireEvent.click(getByText(
+      <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
         new Date(<%= entityInstance %>Mocks[0].<%= field.fieldName %>).toLocaleString('en')
       <%_ } else if(fieldType === 'LocalDate') { _%>
         new Date(<%= entityInstance %>Mocks[0].<%= field.fieldName %>).toLocaleDateString('en')
@@ -82,5 +85,6 @@ describe('<%= entityClass %>Table', () => {
       <%_ } _%>
     ));
     expect(onSelectMock).toHaveBeenCalledTimes(1);
+    <%_ } _%>
   });
 });
