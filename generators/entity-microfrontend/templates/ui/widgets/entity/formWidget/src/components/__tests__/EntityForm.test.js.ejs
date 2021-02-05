@@ -16,12 +16,19 @@ describe('<%= entityClass %> Form', () => {
         <<%= entityClass %>Form <%= entityInstance %>={<%= entityInstance %>Mock} />
       </ThemeProvider>
     );
-    <%_ const singleEntityItem = mockData[0]; _%>
-    <%_ const firstNonIdField = Object.keys(singleEntityItem)[1]; _%>
-    <%_ const mockValue = mockData[0][firstNonIdField]; _%>
-    expect(getByLabelText('entities.<%= entityInstance %>.<%= firstNonIdField %>').value).toBe(
-      '<%= mockValue %>'
+    <%_
+      fields.forEach(field => {
+        const fieldType = getJHipsterType(field);
+        const mockedValue = mockData[0][field.fieldName];
+    _%>
+    expect(getByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>').value).toBe(
+      <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
+        new Date('<%= mockedValue %>').toLocaleString('en')
+      <%_ } else { _%>
+        '<%= mockedValue %>'
+      <%_ } _%>
     );
+    <%_ }); _%>
   });
 
   it('submits form', async () => {
