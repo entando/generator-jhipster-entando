@@ -16,6 +16,9 @@ describe('<%= entityClass %>Table', () => {
         if(['ImageBlob', 'BinaryFileBlob', 'Boolean', 'TextBlob'].includes(fieldType)) {
           return;
         }
+        if(field.fieldIsEnum) {
+          return;
+        }
         mockData.forEach((singleItem, index) => { _%>
     expect(getByText(
       <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
