@@ -104,12 +104,14 @@ function askForRelationsToRemove() {
 function askForField(done) {
   const { context } = this;
   this.log(chalk.green(`\nGenerating field #${context.fields.length + 1}\n`));
-  const { skipServer } = context;
-  const { prodDatabaseType } = context;
-  const { databaseType } = context;
-  const { clientFramework } = context;
-  const { fieldNamesUnderscored } = context;
-  const { skipCheckLengthOfIdentifier } = context;
+  const {
+    skipServer,
+    prodDatabaseType,
+    databaseType,
+    clientFramework,
+    fieldNamesUnderscored,
+    skipCheckLengthOfIdentifier,
+  } = context;
   const prompts = [
     {
       type: 'confirm',
