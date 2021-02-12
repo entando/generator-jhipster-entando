@@ -8,17 +8,59 @@ import <%= entityClass %>Table from 'components/<%= entityClass %>Table';
 describe('<%= entityClass %>Table', () => {
   it('shows <%= entityInstancePlural %>', () => {
     const { getByText } = render(<<%= entityClass %>Table items={<%= entityInstance %>Mocks} />);
-    <%_ const firstEntityItemField = Object.keys(mockData[0])[1]; // first non-ID _%>
-    <%_ mockData.forEach(singleItem => { _%>
-    expect(getByText('<%= singleItem[firstEntityItemField] %>')).toBeInTheDocument();
-    <%_ }) _%>
+
+    <%_
+      fields.forEach(field => {
+        const fieldType = getJHipsterType(field);
+
+        if(['ImageBlob', 'BinaryFileBlob', 'Boolean', 'TextBlob'].includes(fieldType)) {
+          return;
+        }
+        if(field.fieldIsEnum) {
+          return;
+        }
+        mockData.forEach((singleItem, index) => { _%>
+    expect(getByText(
+      <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
+        new Date(<%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>).toLocaleString('en')
+      <%_ } else if(fieldType === 'LocalDate') { _%>
+        new Date(<%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>).toLocaleDateString('en')
+      <%_ } else if(['Integer','Long', 'BigDecimal', 'Float', 'Double'].includes(fieldType)) { _%>
+          <%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>.toString()
+      <%_ } else { _%>
+        <%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>
+      <%_ } _%>
+    )).toBeInTheDocument();
+        <%_ }) _%>
+
+    <%_ }); _%>
   });
 
   it('shows no <%= entityInstancePlural %> message', () => {
     const { queryByText } = render(<<%= entityClass %>Table items={[]} />);
-    <%_ mockData.forEach(singleItem => { _%>
-    expect(queryByText('<%= singleItem[firstEntityItemField] %>')).not.toBeInTheDocument();
-    <%_ }) _%>
+
+    <%_
+      fields.forEach(field => {
+        const fieldType = getJHipsterType(field);
+
+        if(['ImageBlob', 'BinaryFileBlob', 'Boolean', 'TextBlob'].includes(fieldType)) {
+          return;
+        }
+      mockData.forEach((singleItem, index) => { _%>
+    expect(queryByText(
+      <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
+        new Date(<%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>).toLocaleString('en')
+      <%_ } else if(fieldType === 'LocalDate') { _%>
+        new Date(<%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>).toLocaleDateString('en')
+      <%_ } else if(['Integer','Long', 'BigDecimal', 'Float', 'Double'].includes(fieldType)) { _%>
+          <%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>.toString()
+      <%_ } else { _%>
+        <%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>
+      <%_ } _%>
+    )).not.toBeInTheDocument();
+      <%_ }) _%>
+
+    <%_ }); _%>
 
     expect(queryByText('entities.<%= entityInstance %>.noItems')).toBeInTheDocument();
   });
@@ -28,7 +70,24 @@ describe('<%= entityClass %>Table', () => {
     const { getByText } = render(
       <<%= entityClass %>Table items={<%= entityInstance %>Mocks} onSelect={onSelectMock} />
     );
-    fireEvent.click(getByText('<%= mockData[0][firstEntityItemField] %>'));
+
+    <%_
+    const field = fields[0];
+    if(field) {
+      const fieldType = getJHipsterType(field);
+    _%>
+    fireEvent.click(getByText(
+      <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
+        new Date(<%= entityInstance %>Mocks[0].<%= field.fieldName %>).toLocaleString('en')
+      <%_ } else if(fieldType === 'LocalDate') { _%>
+        new Date(<%= entityInstance %>Mocks[0].<%= field.fieldName %>).toLocaleDateString('en')
+      <%_ } else if(['Integer','Long', 'BigDecimal', 'Float', 'Double'].includes(fieldType)) { _%>
+          <%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>.toString()
+      <%_ } else { _%>
+        <%= entityInstance %>Mocks[0].<%= field.fieldName %>
+      <%_ } _%>
+    ));
     expect(onSelectMock).toHaveBeenCalledTimes(1);
+    <%_ } _%>
   });
 });

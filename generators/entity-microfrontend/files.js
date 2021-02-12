@@ -278,7 +278,7 @@ const microFrontendFiles = {
         {
           file: 'entity/detailsWidget/src/api/entity.js',
           renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/api/${generator.entityFileName}.js`,
+            `${generator.entityFileName}/detailsWidget/src/api/${generator.entityInstance}.js`,
         },
         {
           file: 'entity/detailsWidget/src/api/helpers.js',
@@ -381,7 +381,7 @@ const microFrontendFiles = {
         {
           file: 'entity/detailsWidget/src/components/__mocks__/entityMocks.js',
           renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/__mocks__/${generator.entityFileName}Mocks.js`,
+            `${generator.entityFileName}/detailsWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
         },
         {
           file: 'entity/detailsWidget/src/components/__mocks__/i18n.js',
@@ -396,7 +396,7 @@ const microFrontendFiles = {
         {
           file: 'entity/formWidget/src/components/__mocks__/entityMocks.js',
           renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/__mocks__/${generator.entityFileName}Mocks.js`,
+            `${generator.entityFileName}/formWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
         },
       ],
     },
@@ -407,7 +407,7 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/src/components/__mocks__/entityMocks.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/__mocks__/${generator.entityFileName}Mocks.js`,
+            `${generator.entityFileName}/tableWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
         },
         {
           file: 'entity/tableWidget/src/components/__mocks__/i18n.js',
@@ -479,7 +479,7 @@ const microFrontendFiles = {
         {
           file: 'entity/detailsWidget/src/components/__types__/entity.js',
           renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/__types__/${generator.entityFileName}.js`,
+            `${generator.entityFileName}/detailsWidget/src/components/__types__/${generator.entityInstance}.js`,
         },
         {
           file: 'entity/detailsWidget/src/components/__types__/keycloak.js',
@@ -499,7 +499,7 @@ const microFrontendFiles = {
         {
           file: 'entity/formWidget/src/components/__types__/entity.js',
           renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/__types__/${generator.entityFileName}.js`,
+            `${generator.entityFileName}/formWidget/src/components/__types__/${generator.entityInstance}.js`,
         },
         {
           file: 'entity/formWidget/src/components/__types__/keycloak.js',
@@ -523,7 +523,7 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/src/components/__types__/entity.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/__types__/${generator.entityFileName}.js`,
+            `${generator.entityFileName}/tableWidget/src/components/__types__/${generator.entityInstance}.js`,
         },
         {
           file: 'entity/tableWidget/src/components/__types__/keycloak.js',
@@ -901,12 +901,12 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/src/state/entity.reducer.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/state/${generator.entityFileName}.reducer.js`,
+            `${generator.entityFileName}/tableWidget/src/state/${generator.entityInstance}.reducer.js`,
         },
         {
           file: 'entity/tableWidget/src/state/entity.types.js',
           renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/state/${generator.entityFileName}.types.js`,
+            `${generator.entityFileName}/tableWidget/src/state/${generator.entityInstance}.types.js`,
         },
       ],
     },

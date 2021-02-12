@@ -1,0 +1,47 @@
+name: Smoke tests
+on: ['push', 'pull_request']
+env:
+  JHI_SCRIPTS: ./test-integration/scripts
+  JHI_VERSION: 6.9.0
+jobs:
+  applications:
+    name: ${{ matrix.app }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node_version: [ 14.15.0 ]
+        os: [ ubuntu-20.04 ]
+        app:
+          - maven-default
+          - maven-postgres-redis
+          - gradle-default
+          - gradle-oracle-hazelcast
+    env:
+      JHI_APP: ${{ matrix.app }}
+    steps:
+      - name: 'SETUP: Checkout generator-jhipster-entando'
+        uses: actions/checkout@v2
+      - name: 'SETUP: Java version'
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11.x'
+      - name: 'SETUP: NodeJs version'
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: 'ENV: Git history'
+        run: git --no-pager log -n 10 --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit
+      - name: 'SETUP: Prepare JHipster env'
+        run: $JHI_SCRIPTS/01-install-global-jhipster.sh
+      - name: 'SETUP: Prepare project'
+        run: $JHI_SCRIPTS/02-prepare-project.sh $JHI_APP
+      - name: 'GENERATION: JHipster Application'
+        run: $JHI_SCRIPTS/03-generate-project.sh $JHI_APP
+      - name: 'RUN: Docker compose'
+        run: $JHI_SCRIPTS/04-docker-compose.sh $JHI_APP
+      - name: 'RUN: backend tests'
+        run: $JHI_SCRIPTS/05-run-server-tests.sh $JHI_APP
+      - name: 'RUN: widgets tests'
+        run: $JHI_SCRIPTS/06-run-widgets-tests.sh $JHI_APP

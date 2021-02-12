@@ -165,8 +165,9 @@ const entandoServerFiles = {
   serverJavaConfig: [
     {
       condition: generator =>
-        ['ehcache', 'caffeine', 'hazelcast', 'infinispan', 'memcached'].includes(generator.cacheProvider) ||
-        generator.applicationType === 'gateway',
+        ['ehcache', 'caffeine', 'hazelcast', 'infinispan', 'memcached', 'redis'].includes(
+          generator.cacheProvider,
+        ) || generator.applicationType === 'gateway',
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
