@@ -314,8 +314,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         '  "scripts": {\n' +
           '    "populate-bundle": "bash ./buildBundle.sh",\n' +
           '    "build-all": "bash ./buildBundle.sh -d",\n' +
-          '    "keycloak": "docker-compose -f src/main/docker/keycloak.yml up"\n' +
-          '  }',
+          '    "keycloak": "docker-compose -f src/main/docker/keycloak.yml up",',
       );
     });
 
