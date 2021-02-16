@@ -21,7 +21,6 @@ describe('Subgenerator app of entando JHipster blueprint', () => {
         .withGenerators([
           [
             require('../generators/app/index.js'), // eslint-disable-line global-require
-            'jhipster-entando:app',
             path.join(__dirname, '../generators/app/index.js'),
           ],
         ])
