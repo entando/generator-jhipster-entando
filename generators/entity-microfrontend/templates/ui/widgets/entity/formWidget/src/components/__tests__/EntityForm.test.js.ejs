@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, wait } from '@testing-library/react';
-import 'i18n/__mocks__/i18nMock';
+import i18n from 'i18n/__mocks__/i18nMock';
 import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
 import <%= entityClass %>Form from 'components/<%= entityClass %>Form';
 import { createMuiTheme } from '@material-ui/core';
@@ -27,9 +27,9 @@ describe('<%= entityClass %> Form', () => {
     _%>
     expect(getByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>').value).toBe(
       <%_ if(['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
-        new Date(<%= entityInstance %>Mock.<%= field.fieldName %>).toLocaleString('en')
+        new Date(<%= entityInstance %>Mock.<%= field.fieldName %>).toLocaleString(i18n.language)
       <%_ } else if(fieldType === 'LocalDate') { _%>
-        new Date(<%= entityInstance %>Mock.<%= field.fieldName %>).toLocaleDateString('en')
+        new Date(<%= entityInstance %>Mock.<%= field.fieldName %>).toLocaleDateString(i18n.language)
       <%_ } else if(fieldType === 'Boolean') { _%>
         '<%= entityInstance %>-active'
       <%_ } else if(['Integer','Long', 'BigDecimal', 'Float', 'Double'].includes(fieldType)) { _%>
