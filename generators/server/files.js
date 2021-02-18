@@ -54,11 +54,6 @@ const entandoServerFiles = {
           file: 'config/realm-config/jhipster-realm.json',
           renameTo: () => 'realm-config/jhipster-realm.json',
         },
-        {
-          file: 'config/realm-config/jhipster-users-0.json',
-          method: 'copy',
-          renameTo: () => 'realm-config/jhipster-users-0.json',
-        },
       ],
     },
   ],
