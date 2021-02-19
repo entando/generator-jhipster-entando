@@ -1,0 +1,10 @@
+describe('Main', () => {
+<%- include('./common.spec.js.ejs') _%>
+
+  describe('Details widget', () => {
+    it('should load the page', () => {
+      // We should check with data-cy instead
+      cy.get('.MuiBox-root').should('be.visible');
+    });
+  });
+});
