@@ -909,7 +909,7 @@ const microFrontendFiles = {
           noEjs: true,
         },
         {
-          file: 'entity/_shared/src/test/cypress/integration/detailsWidget.spec.js',
+          file: 'entity/detailsWidget/src/test/cypress/integration/detailsWidget.spec.js',
           renameTo: generator =>
             `${generator.entityFileName}/detailsWidget/src/test/cypress/integration/main.spec.js`,
         },
