@@ -14,3 +14,6 @@
 // ***********************************************************
 
 import './keycloak-oauth2';
+import './selectors';
+
+export * from './selectors';

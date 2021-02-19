@@ -1,9 +1,11 @@
+import { detailTestSelector } from '../support';
+
 describe('Main', () => {
 <%- include('./common.spec.js.ejs') _%>
 
   describe('Details widget', () => {
     it('should load the page', () => {
-      cy.get('[data-testid=details_title]').should('be.visible').should('have.text', "Details about '<%= entityClassHumanized %>'");
+      cy.get(detailTestSelector).should('be.visible').should('have.text', "Details about '<%= entityClassHumanized %>'");
     });
   });
 });

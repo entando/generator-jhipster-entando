@@ -931,6 +931,12 @@ const microFrontendFiles = {
             `${generator.entityFileName}/detailsWidget/src/test/cypress/support/keycloak-oauth2.js`,
           noEjs: true,
         },
+        {
+          file: 'entity/detailsWidget/src/test/cypress/support/details_selectors.js',
+          renameTo: generator =>
+            `${generator.entityFileName}/detailsWidget/src/test/cypress/support/selectors.js`,
+          noEjs: true,
+        },
       ],
     },
     {
