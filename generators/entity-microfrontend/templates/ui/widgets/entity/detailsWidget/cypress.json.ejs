@@ -1,6 +1,10 @@
 {
-  "baseUrl": "http://localhost:<%= serverPort %>/services/<%= baseName %>/",
-  "baseWidgetUrl": "http://localhost:3000",
+  "baseUrl": "http://localhost:3000",
+  "oauth2": {
+    "url": "http://localhost:9080",
+    "realm": "jhipster",
+    "clientId": "web_app"
+  },
   "testFiles": "**/*.spec.js",
   "supportFile": "src/test/cypress/support/index.js",
   "video": false,

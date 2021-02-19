@@ -2,22 +2,17 @@
 /// <reference types="cypress" />
 
 Cypress.Commands.add('getOauth2Data', () => {
-  cy.request({
-    method: 'GET',
-    url: '/oauth2/authorization/oidc',
-    followRedirect: false,
-  }).then(response => {
-    const url = new URL(response.headers.location);
-    const realm = url.pathname.split('/', 4)[3];
-    const clientId = url.searchParams.get('client_id');
-    const data = {
-      url,
-      realmPath: `${url.origin}/auth/realms/${realm}`,
-      realm,
-      clientId,
-    };
-    cy.wrap(data).as('oauth2Data');
-  });
+  Cypress.log({ name: 'oauth2Data' });
+
+  const { url, realm, clientId } = Cypress.config('oauth2');
+  const data = {
+    url,
+    realmPath: `${url}/auth/realms/${realm}`,
+    realm,
+    clientId,
+  };
+
+  cy.wrap(data).as('oauth2Data');
 });
 
 Cypress.Commands.add('keycloackLogin', (oauth2Data, user) => {
@@ -31,7 +26,7 @@ Cypress.Commands.add('keycloackLogin', (oauth2Data, user) => {
         scope: 'openid',
         response_type: 'code',
         approval_prompt: 'auto',
-        redirect_uri: Cypress.config('baseWidgetUrl'),
+        redirect_uri: Cypress.config('baseUrl'),
         client_id: oauth2Data.clientId,
       },
     })
@@ -54,7 +49,7 @@ Cypress.Commands.add('keycloackLogin', (oauth2Data, user) => {
         });
       })
       .then(() => {
-        cy.visit(Cypress.config('baseWidgetUrl'));
+        cy.visit('/');
       });
   });
 });
