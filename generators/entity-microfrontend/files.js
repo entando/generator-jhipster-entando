@@ -111,6 +111,10 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/tableWidget/.gitignore`,
         },
         {
+          file: 'entity/_shared/cypress.json',
+          renameTo: generator => `${generator.entityFileName}/tableWidget/cypress.json`,
+        },
+        {
           file: 'entity/tableWidget/deploy-widget.sh',
           renameTo: generator => `${generator.entityFileName}/tableWidget/deploy-widget.sh`,
         },

@@ -185,7 +185,7 @@ const expectedFiles = {
         'ui/widgets/foo/tableWidget/.env.local',
         'ui/widgets/foo/tableWidget/.env.production',
         'ui/widgets/foo/tableWidget/.gitignore',
-        'ui/widgets/foo/formWidget/cypress.json',
+        'ui/widgets/foo/tableWidget/cypress.json',
         'ui/widgets/foo/tableWidget/deploy-widget.sh',
         'ui/widgets/foo/tableWidget/jsconfig.json',
         'ui/widgets/foo/tableWidget/LICENSE',

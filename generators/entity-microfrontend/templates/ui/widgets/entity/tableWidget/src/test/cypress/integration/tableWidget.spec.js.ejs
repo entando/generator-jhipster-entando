@@ -1,9 +1,11 @@
+import { buttonAddFilter } from '../support';
+
 describe('Main', () => {
 <%- include('../../../../../_shared/src/test/cypress/integration/common.spec.js.ejs') _%>
 
   describe('Table widget', () => {
     it('should load the page', () => {
-
+      cy.get(buttonAddFilter).should('be.visible');
     });
   });
 });
