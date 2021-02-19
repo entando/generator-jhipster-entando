@@ -950,7 +950,7 @@ const microFrontendFiles = {
           noEjs: true,
         },
         {
-          file: 'entity/_shared/src/test/cypress/integration/formWidget.spec.js',
+          file: 'entity/formWidget/src/test/cypress/integration/formWidget.spec.js',
           renameTo: generator =>
             `${generator.entityFileName}/formWidget/src/test/cypress/integration/main.spec.js`,
         },
