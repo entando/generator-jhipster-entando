@@ -932,7 +932,7 @@ const microFrontendFiles = {
           noEjs: true,
         },
         {
-          file: 'entity/detailsWidget/src/test/cypress/support/details_selectors.js',
+          file: 'entity/detailsWidget/src/test/cypress/support/selectors.js',
           renameTo: generator =>
             `${generator.entityFileName}/detailsWidget/src/test/cypress/support/selectors.js`,
           noEjs: true,
@@ -968,6 +968,51 @@ const microFrontendFiles = {
           file: 'entity/_shared/src/test/cypress/support/keycloak-oauth2.js',
           renameTo: generator =>
             `${generator.entityFileName}/formWidget/src/test/cypress/support/keycloak-oauth2.js`,
+          noEjs: true,
+        },
+        {
+          file: 'entity/formWidget/src/test/cypress/support/selectors.js',
+          renameTo: generator =>
+            `${generator.entityFileName}/formWidget/src/test/cypress/support/selectors.js`,
+          noEjs: true,
+        },
+      ],
+    },
+    {
+      path: MFE_MAIN_DIR,
+      condition: generator => generator.selectedWidgets.includes(TABLE_WIDGET),
+      templates: [
+        {
+          file: 'entity/_shared/src/test/cypress/fixtures/users/user.json',
+          renameTo: generator =>
+            `${generator.entityFileName}/tableWidget/src/test/cypress/fixtures/users/user.json`,
+          noEjs: true,
+        },
+        {
+          file: 'entity/tableWidget/src/test/cypress/integration/tableWidget.spec.js',
+          renameTo: generator =>
+            `${generator.entityFileName}/tableWidget/src/test/cypress/integration/main.spec.js`,
+        },
+        {
+          file: 'entity/_shared/src/test/cypress/plugins/index.js',
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/test/cypress/plugins/index.js`,
+          noEjs: true,
+        },
+        {
+          file: 'entity/_shared/src/test/cypress/support/index.js',
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/test/cypress/support/index.js`,
+          noEjs: true,
+        },
+        {
+          file: 'entity/_shared/src/test/cypress/support/keycloak-oauth2.js',
+          renameTo: generator =>
+            `${generator.entityFileName}/tableWidget/src/test/cypress/support/keycloak-oauth2.js`,
+          noEjs: true,
+        },
+        {
+          file: 'entity/tableWidget/src/test/cypress/support/selectors.js',
+          renameTo: generator =>
+            `${generator.entityFileName}/tableWidget/src/test/cypress/support/selectors.js`,
           noEjs: true,
         },
       ],
