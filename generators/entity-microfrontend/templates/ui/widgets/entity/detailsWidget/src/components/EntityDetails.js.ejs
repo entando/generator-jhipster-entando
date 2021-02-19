@@ -10,7 +10,7 @@ import <%= entityClass %>FieldTable from 'components/<%= entityFileName %>-field
 const <%= ComponentName %> = ({ t, <%= entityInstance %> }) => {
   return (
     <Box>
-      <h3>
+      <h3 data-testid="details_title">
         {t('common.widgetName', {
           widgetNamePlaceholder: '<%= entityClassHumanized %>',
         })}

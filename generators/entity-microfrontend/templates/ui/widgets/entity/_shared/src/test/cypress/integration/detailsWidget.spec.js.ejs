@@ -3,8 +3,7 @@ describe('Main', () => {
 
   describe('Details widget', () => {
     it('should load the page', () => {
-      // We should check with data-cy instead
-      cy.get('.MuiBox-root').should('be.visible');
+      cy.get('[data-testid=details_title]').should('be.visible').should('have.text', "Details about '<%= entityClassHumanized %>'");
     });
   });
 });
