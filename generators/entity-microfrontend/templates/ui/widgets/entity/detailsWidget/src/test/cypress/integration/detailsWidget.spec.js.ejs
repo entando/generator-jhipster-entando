@@ -1,11 +1,11 @@
-import { detailTestSelector } from '../support';
+import { customElementName } from '../support';
 
 describe('Main', () => {
 <%- include('../../../../../_shared/src/test/cypress/integration/common.spec.js.ejs') _%>
 
   describe('Details widget', () => {
     it('should load the page', () => {
-      cy.get(detailTestSelector).should('be.visible').should('have.text', "Details about '<%= entityClassHumanized %>'");
+      cy.get(customElementName).should('exist');
     });
   });
 });

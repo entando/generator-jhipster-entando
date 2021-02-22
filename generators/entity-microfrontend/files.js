@@ -939,7 +939,6 @@ const microFrontendFiles = {
           file: 'entity/detailsWidget/src/test/cypress/support/selectors.js',
           renameTo: generator =>
             `${generator.entityFileName}/detailsWidget/src/test/cypress/support/selectors.js`,
-          noEjs: true,
         },
       ],
     },
@@ -978,7 +977,6 @@ const microFrontendFiles = {
           file: 'entity/formWidget/src/test/cypress/support/selectors.js',
           renameTo: generator =>
             `${generator.entityFileName}/formWidget/src/test/cypress/support/selectors.js`,
-          noEjs: true,
         },
       ],
     },
@@ -1017,7 +1015,6 @@ const microFrontendFiles = {
           file: 'entity/tableWidget/src/test/cypress/support/selectors.js',
           renameTo: generator =>
             `${generator.entityFileName}/tableWidget/src/test/cypress/support/selectors.js`,
-          noEjs: true,
         },
       ],
     },
