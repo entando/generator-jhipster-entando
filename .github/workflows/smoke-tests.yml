@@ -45,3 +45,5 @@ jobs:
         run: $JHI_SCRIPTS/05-run-server-tests.sh $JHI_APP
       - name: 'RUN: widgets tests'
         run: $JHI_SCRIPTS/06-run-widgets-tests.sh $JHI_APP
+      - name: 'RUN: widgets e2e'
+        run: $JHI_SCRIPTS/07-run-widgets-e2e.sh $JHI_APP

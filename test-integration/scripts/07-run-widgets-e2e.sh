@@ -7,19 +7,19 @@ else
     echo "*** 00-init-env.sh not found, relying on JHI_* en vars"
 fi
 
-runMFETests() {
+runMFEE2eTests() {
   local entityFolderName="$1"
 
   for widget in detailsWidget formWidget tableWidget
   do
     cd "$JHI_FOLDER_APP/ui/widgets/$entityFolderName/$widget/"
-    npm i && npm test
+    npm start && npm run cypress:run:headless
   done
 }
 
 #-------------------------------------------------------------------------------
-# Run widget tests
+# Run server test
 #-------------------------------------------------------------------------------
+./mvnw
+
 runMFETests bank-account
-runMFETests label
-runMFETests operation
