@@ -18,7 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --verbose",
+    "test": "react-scripts test --verbose --testPathIgnorePatterns=src/test/cypress/",
     "cypress": "cypress open",
     "cypress:run": "cypress run --browser chrome",
     "cypress:run:headless": "npm run cypress:run -- --headless",
