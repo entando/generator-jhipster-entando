@@ -19,7 +19,3 @@ jobs:
       - run: npm ci
       - run: npm link
       - run: npm run test
-        if: >-
-          !contains(github.event.head_commit.message, '[skip ci]') &&
-          !contains(github.event.pull_request.title, '[skip ci]') &&
-          github.event.pull_request.draft == false

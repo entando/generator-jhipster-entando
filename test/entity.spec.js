@@ -23,7 +23,6 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           .withGenerators([
             [
               require('../generators/entity/index.js'), // eslint-disable-line global-require
-              'jhipster-entando:entity',
               path.join(__dirname, '../generators/entity/index.js'),
             ],
           ])
@@ -71,7 +70,6 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           .withGenerators([
             [
               require('../generators/entity/index.js'), // eslint-disable-line global-require
-              'jhipster-entando:entity',
               path.join(__dirname, '../generators/entity/index.js'),
             ],
           ])
@@ -114,7 +112,6 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           .withGenerators([
             [
               require('../generators/entity/index.js'), // eslint-disable-line global-require
-              'jhipster-entando:entity',
               path.join(__dirname, '../generators/entity/index.js'),
             ],
           ])
@@ -158,7 +155,6 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           .withGenerators([
             [
               require('../generators/entity/index.js'), // eslint-disable-line global-require
-              'jhipster-entando:entity',
               path.join(__dirname, '../generators/entity/index.js'),
             ],
           ])
@@ -209,7 +205,6 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           .withGenerators([
             [
               require('../generators/entity/index.js'), // eslint-disable-line global-require
-              'jhipster-entando:entity',
               path.join(__dirname, '../generators/entity/index.js'),
             ],
           ])
@@ -258,7 +253,6 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           .withGenerators([
             [
               require('../generators/entity/index.js'), // eslint-disable-line global-require
-              'jhipster-entando:entity',
               path.join(__dirname, '../generators/entity/index.js'),
             ],
           ])
@@ -302,7 +296,6 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           .withGenerators([
             [
               require('../generators/entity/index.js'), // eslint-disable-line global-require
-              'jhipster-entando:entity',
               path.join(__dirname, '../generators/entity/index.js'),
             ],
           ])
@@ -347,7 +340,6 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           .withGenerators([
             [
               require('../generators/entity/index.js'), // eslint-disable-line global-require
-              'jhipster-entando:entity',
               path.join(__dirname, '../generators/entity/index.js'),
             ],
           ])
