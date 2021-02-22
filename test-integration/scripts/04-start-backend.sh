@@ -7,17 +7,8 @@ else
     echo "*** 00-init-env.sh not found, relying on JHI_* en vars"
 fi
 
-runMFE_E2eTests() {
-  local entityFolderName="$1"
-
-  for widget in detailsWidget formWidget tableWidget
-  do
-    cd "$JHI_FOLDER_APP/ui/widgets/$entityFolderName/$widget/"
-    npm start && npm run cypress:run:headless
-  done
-}
-
 #-------------------------------------------------------------------------------
-# Run e2e tests
+# Start application backend app
 #-------------------------------------------------------------------------------
-runMFE_E2eTests bank-account
+cd "$JHI_FOLDER_APP"
+./mvnw &
