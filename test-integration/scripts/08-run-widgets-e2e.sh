@@ -70,6 +70,6 @@ launchCurlTests "${endpointsToTest[@]}"
 runMFE_E2eTests bank-account
 
 resultRunApp=$?
-kill $(cat .pidRunApp)
+# kill $(cat .pidRunApp)
 
 exit $((resultRunApp))
