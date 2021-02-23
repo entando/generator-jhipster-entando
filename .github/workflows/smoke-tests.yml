@@ -3,6 +3,7 @@ on: ['push', 'pull_request']
 env:
   JHI_SCRIPTS: ./test-integration/scripts
   JHI_VERSION: 6.9.0
+  JHI_PROFILE: dev
 jobs:
   applications:
     name: ${{ matrix.app }}
@@ -45,5 +46,7 @@ jobs:
         run: $JHI_SCRIPTS/05-run-server-tests.sh $JHI_APP
       - name: 'RUN: widgets tests'
         run: $JHI_SCRIPTS/06-run-widgets-tests.sh $JHI_APP
+      - name: 'PACKAGE: backend application'
+        run: $JHI_SCRIPTS/07-package-backend-app.sh $JHI_APP
       - name: 'RUN: widgets e2e'
-        run: $JHI_SCRIPTS/07-run-widgets-e2e.sh $JHI_APP
+        run: $JHI_SCRIPTS/08-run-widgets-e2e.sh $JHI_APP

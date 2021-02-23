@@ -20,7 +20,6 @@ if [ -f "mvnw" ]; then
         # -Dlogging.level.org.springframework=OFF \
         # -Dlogging.level.org.springframework.web=OFF \
         # -Dlogging.level.org.springframework.security=OFF
-    mv target/*.jar app.jar
 elif [ -f "gradlew" ]; then
     ./gradlew test integrationTest
         # -Dlogging.level.ROOT=OFF \
@@ -30,5 +29,4 @@ elif [ -f "gradlew" ]; then
         # -Dlogging.level.org.springframework=OFF \
         # -Dlogging.level.org.springframework.web=OFF \
         # -Dlogging.level.org.springframework.security=OFF
-    mv build/libs/*SNAPSHOT.jar app.jar
 fi
