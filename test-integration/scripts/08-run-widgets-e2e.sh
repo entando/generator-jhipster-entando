@@ -48,7 +48,7 @@ launchCurlTests() {
 cd "$JHI_FOLDER_APP"
 java \
     -jar app.jar \
-    --spring.profiles.active="dev" \
+    --spring.profiles.active="$JHI_PROFILE" \
     --logging.level.ROOT=OFF \
     --logging.level.org.zalando=OFF \
     --logging.level.org.springframework.web=ERROR \
