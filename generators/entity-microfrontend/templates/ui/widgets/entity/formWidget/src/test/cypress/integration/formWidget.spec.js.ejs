@@ -7,5 +7,11 @@ describe('Main', () => {
     it('should load the page', () => {
       cy.get(customElementName).should('exist');
     });
+
+    it('should display all the entity fields in the component', () => {
+      <%_ fields.forEach(function(field) { _%>
+        cy.contains('entities.<%= entityInstance %>.<%= field.fieldName %>').should('be.visible');
+      <%_ }) _%>
+    });
   });
 });
