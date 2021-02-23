@@ -21,5 +21,7 @@ runMFETests() {
 # Run widget tests
 #-------------------------------------------------------------------------------
 runMFETests bank-account
-runMFETests label
-runMFETests operation
+
+## Only keep one entity to gain time during the CI execution
+# runMFETests label
+# runMFETests operation
