@@ -61,8 +61,6 @@ sleep 40
 endpointsToTest=(
     '/'
     '/management/health'
-    '/management/health/liveness'
-    '/management/health/readiness'
 )
 launchCurlTests "${endpointsToTest[@]}"
 
