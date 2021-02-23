@@ -18,7 +18,7 @@
     "enableHibernateCache": true,
     "websocket": false,
     "databaseType": "sql",
-    "devDatabaseType": "h2",
+    "devDatabaseType": "h2Disk",
     "prodDatabaseType": "postgresql",
     "searchEngine": false,
     "messageBroker": false,
