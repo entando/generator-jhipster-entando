@@ -1,5 +1,13 @@
 {
     "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "operation",
+            "otherEntityName": "operation",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "bankAccount"
+        }
+    ],
     "fields": [
         { "fieldName": "name", "fieldType": "String", "fieldValidateRules": ["required"] },
         { "fieldName": "bankNumber", "fieldType": "Integer" },

@@ -32,10 +32,8 @@ cp -f "$JHI_SAMPLES"/"$JHI_APP"/.yo-rc.json "$JHI_FOLDER_APP"/
 # Copy the entities
 #-------------------------------------------------------------------------------
 moveEntity BankAccount
-
-## Only keep one entity to gain time during the CI execution
-# moveEntity Label
-# moveEntity Operation
+moveEntity Label
+moveEntity Operation
 
 #-------------------------------------------------------------------------------
 # Print entities json
