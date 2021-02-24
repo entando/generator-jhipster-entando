@@ -2,7 +2,7 @@ name: Smoke tests
 on: ['push', 'pull_request']
 env:
   JHI_SCRIPTS: ./test-integration/scripts
-  JHI_VERSION: 6.9.0
+  JHI_VERSION: 6.10.5
   JHI_PROFILE: dev
 jobs:
   applications:
