@@ -10,7 +10,7 @@ describe('Main', () => {
 
     it('should display all the entity fields in the component', () => {
       <%_ fields.forEach(function(field) { _%>
-        cy.contains('entities.<%= entityInstance %>.<%= field.fieldName %>').should('be.visible');
+        cy.contains('entities.<%= entityInstance %>.<%= field.fieldName %>').scrollIntoView().should('be.visible');
       <%_ }) _%>
     });
   });
