@@ -51,5 +51,11 @@ jobs:
       - name: 'RUN: Start backend app'
         run: $JHI_SCRIPTS/08-start-backend-app.sh $JHI_APP
       - name: 'E2E: Run widgets'
+        id: e2e
         run: $JHI_SCRIPTS/09-run-widgets-e2e.sh $JHI_APP
-
+      - name: 'E2E: Store failure screenshots'
+        uses: actions/upload-artifact@v2
+        if: always() && steps.e2e.outcome == 'failure'
+        with:
+          name: screenshots-${{ matrix.app }}
+          path: /home/runner/app/ui/widgets/**/target/cypress/screenshots/
