@@ -462,54 +462,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.noFileContent(cacheConfigurationFileName, 'Authority.class.getName()');
       assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".authorities"');
       assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".persistentTokens"');
-      assert.fileContent(
-        cacheConfigurationFileName,
-        '        @Override\n' +
-          '    protected void configure(AuthenticationManagerBuilder auth)\n' +
-          '      throws Exception {\n' +
-          '        auth\n' +
-          '          .inMemoryAuthentication()\n' +
-          '          .withUser("user")\n' +
-          '            .password("password")\n' +
-          '            .roles("USER")\n' +
-          '            .and()\n' +
-          '          .withUser("admin")\n' +
-          '            .password("admin")\n' +
-          '            .roles("USER", "ADMIN");\n' +
-          '    }\n' +
-          ' \n' +
-          '    @Override\n' +
-          '    protected void configure(HttpSecurity http) throws Exception {\n' +
-          '        http\n' +
-          '          .authorizeRequests()\n' +
-          '          .anyRequest()\n' +
-          '          .authenticated()\n' +
-          '          .and()\n' +
-          '          .httpBasic();\n' +
-          '    }    @Override\n' +
-          '    protected void configure(AuthenticationManagerBuilder auth)\n' +
-          '      throws Exception {\n' +
-          '        auth\n' +
-          '          .inMemoryAuthentication()\n' +
-          '          .withUser("user")\n' +
-          '            .password("password")\n' +
-          '            .roles("USER")\n' +
-          '            .and()\n' +
-          '          .withUser("admin")\n' +
-          '            .password("admin")\n' +
-          '            .roles("USER", "ADMIN");\n' +
-          '    }\n' +
-          ' \n' +
-          '    @Override\n' +
-          '    protected void configure(HttpSecurity http) throws Exception {\n' +
-          '        http\n' +
-          '          .authorizeRequests()\n' +
-          '          .anyRequest()\n' +
-          '          .authenticated()\n' +
-          '          .and()\n' +
-          '          .httpBasic();\n' +
-          '    }',
-      );
     });
   });
 });
