@@ -42,11 +42,14 @@ jobs:
         run: $JHI_SCRIPTS/03-generate-project.sh $JHI_APP
       - name: 'RUN: Docker compose'
         run: $JHI_SCRIPTS/04-docker-compose.sh $JHI_APP
-      - name: 'RUN: backend tests'
+      - name: 'TESTS: backend'
         run: $JHI_SCRIPTS/05-run-server-tests.sh $JHI_APP
-      - name: 'RUN: widgets tests'
+      - name: 'TESTS: widgets tests'
         run: $JHI_SCRIPTS/06-run-widgets-tests.sh $JHI_APP
       - name: 'PACKAGE: backend application'
         run: $JHI_SCRIPTS/07-package-backend-app.sh $JHI_APP
-      - name: 'RUN: widgets e2e'
-        run: $JHI_SCRIPTS/08-run-widgets-e2e.sh $JHI_APP
+      - name: 'RUN: Start backend app'
+        run: $JHI_SCRIPTS/08-start-backend-app.sh $JHI_APP
+      - name: 'E2E: Run widgets'
+        run: $JHI_SCRIPTS/09-run-widgets-e2e.sh $JHI_APP
+
