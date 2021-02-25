@@ -354,6 +354,10 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           "╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ '",
       );
     });
+
+    it('update the app.yml file to contains the organization', () => {
+      assert.fileContent(`${DOCKER_DIR}app.yml`, 'image: /entando-plugin');
+    });
   });
 
   describe('With Gradle blueprint configuration', () => {
