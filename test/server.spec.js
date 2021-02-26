@@ -135,6 +135,9 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '                        <to>\n' +
           // eslint-disable-next-line no-template-curly-in-string
           '                            <image>/${project.artifactId}:${project.version}</image>\n' +
+          '                            <tags>\n' +
+          '                                <tag>latest</tag>\n' +
+          '                            </tags>\n' +
           '                        </to>\n' +
           '                        <container>\n' +
           '                            <entrypoint>\n' +
@@ -160,7 +163,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '                                </permission>\n' +
           '                            </permissions>\n' +
           '                        </extraDirectories>\n' +
-          '                    </configuration>\n',
+          '                    </configuration>',
       );
     });
 
@@ -350,6 +353,10 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '███████╗██║ ╚████║   ██║   ██║  ██║██║ ╚████║██████╔╝╚██████╔╝\n' +
           "╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ '",
       );
+    });
+
+    it('update the app.yml file to contains the organization', () => {
+      assert.fileContent(`${DOCKER_DIR}app.yml`, 'image: /entando-plugin');
     });
   });
 
