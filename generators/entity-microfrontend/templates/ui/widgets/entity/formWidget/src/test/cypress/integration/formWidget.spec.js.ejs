@@ -1,0 +1,17 @@
+import { customElementName } from '../support';
+
+describe('Main', () => {
+<%- include('../../../../../_shared/src/test/cypress/integration/common.spec.js.ejs') _%>
+
+  describe('Form widget', () => {
+    it('should load the page', () => {
+      cy.get(customElementName).should('exist');
+    });
+
+    it('should display all the entity fields in the component', () => {
+      <%_ fields.forEach(function(field) { _%>
+        cy.contains('entities.<%= entityInstance %>.<%= field.fieldName %>').should('be.visible');
+      <%_ }) _%>
+    });
+  });
+});

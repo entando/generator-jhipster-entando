@@ -46,7 +46,7 @@ const <%= entityClass %>FieldTable = ({ t, <% if (fieldsContainDate) { _%>i18n: 
         <TableCell>
           <span>{t('<%= translationKeyPrefix %>id')}</span>
         </TableCell>
-        <TableCell>
+        <TableCell data-testid="<%= entityInstance %>IdValue">
           <span>{<%= entityInstance %>.id}</span>
         </TableCell>
       </TableRow>

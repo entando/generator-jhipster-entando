@@ -52,7 +52,7 @@ const FiltersContainer = props => {
 
   return (
     <Paper className={classes.root}>
-      <Button variant="contained" className={classes.button} onClick={add}>
+      <Button variant="contained" className={classes.button} onClick={add}  data-testid="button-add-filter">
         {t('filters.addFilter')}
       </Button>
       {hasFilters && (

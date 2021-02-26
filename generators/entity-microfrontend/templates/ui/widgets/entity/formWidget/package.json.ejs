@@ -9,6 +9,7 @@
     "@material-ui/pickers": "^3.2.7",
     "@material-ui/styles": "^4.6.0",
     "clsx": "^1.0.4",
+    "concurrently": "^6.0.0",
     "date-fns": "^2.4.1",
     "formik": "^1.5.8",
     "i18next": "^17.0.16",
@@ -26,8 +27,12 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --testPathIgnorePatterns=src/test/cypress/",
     "coverage": "npm test -- --coverage",
+    "cypress": "cypress open",
+    "cypress:run": "cypress run --browser chrome",
+    "cypress:run:headless": "npm run cypress:run -- --headless",
+    "ci:cypress:run": "concurrently -k -s first 'npm start' 'npm run cypress:run:headless'",
     "eject": "react-scripts eject",
     "lint": "eslint --fix ./src",
     "i18n": "node ./node_modules/i18next-scanner/bin/cli.js --config ./scripts/i18next-scanner.config.js",
@@ -47,7 +52,8 @@
     "env": {
       "browser": true,
       "node": true,
-      "jest": true
+      "jest": true,
+      "cypress/globals": true
     },
     "settings": {
       "import/resolver": {
@@ -94,9 +100,11 @@
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.1.4",
     "acorn": "^6.3.0",
+    "cypress": "^6.2.0",
     "eslint": "^6.4.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",

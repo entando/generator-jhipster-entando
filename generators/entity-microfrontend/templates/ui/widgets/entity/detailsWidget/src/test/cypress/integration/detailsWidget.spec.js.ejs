@@ -1,0 +1,19 @@
+import { customElementName, detailsTitle, entityIdCell } from '../support';
+
+describe('Main', () => {
+<%- include('../../../../../_shared/src/test/cypress/integration/common.spec.js.ejs') _%>
+
+  describe('Details widget', () => {
+    it('should load the page', () => {
+      cy.get(customElementName).should('exist');
+    });
+
+    it('should display the right values', () => {
+      cy.get(detailsTitle).should('be.visible').should('have.text', "Details about '<%= entityClassHumanized %>'");
+      cy.get(entityIdCell).should('not.be.empty');
+      <%_ fields.forEach(function(field) { _%>
+      cy.contains('entities.<%= entityInstance %>.<%= field.fieldName %>').should('be.visible');
+      <%_ }) _%>
+    });
+  });
+});
