@@ -12,9 +12,9 @@ fi
 #-------------------------------------------------------------------------------
 cd "$JHI_FOLDER_APP"
 if [ -f "mvnw" ]; then
-    ./mvnw -ntp verify -DskipTests -P"$JHI_PROFILE" --batch-mode
+    ./mvnw -ntp verify -DskipTests -P"$JHI_PROFILE" jib:dockerBuild --batch-mode
     mv target/*.jar app.jar
 elif [ -f "gradlew" ]; then
-    ./gradlew bootJar -P"$JHI_PROFILE" -x test
+    ./gradlew bootJar -P"$JHI_PROFILE" jibDockerBuild -x test
     mv build/libs/*SNAPSHOT.jar app.jar
 fi
