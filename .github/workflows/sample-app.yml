@@ -39,7 +39,6 @@ jobs:
             - name: Checkout jhipster-sample-app-entando
               uses: actions/checkout@v2
               with:
-                  token: ${{ secrets.AVDEV_GITHUB_TOKEN }}
                   repository: ${{ env.ENT_SAMPLE_APP_REPOSITORY }}
                   path: sample-app
             - name: Clean the sample app
