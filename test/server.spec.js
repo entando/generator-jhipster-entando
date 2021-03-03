@@ -129,8 +129,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         '                    <configuration>\n' +
           '                      <allowInsecureRegistries>true</allowInsecureRegistries>\n' +
           '                        <from>\n' +
-          '                            <!-- Think of using the DOCKER_JAVA_JRE JHipster env variable -->\n' +
-          '                            <image>entando/entando-alpine-base:6.0.0</image>\n' +
+          '                            <image>adoptopenjdk:11-jre-hotspot</image>\n' +
           '                        </from>\n' +
           '                        <to>\n' +
           // eslint-disable-next-line no-template-curly-in-string
