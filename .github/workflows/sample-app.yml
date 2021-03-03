@@ -1,0 +1,69 @@
+name: Generate the sample app
+on:
+    push:
+        tags:
+            - 'v*'
+        branches:
+          - '*'
+env:
+    JHI_SCRIPTS: ./test-integration/scripts
+    JHI_VERSION: 6.10.5
+    ENT_SAMPLE_APP_REPOSITORY: entando-samples/jhipster-sample-app-entando
+jobs:
+    sample-app:
+        name: update-sample-app
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        env:
+          node_version: 14.15.0
+        steps:
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ env.node-version }}
+            - name: Checkout jhipster-generator-entando
+              uses: actions/checkout@v2
+              with:
+                  path: generator
+            - name: Run jhipster-generator-entando git history
+              run: |
+                  cd generator
+                  git --no-pager log -n 10 --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit
+            - name: Prepare JHipster env
+              run: |
+                  cd generator
+                  sudo $JHI_SCRIPTS/01-install-global-jhipster.sh
+            - name: Prepare Git
+              run: |
+                  git config --global user.name "Entando Bot"
+                  git config --global user.email "git@github.com"
+            - name: Checkout jhipster-sample-app-entando
+              uses: actions/checkout@v2
+              with:
+                  token: ${{ secrets.AVDEV_GITHUB_TOKEN }}
+                  repository: ${{ env.ENT_SAMPLE_APP_REPOSITORY }}
+                  path: sample-app
+            - name: Clean the sample app
+              run: |
+                  cd sample-app
+                  find . -not -name ".yo-rc.json" -not -name "Dockerfile" -type f -maxdepth 1 -delete
+                  rm .git/index
+                  rm -rf src
+                  rm -rf node_modules
+            - name: Prepare JHipster Entando env
+              run: |
+                  cd sample-app
+                  npm link generator-jhipster-entando
+            - name: Generate the new sample app
+              run: |
+                  cd sample-app
+                  jhipster --no-insight --skip-checks --skip-install --force --with-entities
+                  npm install
+                  git status
+                  git add .
+                  git commit -m "Generate the application with the ${{ github.ref }} version"
+            - name: Push changes
+              uses: ad-m/github-push-action@master
+              with:
+                  repository: ${{ env.ENT_SAMPLE_APP_REPOSITORY }}
+                  github_token: ${{ secrets.AVDEV_GITHUB_TOKEN }}
+                  directory: sample-app
