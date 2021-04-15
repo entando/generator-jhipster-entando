@@ -189,8 +189,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.fileContent(`${DOCKER_DIR}keycloak.yml`, 'entando/entando-keycloak:6.0.15');
       assert.fileContent(
         `${DOCKER_DIR}keycloak.yml`,
-        '    command:\n' +
-          '      [\n' +
+        'command: [\n' +
           "        '-b',\n" +
           "        '0.0.0.0',\n" +
           "        '-Dkeycloak.profile.feature.scripts=enabled',\n" +
@@ -198,9 +197,12 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           "        '-Dkeycloak.migration.action=import',\n" +
           "        '-Dkeycloak.migration.provider=dir',\n" +
           "        '-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config',\n" +
-          "        '-Dkeycloak.migration.strategy=OVERWRITE_EXISTING',\n" +
+          "        '-Dkeycloak.migration.strategy=IGNORE_EXISTING', # use 'OVERWRITE_EXISTING' instead if you want to reset your current configuration\n" +
           "        '-Djboss.socket.binding.port-offset=1000',\n" +
-          '      ]',
+          '      ]\n' +
+          '    volumes:\n' +
+          '      - ./realm-config:/opt/jboss/keycloak/realm-config\n' +
+          '      - ./keycloak-db:/opt/jboss/keycloak/standalone/data',
       );
     });
 
