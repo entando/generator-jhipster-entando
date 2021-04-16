@@ -62,7 +62,7 @@ describe('<%= entityClass %>DetailsContainer component', () => {
     await wait(() => {
       expect(api<%= entityClass %>Get).toHaveBeenCalledTimes(1);
       expect(onErrorMock).toHaveBeenCalledTimes(1);
-      expect(getByText('common.couldNotFetchData')).toBeInTheDocument();
+      expect(getByText('error.dataLoading')).toBeInTheDocument();
     });
   });
 });
