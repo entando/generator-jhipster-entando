@@ -144,8 +144,8 @@ class <%= ComponentName %> extends Component {
     this.dispatch({
       type: ERROR_FETCH,
       payload: {
-        notificationMessage: t('error.dataLoading'),
-        notificationStatus: Notification.ERROR,
+        message: t('error.dataLoading'),
+        status: Notification.ERROR,
       },
     });
   }
