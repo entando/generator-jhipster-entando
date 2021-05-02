@@ -90,10 +90,15 @@ function updateFTLTemplate() {
     local dir="$1"
     local bundleCode="$2"
     local dockerImage="$3"
-
+    local customizedPluginIngressPath="$4"
 
     widgetName=$(basename "$dir")
-    ingressPath=$(getServiceUrlFromDockerImage "$dockerImage")
+
+    if [ -z "$customizedPluginIngressPath" ]; then
+      ingressPath=$(getServiceUrlFromDockerImage "$dockerImage")
+    else
+      ingressPath="$customizedPluginIngressPath"
+    fi
 
     echo ""
     echo "> Updating ${widgetName} micro-frontend resources for $dir"
@@ -151,6 +156,9 @@ export INJECTION_POINT="<#-- entando_resource_injection_point -->"
 
 BUNDLE_NAME=$(awk -F': ' '/^code/{print $2}' ./bundle/descriptor.yaml)
 DOCKER_IMAGE=$(awk -F': ' '/^image/{print $2}' ./bundle/plugins/*-plugin.yaml | head -1)
+CUSTOMIZED_PLUGIN_INGRESS_PATH="$(awk -F': ' '/^ingressPath/{print $2}' ./bundle/plugins/*-plugin.yaml | head -1)"
+
+
 WIDGET_FOLDER="ui/widgets"
 
 find "$WIDGET_FOLDER" -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" > /dev/null 2>&1
@@ -177,7 +185,7 @@ if [ $HAS_WIDGETS -eq 0 ]; then
     echo "---"
     echo "Updating micro-frontend templates to include static resources"
     echo ""
-    find bundle/ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'updateFTLTemplate "$@"' bash {} "$BUNDLE_NAME" "$DOCKER_IMAGE" \;
+    find bundle/ui/widgets -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'updateFTLTemplate "$@"' bash {} "$BUNDLE_NAME" "$DOCKER_IMAGE" "$CUSTOMIZED_PLUGIN_INGRESS_PATH" \;
 
     echo ""
 else
