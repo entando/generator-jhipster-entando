@@ -431,6 +431,14 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '    implementation "com.kjetland:mbknor-jackson-jsonschema_2.12:1.0.34"',
       );
     });
+
+    it('Should contains entando-bundle-bom', () => {
+      assert.fileContent(
+        'build.gradle',
+        // eslint-disable-next-line no-template-curly-in-string
+        'mavenBom "org.entando:entando-bundle-bom:${entando_bundle_bom_version}"',
+      );
+    });
   });
 
   describe('With Infinispan as cache configuration', () => {
