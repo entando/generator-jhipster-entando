@@ -185,6 +185,24 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
+    it('pom.xml contains the entando-bundle-bom version', () => {
+      assert.fileContent('pom.xml', /<entando-bundle-bom\.version>.+<\/entando-bundle-bom\.version>/);
+    });
+
+    it('pom.xml contains the entando-bundle-bom dependency', () => {
+      assert.fileContent(
+        'pom.xml',
+        '            <dependency>\n' +
+          '                <groupId>org.entando</groupId>\n' +
+          '                <artifactId>entando-bundle-bom</artifactId>\n' +
+          // eslint-disable-next-line no-template-curly-in-string
+          '                <version>${entando-bundle-bom.version}</version>\n' +
+          '                <type>pom</type>\n' +
+          '                <scope>import</scope>\n' +
+          '            </dependency>',
+      );
+    });
+
     it('Keycloack docker file contains the Entando modifications', () => {
       assert.fileContent(`${DOCKER_DIR}keycloak.yml`, 'entando/entando-keycloak:6.0.15');
       assert.fileContent(

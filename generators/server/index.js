@@ -4,6 +4,7 @@ const ServerGenerator = require('generator-jhipster/generators/server');
 
 const prompts = require('./prompts');
 const { writeFiles } = require('./files');
+const constants = require('../generator-constants');
 
 module.exports = class extends ServerGenerator {
   constructor(args, opts) {
@@ -41,6 +42,9 @@ module.exports = class extends ServerGenerator {
         )
           ? 'none'
           : this.prodDatabaseType;
+      },
+      setupEntandoServerconsts() {
+        this.ENTANDO_BUNDLE_BOM_VERSION = constants.ENTANDO_BUNDLE_BOM_VERSION;
       },
     };
 

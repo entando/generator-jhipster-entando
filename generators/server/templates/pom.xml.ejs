@@ -92,6 +92,7 @@
 
         <!-- Dependency versions -->
         <jhipster-dependencies.version><%= JHIPSTER_DEPENDENCIES_VERSION %></jhipster-dependencies.version>
+        <entando-bundle-bom.version><%= ENTANDO_BUNDLE_BOM_VERSION %></entando-bundle-bom.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
         <spring-boot.version><%= SPRING_BOOT_VERSION %></spring-boot.version>
@@ -190,9 +191,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.github.jhipster</groupId>
-                <artifactId>jhipster-dependencies</artifactId>
-                <version>${jhipster-dependencies.version}</version>
+                <groupId>org.entando</groupId>
+                <artifactId>entando-bundle-bom</artifactId>
+                <version>${entando-bundle-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
