@@ -1,0 +1,52 @@
+name: Security checks
+on: ['push', 'pull_request']
+env:
+  JHI_SCRIPTS: ./test-integration/scripts
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+jobs:
+  applications:
+    name: ${{ matrix.app }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node_version: [ 14.15.0 ]
+        os: [ ubuntu-20.04 ]
+        app:
+          - maven-default
+          - maven-postgres-redis
+          - gradle-default
+          - gradle-oracle-hazelcast
+    env:
+      JHI_APP: ${{ matrix.app }}
+    steps:
+      - name: 'SETUP: Checkout generator-jhipster-entando'
+        uses: actions/checkout@v2
+      - name: 'SETUP: Java version'
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11.x'
+      - name: 'SETUP: NodeJs version'
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: 'ENV: Git history'
+        run: git --no-pager log -n 10 --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit
+      - name: 'SETUP: Prepare JHipster env'
+        run: $JHI_SCRIPTS/01-install-global-jhipster.sh
+      - name: 'SETUP: Install Snyk'
+        run: |
+            npm install -g snyk
+      - name: 'SETUP: Prepare project'
+        run: $JHI_SCRIPTS/02-prepare-project.sh $JHI_APP
+      - name: 'GENERATION: JHipster Application'
+        run: $JHI_SCRIPTS/03-generate-project.sh $JHI_APP
+      - name: 'CHECK: Run Snyk'
+        id: snyk
+        run: $JHI_SCRIPTS/10-run-snyk.sh $JHI_APP
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v1
+        if: always() && steps.snyk.outcome == 'failure'
+        with:
+          sarif_file: /home/runner/app/snyk.sarif
