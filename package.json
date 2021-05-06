@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "casual": "^1.6.2",
-    "chalk": "^4.0.0",
+    "chalk": "^4.1.0",
     "generator-jhipster": "6.10.5",
     "jhipster-core": "^7.3.1",
     "lodash": "^4.17.15",
