@@ -42,7 +42,9 @@ jobs:
         run: $JHI_SCRIPTS/02-prepare-project.sh $JHI_APP
       - name: 'GENERATION: JHipster Application'
         run: $JHI_SCRIPTS/03-generate-project.sh $JHI_APP
-      - name: 'CHECK: Run Snyk'
+      - name: 'RUN: widgets install'
+        run: $JHI_SCRIPTS/06-run-widgets-install.sh $JHI_APP
+      - name: 'RUN: Check with Snyk'
         id: snyk
         run: $JHI_SCRIPTS/10-run-snyk.sh $JHI_APP
       - name: Upload result to GitHub Code Scanning
