@@ -21,5 +21,7 @@ runMFEInstall() {
 # Run widget Install
 #-------------------------------------------------------------------------------
 runMFEInstall bank-account
-runMFEInstall label
-runMFEInstall operation
+
+## Only keep one entity to gain time during the CI execution
+# runMFEInstall label
+# runMFEInstall operation
