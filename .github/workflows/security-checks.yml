@@ -16,8 +16,7 @@ jobs:
         app:
           - maven-default
           - maven-postgres-redis
-          - gradle-default
-          - gradle-oracle-hazelcast
+          - maven-oracle-hazelcast
     env:
       JHI_APP: ${{ matrix.app }}
     steps:
