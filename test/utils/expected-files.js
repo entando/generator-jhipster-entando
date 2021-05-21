@@ -74,7 +74,6 @@ const expectedFiles = {
         'ui/widgets/foo/detailsWidget/jsconfig.json',
         'ui/widgets/foo/detailsWidget/LICENSE',
         'ui/widgets/foo/detailsWidget/package.json',
-        'ui/widgets/foo/detailsWidget/package-lock.json',
         'ui/widgets/foo/detailsWidget/README.md',
       ],
       formWidget: [
@@ -128,7 +127,6 @@ const expectedFiles = {
         'ui/widgets/foo/formWidget/jsconfig.json',
         'ui/widgets/foo/formWidget/LICENSE',
         'ui/widgets/foo/formWidget/package.json',
-        'ui/widgets/foo/formWidget/package-lock.json',
         'ui/widgets/foo/formWidget/README.md',
       ],
       tableWidget: [
