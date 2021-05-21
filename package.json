@@ -27,13 +27,14 @@
   "dependencies": {
     "casual": "^1.6.2",
     "chalk": "^4.0.0",
-    "generator-jhipster": "6.10.5",
+    "generator-jhipster": "7.0.0",
     "jhipster-core": "^7.3.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
     "shelljs": "^0.8.4",
-    "yeoman-environment": "^2.10.2",
-    "yeoman-generator": "^4.10.1"
+    "yeoman-environment": "^3.0.0",
+    "yeoman-generator": "^5.0.0",
+    "snyk": "^1.605.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -66,10 +67,13 @@
     "release": "git push && git push --tags && npm publish",
     "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
     "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
-    "release:major": "npm version major -a -m \"Update to %s\" && npm run release"
+    "release:major": "npm version major -a -m \"Update to %s\" && npm run release",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/entando/entando-blueprint/issues"
-  }
+  },
+  "snyk": true
 }

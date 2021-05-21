@@ -1,0 +1,60 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.19.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - jhipster-core > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-environment > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-generator > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-generator > async > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > jhipster-core > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-environment > grouped-queue > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-generator > grouped-queue > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-environment > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-generator > yeoman-environment > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-generator > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-environment > yeoman-generator > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > insight > async > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - jhipster-core > winston > async > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-generator > async > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-environment > yeoman-generator > async > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > insight > inquirer > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > tabtab > inquirer > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-environment > grouped-queue > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-generator > yeoman-environment > grouped-queue > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-generator > grouped-queue > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - yeoman-environment > yeoman-generator > grouped-queue > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-generator > yeoman-environment > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-environment > yeoman-generator > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > jhipster-core > winston > async > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-environment > yeoman-generator > async > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-generator > yeoman-environment > grouped-queue > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
+    - generator-jhipster > yeoman-environment > yeoman-generator > grouped-queue > lodash:
+        patched: '2021-05-21T16:26:01.913Z'
