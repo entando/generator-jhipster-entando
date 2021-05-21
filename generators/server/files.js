@@ -689,8 +689,11 @@ function writeFiles() {
     },
 
     addMavenSnapshotRepository() {
-      this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
-      this.addGradleMavenRepository('https://oss.sonatype.org/content/repositories/snapshots', null, null);
+      if (this.buildTool === 'maven') {
+        this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
+      } else if (this.buildTool === 'gradle') {
+        this.addGradleMavenRepository('https://oss.sonatype.org/content/repositories/snapshots', null, null);
+      }
     },
   };
 }
