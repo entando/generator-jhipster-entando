@@ -148,22 +148,6 @@ function askForServerSideOpts(meta) {
       message: 'Do you want to use Hibernate 2nd level cache?',
       default: true,
     },
-    {
-      type: 'list',
-      name: 'buildTool',
-      message: 'Would you like to use Maven or Gradle for building the backend?',
-      choices: [
-        {
-          value: 'maven',
-          name: 'Maven',
-        },
-        {
-          value: 'gradle',
-          name: 'Gradle',
-        },
-      ],
-      default: 'maven',
-    },
   ];
 
   if (meta) return prompts; // eslint-disable-line consistent-return
@@ -215,7 +199,7 @@ function askForServerSideOpts(meta) {
     this.devDatabaseType = props.devDatabaseType;
     this.prodDatabaseType = props.prodDatabaseType;
     this.searchEngine = props.searchEngine;
-    this.buildTool = props.buildTool;
+    this.buildTool = 'maven';
     this.uaaBaseName = this.getUaaAppName(props.uaaBaseName).baseName;
 
     this.prodDatabaseTypePlugin = props.prodDatabaseType;
