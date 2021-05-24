@@ -68,10 +68,6 @@ const entandoServerFiles = {
       condition: generator => generator.buildTool === 'maven',
       templates: [{ file: 'pom.xml', options: { interpolate: INTERPOLATE_REGEX } }],
     },
-    {
-      condition: generator => generator.buildTool === 'gradle',
-      templates: ['build.gradle', 'gradle.properties'],
-    },
   ],
   serverResource: [
     {
