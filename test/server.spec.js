@@ -179,8 +179,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         '        <dependency>\n' +
           '            <groupId>io.springfox</groupId>\n' +
           '            <artifactId>springfox-swagger-ui</artifactId>\n' +
-          // eslint-disable-next-line no-template-curly-in-string
-          '            <version>${springfox.version}</version>\n' +
           '        </dependency>',
       );
     });
