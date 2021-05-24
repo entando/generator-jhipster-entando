@@ -39,10 +39,6 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/detailsWidget/package.json`,
         },
         {
-          file: 'entity/detailsWidget/package-lock.json',
-          renameTo: generator => `${generator.entityFileName}/detailsWidget/package-lock.json`,
-        },
-        {
           file: 'entity/detailsWidget/README.md',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/README.md`,
         },
@@ -83,10 +79,6 @@ const microFrontendFiles = {
         {
           file: 'entity/formWidget/package.json',
           renameTo: generator => `${generator.entityFileName}/formWidget/package.json`,
-        },
-        {
-          file: 'entity/formWidget/package-lock.json',
-          renameTo: generator => `${generator.entityFileName}/formWidget/package-lock.json`,
         },
         {
           file: 'entity/formWidget/README.md',
