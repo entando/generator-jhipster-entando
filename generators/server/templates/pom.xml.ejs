@@ -92,13 +92,14 @@
 
         <!-- Dependency versions -->
         <jhipster-dependencies.version><%= JHIPSTER_DEPENDENCIES_VERSION %></jhipster-dependencies.version>
+        <entando-bundle-bom.version><%= ENTANDO_BUNDLE_BOM_VERSION %></entando-bundle-bom.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
         <spring-boot.version><%= SPRING_BOOT_VERSION %></spring-boot.version>
 <%_ if (databaseType === 'sql') { _%>
         <!-- The hibernate version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <hibernate.version>5.4.15.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
     <%_ if (!reactive) { _%>
         <!-- The javassist version should match the one managed by
         https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} -->
@@ -149,9 +150,6 @@
         <caffeine.version>2.8.4</caffeine.version>
         <typesafe.version>1.4.0</typesafe.version>
 <%_ } _%>
-        <%# Entando: add the springfox version for every cases %>
-        <springfox.version>2.9.2</springfox.version>
-        <%# Entando: end add the springfox version for every cases %>
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -190,9 +188,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.github.jhipster</groupId>
-                <artifactId>jhipster-dependencies</artifactId>
-                <version>${jhipster-dependencies.version}</version>
+                <groupId>org.entando</groupId>
+                <artifactId>entando-bundle-bom</artifactId>
+                <version>${entando-bundle-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -342,7 +340,6 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox.version}</version>
         </dependency>
         <%# Entando: end add the springfox version for every cases %>
         <dependency>
@@ -353,17 +350,14 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-spring-webflux</artifactId>
-            <version>${springfox.version}</version>
         </dependency>
 <%_ } _%>
 <%_ if (databaseType === 'sql') { _%>
