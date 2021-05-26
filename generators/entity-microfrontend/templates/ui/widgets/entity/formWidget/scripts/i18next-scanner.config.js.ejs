@@ -2,10 +2,10 @@ module.exports = {
   input: [
     'src/**/*.{js,jsx}',
     'src/**/*.spec.{js,jsx}',
-    'src/**/*.test.{js,jsx}',
-    '!__test__/**/*.test.{js,jsx}',
+    '!src/**/*.test.{js,jsx}',
     '!i18n/**',
     '!**/node_modules/**',
+    '!**/test/**',
   ],
   output: './',
   options: {
