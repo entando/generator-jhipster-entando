@@ -131,6 +131,10 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/tableWidget/package.json`,
         },
         {
+          file: 'entity/tableWidget/package-lock.json',
+          renameTo: generator => `${generator.entityFileName}/tableWidget/package-lock.json`,
+        },
+        {
           file: 'entity/tableWidget/README.md',
           renameTo: generator => `${generator.entityFileName}/tableWidget/README.md`,
         },
