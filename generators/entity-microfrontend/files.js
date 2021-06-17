@@ -1051,10 +1051,6 @@ const microFrontendFiles = {
       condition: generator => generator.selectedWidgets.includes(DETAILS_WIDGET),
       templates: [
         {
-          file: 'entity/detailsWidget/src/index.css',
-          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/index.css`,
-        },
-        {
           file: 'entity/detailsWidget/src/index.js',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/src/index.js`,
         },

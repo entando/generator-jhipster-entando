@@ -113,7 +113,7 @@ function updateFTLTemplate() {
         fi
 
         #For every JS file add a script reference in the widget FTL
-        for jspath in "$dir"/resources/static/js/*;
+        for jspath in "$dir"/resources/static/js/*.js;
         do
             # This moves the referenced file to the top level bundle/resources/static dir for correct processing when loaded
             jsfile=$(basename "$jspath")
@@ -125,7 +125,7 @@ function updateFTLTemplate() {
         done
 
         # For every CSS file add a script reference in the widget FTL
-        for csspath in "$dir"/resources/static/css/*;
+        for csspath in "$dir"/resources/static/css/*.css;
         do
 
           # This moves the referenced file to the top level bundle/resources/static dir for correct processing when loaded

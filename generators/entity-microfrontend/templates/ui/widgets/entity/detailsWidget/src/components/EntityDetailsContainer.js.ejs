@@ -17,7 +17,6 @@ class <%= ComponentName %> extends React.Component {
     super(props);
 
     this.state = {
-      loading: true,
       <%= entityInstance %>: {},
       notificationStatus: null,
       notificationMessage: null,
@@ -38,12 +37,14 @@ class <%= ComponentName %> extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { keycloak } = this.props;
+    const { keycloak, id } = this.props;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     const changedAuth = prevProps.keycloak.authenticated !== authenticated;
 
-    if (authenticated && changedAuth) {
+    const changedId = id && id !== prevProps.id;
+
+    if (authenticated && (changedId || changedAuth)) {
       this.fetchData();
     }
   }
@@ -56,8 +57,7 @@ class <%= ComponentName %> extends React.Component {
       try {
         const <%= entityInstance %> = await api<%= entityClass %>Get(serviceUrl, id);
         this.setState(() => ({
-          <%= entityInstance %>,
-          loading: false
+          <%= entityInstance %>
         }));
       } catch (err) {
         this.handleError(err);
@@ -71,18 +71,17 @@ class <%= ComponentName %> extends React.Component {
     this.setState(() => ({
       notificationMessage: t('error.dataLoading'),
       notificationStatus: Notification.ERROR,
-      loading: false
     }));
   }
 
   closeNotification() {
     this.setState({
-      notificationMessage: null
+      notificationMessage: null,
     });
   }
 
   render() {
-    const { <%= entityInstance %>, notificationStatus, notificationMessage, loading } = this.state;
+    const { <%= entityInstance %>, notificationStatus, notificationMessage } = this.state;
     const { t, keycloak } = this.props;
 
     return (
@@ -91,8 +90,7 @@ class <%= ComponentName %> extends React.Component {
           {t('common.notAuthenticated')}
         </UnauthenticatedView>
         <AuthenticatedView keycloak={keycloak}>
-          {loading && t('common.loading')}
-          {!loading && <<%= entityClass %>Details <%= entityInstance %>={<%= entityInstance %>} />}
+          <<%= entityClass %>Details <%= entityInstance %>={<%= entityInstance %>} />
         </AuthenticatedView>
         <Notification
           status={notificationStatus}

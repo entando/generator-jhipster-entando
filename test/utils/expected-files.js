@@ -65,7 +65,6 @@ const expectedFiles = {
         'ui/widgets/foo/detailsWidget/src/test/cypress/support/index.js',
         'ui/widgets/foo/detailsWidget/src/test/cypress/support/keycloak-oauth2.js',
         'ui/widgets/foo/detailsWidget/src/test/cypress/support/selectors.js',
-        'ui/widgets/foo/detailsWidget/src/index.css',
         'ui/widgets/foo/detailsWidget/src/index.js',
         'ui/widgets/foo/detailsWidget/.env.local',
         'ui/widgets/foo/detailsWidget/.env.production',
