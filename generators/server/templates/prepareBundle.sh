@@ -81,8 +81,7 @@ function getServiceUrlFromDockerImage() {
     local dockerImage="$1"
 
     [ -z "$dockerImage" ] && echo ""
-    echo "$dockerImage" | tr : / | sed 's:[^a-zA-Z0-9/]:-:g' | tr "[:upper:]" "[:lower:]" | sed 's:^:/:g'
-
+    echo "$dockerImage" | cut -d : -f1 | sed 's:[^a-zA-Z0-9/]:-:g' | tr "[:upper:]" "[:lower:]" | sed 's:^:/:g'
 }
 
 function updateFTLTemplate() {
