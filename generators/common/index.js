@@ -27,6 +27,30 @@ module.exports = class extends CommonGenerator {
     return super._initializing();
   }
 
+  get prompting() {
+    return super._prompting();
+  }
+
+  get configuring() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._configuring();
+  }
+
+  get composing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._composing();
+  }
+
+  get loading() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._loading();
+  }
+
+  get preparing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._preparing();
+  }
+
   get default() {
     // default - If the method name doesn’t match a priority, it will be pushed to this group.
     return super._default();
@@ -38,5 +62,20 @@ module.exports = class extends CommonGenerator {
     const entandoWritingPhase = writeFiles();
 
     return { ...jhipsterWritingPhase, ...entandoWritingPhase };
+  }
+
+  get postWriting() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._postWriting();
+  }
+
+  get install() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._install();
+  }
+
+  get end() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._end();
   }
 };

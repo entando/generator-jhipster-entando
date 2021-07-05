@@ -41,21 +41,41 @@ module.exports = class extends EntityGenerator {
     return jhipsterInitializingPhase;
   }
 
-  _prompting() {
-    // prompting - Where you prompt users for options (where you’d call this.prompt())
+  get prompting() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
     const jhipsterPromptingPhase = super._prompting();
 
     return { ...jhipsterPromptingPhase, ...prompts };
   }
 
-  get prompting() {
-    // Here we are not overriding this phase and hence its being handled by JHipster
-    return this._prompting();
-  }
-
   get configuring() {
     // Here we are not overriding this phase and hence its being handled by JHipster
     return super._configuring();
+  }
+
+  get composing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._composing();
+  }
+
+  get loading() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._loading();
+  }
+
+  get preparing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._preparing();
+  }
+
+  get preparingRelationships() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._preparingRelationships();
+  }
+
+  get default() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._default();
   }
 
   get writing() {
@@ -75,8 +95,18 @@ module.exports = class extends EntityGenerator {
     };
   }
 
+  get postWriting() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._postWriting();
+  }
+
   get install() {
     // Here we are not overriding this phase and hence its being handled by JHipster
     return super._install();
+  }
+
+  get end() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._end();
   }
 };

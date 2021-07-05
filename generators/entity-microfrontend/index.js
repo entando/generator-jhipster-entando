@@ -54,6 +54,21 @@ module.exports = class extends GeneratorBaseBlueprint {
     return super._configuring();
   }
 
+  get composing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._composing();
+  }
+
+  get loading() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._loading();
+  }
+
+  get preparing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._preparing();
+  }
+
   get default() {
     // default - If the method name doesn’t match a priority, it will be pushed to this group.
     return super._default();
@@ -67,9 +82,9 @@ module.exports = class extends GeneratorBaseBlueprint {
     return { ...jhipsterWritingPhase, ...entandoWritingPhase };
   }
 
-  get conflicts() {
-    // conflicts - Where conflicts are handled (used internally), no super._conflicts
-    return null;
+  get postWriting() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._postWriting();
   }
 
   get install() {

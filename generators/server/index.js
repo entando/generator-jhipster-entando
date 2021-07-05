@@ -65,17 +65,21 @@ module.exports = class extends ServerGenerator {
     return { ...jhipsterPhase, ...entandoPhase };
   }
 
-  get configuring() {
-    // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
-
-    return super._configuring();
-  }
-
   get prompting() {
     // prompting - Where you prompt users for options (where you’d call this.prompt())
     const jhipsterPhase = super._prompting();
 
     return { ...jhipsterPhase, ...prompts };
+  }
+
+  get configuring() {
+    // configuring - Saving configurations and configure the project (creating .editorconfig files and other metadata files)
+    return super._configuring();
+  }
+
+  get composing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._composing();
   }
 
   get loading() {
@@ -86,6 +90,11 @@ module.exports = class extends ServerGenerator {
         this._createUserManagementEntities();
       },
     };
+  }
+
+  get preparing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._preparing();
   }
 
   get default() {
@@ -99,6 +108,16 @@ module.exports = class extends ServerGenerator {
     const entandoPhase = writeFiles();
 
     return { ...jhipsterPhase, ...entandoPhase };
+  }
+
+  get postWriting() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._postWriting();
+  }
+
+  get install() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._install();
   }
 
   get end() {
