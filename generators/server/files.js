@@ -314,62 +314,6 @@ const toDeleteServerFiles = {
           renameTo: generator => `${generator.javaDir}repository/AuthorityRepository.java`,
           method: 'delete',
         },
-        {
-          file: 'package/repository/PersistenceAuditEventRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/PersistenceAuditEventRepository.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/service/AuditEventService.java',
-          renameTo: generator => `${generator.javaDir}service/AuditEventService.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/web/rest/AuditResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/AuditResource.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.reactive &&
-        generator.authenticationType === 'oauth2' &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/CustomAuditEventRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/CustomAuditEventRepository.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        generator.authenticationType === 'oauth2' &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AuditResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/AuditResourceIT.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.reactive &&
-        generator.authenticationType === 'oauth2' &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/CustomAuditEventRepositoryIT.java',
-          renameTo: generator => `${generator.testDir}repository/CustomAuditEventRepositoryIT.java`,
-          method: 'delete',
-        },
       ],
     },
     {
@@ -395,35 +339,6 @@ const toDeleteServerFiles = {
         {
           file: 'package/repository/AuthorityRepository.java',
           renameTo: generator => `${generator.javaDir}repository/AuthorityRepository.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/repository/PersistenceAuditEventRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/PersistenceAuditEventRepository.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/service/AuditEventService.java',
-          renameTo: generator => `${generator.javaDir}service/AuditEventService.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/web/rest/AuditResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/AuditResource.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.reactive &&
-        !generator.skipUserManagement &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/CustomAuditEventRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/CustomAuditEventRepository.java`,
           method: 'delete',
         },
       ],
@@ -529,38 +444,6 @@ const toDeleteServerFiles = {
         {
           file: 'package/security/jwt/JWTFilterTest.java',
           renameTo: generator => `${generator.testDir}security/jwt/JWTFilterTest.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.skipUserManagement &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AuditResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/AuditResourceIT.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/service/AuditEventServiceIT.java',
-          renameTo: generator => `${generator.testDir}service/AuditEventServiceIT.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.reactive &&
-        !generator.skipUserManagement &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/CustomAuditEventRepositoryIT.java',
-          renameTo: generator => `${generator.testDir}repository/CustomAuditEventRepositoryIT.java`,
           method: 'delete',
         },
       ],
