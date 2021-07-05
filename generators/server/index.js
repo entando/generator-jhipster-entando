@@ -31,8 +31,7 @@ module.exports = class extends ServerGenerator {
     const jhipsterPhase = super._initializing();
     const entandoPhase = {
       setupEntandoContext() {
-        // TODO JHipster v7 use getJhipsterConfig instead https://github.com/jhipster/generator-jhipster/pull/12022
-        const configuration = this.getAllJhipsterConfig(this, true);
+        const configuration = this.getJhipsterConfig();
         this.bundleName = configuration.get('bundleName');
         this.dockerImageOrganization = configuration.get('dockerOrganization');
         this.prodDatabaseTypePlugin = ['mongodb', 'neo4j', 'couchbase', 'cassandra', 'no'].includes(

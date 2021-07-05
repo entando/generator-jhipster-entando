@@ -19,8 +19,7 @@ module.exports = class extends EntityGenerator {
 
     this.configOptions = jhContext.configOptions || {};
 
-    // TODO JHipster v7 use getJhipsterConfig instead https://github.com/jhipster/generator-jhipster/pull/12022
-    const configuration = this.getAllJhipsterConfig();
+    const configuration = this.getJhipsterConfig();
     this.databaseType = configuration.databaseType;
   }
 
