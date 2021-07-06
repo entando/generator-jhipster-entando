@@ -47,16 +47,6 @@ module.exports = class extends ServerGenerator {
     // initializing - Your initialization methods (checking current project state, getting configs, etc)
     const jhipsterPhase = super._initializing();
     const entandoPhase = {
-      setupEntandoContext() {
-        const configuration = this.getJhipsterConfig();
-        this.bundleName = configuration.get('bundleName');
-        this.dockerImageOrganization = configuration.get('dockerOrganization');
-        this.prodDatabaseTypePlugin = ['mongodb', 'neo4j', 'couchbase', 'cassandra', 'no'].includes(
-          this.databaseType,
-        )
-          ? 'none'
-          : this.prodDatabaseType;
-      },
       setupEntandoServerconsts() {
         this.ENTANDO_BUNDLE_BOM_VERSION = constants.ENTANDO_BUNDLE_BOM_VERSION;
       },
@@ -84,11 +74,25 @@ module.exports = class extends ServerGenerator {
 
   get loading() {
     const defaultPhaseFromJHipster = super._loading();
-    return {
-      ...defaultPhaseFromJHipster,
+    const entandoPhase = {
+      loadEntandoSharedConfig() {
+        const configuration = this.getJhipsterConfig();
+        this.bundleName = configuration.get('bundleName');
+        this.dockerImageOrganization = configuration.get('dockerOrganization');
+        this.prodDatabaseTypePlugin = ['mongodb', 'neo4j', 'couchbase', 'cassandra', 'no'].includes(
+          this.databaseType,
+        )
+          ? 'none'
+          : this.prodDatabaseType;
+      },
       createUserManagementEntities() {
         this._createUserManagementEntities();
       },
+    };
+
+    return {
+      ...defaultPhaseFromJHipster,
+      ...entandoPhase,
     };
   }
 
