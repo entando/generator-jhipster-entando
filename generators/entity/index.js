@@ -16,15 +16,12 @@ module.exports = class extends EntityGenerator {
         )}`,
       );
     }
-
-    const configuration = this.getJhipsterConfig();
-    this.databaseType = configuration.databaseType;
   }
 
   get initializing() {
     const jhipsterInitializingPhase = super._initializing();
 
-    if (!this.databaseType || this.databaseType === 'no') {
+    if (!this.jhipsterConfig.databaseType || this.jhipsterConfig.databaseType === 'no') {
       return {
         ...jhipsterInitializingPhase,
         validateDbExistence() {
@@ -52,13 +49,29 @@ module.exports = class extends EntityGenerator {
   }
 
   get composing() {
-    // Here we are not overriding this phase and hence its being handled by JHipster
-    return super._composing();
+    const jhipsterComposingPhase = super._composing();
+    const { context, configOptions } = this;
+
+    return {
+      ...jhipsterComposingPhase,
+      ...{
+        composeMicrofrontend() {
+          this.composeWith(require.resolve('../entity-microfrontend'), {
+            context,
+            configOptions,
+          });
+        },
+      },
+    };
   }
 
   get loading() {
     // Here we are not overriding this phase and hence its being handled by JHipster
     return super._loading();
+  }
+
+  get preparingFields() {
+    return super._preparingFields();
   }
 
   get preparing() {
@@ -77,20 +90,7 @@ module.exports = class extends EntityGenerator {
   }
 
   get writing() {
-    const jhipsterWritingPhase = super._writing();
-    const { context, configOptions } = this;
-
-    return {
-      ...jhipsterWritingPhase,
-      ...{
-        composeMicrofrontend() {
-          this.composeWith(require.resolve('../entity-microfrontend'), {
-            context,
-            configOptions,
-          });
-        },
-      },
-    };
+    return super._writing();
   }
 
   get postWriting() {
