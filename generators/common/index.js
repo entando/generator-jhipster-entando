@@ -17,8 +17,6 @@ module.exports = class extends CommonGenerator {
         )}`,
       );
     }
-
-    this.configOptions = jhContext.configOptions || {};
   }
 
   get initializing() {

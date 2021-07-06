@@ -18,8 +18,6 @@ module.exports = class extends EntityServerGenerator {
         )}`,
       );
     }
-
-    this.configOptions = jhContext.configOptions || {};
   }
 
   get initializing() {

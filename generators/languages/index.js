@@ -20,7 +20,6 @@ module.exports = class extends LanguagesGenerator {
       );
     }
 
-    this.configOptions = jhContext.configOptions || {};
     /*  FROM ENTANDO: JHipster 6.9.O have a bug `this.skipUserManagement` is always undefined
      * Force to define the value.
      * Note: The bug is fixed in JHipster v7+ we would remove all this and only rely to default JHipster behavior

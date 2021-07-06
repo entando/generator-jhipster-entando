@@ -18,8 +18,6 @@ module.exports = class extends AppGenerator {
         )}`,
       );
     }
-
-    this.configOptions = jhContext.configOptions || {};
   }
 
   get initializing() {

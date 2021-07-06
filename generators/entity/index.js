@@ -17,8 +17,6 @@ module.exports = class extends EntityGenerator {
       );
     }
 
-    this.configOptions = jhContext.configOptions || {};
-
     const configuration = this.getJhipsterConfig();
     this.databaseType = configuration.databaseType;
   }
