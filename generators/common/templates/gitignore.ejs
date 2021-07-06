@@ -69,7 +69,12 @@ out/
 ######################
 # Visual Studio Code
 ######################
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
 
 ######################
 # Maven
@@ -146,6 +151,12 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+
+######################
+# Code coverage
+######################
+/coverage/
+/.nyc_output/
 
 ######################
 # Entando bundles
