@@ -89,15 +89,7 @@ module.exports = class extends GeneratorBaseBlueprint {
 
   get install() {
     // install - Where installations are run (npm, bower)
-    const jhipsterInstallPhase = super._install();
-
-    const entandoPhase = {
-      installRootNpmPackages() {
-        this.npmInstall();
-      },
-    };
-
-    return { ...jhipsterInstallPhase, ...entandoPhase };
+    return super._install();
   }
 
   get end() {
