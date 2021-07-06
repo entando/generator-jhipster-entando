@@ -49,6 +49,10 @@ module.exports = class extends EntityServerGenerator {
     return super._preparing();
   }
 
+  get preparingFields() {
+    return super._preparingFields();
+  }
+
   get default() {
     // default - If the method name doesn’t match a priority, it will be pushed to this group.
     return super._default();
