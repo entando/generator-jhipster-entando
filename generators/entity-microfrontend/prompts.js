@@ -3,7 +3,7 @@ async function askForMfeGeneration(meta) {
     return;
   }
 
-  const { generateMicroFrontends } = this;
+  const { generateMicroFrontends } = this.jhipsterConfig;
 
   if (generateMicroFrontends === 'ask') {
     const answers = await this.prompt({
@@ -13,13 +13,14 @@ async function askForMfeGeneration(meta) {
       default: true,
     });
 
-    this.configOptions.generateMfeForEntity = answers.generateMfeForEntity;
+    /* eslint-disable no-multi-assign */
+    this.generateMfeForEntity = this.jhipsterConfig.generateMfeForEntity = answers.generateMfeForEntity;
   } else {
     if (generateMicroFrontends === 'never') {
-      this.configOptions.generateMfeForEntity = false;
+      this.generateMfeForEntity = this.jhipsterConfig.generateMfeForEntity = false;
     }
     if (generateMicroFrontends === 'always') {
-      this.configOptions.generateMfeForEntity = true;
+      this.generateMfeForEntity = this.jhipsterConfig.generateMfeForEntity = true;
     }
   }
 }

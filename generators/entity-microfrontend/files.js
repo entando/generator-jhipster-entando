@@ -1082,13 +1082,13 @@ const microFrontendFiles = {
 function writeFiles() {
   return {
     writingInit() {
-      if (this.configOptions.generateMfeForEntity) {
-        this.mockData = getMockData(this.fields, 2);
+      if (this.jhipsterConfig.generateMfeForEntity) {
+        this.mockData = getMockData(this.entityConfig.fields, 2);
       }
     },
 
     writeMicroFrontendFiles() {
-      if (this.configOptions.generateMfeForEntity) {
+      if (this.jhipsterConfig.generateMfeForEntity) {
         this.writeFilesToDisk(microFrontendFiles, this, false, null);
       }
     },
@@ -1100,7 +1100,7 @@ function writeFiles() {
     },
 
     addPrettier() {
-      if (this.configOptions.generateMfeForEntity) {
+      if (this.jhipsterConfig.generateMfeForEntity) {
         this.addNpmDevDependency('prettier', '2.0.5');
         this.addNpmScript('prettier', 'prettier --write "ui/**/*.js"');
       }
