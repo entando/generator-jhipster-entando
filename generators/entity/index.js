@@ -19,21 +19,7 @@ module.exports = class extends EntityGenerator {
   }
 
   get initializing() {
-    const jhipsterInitializingPhase = super._initializing();
-
-    if (!this.jhipsterConfig.databaseType || this.jhipsterConfig.databaseType === 'no') {
-      return {
-        ...jhipsterInitializingPhase,
-        validateDbExistence() {
-          this.info('Skipping default JHipster validateDbExistence step');
-        },
-        validateTableName() {
-          this.info('Skipping default JHipster validateTableName');
-        },
-      };
-    }
-
-    return jhipsterInitializingPhase;
+    return super._initializing();
   }
 
   get prompting() {
