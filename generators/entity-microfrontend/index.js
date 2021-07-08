@@ -114,7 +114,7 @@ module.exports = class extends GeneratorBaseBlueprint {
          * TODO V7 JHipster this Entando end phase have to be removed since JHipster handles js files
          *   in prettier transformer when writing files on disk. This command will be useless.
          */
-        if (this.configOptions.generateMfeForEntity) {
+        if (this.jhipsterConfig.generateMfeForEntity) {
           this.spawnCommandSync('npm', ['run', 'prettier']);
         }
       },
