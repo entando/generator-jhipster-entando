@@ -82,7 +82,7 @@ describe('<%= entityClass %>Table', () => {
       <%_ } else if(fieldType === 'LocalDate') { _%>
         new Date(<%= entityInstance %>Mocks[0].<%= field.fieldName %>).toLocaleDateString(i18n.language)
       <%_ } else if(['Integer','Long', 'BigDecimal', 'Float', 'Double'].includes(fieldType)) { _%>
-          <%= entityInstance %>Mocks[<%= index %>].<%= field.fieldName %>.toString()
+          <%= entityInstance %>Mocks[0].<%= field.fieldName %>.toString()
       <%_ } else { _%>
         <%= entityInstance %>Mocks[0].<%= field.fieldName %>
       <%_ } _%>
