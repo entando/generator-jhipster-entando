@@ -50,15 +50,14 @@ module.exports = class extends EntityGenerator {
 
   get composing() {
     const jhipsterComposingPhase = super._composing();
-    const { context, configOptions } = this;
+    const { context } = this;
 
     return {
       ...jhipsterComposingPhase,
       ...{
         composeMicrofrontend() {
-          this.composeWith(require.resolve('../entity-microfrontend'), {
+          this.composeWith(require.resolve('../entity-microfrontend'), true, {
             context,
-            configOptions,
           });
         },
       },
