@@ -1083,7 +1083,7 @@ function writeFiles() {
   return {
     writingInit() {
       if (this.jhipsterConfig.generateMfeForEntity) {
-        this.mockData = getMockData(this.entityConfig.fields, 2);
+        this.mockData = getMockData(this.fields, 2);
       }
     },
 
