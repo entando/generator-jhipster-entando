@@ -1,5 +1,6 @@
+const _ = require('lodash');
 const GeneratorBaseBlueprint = require('generator-jhipster/generators/generator-base-blueprint');
-const utils = require('generator-jhipster/generators/utils');
+const { prepareEntityForTemplates } = require('generator-jhipster/utils/entity');
 
 const constants = require('../generator-constants');
 const prompts = require('./prompts');
@@ -11,9 +12,7 @@ const { DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
 module.exports = class extends GeneratorBaseBlueprint {
   constructor(args, opts) {
     super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
-    utils.copyObjectProps(this, opts.context);
-    this.jhipsterContext = opts.jhipsterContext || opts.context;
-    this.configOptions = opts.configOptions || {};
+    this.context = opts.context;
   }
 
   get initializing() {
@@ -29,11 +28,6 @@ module.exports = class extends GeneratorBaseBlueprint {
         this.getFormikValuePropType = lib.getFormikValuePropType;
         this.getFormikTouchedPropType = lib.getFormikTouchedPropType;
         this.getFormikErrorPropType = lib.getFormikErrorPropType;
-      },
-      setupMfeContext() {
-        const jhipsterConfig = this.getJhipsterConfig();
-        this.serverPort = jhipsterConfig.serverPort;
-        this.generateMicroFrontends = jhipsterConfig.generateMicroFrontends || 'ask';
       },
     };
 
@@ -60,13 +54,31 @@ module.exports = class extends GeneratorBaseBlueprint {
   }
 
   get loading() {
-    // Here we are not overriding this phase and hence its being handled by JHipster
-    return super._loading();
+    const jhipsterPhase = super._loading();
+    const entandoPhase = {
+      loadSharedConfig() {
+        this.loadAppConfig();
+        this.loadServerConfig();
+        this.loadTranslationConfig();
+      },
+    };
+
+    return { ...jhipsterPhase, ...entandoPhase };
   }
 
   get preparing() {
-    // Here we are not overriding this phase and hence its being handled by JHipster
-    return super._preparing();
+    const { context } = this;
+
+    const jhipsterPhase = super._preparing();
+    const entandoPhase = {
+      prepareEntityForTemplates() {
+        prepareEntityForTemplates(context, this);
+        // copy all the new context entries into this to ensure we can access them in the templates directly by the name
+        _.defaults(this, context);
+      },
+    };
+
+    return { ...jhipsterPhase, ...entandoPhase };
   }
 
   get default() {
