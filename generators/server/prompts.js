@@ -106,8 +106,7 @@ function askForServerSideOpts() {
         },
         {
           value: 'hazelcast',
-          name:
-            'Hazelcast (distributed cache, for multiple nodes, supports rate-limiting for gateway applications)',
+          name: 'Hazelcast (distributed cache, for multiple nodes, supports rate-limiting for gateway applications)',
         },
         {
           value: 'infinispan',
@@ -115,8 +114,7 @@ function askForServerSideOpts() {
         },
         {
           value: 'memcached',
-          name:
-            'Memcached (distributed cache) - Warning, when using an SQL database, this will disable the Hibernate 2nd level cache!',
+          name: 'Memcached (distributed cache) - Warning, when using an SQL database, this will disable the Hibernate 2nd level cache!',
         },
         {
           value: 'redis',
@@ -124,8 +122,7 @@ function askForServerSideOpts() {
         },
         {
           value: 'no',
-          name:
-            'No cache - Warning, when using an SQL database, this will disable the Hibernate 2nd level cache!',
+          name: 'No cache - Warning, when using an SQL database, this will disable the Hibernate 2nd level cache!',
         },
       ],
       default: applicationType === 'microservice' ? 1 : serverDefaultConfig.cacheProvider,

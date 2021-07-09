@@ -15,7 +15,7 @@ describe('Subgenerator common of entando JHipster blueprint', () => {
         })
         .withGenerators([
           [
-            require('../generators/common/index.js'), // eslint-disable-line global-require
+            require('../generators/common/index'), // eslint-disable-line global-require
             'jhipster-entando:common',
             path.join(__dirname, '../generators/common/index.js'),
           ],

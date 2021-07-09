@@ -174,13 +174,8 @@ function askForRelationsToRemove() {
 function askForField() {
   const { context } = this;
   this.log(chalk.green(`\nGenerating field #${this.entityConfig.fields.length + 1}\n`));
-  const {
-    skipServer,
-    prodDatabaseType,
-    databaseType,
-    clientFramework,
-    skipCheckLengthOfIdentifier,
-  } = context;
+  const { skipServer, prodDatabaseType, databaseType, clientFramework, skipCheckLengthOfIdentifier } =
+    context;
   const possibleFiltering = databaseType === SQL && !context.reactive;
   const prompts = [
     {

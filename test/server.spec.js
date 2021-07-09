@@ -20,9 +20,9 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         })
         .withGenerators([
           [
-            require('../generators/server/index.js'), // eslint-disable-line global-require
+            require('../generators/server/index'), // eslint-disable-line global-require
             'jhipster-entando:server',
-            path.join(__dirname, '../generators/server/index.js'),
+            path.join(__dirname, '../generators/server/index'),
           ],
         ])
         .withPrompts({
@@ -389,9 +389,9 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         })
         .withGenerators([
           [
-            require('../generators/server/index.js'), // eslint-disable-line global-require
+            require('../generators/server/index'), // eslint-disable-line global-require
             'jhipster-entando:server',
-            path.join(__dirname, '../generators/server/index.js'),
+            path.join(__dirname, '../generators/server/index'),
           ],
         ])
         .withPrompts({
