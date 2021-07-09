@@ -1,43 +1,53 @@
 {
-    "generator-jhipster-entando": {
-      "promptValues": {
-          "packageName": "com.mycompany.myapp"
-      },
-      "applicationType": "microservice",
-      "baseName": "entandoBlueprint",
-      "packageName": "com.mycompany.myapp",
-      "packageFolder": "com/mycompany/myapp",
-      "serverPort": "8080",
-      "authenticationType": "jwt",
-      "cacheProvider": "ehcache",
-      "enableHibernateCache": true,
-      "websocket": false,
-      "databaseType": "no",
-      "service": "serviceImpl",
-      "searchEngine": false,
-      "messageBroker": false,
-      "serviceDiscoveryType": false,
-      "buildTool": "maven",
-      "enableSwaggerCodegen": false,
-      "useSass": false,
-      "clientPackageManager": "npm",
-      "generateMicroFrontends": "never"
-    },
-    "generator-jhipster": {
-        "promptValues": {
-            "nativeLanguage": "en"
-        },
-        "applicationType": "monolith",
-        "baseName": "jhipsterBlueprint",
-        "testFrameworks": [],
-        "jhiPrefix": "jhi",
-        "enableTranslation": true,
-        "clientPackageManager": "npm",
-        "nativeLanguage": "en",
-        "languages": [
-            "en",
-            "fr"
-        ],
-        "blueprint": "generator-jhipster-entando"
-    }
+  "generator-jhipster": {
+    "blueprints": [
+      {
+        "name": "generator-jhipster-entando",
+        "version": "6.3.2"
+      }
+    ],
+    "otherModules": [
+      {
+        "name": "generator-jhipster-entando",
+        "version": "6.3.2"
+      }
+    ],
+    "applicationType": "microservice",
+    "skipClient": true,
+    "withAdminUi": false,
+    "skipUserManagement": true,
+    "skipServer": false,
+    "skipCheckLengthOfIdentifier": false,
+    "skipFakeData": false,
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "testFrameworks": [],
+    "pages": [],
+    "creationTimestamp": 1625768390025,
+    "serviceDiscoveryType": false,
+    "reactive": false,
+    "authenticationType": "oauth2",
+    "packageName": "com.mycompany.myapp",
+    "serverPort": "8081",
+    "cacheProvider": "caffeine",
+    "enableHibernateCache": false,
+    "databaseType": "no",
+    "devDatabaseType": "no",
+    "prodDatabaseType": "no",
+    "buildTool": "maven",
+    "serverSideOptions": [],
+    "websocket": false,
+    "searchEngine": false,
+    "messageBroker": false,
+    "enableSwaggerCodegen": false,
+    "bundleName": "entjhi7-bundle",
+    "dockerImageOrganization": "dddd",
+    "generateMicroFrontends": "never",
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "packageFolder": "com/mycompany/myapp",
+    "jwtSecretKey": "OTZiNWU5NDQ0ZDUzMGY0ZmY3Y2U4MzM3ZmQxOGFhYTc3ZjQ1OGUxMGU0YWMwZmQyNzEyNTEzMjc4ODNiNTUyNGE3ODc0ZjdjZDUyZTlmOTM2NWM1ZmMyOWQzNTBmY2E3NTFmYTAzMjJlZTg1MDU2MWU3OWVlNjkwZDc0N2IyYjM=",
+    "languages": ["en"]
+  }
 }
