@@ -51,7 +51,7 @@
     "sinon-chai": "^3.5.0",
     "yaml": "^1.10.0",
     "yeoman-assert": "3.1.1",
-    "yeoman-test": "5.1.0"
+    "yeoman-test": "6.1.0"
   },
   "scripts": {
     "dev:setup": "npm install -g generator-jhipster@latest yo@latest",
