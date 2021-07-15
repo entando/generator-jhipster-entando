@@ -11,6 +11,7 @@ module.exports = {
   askForBundleName,
   askForDockerOrganization,
   askForMicroFrontendGeneration,
+  setEntandoSharedConfigOptions,
 };
 
 function askForServerSideOpts() {
@@ -144,12 +145,10 @@ function askForServerSideOpts() {
     /* eslint-disable no-multi-assign */
     this.serviceDiscoveryType = this.jhipsterConfig.serviceDiscoveryType =
       DEFAULT_SERVER_PROMPTS.SERVICE_DISCOVERY_TYPE;
-    if (this.jhipsterConfig.applicationType === 'gateway') {
-      // eslint-disable-next-line no-param-reassign
-      this.reactive = this.jhipsterConfig.reactive = answers.reactive = true;
-    } else {
-      this.reactive = this.jhipsterConfig.reactive = false;
-    }
+
+    this.reactive = this.jhipsterConfig.reactive = false;
+
+    // this.authenticationType = this.jhipsterConfig.authenticationType = answers.authenticationType;
     this.authenticationType = this.jhipsterConfig.authenticationType =
       DEFAULT_SERVER_PROMPTS.AUTHENTICATION_TYPE;
 
@@ -233,4 +232,10 @@ async function askForMicroFrontendGeneration() {
 
   const answers = await this.prompt(prompts);
   this.generateMicroFrontends = this.jhipsterConfig.generateMicroFrontends = answers.generateMicroFrontends;
+}
+
+function setEntandoSharedConfigOptions() {
+  this.configOptions.bundleName = this.bundleName;
+  this.configOptions.prodDatabaseTypePlugin = this.prodDatabaseTypePlugin;
+  this.configOptions.dockerImageOrganization = this.dockerImageOrganization;
 }
