@@ -353,7 +353,7 @@ jhipster:
   <%_ if (applicationType !== 'microservice') { _%>
   # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
   cors:
-    allowed-origins: "*"
+    allowed-origin-patterns: 'http://localhost:[*]'
     allowed-methods: "*"
     allowed-headers: "*"
     <%_ if (authenticationType === 'session') { _%>
@@ -367,7 +367,7 @@ jhipster:
     # CORS is enabled by default on microservices on entando-blueprint.
     # If you want to disable it, please comment the configuration below.
   cors:
-     allowed-origins: "*"
+     allowed-origin-patterns: 'http://localhost:[*]'
      allowed-methods: "*"
      allowed-headers: "*"
      exposed-headers: "Authorization,Link,X-Total-Count"
