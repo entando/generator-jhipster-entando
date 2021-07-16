@@ -16,13 +16,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-<%_ if (reactive) { _%>
-        return <%= entityInstance %><%= viaService ? 'Service.delete' : 'Repository.deleteById' %>(id)<%_ if (!viaService && searchEngineElasticsearch) { %>
-            .then(<%= entityInstance %>SearchRepository.deleteById(id))<%_ } _%><%_ if (!fromResource) { _%>;
-<%_ } _%>
-<%_ } else { _%>
-        <%= entityInstance %><%= viaService ? 'Service.delete' : 'Repository.deleteById' %>(id);
-  <%_ if (!viaService && searchEngineElasticsearch) { _%>
-        <%= entityInstance %>SearchRepository.deleteById(id);
-  <%_ } _%>
-<%_ } _%>
+package <%= packageName %>.repository.search;
+
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * Configure a Mock version of {@link <%= entityClass %>SearchRepository} to test the
+ * application without starting Elasticsearch.
+ */
+@Configuration
+public class <%= entityClass %>SearchRepositoryMockConfiguration {
+
+    @MockBean
+    private <%= entityClass %>SearchRepository mock<%= entityClass %>SearchRepository;
+
+}
