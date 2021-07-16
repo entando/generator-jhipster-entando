@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
     <%_ if (authenticationType === 'oauth2') { _%>
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpMethod;
     <%_ } _%>
     <%_ if (applicationType !== 'microservice' || authenticationType !== 'oauth2') { _%>
 import org.springframework.http.HttpMethod;
@@ -255,6 +256,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/auth-info").permitAll()
     <%_ } _%>
             .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll()
             .antMatchers("/api/**").authenticated()
     <%_ if (websocket === 'spring-websocket') { _%>
             .antMatchers("/websocket/**").authenticated()
