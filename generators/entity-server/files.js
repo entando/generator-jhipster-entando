@@ -21,7 +21,13 @@ const chalk = require('chalk');
 const fs = require('fs');
 const utils = require('generator-jhipster/utils');
 const constants = require('generator-jhipster/generators/generator-constants');
-const { CASSANDRA, COUCHBASE, MONGODB, NEO4J, SQL } = require('generator-jhipster/jdl/jhipster/database-types');
+const {
+  CASSANDRA,
+  COUCHBASE,
+  MONGODB,
+  NEO4J,
+  SQL,
+} = require('generator-jhipster/jdl/jhipster/database-types');
 const { ELASTICSEARCH } = require('generator-jhipster/jdl/jhipster/search-engine-types');
 const { MapperTypes, ServiceTypes } = require('generator-jhipster/jdl/jhipster/entity-options');
 const { EHCACHE, CAFFEINE, INFINISPAN, REDIS } = require('generator-jhipster/jdl/jhipster/cache-types');
