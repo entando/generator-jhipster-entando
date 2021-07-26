@@ -11,7 +11,6 @@ module.exports = {
   askForBundleName,
   askForDockerOrganization,
   askForMicroFrontendGeneration,
-  setEntandoSharedConfigOptions,
 };
 
 function askForServerSideOpts() {
@@ -232,10 +231,4 @@ async function askForMicroFrontendGeneration() {
 
   const answers = await this.prompt(prompts);
   this.generateMicroFrontends = this.jhipsterConfig.generateMicroFrontends = answers.generateMicroFrontends;
-}
-
-function setEntandoSharedConfigOptions() {
-  this.configOptions.bundleName = this.bundleName;
-  this.configOptions.prodDatabaseTypePlugin = this.prodDatabaseTypePlugin;
-  this.configOptions.dockerImageOrganization = this.dockerImageOrganization;
 }
