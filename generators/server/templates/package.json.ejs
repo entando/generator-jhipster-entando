@@ -47,6 +47,9 @@
     "default_environment": "prod"
   },
   "scripts": {
+    "populate-bundle": "bash ./buildBundle.sh",
+    "build-all": "bash ./buildBundle.sh -d",
+    "keycloak": "docker-compose -f src/main/docker/keycloak.yml up",
     "prettier:check": "prettier --check \"{,src/**/}*.{<%= getPrettierExtensions() %>}\"",
     "prettier:format": "prettier --write \"{,src/**/}*.{<%= getPrettierExtensions() %>}\""
   }
