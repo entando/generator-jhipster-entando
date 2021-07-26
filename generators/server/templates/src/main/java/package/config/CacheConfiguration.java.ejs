@@ -68,9 +68,7 @@ import org.springframework.cache.CacheManager;
 
 <%_ } _%>
 <%_ if (cacheProvider === 'memcached') { _%>
-    <%_ if (!skipUserManagement || (authenticationType === 'oauth2' && databaseType !== 'no')) { _%>
-import <%= packageName %>.repository.UserRepository;
-    <%_ } _%>
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -219,15 +217,9 @@ public class CacheConfiguration {
             createCache(cm, "oAuth2Authentication");
             <%_ } _%>
             <%_ if (!skipUserManagement || (authenticationType === 'oauth2' && databaseType !== 'no')) { _%>
-            createCache(cm, <%= packageName %>.repository.UserRepository.USERS_BY_LOGIN_CACHE);
-            createCache(cm, <%= packageName %>.repository.UserRepository.USERS_BY_EMAIL_CACHE);
                 <%_ if (enableHibernateCache) { _%>
-            createCache(cm, <%= packageName %>.domain.<%= asEntity('User') %>.class.getName());
-            createCache(cm, <%= packageName %>.domain.Authority.class.getName());
-            createCache(cm, <%= packageName %>.domain.<%= asEntity('User') %>.class.getName() + ".authorities");
                     <%_ if (authenticationType === 'session') { _%>
             createCache(cm, <%= packageName %>.domain.PersistentToken.class.getName());
-            createCache(cm, <%= packageName %>.domain.<%= asEntity('User') %>.class.getName() + ".persistentTokens");
                     <%_ } _%>
                 <%_ } _%>
             <%_ } _%>
@@ -552,17 +544,6 @@ public class CacheConfiguration {
                 .statistics().enabled(cacheInfo.isStatsEnabled())
                 .simpleCache(true).transaction().transactionMode(TransactionMode.NON_TRANSACTIONAL).expiration().maxIdle(60000).template(true).build());
 
-            <%_ if (!skipUserManagement || (authenticationType === 'oauth2' && databaseType !== 'no')) { _%>
-            Stream.of(<%= packageName %>.repository.UserRepository.USERS_BY_LOGIN_CACHE, <%= packageName %>.repository.UserRepository.USERS_BY_EMAIL_CACHE)
-                .forEach(cacheName -> manager.defineConfiguration(cacheName, new ConfigurationBuilder().clustering()
-                    .cacheMode(CacheMode.INVALIDATION_SYNC)
-                    .statistics()
-                    .enabled(cacheInfo.isStatsEnabled())
-                    .locking()
-                    .concurrencyLevel(1000)
-                    .lockAcquisitionTimeout(15000)
-                    .build()));
-            <%_ } _%>
             <%_ if (authenticationType === 'oauth2' && applicationType === 'microservice') { _%>
             manager.defineConfiguration("oAuth2Authentication", new ConfigurationBuilder()
                 .clustering().cacheMode(CacheMode.LOCAL)
@@ -683,23 +664,6 @@ public class CacheConfiguration {
         return cacheManager;
     }
 
-    @Bean
-    CacheFactory defaultCacheFactory(JHipsterProperties jHipsterProperties) {
-        return createCache("default", jHipsterProperties);
-    }
-    <%_ if (!skipUserManagement || (authenticationType === 'oauth2' && databaseType !== 'no')) { _%>
-
-    @Bean
-    public CacheFactory usersByLoginCache(JHipsterProperties jHipsterProperties) {
-        return this.createCache(UserRepository.USERS_BY_LOGIN_CACHE, jHipsterProperties);
-    }
-
-    @Bean
-    public CacheFactory usersByEmailCache(JHipsterProperties jHipsterProperties) {
-        return this.createCache(UserRepository.USERS_BY_EMAIL_CACHE, jHipsterProperties);
-    }
-    <%_ } _%>
-
     private CacheFactory createCache(String cacheName, JHipsterProperties jHipsterProperties) {
         if (!jHipsterProperties.getCache().getMemcached().isEnabled()) {
             // Note that Memcached cannot work with Spring Boot devtools
@@ -783,19 +747,6 @@ public class CacheConfiguration {
     @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer(javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration) {
         return cm -> {
-            <%_ if (!skipUserManagement || (authenticationType === 'oauth2' && databaseType !== 'no')) { _%>
-            createCache(cm, <%= packageName %>.repository.UserRepository.USERS_BY_LOGIN_CACHE, jcacheConfiguration);
-            createCache(cm, <%= packageName %>.repository.UserRepository.USERS_BY_EMAIL_CACHE, jcacheConfiguration);
-                <%_ if (enableHibernateCache) { _%>
-            createCache(cm, <%= packageName %>.domain.<%= asEntity('User') %>.class.getName(), jcacheConfiguration);
-            createCache(cm, <%= packageName %>.domain.Authority.class.getName(), jcacheConfiguration);
-            createCache(cm, <%= packageName %>.domain.<%= asEntity('User') %>.class.getName() + ".authorities", jcacheConfiguration);
-                    <%_ if (authenticationType === 'session') { _%>
-            createCache(cm, <%= packageName %>.domain.PersistentToken.class.getName(), jcacheConfiguration);
-            createCache(cm, <%= packageName %>.domain.<%= asEntity('User') %>.class.getName() + ".persistentTokens", jcacheConfiguration);
-                    <%_ } _%>
-                <%_ } _%>
-            <%_ } _%>
             // jhipster-needle-redis-add-entry
         };
     }
