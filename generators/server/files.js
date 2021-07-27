@@ -9,7 +9,7 @@ const {
   SERVER_TEST_SRC_DIR,
   SERVER_TEST_RES_DIR,
 } = constants;
-
+const { REACT } = constants.SUPPORTED_CLIENT_FRAMEWORKS;
 const { SCALA_LIBRARY_VERSION, MBKNOR_JACKSON_JSONSCHEMA_VERSION } = entConstants;
 
 /**
@@ -71,7 +71,7 @@ const entandoServerFiles = {
   ],
   serverResource: [
     {
-      condition: generator => generator.clientFramework !== 'react',
+      condition: generator => generator.clientFramework !== REACT,
       path: SERVER_MAIN_RES_DIR,
       templates: [{ file: 'banner.txt', method: 'copy', noEjs: true }],
     },
@@ -84,6 +84,9 @@ const entandoServerFiles = {
       path: SERVER_MAIN_RES_DIR,
       templates: [
         {
+          override: generator =>
+            !generator.jhipsterConfig.incrementalChangelog ||
+            generator.configOptions.recreateInitialChangelog,
           file: 'config/liquibase/changelog/initial_schema.xml',
           renameTo: () => 'config/liquibase/changelog/00000000000000_initial_schema.xml',
           options: { interpolate: INTERPOLATE_REGEX },
@@ -93,7 +96,7 @@ const entandoServerFiles = {
   ],
   serverJavaAuthConfig: [
     {
-      condition: generator => !generator.reactive && generator.applicationType !== 'uaa',
+      condition: generator => !generator.reactive,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
@@ -103,7 +106,7 @@ const entandoServerFiles = {
       ],
     },
     {
-      condition: generator => !generator.reactive && generator.applicationType !== 'uaa',
+      condition: generator => !generator.reactive,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
@@ -125,28 +128,11 @@ const entandoServerFiles = {
   ],
   serverMicroservice: [
     {
-      condition: generator => generator.authenticationType === 'oauth2',
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/SecurityConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/SecurityConfiguration.java`,
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !(
-          generator.applicationType !== 'microservice' &&
-          !(
-            generator.applicationType === 'gateway' &&
-            (generator.authenticationType === 'uaa' || generator.authenticationType === 'oauth2')
-          )
-        ) && generator.applicationType === 'microservice',
+      condition: generator => generator.applicationType === 'microservice',
       path: SERVER_MAIN_RES_DIR,
       templates: [
-        { file: 'static/microservices_index.html', method: 'copy', renameTo: () => 'static/index.html' },
-        { file: 'static/favicon.png', method: 'copy', renameTo: () => 'static/favicon.png' },
+        { file: 'static/microservices_index.html', renameTo: () => 'static/index.html' },
+        { file: 'static/favicon.png', renameTo: () => 'static/favicon.png' },
       ],
     },
   ],
@@ -527,56 +513,32 @@ function writeFiles() {
     },
 
     addUnspecificDependencies() {
-      if (this.buildTool === 'maven') {
-        this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, null);
-        this.addMavenDependency(
-          'org.springframework.boot',
-          'spring-boot-starter-undertow',
-          null,
-          '<scope>provided</scope>',
-        );
-      } else if (this.buildTool === 'gradle') {
-        this.addGradleDependency('implementation', 'javax.servlet', 'javax.servlet-api', null);
-        this.addGradleDependency(
-          'compileOnly',
-          'org.springframework.boot',
-          'spring-boot-starter-undertow',
-          null,
-        );
-      }
+      this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, null);
+      this.addMavenDependency(
+        'org.springframework.boot',
+        'spring-boot-starter-undertow',
+        null,
+        '<scope>provided</scope>',
+      );
     },
 
     addJsonSchemaDependencies() {
-      if (this.buildTool === 'maven') {
-        this.addMavenDependency('org.scala-lang', 'scala-library', SCALA_LIBRARY_VERSION);
-        this.addMavenDependency(
-          'com.kjetland',
-          'mbknor-jackson-jsonschema_2.12',
-          MBKNOR_JACKSON_JSONSCHEMA_VERSION,
-          '            <exclusions>\n' +
-            '                <exclusion>\n' +
-            '                    <groupId>org.scala-lang</groupId>\n' +
-            '                    <artifactId>scala-library</artifactId>\n' +
-            '                </exclusion>\n' +
-            '            </exclusions>',
-        );
-      } else if (this.buildTool === 'gradle') {
-        this.addGradleDependency('implementation', 'org.scala-lang', 'scala-library', SCALA_LIBRARY_VERSION);
-        this.addGradleDependency(
-          'implementation',
-          'com.kjetland',
-          'mbknor-jackson-jsonschema_2.12',
-          MBKNOR_JACKSON_JSONSCHEMA_VERSION,
-        );
-      }
+      this.addMavenDependency('org.scala-lang', 'scala-library', SCALA_LIBRARY_VERSION);
+      this.addMavenDependency(
+        'com.kjetland',
+        'mbknor-jackson-jsonschema_2.12',
+        MBKNOR_JACKSON_JSONSCHEMA_VERSION,
+        '            <exclusions>\n' +
+          '                <exclusion>\n' +
+          '                    <groupId>org.scala-lang</groupId>\n' +
+          '                    <artifactId>scala-library</artifactId>\n' +
+          '                </exclusion>\n' +
+          '            </exclusions>',
+      );
     },
 
     addMavenSnapshotRepository() {
-      if (this.buildTool === 'maven') {
-        this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
-      } else if (this.buildTool === 'gradle') {
-        this.addGradleMavenRepository('https://oss.sonatype.org/content/repositories/snapshots', null, null);
-      }
+      this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
     },
   };
 }

@@ -21,8 +21,8 @@ export const api<%= entityClass %>Post = async (serviceUrl, <%= entityInstance %
   return request(url, options);
 };
 
-export const api<%= entityClass %>Put = async (serviceUrl, <%= entityInstance %>) => {
-  const url = `${serviceUrl}/${resource}`;
+export const api<%= entityClass %>Put = async (serviceUrl, id, <%= entityInstance %>) => {
+  const url = `${serviceUrl}/${resource}/${id}`;
   const options = {
     ...getDefaultOptions(),
     method: 'PUT',

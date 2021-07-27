@@ -1,21 +1,32 @@
-const jhiConstants = require('generator-jhipster/generators/generator-constants');
+/**
+ * Copyright 2013-2021 the original author or authors from the JHipster project.
+ *
+ * This file is part of the JHipster project, see https://www.jhipster.tech/
+ * for more information.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const constants = require('generator-jhipster/generators/generator-constants');
 
-const { SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR } = jhiConstants;
+/* Constants use throughout */
+const { SERVER_MAIN_SRC_DIR } = constants;
 
+/**
+ * The default is to use a file path string. It implies use of the template method.
+ * For any other config an object { file:.., method:.., template:.. } can be used
+ */
 const serverFiles = {
-  schema: [
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/schema/EntitySchemaResource.java',
-          renameTo: generator =>
-            `${generator.packageFolder}/web/rest/schema/${generator.entityClass}SchemaResource.java`,
-        },
-      ],
-    },
-  ],
-  entity: [
+  server: [
     {
       condition: generator => generator.databaseType === 'no',
       path: SERVER_MAIN_SRC_DIR,
@@ -90,37 +101,23 @@ const serverFiles = {
       ],
     },
   ],
-  test: [
-    {
-      condition: generator => generator.databaseType === 'no',
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/NoDbEntityTest.java',
-          renameTo: generator => `${generator.packageFolder}/domain/${generator.entityClass}Test.java`,
-          override: true,
-        },
-        {
-          file: 'package/web/rest/NoDbEntityResourceIT.java',
-          path: SERVER_TEST_SRC_DIR,
-          renameTo: generator =>
-            `${generator.packageFolder}/web/rest/${generator.entityClass}ResourceIT.java`,
-          override: true,
-        },
-      ],
-    },
-  ],
 };
 
 function writeFiles() {
   return {
     writeEntandoFiles() {
-      this.writeFilesToDisk(serverFiles, this, false, null);
+      if (this.skipServer) return undefined;
+
+      // write server side files
+      if (this.reactive) {
+        return this.writeFilesToDisk(serverFiles, ['reactive', '']);
+      }
+      return this.writeFilesToDisk(serverFiles);
     },
   };
 }
 
 module.exports = {
-  serverFiles,
   writeFiles,
+  serverFiles,
 };

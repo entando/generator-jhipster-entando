@@ -8,10 +8,6 @@ const SQL_DB_OPTIONS = [
     value: 'postgresql',
     name: 'PostgreSQL',
   },
-  {
-    value: 'oracle',
-    name: 'Oracle',
-  },
 ];
 
 const MFE_MAIN_DIR = 'ui/widgets/';

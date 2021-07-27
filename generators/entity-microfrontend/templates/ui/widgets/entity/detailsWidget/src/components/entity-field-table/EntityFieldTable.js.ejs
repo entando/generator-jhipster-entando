@@ -42,14 +42,6 @@ const <%= entityClass %>FieldTable = ({ t, <% if (fieldsContainDate) { _%>i18n: 
       </TableRow>
     </TableHead>
     <TableBody>
-      <TableRow>
-        <TableCell>
-          <span>{t('<%= translationKeyPrefix %>id')}</span>
-        </TableCell>
-        <TableCell data-testid="<%= entityInstance %>IdValue">
-          <span>{<%= entityInstance %>.id}</span>
-        </TableCell>
-      </TableRow>
       <%_ fields.forEach(function(field) { _%>
       <TableRow>
         <TableCell>

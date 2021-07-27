@@ -72,7 +72,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
 
     if (authenticated) {
       try {
-        const updated<%= entityClass %> = await api<%= entityClass %>Put(serviceUrl, <%= entityInstance %>);
+        const updated<%= entityClass %> = await api<%= entityClass %>Put(serviceUrl, <%= entityInstance %>.id, <%= entityInstance %>);
         onUpdate(updated<%= entityClass %>);
 
         this.setState({
