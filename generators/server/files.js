@@ -231,6 +231,11 @@ const toDeleteServerFiles = {
           method: 'delete',
         },
         {
+          file: 'package/web/rest/PublicUserResource.java',
+          renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
+          method: 'delete',
+        },
+        {
           file: 'package/web/rest/vm/ManagedUserVM.java',
           renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
           method: 'delete',
@@ -255,6 +260,11 @@ const toDeleteServerFiles = {
         {
           file: 'package/service/mapper/UserMapperTest.java',
           renameTo: generator => `${generator.testDir}service/mapper/UserMapperTest.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/PublicUserResourceIT.java',
+          renameTo: generator => `${generator.testDir}web/rest/PublicUserResourceIT.java`,
           method: 'delete',
         },
         {
@@ -384,6 +394,11 @@ const toDeleteServerFiles = {
           method: 'delete',
         },
         {
+          file: 'package/web/rest/PublicUserResource.java',
+          renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
+          method: 'delete',
+        },
+        {
           file: 'package/web/rest/vm/KeyAndPasswordVM.java',
           renameTo: generator => `${generator.javaDir}web/rest/vm/KeyAndPasswordVM.java`,
           method: 'delete',
@@ -482,6 +497,11 @@ const toDeleteServerFiles = {
         {
           file: 'package/config/NoOpMailConfiguration.java',
           renameTo: generator => `${generator.testDir}config/NoOpMailConfiguration.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/PublicUserResourceIT.java',
+          renameTo: generator => `${generator.testDir}web/rest/PublicUserResourceIT.java`,
           method: 'delete',
         },
         {
