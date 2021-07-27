@@ -190,6 +190,11 @@ const toDeleteServerFiles = {
           method: 'delete',
         },
         {
+          file: 'package/service/dto/AdminUserDTO.java',
+          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('AdminUser')}.java`,
+          method: 'delete',
+        },
+        {
           file: 'package/service/dto/UserDTO.java',
           renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
           method: 'delete',
@@ -368,6 +373,11 @@ const toDeleteServerFiles = {
         },
 
         /* User management java web files */
+        {
+          file: 'package/service/dto/AdminUserDTO.java',
+          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('AdminUser')}.java`,
+          method: 'delete',
+        },
         {
           file: 'package/service/dto/UserDTO.java',
           renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
