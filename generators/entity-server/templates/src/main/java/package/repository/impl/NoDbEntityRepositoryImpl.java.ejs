@@ -54,15 +54,23 @@ public class <%= entityClass %>RepositoryImpl implements <%= entityClass %>Repos
     }
 
     @Override
-    public Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKeyType %> id) {
+    public Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKey.type %> id) {
         return Optional.empty();
     }
 
     @Override
-    public void deleteById(<%= primaryKeyType %> id) { }
+    public void deleteById(<%= primaryKey.type %> id) { }
+
+    @Override
+    public boolean existsById(<%= primaryKey.type %> id) { return true; };
 
     @Override
     public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+        return <%= asEntity(entityInstance) %>;
+    }
+
+    @Override
+    public <%= asEntity(entityClass) %> partialUpdate(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return <%= asEntity(entityInstance) %>;
     }
 

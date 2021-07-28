@@ -38,11 +38,15 @@ public interface <%= entityClass %>Repository {
 
     Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
-    Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKeyType %> id);
+    Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKey.type %> id);
 
-    void deleteById(<%= primaryKeyType %> id);
+    void deleteById(<%= primaryKey.type %> id);
+
+    boolean existsById(<%= primaryKey.type %> id);
 
     <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+
+    <%= asEntity(entityClass) %> partialUpdate(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
     <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 

@@ -69,7 +69,7 @@ public class <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl'
     <%_ if (service === 'serviceImpl') { _%>
     @Override
     <%_ } _%>
-    public Optional<<%= asEntity(entityClass) %>> findOne(<%= primaryKeyType %> id) {
+    public Optional<<%= asEntity(entityClass) %>> findOne(<%= primaryKey.type %> id) {
         return this.repository.findById(id);
     }
 
@@ -83,7 +83,7 @@ public class <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl'
     <%_ if (service === 'serviceImpl') { _%>
     @Override
     <%_ } _%>
-    public void delete(<%= primaryKeyType %> id) {
+    public void delete(<%= primaryKey.type %> id) {
         this.repository.deleteById(id);
     }
 
@@ -92,6 +92,13 @@ public class <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl'
     <%_ } _%>
     public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return this.repository.save(<%= asEntity(entityInstance) %>);
+    }
+
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    public Optional<<%= asEntity(entityClass) %>> partialUpdate(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+        return Optional.ofNullable(this.repository.partialUpdate(<%= asEntity(entityInstance) %>));
     }
 
     <%_ if (service === 'serviceImpl') { _%>
