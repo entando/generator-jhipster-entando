@@ -35,6 +35,10 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 <%_ } _%>
+<%_ if (searchEngine === 'elasticsearch' || fieldsContainOwnerManyToMany === true) { _%>
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+<%_ } _%>
 /**
 * Integration tests for the {@link <%= entityClass %>Resource} REST controller.
 */

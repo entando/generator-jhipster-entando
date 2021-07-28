@@ -19,7 +19,7 @@
 const constants = require('generator-jhipster/generators/generator-constants');
 
 /* Constants use throughout */
-const { SERVER_MAIN_SRC_DIR } = constants;
+const { SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR } = constants;
 
 /**
  * The default is to use a file path string. It implies use of the template method.
@@ -84,6 +84,30 @@ const serverFiles = {
           file: 'package/service/impl/NoDbServiceImpl.java',
           renameTo: generator => `${generator.packageFolder}/service/${generator.entityClass}Service.java`,
           override: true,
+        },
+      ],
+    },
+  ],
+  test: [
+    {
+      condition: generator => generator.databaseType === 'no',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/web/rest/NoDbEntityResourceIT.java',
+          renameTo: generator =>
+            `${generator.packageFolder}/web/rest/${generator.entityClass}ResourceIT.java`,
+        },
+      ],
+    },
+    {
+      condition: generator => generator.databaseType === 'no',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/domain/NoDbEntityTest.java',
+          renameTo: generator =>
+            `${generator.packageFolder}/domain/${generator.entityClass}Test.java`,
         },
       ],
     },
