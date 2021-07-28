@@ -88,19 +88,6 @@ const serverFiles = {
       ],
     },
   ],
-  controller: [
-    {
-      condition: generator => generator.databaseType === 'no',
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/NoDbEntityResource.java',
-          renameTo: generator => `${generator.packageFolder}/web/rest/${generator.entityClass}Resource.java`,
-          override: true,
-        },
-      ],
-    },
-  ],
 };
 
 function writeFiles() {
