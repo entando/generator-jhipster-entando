@@ -23,10 +23,9 @@ import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
 import java.util.Optional;
 <% if (pagination === 'no') {%>
 import java.util.List;
-<% } else { %>
+<% } %>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-<% } %>
 
 public interface <%= entityClass %>Repository {
 
@@ -34,6 +33,14 @@ public interface <%= entityClass %>Repository {
     List<<%= asEntity(entityClass) %>> findAll();
     <%_ } else { _%>
     Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable);
+    <%_ } _%>
+
+    <%_ if (relationshipsContainEagerLoad) { _%>
+    Page<<%=asEntity(entityClass) %>> findAllWithEagerRelationships(Pageable pageable);
+
+    List<<%=asEntity(entityClass) %>> findAllWithEagerRelationships();
+
+    Optional<<%=asEntity(entityClass) %>> findOneWithEagerRelationships(<%= primaryKey.type %> id);
     <%_ } _%>
 
     Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
