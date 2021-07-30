@@ -77,7 +77,7 @@ const entandoServerFiles = {
     },
     {
       path: SERVER_MAIN_RES_DIR,
-      templates: ['config/application.yml', 'config/application-dev.yml'],
+      templates: ['config/application.yml', 'config/application-dev.yml', 'application-prod.yml'],
     },
     {
       condition: generator => generator.databaseType === 'sql',
