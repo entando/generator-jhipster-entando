@@ -110,8 +110,8 @@ const entandoServerFiles = {
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
-          file: 'package/config/SpringFoxConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/SpringFoxConfiguration.java`,
+          file: 'package/config/OpenApiConfiguration.java',
+          renameTo: generator => `${generator.javaDir}config/OpenApiConfiguration.java`,
         },
       ],
     },

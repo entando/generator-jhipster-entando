@@ -42,9 +42,8 @@ import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@Profile("swagger")
-@EnableSwagger2
-public class SpringFoxConfiguration {
+@Profile(JHipsterConstants.SPRING_PROFILE_API_DOCS)
+public class OpenApiConfiguration {
 
     private static final String REFERENCE_NAME = "entando_blueprint";
 
@@ -52,7 +51,7 @@ public class SpringFoxConfiguration {
     private final String clientSecret;
     private final String authServer;
 
-    public SpringFoxConfiguration(
+    public OpenApiConfiguration(
             @Value("${spring.security.oauth2.client.provider.oidc.issuer-uri}") String issuerUri,
             @Value("${swagger-ui.client-id}") String clientId,
             @Value("${swagger-ui.client-secret}") String clientSecret) {
