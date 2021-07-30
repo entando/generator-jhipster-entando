@@ -176,17 +176,17 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    /*
-    TODO update or remove this test when the Swagger UI is working on a generated app
-    it('pom.xml contains springfox-swagger-ui dependency', () => {
+    it('pom.xml contains springfox-boot-starter dependency', () => {
       assert.fileContent(
         'pom.xml',
         '        <dependency>\n' +
           '            <groupId>io.springfox</groupId>\n' +
-          '            <artifactId>springfox-swagger-ui</artifactId>\n' +
+          '            <artifactId>springfox-boot-</artifactId>\n' +
+          // eslint-disable-next-line
+          '            <version>${springfox-boot-starter.version}</version>\n' +
           '        </dependency>',
       );
-    }); */
+    });
 
     /*
     TODO update or remove this test when the Entando Bundle bom has been updated
@@ -336,6 +336,14 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           "    exposed-headers: 'Authorization,Link,X-Total-Count'\n" +
           '    allow-credentials: true\n' +
           '    max-age: 1800',
+      );
+      assert.fileContent(
+        `${SERVER_MAIN_RES_DIR}config/application-dev.yml`,
+        'springfox:\n  documentation:\n    enabled: true,',
+      );
+      assert.fileContent(
+        `${SERVER_MAIN_RES_DIR}config/application-prod.yml`,
+        'springfox:\n  documentation:\n    enabled: false,',
       );
     });
 
