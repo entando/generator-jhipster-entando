@@ -113,19 +113,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    /*
-    TODO update or remove this test when the Swagger UI is working on a generated app
-    it('pom.xml contains the snapshot repository', () => {
-      assert.fileContent(
-        'pom.xml',
-        '        <repository>\n' +
-          '            <id>snapshot-repo</id>\n' +
-          '            <url>https://oss.sonatype.org/content/repositories/snapshots</url>\n' +
-          '        </repository>\n',
-      );
-    });
-    */
-
     it('pom.xml contains the entando dockerImageOrganization', () => {
       assert.fileContent(
         'pom.xml',
