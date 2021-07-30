@@ -106,8 +106,7 @@ const serverFiles = {
       templates: [
         {
           file: 'package/domain/NoDbEntityTest.java',
-          renameTo: generator =>
-            `${generator.packageFolder}/domain/${generator.entityClass}Test.java`,
+          renameTo: generator => `${generator.packageFolder}/domain/${generator.entityClass}Test.java`,
         },
       ],
     },
