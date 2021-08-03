@@ -129,6 +129,7 @@
         <caffeine.version>3.0.2</caffeine.version>
         <typesafe.version>1.4.1</typesafe.version>
 <%_ } _%>
+        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
@@ -328,11 +329,8 @@
 <%_ } _%>
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-oas</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${springfox-boot-starter.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>

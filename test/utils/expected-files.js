@@ -10,7 +10,7 @@ const expectedFiles = {
     'prepareBundle.sh',
     'prepareDockerImage.sh',
     'buildBundle.sh',
-    `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/SpringFoxConfiguration.java`,
+    `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/OpenApiConfiguration.java`,
   ],
   entity: {
     server: {
