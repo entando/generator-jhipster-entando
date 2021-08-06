@@ -11,7 +11,9 @@ describe('Main', () => {
 
     it('should display all the entity fields in the component', () => {
       <%_ fields.forEach(function(field) { _%>
+        <%_ if (!field.id) { _%>
         cy.contains('entities.<%= entityInstance %>.<%= field.fieldName %>').should('be.visible');
+        <%_ } _%>
       <%_ }) _%>
     });
     <%_ } _%>
