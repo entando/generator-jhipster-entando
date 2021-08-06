@@ -138,7 +138,7 @@ class <%= ComponentName %> extends PureComponent {
             fields.forEach(field => {
               const fieldType = getJHipsterType(field);
             _%>
-            <% if (field.fieldName !== 'id') { _%>
+            <% if (!field.id) { _%>
             <Grid item xs={12} sm={6}>
             <%_ } _%>
               <%_
@@ -235,9 +235,10 @@ class <%= ComponentName %> extends PureComponent {
               <%_
               } else {
               _%>
-              <% if (field.fieldName === 'id') { _%>
+              <% if (field.id) { _%>
               <input type="hidden"
                 id="<%= entityInstance %>-<%= field.fieldName %>"
+                data-testid="<%= entityInstance %>-<%= field.fieldName %>"
                 value={values.<%= field.fieldName %>}
               />
               <%_ } else {_%>
@@ -281,7 +282,7 @@ class <%= ComponentName %> extends PureComponent {
                   discardLabel: t('common.no'),
                 }}
                 Renderer={({ onClick }) => (
-                  <Button onClick={onClick} disabled={isSubmitting} style="height:100%">
+                  <Button onClick={onClick} disabled={isSubmitting} >
                     {t('common.delete')}
                   </Button>
                 )}
