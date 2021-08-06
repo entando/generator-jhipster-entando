@@ -268,8 +268,10 @@ class <%= ComponentName %> extends PureComponent {
                 name="<%= field.fieldName %>"
                 label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
               />
-            </Grid>
             <%_ } _%>
+            <%_ } _%>
+            <% if (!field.id) { _%>
+            </Grid>
             <%_ } _%>
             <%_ }) _%>
             {onDelete && (
