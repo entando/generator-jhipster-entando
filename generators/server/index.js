@@ -59,7 +59,7 @@ module.exports = class extends ServerGenerator {
       loadEntandoSharedConfig() {
         const configuration = this.getJhipsterConfig();
         this.bundleName = configuration.get('bundleName');
-        this.dockerImageOrganization = configuration.get('dockerOrganization');
+        this.dockerImageOrganization = configuration.get('dockerImageOrganization');
         this.prodDatabaseTypePlugin = ['mongodb', 'neo4j', 'couchbase', 'cassandra', 'no'].includes(
           this.databaseType,
         )
