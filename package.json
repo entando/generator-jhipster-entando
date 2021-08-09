@@ -61,7 +61,7 @@
     "pretest": "npm run lint",
     "test": "nyc npm run test:unit -- test",
     "test:coverage": "nyc --reporter lcov npm run test:unit -- test",
-    "test:unit": "mocha",
+    "test:unit": "mocha --exclude **/entity.spec.js",
     "release": "git push && git push --tags && npm publish",
     "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
     "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
