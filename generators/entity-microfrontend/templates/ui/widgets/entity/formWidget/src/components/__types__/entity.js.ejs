@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 
 export default PropTypes.shape({
-  id: PropTypes.number,
-
   <%_ fields.forEach(function(field) { _%>
   <%= field.fieldName %>: <%= getPropType(field) %><%= isRequiredPropType(field) %>,
   <%_ }) _%>

@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { api<%= entityClass %>Post } from 'api/<%= entityInstancePlural %>';
 import <%= entityClass %>AddFormContainer from 'components/<%= entityClass %>AddFormContainer';
 import 'i18n/__mocks__/i18nMock';
-import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
+import { <%= entityInstance %>MockAdd as <%= entityInstance %>Mock } from 'components/__mocks__/<%= entityInstance %>Mocks';
 
 jest.mock('api/<%= entityInstancePlural %>');
 jest.mock('@material-ui/pickers', () => {
@@ -90,7 +90,7 @@ describe('<%= entityClass %>AddFormContainer', () => {
       const <%= field.fieldName %>Field = await findByTestId('<%= entityInstance %>-<%= field.fieldName %>-checkbox');
       fireEvent.click(<%= field.fieldName %>Field);
     }
-    <%_ } else { _%>
+    <%_ } else if (!field.id) { _%>
     const <%= field.fieldName %>Field = await findByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>');
     fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
     <%_
@@ -136,7 +136,7 @@ describe('<%= entityClass %>AddFormContainer', () => {
       const <%= field.fieldName %>Field = await findByTestId('<%= entityInstance %>-<%= field.fieldName %>-checkbox');
       fireEvent.click(<%= field.fieldName %>Field);
     }
-    <%_ } else { _%>
+    <%_ } else if (!field.id) { _%>
     const <%= field.fieldName %>Field = await findByLabelText('entities.<%= entityInstance %>.<%= field.fieldName %>');
     fireEvent.change(<%= field.fieldName %>Field, { target: { value: <%= entityInstance %>Mock.<%= field.fieldName %> } });
     <%_
