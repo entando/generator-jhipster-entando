@@ -168,10 +168,10 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         'pom.xml',
         '        <dependency>\n' +
           '            <groupId>io.springfox</groupId>\n' +
-          '            <artifactId>springfox-boot-</artifactId>\n' +
-          // eslint-disable-next-line
+          '            <artifactId>springfox-boot-starter</artifactId>\n' +
+          // eslint-disable-next-line no-template-curly-in-string
           '            <version>${springfox-boot-starter.version}</version>\n' +
-          '        </dependency>',
+          '        </dependency>\n',
       );
     });
 
@@ -326,11 +326,11 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
       assert.fileContent(
         `${SERVER_MAIN_RES_DIR}config/application-dev.yml`,
-        'springfox:\n  documentation:\n    enabled: true,',
+        'springfox:\n  documentation:\n    enabled: true\n',
       );
       assert.fileContent(
         `${SERVER_MAIN_RES_DIR}config/application-prod.yml`,
-        'springfox:\n  documentation:\n    enabled: false,',
+        'springfox:\n  documentation:\n    enabled: false\n',
       );
     });
 
