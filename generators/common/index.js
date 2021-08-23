@@ -20,5 +20,8 @@ module.exports = class extends CommonGenerator {
     this.sbsBlueprint = true;
   }
 
+  /**
+   * A blueprint can't be empty, we add a fake method here to ensure that.
+   */
   notEmpty() {}
 };
