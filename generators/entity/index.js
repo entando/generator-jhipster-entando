@@ -15,6 +15,8 @@ module.exports = class extends EntityGenerator {
         )}`,
       );
     }
+
+    this.entity = this.entity || this.context;
   }
 
   get initializing() {
@@ -68,14 +70,14 @@ module.exports = class extends EntityGenerator {
      * Composing() is called before these ones.
      */
     const jhipsterWritingPhase = super._writing();
-    const { context } = this;
+    const { entity } = this;
 
     return {
       ...jhipsterWritingPhase,
       ...{
         composeMicrofrontend() {
           this.composeWith(require.resolve('../entity-microfrontend'), true, {
-            context,
+            entity,
           });
         },
       },
