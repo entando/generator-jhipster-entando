@@ -3,14 +3,13 @@ const EntityGenerator = require('generator-jhipster/generators/entity');
 const prompts = require('./prompts');
 
 module.exports = class extends EntityGenerator {
-  constructor(args, opts) {
-    super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
+  constructor(args, options, features) {
+    super(args, options, features);
 
-    this.jhipsterContext = this.options.jhipsterContext;
-    const jhContext = this.jhipsterContext;
+    if (this.options.help) return;
 
-    if (!jhContext) {
-      this.error(
+    if (!this.options.jhipsterContext) {
+      throw new Error(
         `This is a JHipster blueprint and should be used only like ${chalk.yellow(
           'jhipster --blueprints entando',
         )}`,

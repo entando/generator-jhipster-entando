@@ -1,17 +1,16 @@
 const chalk = require('chalk');
 const CommonGenerator = require('generator-jhipster/generators/common');
 
-const { writeFiles } = require('./files');
-
 module.exports = class extends CommonGenerator {
-  constructor(args, opts) {
-    super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
+  constructor(args, options, features) {
+    super(args, options, features);
 
-    this.jhipsterContext = this.options.jhipsterContext;
-    const jhContext = this.jhipsterContext;
+    const { help, jhipsterContext } = this.options;
 
-    if (!jhContext) {
-      this.error(
+    if (help) return;
+
+    if (!jhipsterContext) {
+      throw new Error(
         `This is a JHipster blueprint and should be used only like ${chalk.yellow(
           'jhipster --blueprints entando',
         )}`,

@@ -5,14 +5,11 @@ const AppGenerator = require('generator-jhipster/generators/app');
 const prompts = require('./prompts');
 
 module.exports = class extends AppGenerator {
-  constructor(args, opts) {
-    super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
+  constructor(args, options, features) {
+    super(args, options, features);
 
-    this.jhipsterContext = this.options.jhipsterContext;
-    const jhContext = this.jhipsterContext;
-
-    if (!jhContext) {
-      this.error(
+    if (!this.options.jhipsterContext) {
+      throw new Error(
         `This is a JHipster blueprint and should be used only like ${chalk.yellow(
           'jhipster --blueprints entando',
         )}`,

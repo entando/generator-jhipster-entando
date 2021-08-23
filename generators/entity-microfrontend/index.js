@@ -10,9 +10,8 @@ const lib = require('./lib');
 const { DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
 
 module.exports = class extends GeneratorBaseBlueprint {
-  constructor(args, opts) {
-    super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
-    this.context = opts.context;
+  constructor(args, options, features) {
+    super(args, options, features);
   }
 
   get initializing() {
