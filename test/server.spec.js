@@ -49,6 +49,10 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.file(`bundle/plugins/${appBaseName.toLowerCase()}-plugin.yaml`);
     });
 
+    it('creates expected keycloack Entando Placeholder', () => {
+      assert.file(expectedFiles['entando-keycloack']);
+    });
+
     it('Should not contains user management files', () => {
       assert.noFile(expectedFiles.userManagement);
     });

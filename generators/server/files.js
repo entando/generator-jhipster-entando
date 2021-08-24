@@ -60,6 +60,12 @@ const entandoServerFiles = {
           method: 'copy',
           renameTo: () => 'realm-config/jhipster-users-0.json',
         },
+        {
+          file: 'keycloak-db/entando-placeholder',
+          method: 'copy',
+          noEjs: true,
+          renameTo: () => 'keycloak-db/.entando-placeholder',
+        },
       ],
     },
   ],
