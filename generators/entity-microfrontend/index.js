@@ -10,9 +10,10 @@ const lib = require('./lib');
 const { DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
 
 module.exports = class extends GeneratorBaseBlueprint {
-  constructor(args, opts) {
-    super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
-    this.context = opts.context;
+  constructor(args, options, features) {
+    super(args, options, features);
+
+    this.entity = options.entity;
   }
 
   get initializing() {
@@ -67,14 +68,14 @@ module.exports = class extends GeneratorBaseBlueprint {
   }
 
   get preparing() {
-    const { context } = this;
+    const { entity } = this;
 
     const jhipsterPhase = super._preparing();
     const entandoPhase = {
       prepareEntityForTemplates() {
-        prepareEntityForTemplates(context, this);
-        // copy all the new context entries into this to ensure we can access them in the templates directly by the name
-        _.defaults(this, context);
+        prepareEntityForTemplates(entity, this);
+        // copy all the new entity context entries into this to ensure we can access them in the templates directly by the name
+        _.defaults(this, entity);
       },
     };
 
