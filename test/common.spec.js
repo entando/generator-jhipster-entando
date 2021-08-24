@@ -42,10 +42,16 @@ describe('Subgenerator common of entando JHipster blueprint', () => {
       assert.fileContent(
         '.gitignore',
         '######################\n' +
-          '# Entando bundles\n' +
+          '# Entando\n' +
           '######################\n' +
           'bundle/\n' +
-          '# !/bundle/descriptor.yaml',
+          '# !/bundle/descriptor.yaml\n' +
+          '.entando-placeholder\n' +
+          '\n' +
+          '######################\n' +
+          '# Keycloak DB files\n' +
+          '######################\n' +
+          '/src/main/docker/keycloak-db/',
       );
     });
   });
