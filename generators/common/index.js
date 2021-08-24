@@ -5,11 +5,9 @@ module.exports = class extends CommonGenerator {
   constructor(args, options, features) {
     super(args, options, features);
 
-    const { help, jhipsterContext } = this.options;
+    if (this.options.help) return;
 
-    if (help) return;
-
-    if (!jhipsterContext) {
+    if (!this.options.jhipsterContext) {
       throw new Error(
         `This is a JHipster blueprint and should be used only like ${chalk.yellow(
           'jhipster --blueprints entando',

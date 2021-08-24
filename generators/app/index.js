@@ -8,6 +8,8 @@ module.exports = class extends AppGenerator {
   constructor(args, options, features) {
     super(args, options, features);
 
+    if (this.options.help) return;
+
     if (!this.options.jhipsterContext) {
       throw new Error(
         `This is a JHipster blueprint and should be used only like ${chalk.yellow(
