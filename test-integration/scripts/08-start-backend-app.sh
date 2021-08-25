@@ -11,7 +11,7 @@ launchCurlTests() {
     endpointsToTest=("$@")
     retryCount=1
     maxRetry=10
-    httpUrl="http://localhost:8081/services/test"
+    httpUrl="http://localhost:8081"
 
     for endpoint in "${endpointsToTest[@]}"; do
         curl -fv "$httpUrl$endpoint"

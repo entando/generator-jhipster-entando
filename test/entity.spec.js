@@ -22,8 +22,8 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           })
           .withGenerators([
             [
-              require('../generators/entity/index.js'), // eslint-disable-line global-require
-              path.join(__dirname, '../generators/entity/index.js'),
+              require('../generators/entity/index'), // eslint-disable-line global-require
+              path.join(__dirname, '../generators/entity/index'),
             ],
           ])
           .withArguments(['foo'])
@@ -69,8 +69,8 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           })
           .withGenerators([
             [
-              require('../generators/entity/index.js'), // eslint-disable-line global-require
-              path.join(__dirname, '../generators/entity/index.js'),
+              require('../generators/entity/index'), // eslint-disable-line global-require
+              path.join(__dirname, '../generators/entity/index'),
             ],
           ])
           .withArguments(['foo'])
@@ -111,8 +111,8 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           })
           .withGenerators([
             [
-              require('../generators/entity/index.js'), // eslint-disable-line global-require
-              path.join(__dirname, '../generators/entity/index.js'),
+              require('../generators/entity/index'), // eslint-disable-line global-require
+              path.join(__dirname, '../generators/entity/index'),
             ],
           ])
           .withArguments(['foo'])
@@ -154,8 +154,8 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           })
           .withGenerators([
             [
-              require('../generators/entity/index.js'), // eslint-disable-line global-require
-              path.join(__dirname, '../generators/entity/index.js'),
+              require('../generators/entity/index'), // eslint-disable-line global-require
+              path.join(__dirname, '../generators/entity/index'),
             ],
           ])
           .withArguments(['foo'])
@@ -204,8 +204,8 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           })
           .withGenerators([
             [
-              require('../generators/entity/index.js'), // eslint-disable-line global-require
-              path.join(__dirname, '../generators/entity/index.js'),
+              require('../generators/entity/index'), // eslint-disable-line global-require
+              path.join(__dirname, '../generators/entity/index'),
             ],
           ])
           .withArguments(['foo'])
@@ -252,8 +252,8 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           })
           .withGenerators([
             [
-              require('../generators/entity/index.js'), // eslint-disable-line global-require
-              path.join(__dirname, '../generators/entity/index.js'),
+              require('../generators/entity/index'), // eslint-disable-line global-require
+              path.join(__dirname, '../generators/entity/index'),
             ],
           ])
           .withArguments(['foo'])
@@ -295,8 +295,8 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           })
           .withGenerators([
             [
-              require('../generators/entity/index.js'), // eslint-disable-line global-require
-              path.join(__dirname, '../generators/entity/index.js'),
+              require('../generators/entity/index'), // eslint-disable-line global-require
+              path.join(__dirname, '../generators/entity/index'),
             ],
           ])
           .withArguments(['foo'])
@@ -339,8 +339,8 @@ describe('Subgenerator entity of entando JHipster blueprint', () => {
           })
           .withGenerators([
             [
-              require('../generators/entity/index.js'), // eslint-disable-line global-require
-              path.join(__dirname, '../generators/entity/index.js'),
+              require('../generators/entity/index'), // eslint-disable-line global-require
+              path.join(__dirname, '../generators/entity/index'),
             ],
           ])
           .withArguments(['foo'])

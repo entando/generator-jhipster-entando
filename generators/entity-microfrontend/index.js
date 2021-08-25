@@ -1,5 +1,6 @@
+const _ = require('lodash');
 const GeneratorBaseBlueprint = require('generator-jhipster/generators/generator-base-blueprint');
-const utils = require('generator-jhipster/generators/utils');
+const { prepareEntityForTemplates } = require('generator-jhipster/utils/entity');
 
 const constants = require('../generator-constants');
 const prompts = require('./prompts');
@@ -9,11 +10,10 @@ const lib = require('./lib');
 const { DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
 
 module.exports = class extends GeneratorBaseBlueprint {
-  constructor(args, opts) {
-    super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
-    utils.copyObjectProps(this, opts.context);
-    this.jhipsterContext = opts.jhipsterContext || opts.context;
-    this.configOptions = opts.configOptions || {};
+  constructor(args, options, features) {
+    super(args, options, features);
+
+    this.entity = options.entity;
   }
 
   get initializing() {
@@ -29,12 +29,6 @@ module.exports = class extends GeneratorBaseBlueprint {
         this.getFormikValuePropType = lib.getFormikValuePropType;
         this.getFormikTouchedPropType = lib.getFormikTouchedPropType;
         this.getFormikErrorPropType = lib.getFormikErrorPropType;
-      },
-      setupMfeContext() {
-        // TODO JHipster v7 use getJhipsterConfig instead https://github.com/jhipster/generator-jhipster/pull/12022
-        const jhipsterConfig = this.getAllJhipsterConfig(this, true);
-        this.serverPort = jhipsterConfig.serverPort;
-        this.generateMicroFrontends = jhipsterConfig.generateMicroFrontends || 'ask';
       },
     };
 
@@ -55,6 +49,39 @@ module.exports = class extends GeneratorBaseBlueprint {
     return super._configuring();
   }
 
+  get composing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._composing();
+  }
+
+  get loading() {
+    const jhipsterPhase = super._loading();
+    const entandoPhase = {
+      loadSharedConfig() {
+        this.loadAppConfig();
+        this.loadServerConfig();
+        this.loadTranslationConfig();
+      },
+    };
+
+    return { ...jhipsterPhase, ...entandoPhase };
+  }
+
+  get preparing() {
+    const { entity } = this;
+
+    const jhipsterPhase = super._preparing();
+    const entandoPhase = {
+      prepareEntityForTemplates() {
+        prepareEntityForTemplates(entity, this);
+        // copy all the new entity context entries into this to ensure we can access them in the templates directly by the name
+        _.defaults(this, entity);
+      },
+    };
+
+    return { ...jhipsterPhase, ...entandoPhase };
+  }
+
   get default() {
     // default - If the method name doesn’t match a priority, it will be pushed to this group.
     return super._default();
@@ -68,22 +95,14 @@ module.exports = class extends GeneratorBaseBlueprint {
     return { ...jhipsterWritingPhase, ...entandoWritingPhase };
   }
 
-  get conflicts() {
-    // conflicts - Where conflicts are handled (used internally), no super._conflicts
-    return null;
+  get postWriting() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._postWriting();
   }
 
   get install() {
     // install - Where installations are run (npm, bower)
-    const jhipsterInstallPhase = super._install();
-
-    const entandoPhase = {
-      installRootNpmPackages() {
-        this.npmInstall();
-      },
-    };
-
-    return { ...jhipsterInstallPhase, ...entandoPhase };
+    return super._install();
   }
 
   get end() {
@@ -92,11 +111,7 @@ module.exports = class extends GeneratorBaseBlueprint {
 
     const entandoPhase = {
       runPrettier() {
-        /*
-         * TODO V7 JHipster this Entando end phase have to be removed since JHipster handles js files
-         *   in prettier transformer when writing files on disk. This command will be useless.
-         */
-        if (this.configOptions.generateMfeForEntity) {
+        if (this.jhipsterConfig.generateMfeForEntity) {
           this.spawnCommandSync('npm', ['run', 'prettier']);
         }
       },

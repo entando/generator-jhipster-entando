@@ -1,4 +1,4 @@
-const <%= entityInstance %>Mock = {
+const <%= entityInstance %>MockEdit = {
   <%_
     fields.forEach(field => {
       const fieldType = getJHipsterType(field);
@@ -14,4 +14,28 @@ const <%= entityInstance %>Mock = {
   <%_ }) _%>
 };
 
-export default <%= entityInstance %>Mock;
+const <%= entityInstance %>MockAdd = {
+  <%_
+  fields.forEach(field => {
+    const fieldType = getJHipsterType(field);
+    const mockedValue = mockData[0][field.fieldName];
+  _%>
+  <%_
+    let value;
+    if (field.id) {
+        value = `''`
+    } else {
+        value = (typeof mockedValue === 'string') ? `'${mockedValue}'` : mockedValue
+    }
+  _%>
+  <%= field.fieldName %>: <%- value %>,
+  <%_ if (fieldType === 'ImageBlob') { _%>
+    <%= field.fieldName %>ContentType: 'image/png',
+  <%_ } _%>
+  <%_ if (fieldType === 'BinaryFileBlob') { _%>
+    <%= field.fieldName %>ContentType: 'application/pdf',
+  <%_ } _%>
+  <%_ }) _%>
+};
+
+export { <%= entityInstance %>MockAdd, <%= entityInstance %>MockEdit };

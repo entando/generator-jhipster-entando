@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { api<%= entityClass %>Get, api<%= entityClass %>Put } from 'api/<%= entityInstancePlural %>';
 import <%= entityClass %>EditFormContainer from 'components/<%= entityClass %>EditFormContainer';
 import 'i18n/__mocks__/i18nMock';
-import <%= entityInstance %>Mock from 'components/__mocks__/<%= entityInstance %>Mocks';
+import { <%= entityInstance %>MockEdit as <%= entityInstance %>Mock } from 'components/__mocks__/<%= entityInstance %>Mocks';
 
 jest.mock('api/<%= entityInstancePlural %>');
 
@@ -63,7 +63,7 @@ describe('<%= entityClass %>EditFormContainer', () => {
 
     await wait(() => {
       expect(api<%= entityClass %>Put).toHaveBeenCalledTimes(1);
-      expect(api<%= entityClass %>Put).toHaveBeenCalledWith('', <%= entityInstance %>Mock);
+      expect(api<%= entityClass %>Put).toHaveBeenCalledWith('', <%= entityInstance %>Mock.id, <%= entityInstance %>Mock);
       expect(queryByText(successMessageKey)).toBeInTheDocument();
       expect(onErrorMock).toHaveBeenCalledTimes(0);
       expect(queryByText(errorMessageKey)).not.toBeInTheDocument();
@@ -101,7 +101,7 @@ describe('<%= entityClass %>EditFormContainer', () => {
       expect(api<%= entityClass %>Get).toHaveBeenCalledWith('', '1');
 
       expect(api<%= entityClass %>Put).toHaveBeenCalledTimes(1);
-      expect(api<%= entityClass %>Put).toHaveBeenCalledWith('', <%= entityInstance %>Mock);
+      expect(api<%= entityClass %>Put).toHaveBeenCalledWith('', <%= entityInstance %>Mock.id, <%= entityInstance %>Mock);
 
       expect(onErrorMock).toHaveBeenCalledTimes(1);
       expect(getByText(errorMessageKey)).toBeInTheDocument();

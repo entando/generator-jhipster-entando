@@ -138,7 +138,9 @@ class <%= ComponentName %> extends PureComponent {
             fields.forEach(field => {
               const fieldType = getJHipsterType(field);
             _%>
+            <% if (!field.id) { _%>
             <Grid item xs={12} sm={6}>
+            <%_ } _%>
               <%_
               if (fieldType === 'Boolean') {
               _%>
@@ -233,6 +235,13 @@ class <%= ComponentName %> extends PureComponent {
               <%_
               } else {
               _%>
+              <% if (field.id) { _%>
+              <input type="hidden"
+                id="<%= entityInstance %>-<%= field.fieldName %>"
+                data-testid="<%= entityInstance %>-<%= field.fieldName %>"
+                value={values.<%= field.fieldName %>}
+              />
+              <%_ } else {_%>
               <<%= getMuiInput(field) %>
                 id="<%= entityInstance %>-<%= field.fieldName %>"
                 error={errors.<%= field.fieldName %> && touched.<%= field.fieldName %>}
@@ -259,8 +268,11 @@ class <%= ComponentName %> extends PureComponent {
                 name="<%= field.fieldName %>"
                 label={t('entities.<%= entityInstance %>.<%= field.fieldName %>')}
               />
-              <%_ } _%>
+            <%_ } _%>
+            <%_ } _%>
+            <% if (!field.id) { _%>
             </Grid>
+            <%_ } _%>
             <%_ }) _%>
             {onDelete && (
               <ConfirmationDialogTrigger
@@ -272,7 +284,7 @@ class <%= ComponentName %> extends PureComponent {
                   discardLabel: t('common.no'),
                 }}
                 Renderer={({ onClick }) => (
-                  <Button onClick={onClick} disabled={isSubmitting}>
+                  <Button onClick={onClick} disabled={isSubmitting} >
                     {t('common.delete')}
                   </Button>
                 )}

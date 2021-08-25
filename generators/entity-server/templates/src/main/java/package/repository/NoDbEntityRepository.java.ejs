@@ -23,10 +23,9 @@ import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
 import java.util.Optional;
 <% if (pagination === 'no') {%>
 import java.util.List;
-<% } else { %>
+<% } %>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-<% } %>
 
 public interface <%= entityClass %>Repository {
 
@@ -36,13 +35,25 @@ public interface <%= entityClass %>Repository {
     Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable);
     <%_ } _%>
 
+    <%_ if (relationshipsContainEagerLoad) { _%>
+    Page<<%=asEntity(entityClass) %>> findAllWithEagerRelationships(Pageable pageable);
+
+    List<<%=asEntity(entityClass) %>> findAllWithEagerRelationships();
+
+    Optional<<%=asEntity(entityClass) %>> findOneWithEagerRelationships(<%= primaryKey.type %> id);
+    <%_ } _%>
+
     Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
-    Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKeyType %> id);
+    Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKey.type %> id);
 
-    void deleteById(<%= primaryKeyType %> id);
+    void deleteById(<%= primaryKey.type %> id);
+
+    boolean existsById(<%= primaryKey.type %> id);
 
     <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+
+    <%= asEntity(entityClass) %> partialUpdate(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
     <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 

@@ -15,7 +15,7 @@ describe('Subgenerator common of entando JHipster blueprint', () => {
         })
         .withGenerators([
           [
-            require('../generators/common/index.js'), // eslint-disable-line global-require
+            require('../generators/common/index'), // eslint-disable-line global-require
             'jhipster-entando:common',
             path.join(__dirname, '../generators/common/index.js'),
           ],
@@ -42,10 +42,16 @@ describe('Subgenerator common of entando JHipster blueprint', () => {
       assert.fileContent(
         '.gitignore',
         '######################\n' +
-          '# Entando bundles\n' +
+          '# Entando\n' +
           '######################\n' +
           'bundle/\n' +
-          '# !/bundle/descriptor.yaml',
+          '# !/bundle/descriptor.yaml\n' +
+          '.entando-placeholder\n' +
+          '\n' +
+          '######################\n' +
+          '# Keycloak DB files\n' +
+          '######################\n' +
+          '/src/main/docker/keycloak-db/',
       );
     });
   });

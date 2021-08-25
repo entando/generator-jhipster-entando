@@ -20,9 +20,9 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         })
         .withGenerators([
           [
-            require('../generators/server/index.js'), // eslint-disable-line global-require
+            require('../generators/server/index'), // eslint-disable-line global-require
             'jhipster-entando:server',
-            path.join(__dirname, '../generators/server/index.js'),
+            path.join(__dirname, '../generators/server/index'),
           ],
         ])
         .withPrompts({
@@ -47,6 +47,10 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
     it('creates expected files for the blueprint', () => {
       assert.file(expectedFiles.server);
       assert.file(`bundle/plugins/${appBaseName.toLowerCase()}-plugin.yaml`);
+    });
+
+    it('creates expected keycloack Entando Placeholder', () => {
+      assert.file(expectedFiles['entando-keycloack']);
     });
 
     it('Should not contains user management files', () => {
@@ -113,21 +117,10 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('pom.xml contains the snapshot repository', () => {
-      assert.fileContent(
-        'pom.xml',
-        '        <repository>\n' +
-          '            <id>snapshot-repo</id>\n' +
-          '            <url>https://oss.sonatype.org/content/repositories/snapshots</url>\n' +
-          '        </repository>\n',
-      );
-    });
-
     it('pom.xml contains the entando dockerImageOrganization', () => {
       assert.fileContent(
         'pom.xml',
         '                    <configuration>\n' +
-          '                      <allowInsecureRegistries>true</allowInsecureRegistries>\n' +
           '                        <from>\n' +
           '                            <image>adoptopenjdk:11-jre-hotspot</image>\n' +
           '                        </from>\n' +
@@ -152,17 +145,18 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '                                <JHIPSTER_SLEEP>0</JHIPSTER_SLEEP>\n' +
           '                            </environment>\n' +
           '                            <creationTime>USE_CURRENT_TIMESTAMP</creationTime>\n' +
+          '                            <user>1000</user>\n' +
           '                        </container>\n' +
           '                        <extraDirectories>\n' +
-          '                            <paths>src/main/jib</paths>\n' +
+          '                            <paths>src/main/docker/jib</paths>\n' +
           '                            <permissions>\n' +
           '                                <permission>\n' +
           '                                    <file>/entrypoint.sh</file>\n' +
-          '                                    <mode>777</mode>\n' +
+          '                                    <mode>755</mode>\n' +
           '                                </permission>\n' +
           '                            </permissions>\n' +
           '                        </extraDirectories>\n' +
-          '                    </configuration>',
+          '                    </configuration>\n',
       );
     });
 
@@ -173,20 +167,27 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('pom.xml contains springfox-swagger-ui dependency', () => {
+    it('pom.xml contains springfox-boot-starter dependency', () => {
       assert.fileContent(
         'pom.xml',
         '        <dependency>\n' +
           '            <groupId>io.springfox</groupId>\n' +
-          '            <artifactId>springfox-swagger-ui</artifactId>\n' +
-          '        </dependency>',
+          '            <artifactId>springfox-boot-starter</artifactId>\n' +
+          // eslint-disable-next-line no-template-curly-in-string
+          '            <version>${springfox-boot-starter.version}</version>\n' +
+          '        </dependency>\n',
       );
     });
 
+    /*
+    TODO update or remove this test when the Entando Bundle bom has been updated
     it('pom.xml contains the entando-bundle-bom version', () => {
       assert.fileContent('pom.xml', /<entando-bundle-bom\.version>.+<\/entando-bundle-bom\.version>/);
     });
+    */
 
+    /*
+    TODO update or remove this test when the Entando Bundle bom has been updated
     it('pom.xml contains the entando-bundle-bom dependency', () => {
       assert.fileContent(
         'pom.xml',
@@ -200,6 +201,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '            </dependency>',
       );
     });
+    */
 
     it('Keycloack docker file contains the Entando modifications', () => {
       assert.fileContent(`${DOCKER_DIR}keycloak.yml`, 'entando/entando-keycloak:6.0.15');
@@ -310,7 +312,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('Application yaml files contains Entando midification', () => {
+    it('Application yaml files contains Entando modifications', () => {
       assert.fileContent(
         `${SERVER_MAIN_RES_DIR}config/application.yml`,
         'swagger-ui:\n  client-id: swagger_ui\n  client-secret: swagger_ui',
@@ -319,12 +321,20 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.fileContent(
         `${SERVER_MAIN_RES_DIR}config/application-dev.yml`,
         '  cors:\n' +
-          "    allowed-origins: '*'\n" +
+          "    allowed-origin-patterns: 'http://localhost:[*]'\n" +
           "    allowed-methods: '*'\n" +
           "    allowed-headers: '*'\n" +
           "    exposed-headers: 'Authorization,Link,X-Total-Count'\n" +
           '    allow-credentials: true\n' +
           '    max-age: 1800',
+      );
+      assert.fileContent(
+        `${SERVER_MAIN_RES_DIR}config/application-dev.yml`,
+        'springfox:\n  documentation:\n    enabled: true\n',
+      );
+      assert.fileContent(
+        `${SERVER_MAIN_RES_DIR}config/application-prod.yml`,
+        'springfox:\n  documentation:\n    enabled: false\n',
       );
     });
 
@@ -389,9 +399,9 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         })
         .withGenerators([
           [
-            require('../generators/server/index.js'), // eslint-disable-line global-require
+            require('../generators/server/index'), // eslint-disable-line global-require
             'jhipster-entando:server',
-            path.join(__dirname, '../generators/server/index.js'),
+            path.join(__dirname, '../generators/server/index'),
           ],
         ])
         .withPrompts({

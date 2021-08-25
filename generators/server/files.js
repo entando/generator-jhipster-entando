@@ -9,7 +9,7 @@ const {
   SERVER_TEST_SRC_DIR,
   SERVER_TEST_RES_DIR,
 } = constants;
-
+const { REACT } = constants.SUPPORTED_CLIENT_FRAMEWORKS;
 const { SCALA_LIBRARY_VERSION, MBKNOR_JACKSON_JSONSCHEMA_VERSION } = entConstants;
 
 /**
@@ -60,6 +60,12 @@ const entandoServerFiles = {
           method: 'copy',
           renameTo: () => 'realm-config/jhipster-users-0.json',
         },
+        {
+          file: 'keycloak-db/entando-placeholder',
+          method: 'copy',
+          noEjs: true,
+          renameTo: () => 'keycloak-db/.entando-placeholder',
+        },
       ],
     },
   ],
@@ -71,19 +77,22 @@ const entandoServerFiles = {
   ],
   serverResource: [
     {
-      condition: generator => generator.clientFramework !== 'react',
+      condition: generator => generator.clientFramework !== REACT,
       path: SERVER_MAIN_RES_DIR,
       templates: [{ file: 'banner.txt', method: 'copy', noEjs: true }],
     },
     {
       path: SERVER_MAIN_RES_DIR,
-      templates: ['config/application.yml', 'config/application-dev.yml'],
+      templates: ['config/application.yml', 'config/application-dev.yml', 'config/application-prod.yml'],
     },
     {
       condition: generator => generator.databaseType === 'sql',
       path: SERVER_MAIN_RES_DIR,
       templates: [
         {
+          override: generator =>
+            !generator.jhipsterConfig.incrementalChangelog ||
+            generator.configOptions.recreateInitialChangelog,
           file: 'config/liquibase/changelog/initial_schema.xml',
           renameTo: () => 'config/liquibase/changelog/00000000000000_initial_schema.xml',
           options: { interpolate: INTERPOLATE_REGEX },
@@ -93,7 +102,7 @@ const entandoServerFiles = {
   ],
   serverJavaAuthConfig: [
     {
-      condition: generator => !generator.reactive && generator.applicationType !== 'uaa',
+      condition: generator => !generator.reactive,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
@@ -103,12 +112,12 @@ const entandoServerFiles = {
       ],
     },
     {
-      condition: generator => !generator.reactive && generator.applicationType !== 'uaa',
+      condition: generator => !generator.reactive,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
-          file: 'package/config/SpringFoxConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/SpringFoxConfiguration.java`,
+          file: 'package/config/OpenApiConfiguration.java',
+          renameTo: generator => `${generator.javaDir}config/OpenApiConfiguration.java`,
         },
       ],
     },
@@ -125,28 +134,11 @@ const entandoServerFiles = {
   ],
   serverMicroservice: [
     {
-      condition: generator => generator.authenticationType === 'oauth2',
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/SecurityConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/SecurityConfiguration.java`,
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !(
-          generator.applicationType !== 'microservice' &&
-          !(
-            generator.applicationType === 'gateway' &&
-            (generator.authenticationType === 'uaa' || generator.authenticationType === 'oauth2')
-          )
-        ) && generator.applicationType === 'microservice',
+      condition: generator => generator.applicationType === 'microservice',
       path: SERVER_MAIN_RES_DIR,
       templates: [
-        { file: 'static/microservices_index.html', method: 'copy', renameTo: () => 'static/index.html' },
-        { file: 'static/favicon.png', method: 'copy', renameTo: () => 'static/favicon.png' },
+        { file: 'static/microservices_index.html', renameTo: () => 'static/index.html' },
+        { file: 'static/favicon.png', renameTo: () => 'static/favicon.png' },
       ],
     },
   ],
@@ -204,6 +196,11 @@ const toDeleteServerFiles = {
           method: 'delete',
         },
         {
+          file: 'package/service/dto/AdminUserDTO.java',
+          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('AdminUser')}.java`,
+          method: 'delete',
+        },
+        {
           file: 'package/service/dto/UserDTO.java',
           renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
           method: 'delete',
@@ -245,6 +242,11 @@ const toDeleteServerFiles = {
           method: 'delete',
         },
         {
+          file: 'package/web/rest/PublicUserResource.java',
+          renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
+          method: 'delete',
+        },
+        {
           file: 'package/web/rest/vm/ManagedUserVM.java',
           renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
           method: 'delete',
@@ -269,6 +271,11 @@ const toDeleteServerFiles = {
         {
           file: 'package/service/mapper/UserMapperTest.java',
           renameTo: generator => `${generator.testDir}service/mapper/UserMapperTest.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/PublicUserResourceIT.java',
+          renameTo: generator => `${generator.testDir}web/rest/PublicUserResourceIT.java`,
           method: 'delete',
         },
         {
@@ -314,62 +321,6 @@ const toDeleteServerFiles = {
           renameTo: generator => `${generator.javaDir}repository/AuthorityRepository.java`,
           method: 'delete',
         },
-        {
-          file: 'package/repository/PersistenceAuditEventRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/PersistenceAuditEventRepository.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/service/AuditEventService.java',
-          renameTo: generator => `${generator.javaDir}service/AuditEventService.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/web/rest/AuditResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/AuditResource.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.reactive &&
-        generator.authenticationType === 'oauth2' &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/CustomAuditEventRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/CustomAuditEventRepository.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        generator.authenticationType === 'oauth2' &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AuditResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/AuditResourceIT.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.reactive &&
-        generator.authenticationType === 'oauth2' &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/CustomAuditEventRepositoryIT.java',
-          renameTo: generator => `${generator.testDir}repository/CustomAuditEventRepositoryIT.java`,
-          method: 'delete',
-        },
       ],
     },
     {
@@ -395,35 +346,6 @@ const toDeleteServerFiles = {
         {
           file: 'package/repository/AuthorityRepository.java',
           renameTo: generator => `${generator.javaDir}repository/AuthorityRepository.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/repository/PersistenceAuditEventRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/PersistenceAuditEventRepository.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/service/AuditEventService.java',
-          renameTo: generator => `${generator.javaDir}service/AuditEventService.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/web/rest/AuditResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/AuditResource.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.reactive &&
-        !generator.skipUserManagement &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/CustomAuditEventRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/CustomAuditEventRepository.java`,
           method: 'delete',
         },
       ],
@@ -458,6 +380,11 @@ const toDeleteServerFiles = {
 
         /* User management java web files */
         {
+          file: 'package/service/dto/AdminUserDTO.java',
+          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('AdminUser')}.java`,
+          method: 'delete',
+        },
+        {
           file: 'package/service/dto/UserDTO.java',
           renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
           method: 'delete',
@@ -480,6 +407,11 @@ const toDeleteServerFiles = {
         {
           file: 'package/web/rest/UserResource.java',
           renameTo: generator => `${generator.javaDir}web/rest/UserResource.java`,
+          method: 'delete',
+        },
+        {
+          file: 'package/web/rest/PublicUserResource.java',
+          renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
           method: 'delete',
         },
         {
@@ -529,38 +461,6 @@ const toDeleteServerFiles = {
         {
           file: 'package/security/jwt/JWTFilterTest.java',
           renameTo: generator => `${generator.testDir}security/jwt/JWTFilterTest.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.skipUserManagement &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AuditResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/AuditResourceIT.java`,
-          method: 'delete',
-        },
-        {
-          file: 'package/service/AuditEventServiceIT.java',
-          renameTo: generator => `${generator.testDir}service/AuditEventServiceIT.java`,
-          method: 'delete',
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.reactive &&
-        !generator.skipUserManagement &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/CustomAuditEventRepositoryIT.java',
-          renameTo: generator => `${generator.testDir}repository/CustomAuditEventRepositoryIT.java`,
           method: 'delete',
         },
       ],
@@ -616,6 +516,11 @@ const toDeleteServerFiles = {
           method: 'delete',
         },
         {
+          file: 'package/web/rest/PublicUserResourceIT.java',
+          renameTo: generator => `${generator.testDir}web/rest/PublicUserResourceIT.java`,
+          method: 'delete',
+        },
+        {
           file: 'package/web/rest/UserResourceIT.java',
           renameTo: generator => `${generator.testDir}web/rest/UserResourceIT.java`,
           method: 'delete',
@@ -644,56 +549,32 @@ function writeFiles() {
     },
 
     addUnspecificDependencies() {
-      if (this.buildTool === 'maven') {
-        this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, null);
-        this.addMavenDependency(
-          'org.springframework.boot',
-          'spring-boot-starter-undertow',
-          null,
-          '<scope>provided</scope>',
-        );
-      } else if (this.buildTool === 'gradle') {
-        this.addGradleDependency('implementation', 'javax.servlet', 'javax.servlet-api', null);
-        this.addGradleDependency(
-          'compileOnly',
-          'org.springframework.boot',
-          'spring-boot-starter-undertow',
-          null,
-        );
-      }
+      this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, null);
+      this.addMavenDependency(
+        'org.springframework.boot',
+        'spring-boot-starter-undertow',
+        null,
+        '<scope>provided</scope>',
+      );
     },
 
     addJsonSchemaDependencies() {
-      if (this.buildTool === 'maven') {
-        this.addMavenDependency('org.scala-lang', 'scala-library', SCALA_LIBRARY_VERSION);
-        this.addMavenDependency(
-          'com.kjetland',
-          'mbknor-jackson-jsonschema_2.12',
-          MBKNOR_JACKSON_JSONSCHEMA_VERSION,
-          '            <exclusions>\n' +
-            '                <exclusion>\n' +
-            '                    <groupId>org.scala-lang</groupId>\n' +
-            '                    <artifactId>scala-library</artifactId>\n' +
-            '                </exclusion>\n' +
-            '            </exclusions>',
-        );
-      } else if (this.buildTool === 'gradle') {
-        this.addGradleDependency('implementation', 'org.scala-lang', 'scala-library', SCALA_LIBRARY_VERSION);
-        this.addGradleDependency(
-          'implementation',
-          'com.kjetland',
-          'mbknor-jackson-jsonschema_2.12',
-          MBKNOR_JACKSON_JSONSCHEMA_VERSION,
-        );
-      }
+      this.addMavenDependency('org.scala-lang', 'scala-library', SCALA_LIBRARY_VERSION);
+      this.addMavenDependency(
+        'com.kjetland',
+        'mbknor-jackson-jsonschema_2.12',
+        MBKNOR_JACKSON_JSONSCHEMA_VERSION,
+        '            <exclusions>\n' +
+          '                <exclusion>\n' +
+          '                    <groupId>org.scala-lang</groupId>\n' +
+          '                    <artifactId>scala-library</artifactId>\n' +
+          '                </exclusion>\n' +
+          '            </exclusions>',
+      );
     },
 
     addMavenSnapshotRepository() {
-      if (this.buildTool === 'maven') {
-        this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
-      } else if (this.buildTool === 'gradle') {
-        this.addGradleMavenRepository('https://oss.sonatype.org/content/repositories/snapshots', null, null);
-      }
+      this.addMavenRepository('snapshot-repo', 'https://oss.sonatype.org/content/repositories/snapshots');
     },
   };
 }

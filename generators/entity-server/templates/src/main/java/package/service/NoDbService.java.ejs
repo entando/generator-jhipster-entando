@@ -38,13 +38,15 @@ public interface <%= asEntity(entityClass) %>Service {
 
     Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
-    Optional<<%= asEntity(entityClass) %>> findOne(<%= primaryKeyType %> id);
+    Optional<<%= asEntity(entityClass) %>> findOne(<%= primaryKey.type %> id);
 
     void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
-    void delete(<%= primaryKeyType %> id);
+    void delete(<%= primaryKey.type %> id);
 
     <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+
+    Optional<<%= asEntity(entityClass) %>> partialUpdate(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 
     <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
 }

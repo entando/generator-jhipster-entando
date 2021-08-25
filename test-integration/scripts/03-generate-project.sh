@@ -7,7 +7,7 @@ else
     echo "*** 00-init-env.sh not found, relying on JHI_* en vars"
 fi
 
-runOptions="--blueprints entando --skip-checks --force --no-insight --skip-install --with-entities"
+runOptions="--blueprints entando --skip-checks --force --no-insight --with-entities"
 
 #-------------------------------------------------------------------------------
 # Generate the application

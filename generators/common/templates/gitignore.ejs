@@ -69,7 +69,12 @@ out/
 ######################
 # Visual Studio Code
 ######################
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
 
 ######################
 # Maven
@@ -148,7 +153,19 @@ Desktop.ini
 .eslintcache
 
 ######################
-# Entando bundles
+# Code coverage
+######################
+/coverage/
+/.nyc_output/
+
+######################
+# Entando
 ######################
 bundle/
 # !/bundle/descriptor.yaml
+.entando-placeholder
+
+######################
+# Keycloak DB files
+######################
+/src/main/docker/keycloak-db/

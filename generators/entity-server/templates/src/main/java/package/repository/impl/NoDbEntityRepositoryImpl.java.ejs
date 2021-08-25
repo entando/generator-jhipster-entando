@@ -25,10 +25,10 @@ import java.util.Optional;
 <%_ if (pagination === 'no') { _%>
 import java.util.List;
 import java.util.ArrayList;
-<%_ } else { _%>
+<%_ } _%>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-<%_ } _%>
+
 import org.springframework.stereotype.Repository;
 
 import java.lang.UnsupportedOperationException;
@@ -48,21 +48,43 @@ public class <%= entityClass %>RepositoryImpl implements <%= entityClass %>Repos
     }
     <%_ } _%>
 
+    <%_ if (relationshipsContainEagerLoad) { _%>
+    @Override
+    public Page<<%=asEntity(entityClass) %>> findAllWithEagerRelationships(Pageable pageable) {
+        return Page.empty(pageable);
+    }
+
+    public List<<%=asEntity(entityClass) %>> findAllWithEagerRelationships() {
+        return new ArrayList<<%= asEntity(entityClass) %>>();
+    }
+
+    public Optional<<%=asEntity(entityClass) %>> findOneWithEagerRelationships(<%= primaryKey.type %> id) {
+        return Optional.empty();
+    }
+    <%_ } _%>
     @Override
     public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKeyType %> id) {
+    public Optional<<%= asEntity(entityClass) %>> findById(<%= primaryKey.type %> id) {
         return Optional.empty();
     }
 
     @Override
-    public void deleteById(<%= primaryKeyType %> id) { }
+    public void deleteById(<%= primaryKey.type %> id) { }
+
+    @Override
+    public boolean existsById(<%= primaryKey.type %> id) { return true; };
 
     @Override
     public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
+        return <%= asEntity(entityInstance) %>;
+    }
+
+    @Override
+    public <%= asEntity(entityClass) %> partialUpdate(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
         return <%= asEntity(entityInstance) %>;
     }
 

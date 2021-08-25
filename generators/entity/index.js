@@ -3,57 +3,31 @@ const EntityGenerator = require('generator-jhipster/generators/entity');
 const prompts = require('./prompts');
 
 module.exports = class extends EntityGenerator {
-  constructor(args, opts) {
-    super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
+  constructor(args, options, features) {
+    super(args, options, features);
 
-    this.jhipsterContext = this.options.jhipsterContext;
-    const jhContext = this.jhipsterContext;
+    if (this.options.help) return;
 
-    if (!jhContext) {
-      this.error(
+    if (!this.options.jhipsterContext) {
+      throw new Error(
         `This is a JHipster blueprint and should be used only like ${chalk.yellow(
           'jhipster --blueprints entando',
         )}`,
       );
     }
 
-    this.configOptions = jhContext.configOptions || {};
-    // This sets up options for this sub generator and is being reused from JHipster
-    jhContext.setupEntityOptions(this, jhContext, this);
-
-    // TODO JHipster v7 use getJhipsterConfig instead https://github.com/jhipster/generator-jhipster/pull/12022
-    const configuration = this.getAllJhipsterConfig();
-    this.databaseType = configuration.databaseType;
+    this.entity = this.entity || this.context;
   }
 
   get initializing() {
-    const jhipsterInitializingPhase = super._initializing();
-
-    if (!this.databaseType || this.databaseType === 'no') {
-      return {
-        ...jhipsterInitializingPhase,
-        validateDbExistence() {
-          this.info('Skipping default JHipster validateDbExistence step');
-        },
-        validateTableName() {
-          this.info('Skipping default JHipster validateTableName');
-        },
-      };
-    }
-
-    return jhipsterInitializingPhase;
-  }
-
-  _prompting() {
-    // prompting - Where you prompt users for options (where you’d call this.prompt())
-    const jhipsterPromptingPhase = super._prompting();
-
-    return { ...jhipsterPromptingPhase, ...prompts };
+    return super._initializing();
   }
 
   get prompting() {
     // Here we are not overriding this phase and hence its being handled by JHipster
-    return this._prompting();
+    const jhipsterPromptingPhase = super._prompting();
+
+    return { ...jhipsterPromptingPhase, ...prompts };
   }
 
   get configuring() {
@@ -61,25 +35,67 @@ module.exports = class extends EntityGenerator {
     return super._configuring();
   }
 
+  get composing() {
+    return super._composing();
+  }
+
+  get loading() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._loading();
+  }
+
+  get preparingFields() {
+    return super._preparingFields();
+  }
+
+  get preparing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._preparing();
+  }
+
+  get preparingRelationships() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._preparingRelationships();
+  }
+
+  get default() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._default();
+  }
+
   get writing() {
+    /*
+     * Please note we can't compose in the Composing() priority because we need
+     * preparingFields() and preparingRelationships() to be called before launching the entity-microfrontend.
+     * Composing() is called before these ones.
+     */
     const jhipsterWritingPhase = super._writing();
-    const { context, configOptions } = this;
+    const { entity } = this;
 
     return {
       ...jhipsterWritingPhase,
       ...{
         composeMicrofrontend() {
-          this.composeWith(require.resolve('../entity-microfrontend'), {
-            context,
-            configOptions,
+          this.composeWith(require.resolve('../entity-microfrontend'), true, {
+            entity,
           });
         },
       },
     };
   }
 
+  get postWriting() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._postWriting();
+  }
+
   get install() {
     // Here we are not overriding this phase and hence its being handled by JHipster
     return super._install();
+  }
+
+  get end() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._end();
   }
 };

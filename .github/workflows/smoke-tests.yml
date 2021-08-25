@@ -15,6 +15,7 @@ jobs:
         os: [ ubuntu-20.04 ]
         app:
           - maven-default
+          - maven-default-nodb
           - maven-postgres-redis
           - maven-oracle-hazelcast
     env:

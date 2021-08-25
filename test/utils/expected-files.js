@@ -1,6 +1,6 @@
 const constants = require('generator-jhipster/generators/generator-constants');
 
-const { SERVER_MAIN_RES_DIR, SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR } = constants;
+const { SERVER_MAIN_RES_DIR, SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR, DOCKER_DIR } = constants;
 
 const expectedFiles = {
   microservices: [`${SERVER_MAIN_RES_DIR}static/favicon.png`],
@@ -10,8 +10,9 @@ const expectedFiles = {
     'prepareBundle.sh',
     'prepareDockerImage.sh',
     'buildBundle.sh',
-    `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/SpringFoxConfiguration.java`,
+    `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/OpenApiConfiguration.java`,
   ],
+  'entando-keycloack': `${DOCKER_DIR}keycloak-db/.entando-placeholder`,
   entity: {
     server: {
       common: [`${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/web/rest/schema/FooSchemaResource.java`],
