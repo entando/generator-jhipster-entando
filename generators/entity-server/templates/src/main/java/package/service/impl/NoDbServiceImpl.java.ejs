@@ -17,14 +17,27 @@
  limitations under the License.
 -%>
 package <%= packageName %>.service<% if (service === 'serviceImpl') { %>.impl<% } %>;
+<%_
+const serviceClassName = serviceImpl ? entityClass + 'ServiceImpl' : entityClass + 'Service';
+const instanceType = restClass;
+const instanceName = restInstance;
+const mapper = entityClass  + 'Mapper';
+const dtoToEntity = mapper + '.'+ 'toEntity';
+const entityToDto = 'toDto';
+const entityToDtoReference = mapper + '::'+ 'toDto';
+const repository = entityClass + 'Repository';
+_%>
 
 import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
 <% if (service === 'serviceImpl') { %>
 import <%= packageName %>.service.<%= asEntity(entityClass) %>Service;
 <% } %>
-import <%= packageName %>.repository.<%= asEntity(entityClass) %>Repository;
+import <%= packageName %>.repository.<%= repository %>;
 
 import java.util.Optional;
+<%if (dtoMapstruct) { %>
+import java.util.stream.Collectors;
+<% } %>
 
 <% if (pagination === 'no') {%>
 import java.util.List;
@@ -33,78 +46,137 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 <% } %>
 import org.springframework.stereotype.Service;
+
+<%_
+if (dtoMapstruct) { _%>
+import <%= packageName %>.service.dto.<%= dtoClass %>;
+import <%= packageName %>.service.mapper.<%= entityClass %>Mapper;
+<% } else { %>
 import org.springframework.beans.factory.annotation.Autowired;
+<%_ } _%>
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl') { %>Impl<% } %> <% if (service === 'serviceImpl') { %> implements <%= entityClass %>Service<% } %> {
 
-    private <%= asEntity(entityClass) %>Repository repository;
+private final Logger log = LoggerFactory.getLogger(<%= serviceClassName %>.class);
+
+private <%= repository %> repository;
+
+<% if (dtoMapstruct ) { %>
+
+private <%= mapper %> mapper;
+
+    public <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl') { %>Impl<% } %>(<%= repository %> repository, <%= mapper %> mapper ) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
+<%_ } else { _%>
 
     @Autowired
-    public <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl') { %>Impl<% } %>(<%= asEntity(entityClass) %>Repository repository) {
-        this.repository = repository;
+    public <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl') { %>Impl<% } %>(<%= repository %> repository) {
+    this.repository = repository;
     }
 
-    <%_ if (pagination === 'no' ) { _%>
-    <%_ if (service === 'serviceImpl') { _%>
+<%_ } _%>
+
+    <% if (pagination === 'no' ) { %>
+    <% if (service === 'serviceImpl') { %>
     @Override
     <%_ } _%>
-    public List<<%= asEntity(entityClass) %>> findAll() {
+    public List<<%= instanceType %>> findAll() {
+        <% if (dtoMapstruct ) { %>
+        return this.repository.findAll().stream().map(mapper::toDto).collect(Collectors.toList());
+        <%_ } else { _%>
         return this.repository.findAll();
+        <%_ } _%>
     }
     <%_ } else { _%>
     <% if (service === 'serviceImpl') { %> @Override  <% } %>
-    public Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable) {
+    public Page<<%= instanceType %>> findAll(Pageable pageable) {
         return this.repository.findAll(pageable);
     }
     <%_ } _%>
 
-    <%_ if (service === 'serviceImpl') { _%>
+    <% if (service === 'serviceImpl') { %>
     @Override
     <%_ } _%>
-    public Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        return this.repository.findOne(<%= asEntity(entityInstance) %>);
+    public Optional<<%= instanceType %>> findOne(<%= instanceType %> <%= instanceName %>) {
+        <% if (dtoMapstruct ) { %>
+        <%= entityClass %> <%= entityInstance %>Entity = this.repository.findOne(mapper.toEntity(<%= instanceName %>)).get();
+        return Optional.ofNullable(this.mapper.toDto(<%= entityInstance %>Entity));
+        <%_ } else { _%>
+        return this.repository.findOne(<%= instanceName %>);
+        <%_ } _%>
     }
 
-    <%_ if (service === 'serviceImpl') { _%>
+    <% if (service === 'serviceImpl') { %>
     @Override
     <%_ } _%>
-    public Optional<<%= asEntity(entityClass) %>> findOne(<%= primaryKey.type %> id) {
+    public Optional<<%= instanceType %>> findOne(<%= primaryKey.type %> id) {
+        <% if (dtoMapstruct ) { %>
+        return Optional.ofNullable(this.mapper.toDto(this.repository.findById(id).get()));
+        <%_ } else { _%>
         return this.repository.findById(id);
+        <%_ } _%>
     }
 
-    <%_ if (service === 'serviceImpl') { _%>
+    <% if (service === 'serviceImpl') { %>
     @Override
     <%_ } _%>
-    public void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        this.repository.deleteById(<%= asEntity(entityInstance) %>.getId());
+    public void delete(<%= instanceType %> <%= instanceName %>) {
+        this.repository.deleteById(<%= instanceName %>.getId());
     }
 
-    <%_ if (service === 'serviceImpl') { _%>
+    <% if (service === 'serviceImpl') { %>
     @Override
-    <%_ } _%>
+    <% } %>
     public void delete(<%= primaryKey.type %> id) {
         this.repository.deleteById(id);
     }
 
-    <%_ if (service === 'serviceImpl') { _%>
+    <% if (service === 'serviceImpl') { %>
     @Override
     <%_ } _%>
-    public <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        return this.repository.save(<%= asEntity(entityInstance) %>);
+    public <%= instanceType %> save(<%= instanceType %> <%= instanceName %>) {
+        <% if (dtoMapstruct ) { %>
+        <%= entityClass %> <%= entityInstance %>=this.mapper.toEntity(<%= instanceName %>);
+        <%= entityInstance %> = this.repository.save(<%= entityInstance %>);
+        return this.mapper.toDto(<%= entityInstance %>);
+        <%_ } else { _%>
+        return this.repository.save(<%= instanceName %>);
+        <%_ } _%>
     }
 
-    <%_ if (service === 'serviceImpl') { _%>
+    <% if (service === 'serviceImpl') { %>
     @Override
     <%_ } _%>
-    public Optional<<%= asEntity(entityClass) %>> partialUpdate(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        return Optional.ofNullable(this.repository.partialUpdate(<%= asEntity(entityInstance) %>));
+    public Optional<<%= instanceType %>> partialUpdate(<%= instanceType %> <%= instanceName %>) {
+        <% if (dtoMapstruct ) { %>
+        return this.repository
+            .findById( <%= instanceName %>.getId())
+            .map(
+                entity -> {
+                    mapper.partialUpdate(entity, <%= instanceName %>);
+                    return entity;
+                }
+        )
+        .map(this.repository::save)
+        .map(this.mapper::toDto);
+        <%_ } else { _%>
+        return Optional.ofNullable(this.repository.partialUpdate(<%= instanceName %>));
+        <%_ } _%>
     }
 
-    <%_ if (service === 'serviceImpl') { _%>
+    <% if (service === 'serviceImpl') { %>
     @Override
     <%_ } _%>
-    public <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>) {
-        return this.repository.update(<%= asEntity(entityInstance) %>);
+    public <%= instanceType %> update(<%= instanceType %> <%= instanceName %>) {
+        <% if (dtoMapstruct ) { %>
+        return this.mapper.toDto(this.repository.update(this.mapper.toEntity(<%= instanceName %>)));
+        <%_ } else { _%>
+        return this.repository.update(<%= instanceName %>);
+        <%_ } _%>
     }
 }
