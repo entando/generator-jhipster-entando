@@ -29,20 +29,20 @@ import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
 <%_ } _%>
 
 import java.util.Optional;
-<% if (pagination === 'no') { %>
+<%_ if (pagination === 'no') { _%>
 import java.util.List;
-<% } else { %>
+<%_ } else { _%>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 <%_ } _%>
 
 public interface <%= asEntity(entityClass) %>Service {
 
-    <% if (pagination === 'no' ) { %>
+    <%_ if (pagination === 'no' ) { _%>
     List<<%= instanceType %>> findAll();
     <%_ } else { _%>
     Page<<%= instanceType %>> findAll(Pageable pageable);
-    <% } %>
+    <%_ } _%>
 
     Optional<<%= instanceType %>> findOne(<%= instanceType %> <%= instanceName %>);
 

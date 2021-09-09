@@ -60,11 +60,9 @@ import org.slf4j.LoggerFactory;
 @Service
 public class <%= asEntity(entityClass) %>Service<% if (service === 'serviceImpl') { %>Impl<% } %> <% if (service === 'serviceImpl') { %> implements <%= entityClass %>Service<% } %> {
 
-private final Logger log = LoggerFactory.getLogger(<%= serviceClassName %>.class);
-
 private <%= repository %> repository;
 
-<% if (dtoMapstruct ) { %>
+<%_ if (dtoMapstruct ) { _%>
 
 private <%= mapper %> mapper;
 
@@ -81,8 +79,8 @@ private <%= mapper %> mapper;
 
 <%_ } _%>
 
-    <% if (pagination === 'no' ) { %>
-    <% if (service === 'serviceImpl') { %>
+    <%_ if (pagination === 'no' ) { _%>
+    <%_ if (service === 'serviceImpl') { _%>
     @Override
     <%_ } _%>
     public List<<%= instanceType %>> findAll() {
@@ -99,44 +97,45 @@ private <%= mapper %> mapper;
     }
     <%_ } _%>
 
-    <% if (service === 'serviceImpl') { %>
+    <%_ if (service === 'serviceImpl') { _%>
     @Override
     <%_ } _%>
     public Optional<<%= instanceType %>> findOne(<%= instanceType %> <%= instanceName %>) {
         <% if (dtoMapstruct ) { %>
-        <%= entityClass %> <%= entityInstance %>Entity = this.repository.findOne(mapper.toEntity(<%= instanceName %>)).get();
-        return Optional.ofNullable(this.mapper.toDto(<%= entityInstance %>Entity));
+            <%= entityClass %> <%= entityInstance %>Entity = this.repository.findOne(mapper.toEntity(<%= instanceName %>)).orElse(null);
+            return Optional.ofNullable(this.mapper.toDto(<%= entityInstance %>Entity));
         <%_ } else { _%>
         return this.repository.findOne(<%= instanceName %>);
         <%_ } _%>
     }
 
-    <% if (service === 'serviceImpl') { %>
+    <%_ if (service === 'serviceImpl') { _%>
     @Override
     <%_ } _%>
     public Optional<<%= instanceType %>> findOne(<%= primaryKey.type %> id) {
         <% if (dtoMapstruct ) { %>
-        return Optional.ofNullable(this.mapper.toDto(this.repository.findById(id).get()));
+            <%= entityClass %> <%= entityInstance %>Entity = this.repository.findById(id).orElse(null);
+            return Optional.ofNullable(this.mapper.toDto(<%= entityInstance %>Entity));
         <%_ } else { _%>
         return this.repository.findById(id);
-        <%_ } _%>
+        <% } %>
     }
 
-    <% if (service === 'serviceImpl') { %>
+    <%_ if (service === 'serviceImpl') { _%>
     @Override
     <%_ } _%>
     public void delete(<%= instanceType %> <%= instanceName %>) {
         this.repository.deleteById(<%= instanceName %>.getId());
     }
 
-    <% if (service === 'serviceImpl') { %>
+    <%_ if (service === 'serviceImpl') { _%>
     @Override
-    <% } %>
+    <%_ } _%>
     public void delete(<%= primaryKey.type %> id) {
         this.repository.deleteById(id);
     }
 
-    <% if (service === 'serviceImpl') { %>
+    <%_ if (service === 'serviceImpl') { _%>
     @Override
     <%_ } _%>
     public <%= instanceType %> save(<%= instanceType %> <%= instanceName %>) {
@@ -144,39 +143,30 @@ private <%= mapper %> mapper;
         <%= entityClass %> <%= entityInstance %>=this.mapper.toEntity(<%= instanceName %>);
         <%= entityInstance %> = this.repository.save(<%= entityInstance %>);
         return this.mapper.toDto(<%= entityInstance %>);
-        <%_ } else { _%>
+        <% } else { %>
         return this.repository.save(<%= instanceName %>);
-        <%_ } _%>
+        <% } %>
     }
 
-    <% if (service === 'serviceImpl') { %>
+    <%_ if (service === 'serviceImpl') { _%>
     @Override
     <%_ } _%>
     public Optional<<%= instanceType %>> partialUpdate(<%= instanceType %> <%= instanceName %>) {
         <% if (dtoMapstruct ) { %>
-        return this.repository
-            .findById( <%= instanceName %>.getId())
-            .map(
-                entity -> {
-                    mapper.partialUpdate(entity, <%= instanceName %>);
-                    return entity;
-                }
-        )
-        .map(this.repository::save)
-        .map(this.mapper::toDto);
-        <%_ } else { _%>
+        return Optional.ofNullable(this.mapper.toDto(this.repository.partialUpdate(this.mapper.toEntity(<%= instanceName %>))));
+        <% } else { %>
         return Optional.ofNullable(this.repository.partialUpdate(<%= instanceName %>));
-        <%_ } _%>
+        <% } %>
     }
 
-    <% if (service === 'serviceImpl') { %>
+    <%_ if (service === 'serviceImpl') { _%>
     @Override
     <%_ } _%>
     public <%= instanceType %> update(<%= instanceType %> <%= instanceName %>) {
         <% if (dtoMapstruct ) { %>
         return this.mapper.toDto(this.repository.update(this.mapper.toEntity(<%= instanceName %>)));
-        <%_ } else { _%>
+        <% } else { %>
         return this.repository.update(<%= instanceName %>);
-        <%_ } _%>
+        <% } %>
     }
 }
