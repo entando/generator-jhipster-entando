@@ -17,8 +17,16 @@
  limitations under the License.
 -%>
 package <%= packageName %>.service;
+<%_
+const instanceType = restClass;
+const instanceName = restInstance;
+%>
 
+<% if (dtoMapstruct) { %>
+import <%= packageName %>.service.dto.<%= dtoClass %>;
+<%_ } else { _%>
 import <%= packageName %>.domain.<%= asEntity(entityClass) %>;
+<%_ } _%>
 
 import java.util.Optional;
 <%_ if (pagination === 'no') { _%>
@@ -31,22 +39,22 @@ import org.springframework.data.domain.Pageable;
 public interface <%= asEntity(entityClass) %>Service {
 
     <%_ if (pagination === 'no' ) { _%>
-    List<<%= asEntity(entityClass) %>> findAll();
+    List<<%= instanceType %>> findAll();
     <%_ } else { _%>
-    Page<<%= asEntity(entityClass) %>> findAll(Pageable pageable);
+    Page<<%= instanceType %>> findAll(Pageable pageable);
     <%_ } _%>
 
-    Optional<<%= asEntity(entityClass) %>> findOne(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    Optional<<%= instanceType %>> findOne(<%= instanceType %> <%= instanceName %>);
 
-    Optional<<%= asEntity(entityClass) %>> findOne(<%= primaryKey.type %> id);
+    Optional<<%= instanceType %>> findOne(<%= primaryKey.type %> id);
 
-    void delete(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    void delete(<%= instanceType %> <%= instanceName %>);
 
     void delete(<%= primaryKey.type %> id);
 
-    <%= asEntity(entityClass) %> save(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    <%= instanceType %> save(<%= instanceType %> <%= instanceName %>);
 
-    Optional<<%= asEntity(entityClass) %>> partialUpdate(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    Optional<<%= instanceType %>> partialUpdate(<%= instanceType %> <%= instanceName %>);
 
-    <%= asEntity(entityClass) %> update(<%= asEntity(entityClass) %> <%= asEntity(entityInstance) %>);
+    <%= instanceType %> update(<%= instanceType %> <%= instanceName %>);
 }

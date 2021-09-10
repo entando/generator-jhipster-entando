@@ -100,6 +100,51 @@ const entandoServerFiles = {
       ],
     },
   ],
+  serverJavaWebError: [
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/web/rest/errors/package-info.java',
+          renameTo: generator => `${generator.javaDir}web/rest/errors/package-info.java`,
+        },
+        {
+          file: 'package/web/rest/errors/BadRequestAlertException.java',
+          renameTo: generator => `${generator.javaDir}web/rest/errors/BadRequestAlertException.java`,
+        },
+        {
+          file: 'package/web/rest/errors/ErrorConstants.java',
+          renameTo: generator => `${generator.javaDir}web/rest/errors/ErrorConstants.java`,
+        },
+        {
+          file: 'package/web/rest/errors/ExceptionTranslator.java',
+          renameTo: generator => `${generator.javaDir}web/rest/errors/ExceptionTranslator.java`,
+        },
+        {
+          file: 'package/web/rest/errors/FieldErrorVM.java',
+          renameTo: generator => `${generator.javaDir}web/rest/errors/FieldErrorVM.java`,
+        },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement,
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/web/rest/errors/EmailAlreadyUsedException.java',
+          renameTo: generator => `${generator.javaDir}web/rest/errors/EmailAlreadyUsedException.java`,
+        },
+        {
+          file: 'package/web/rest/errors/InvalidPasswordException.java',
+          renameTo: generator => `${generator.javaDir}web/rest/errors/InvalidPasswordException.java`,
+        },
+        {
+          file: 'package/web/rest/errors/LoginAlreadyUsedException.java',
+          renameTo: generator => `${generator.javaDir}web/rest/errors/LoginAlreadyUsedException.java`,
+        },
+      ],
+    },
+  ],
   serverJavaAuthConfig: [
     {
       condition: generator => !generator.reactive,
