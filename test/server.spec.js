@@ -117,12 +117,12 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('pom.xml contains the entando dockerImageOrganization', () => {
+    it('pom.xml contains the image configuration', () => {
       assert.fileContent(
         'pom.xml',
         '                    <configuration>\n' +
           '                        <from>\n' +
-          '                            <image>adoptopenjdk:11-jre-hotspot</image>\n' +
+          '                            <image>eclipse-temurin:11-jre-focal</image>\n' +
           '                        </from>\n' +
           '                        <to>\n' +
           // eslint-disable-next-line no-template-curly-in-string
