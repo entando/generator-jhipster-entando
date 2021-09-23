@@ -26,12 +26,12 @@
     "node_modules"
   ],
   "devDependencies": {
-    <%_ if (!skipJhipsterDependencies) { _%>
+<%_ if (!skipJhipsterDependencies) { _%>
     "generator-jhipster": "<%= jhipsterVersion %>",
-        <%_ otherModules.forEach(module => { _%>
+  <%_ otherModules.forEach(module => { _%>
     "<%= module.name %>": "<%= module.version %>",
-        <%_ });
-    } _%>
+  <%_ });
+} _%>
     <%_ if (!skipCommitHook) { _%>
     "husky": "<%= dependabotPackageJson.devDependencies['husky'] %>",
     "lint-staged": "<%= dependabotPackageJson.devDependencies['lint-staged'] %>",
