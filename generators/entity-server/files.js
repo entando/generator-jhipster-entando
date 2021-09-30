@@ -94,6 +94,17 @@ const serverFiles = {
       path: SERVER_TEST_SRC_DIR,
       templates: [
         {
+          file: 'package/web/rest/NoDbEntityResourceIT.java',
+          renameTo: generator =>
+            `${generator.packageFolder}/web/rest/${generator.entityClass}ResourceIT.java`,
+        },
+      ],
+    },
+    {
+      condition: generator => generator.databaseType === 'no',
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
           file: 'package/domain/NoDbEntityTest.java',
           renameTo: generator => `${generator.packageFolder}/domain/${generator.entityClass}Test.java`,
         },
