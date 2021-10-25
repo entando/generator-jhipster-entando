@@ -1,7 +1,7 @@
 [![NPM version][npm-image]][npm-url] [![Build Status][github-actions-generator-image]][github-actions-url]
 > JHipster blueprint,
 
-# entando-blueprint
+# generator-jhipster-entando
 For more information and documentation visit:  https://dev.entando.org, or https://forum.entando.org. Or for the latest news or product information please visit the main website: https://www.entando.com.
 
 Information below is for running locally or building from source. For usage information see the links above.
@@ -63,8 +63,8 @@ During development of blueprint, please note the below steps. They are very impo
 Note: If you do not want to link the blueprint(step 3) to each project being created, use NPM instead of Yarn as yeoman doesn't seem to fetch globally linked Yarn modules. On the other hand, this means you have to use NPM in all the below steps as well.
 
 ```bash
-git clone https://github.com/entando/entando-blueprint.git
-cd entando-blueprint
+git clone https://github.com/entando/generator-jhipster-entando.git
+cd generator-jhipster-entando
 npm link
 ```
 
@@ -76,7 +76,7 @@ You could also use Yarn for this if you prefer
 cd generator-jhipster
 npm link
 
-cd entando-blueprint
+cd generator-jhipster-entando
 npm link generator-jhipster
 ```
 
@@ -101,5 +101,5 @@ When you try to authenticate in the Swagger UI you should keep prefilled data (`
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-entando.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-entando
-[github-actions-generator-image]: https://github.com/entando/entando-blueprint/workflows/Generator/badge.svg
-[github-actions-url]: https://github.com/entando/entando-blueprint/actions
+[github-actions-generator-image]: https://github.com/entando/generator-jhipster-entando/workflows/Generator/badge.svg
+[github-actions-url]: https://github.com/entando/generator-jhipster-entando/actions
