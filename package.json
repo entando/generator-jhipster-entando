@@ -27,7 +27,7 @@
   "dependencies": {
     "casual": "^1.6.2",
     "chalk": "^4.0.0",
-    "generator-jhipster": "7.2.0",
+    "generator-jhipster": "7.3.1",
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
     "shelljs": "^0.8.4",
