@@ -8,6 +8,7 @@ const { DEFAULT_SERVER_PROMPTS } = require('../generator-constants');
 module.exports = {
   /* eslint-disable no-use-before-define */
   askForServerSideOpts,
+  askForMicroserviceDependencies,
   askForBundleName,
   askForDockerOrganization,
   askForMicroFrontendGeneration,
@@ -231,4 +232,30 @@ async function askForMicroFrontendGeneration() {
 
   const answers = await this.prompt(prompts);
   this.generateMicroFrontends = this.jhipsterConfig.generateMicroFrontends = answers.generateMicroFrontends;
+}
+
+async function askForMicroserviceDependencies() {
+  if (this.existingProject) return;
+
+  const prompts = [
+    {
+      type: 'list',
+      name: 'microserviceDependencies',
+      message: 'Which dependencies do you want to use in your pom file?',
+      choices: [
+        {
+          value: 'entando',
+          name: 'Dependencies maintained by Entando (entando/entando-bundle-bom)',
+        },
+        {
+          value: 'jhipster',
+          name: 'Jhipster\'s original dependencies (jhipster/jhipster-bom)',
+        },
+      ],
+      default: 'entando',
+    },
+  ];
+
+  const answers = await this.prompt(prompts);
+  this.microserviceDependencies = this.jhipsterConfig.microserviceDependencies = answers.microserviceDependencies;
 }

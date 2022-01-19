@@ -40,6 +40,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           buildTool: 'maven',
           rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
           dockerImageOrganization: 'test',
+          microserviceDependencies: 'entando',
         })
         .on('end', done);
     });
@@ -179,15 +180,10 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    /*
-    TODO update or remove this test when the Entando Bundle bom has been updated
     it('pom.xml contains the entando-bundle-bom version', () => {
       assert.fileContent('pom.xml', /<entando-bundle-bom\.version>.+<\/entando-bundle-bom\.version>/);
     });
-    */
 
-    /*
-    TODO update or remove this test when the Entando Bundle bom has been updated
     it('pom.xml contains the entando-bundle-bom dependency', () => {
       assert.fileContent(
         'pom.xml',
@@ -201,7 +197,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '            </dependency>',
       );
     });
-    */
 
     it('Keycloack docker file contains the Entando modifications', () => {
       assert.fileContent(`${DOCKER_DIR}keycloak.yml`, 'entando/entando-keycloak:6.0.15');

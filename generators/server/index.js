@@ -26,13 +26,13 @@ module.exports = class extends ServerGenerator {
   get initializing() {
     // initializing - Your initialization methods (checking current project state, getting configs, etc)
     const jhipsterPhase = super._initializing();
-    const entandoPhase = {
-      setupEntandoServerconsts() {
-        this.ENTANDO_BUNDLE_BOM_VERSION = constants.ENTANDO_BUNDLE_BOM_VERSION;
+     const entandoPhase = {
+       setupEntandoServerconsts() {
+         this.ENTANDO_BUNDLE_BOM_VERSION = constants.ENTANDO_BUNDLE_BOM_VERSION;
       },
-    };
+     };
 
-    return { ...jhipsterPhase, ...entandoPhase };
+    return { ...jhipsterPhase , ...entandoPhase };
   }
 
   get prompting() {
@@ -59,6 +59,7 @@ module.exports = class extends ServerGenerator {
         const configuration = this.getJhipsterConfig();
         this.bundleName = configuration.get('bundleName');
         this.dockerImageOrganization = configuration.get('dockerImageOrganization');
+        this.microserviceDependencies = configuration.get('microserviceDependencies');
         this.prodDatabaseTypePlugin = ['mongodb', 'neo4j', 'couchbase', 'cassandra', 'no'].includes(
           this.databaseType,
         )

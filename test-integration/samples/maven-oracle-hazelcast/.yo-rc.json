@@ -12,6 +12,7 @@
     "baseName": "test",
     "packageName": "com.mycompany.myapp",
     "packageFolder": "com/mycompany/myapp",
+    "microserviceDependencies": "entando",
     "serverPort": "8081",
     "authenticationType": "oauth2",
     "cacheProvider": "hazelcast",
@@ -36,7 +37,7 @@
     "otherModules": [
       {
         "name": "generator-jhipster-entando",
-        "version": "6.3.0"
+        "version": "6.3.2"
       }
     ],
     "enableTranslation": true,
@@ -46,7 +47,7 @@
     "blueprints": [
       {
         "name": "generator-jhipster-entando",
-        "version": "6.3.0"
+        "version": "6.3.2"
       }
     ],
     "skipClient": true,
