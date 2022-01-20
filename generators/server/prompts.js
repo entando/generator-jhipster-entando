@@ -249,7 +249,7 @@ async function askForMicroserviceDependencies() {
         },
         {
           value: 'jhipster',
-          name: 'Jhipster\'s original dependencies (jhipster/jhipster-bom)',
+          name: "Jhipster's original dependencies (jhipster/jhipster-bom)",
         },
       ],
       default: 'entando',
