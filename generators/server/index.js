@@ -26,13 +26,13 @@ module.exports = class extends ServerGenerator {
   get initializing() {
     // initializing - Your initialization methods (checking current project state, getting configs, etc)
     const jhipsterPhase = super._initializing();
-     const entandoPhase = {
-       setupEntandoServerconsts() {
-         this.ENTANDO_BUNDLE_BOM_VERSION = constants.ENTANDO_BUNDLE_BOM_VERSION;
+    const entandoPhase = {
+      setupEntandoServerconsts() {
+        this.ENTANDO_BUNDLE_BOM_VERSION = constants.ENTANDO_BUNDLE_BOM_VERSION;
       },
-     };
+    };
 
-    return { ...jhipsterPhase , ...entandoPhase };
+    return { ...jhipsterPhase, ...entandoPhase };
   }
 
   get prompting() {

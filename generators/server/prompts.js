@@ -257,5 +257,6 @@ async function askForMicroserviceDependencies() {
   ];
 
   const answers = await this.prompt(prompts);
-  this.microserviceDependencies = this.jhipsterConfig.microserviceDependencies = answers.microserviceDependencies;
+  this.microserviceDependencies = this.jhipsterConfig.microserviceDependencies =
+    answers.microserviceDependencies;
 }
