@@ -241,7 +241,7 @@ async function askForMicroserviceDependencies() {
     {
       type: 'list',
       name: 'microserviceDependencies',
-      message: 'Which dependencies do you want to use in your pom file?',
+      message: 'Which BE dependencies do you want to use?',
       choices: [
         {
           value: 'entando',
