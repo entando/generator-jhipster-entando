@@ -176,15 +176,17 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency><% if (microserviceDependencies === 'entando') { %>
+            <dependency>
+<%_ if (microserviceDependencies === 'entando') { _%>
                 <groupId>org.entando</groupId>
                 <artifactId>entando-bundle-bom</artifactId>
                 <version>${entando-bundle-bom.version}</version>
-                <% } else if (microserviceDependencies === 'jhipster') { %>
+<%_ } else if (microserviceDependencies === 'jhipster') { _%>
                 <groupId>tech.jhipster</groupId>
                 <artifactId>jhipster-dependencies</artifactId>
                 <version>${jhipster-dependencies.version}</version>
-                <%_ } _%><type>pom</type>
+<%_ } _%>
+                <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
