@@ -204,7 +204,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
     */
 
     it('Keycloack docker file contains the Entando modifications', () => {
-      assert.fileContent(`${DOCKER_DIR}keycloak.yml`, 'entando/entando-keycloak:6.0.15');
+      assert.fileContent(`${DOCKER_DIR}keycloak.yml`, 'entando/entando-keycloak:7.0.0-ENG-3087-PR-23');
       assert.fileContent(
         `${DOCKER_DIR}keycloak.yml`,
         'command: [\n' +
