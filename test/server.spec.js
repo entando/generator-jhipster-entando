@@ -437,4 +437,60 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".persistentTokens"');
     });
   });
+
+  describe('With jhipster as microservice dependencyManagement', () => {
+    before(done => {
+      helpers
+        .run('generator-jhipster/generators/server')
+        .withOptions({
+          'from-cli': true,
+          skipInstall: true,
+          blueprint: 'entando',
+          skipChecks: true,
+        })
+        .withGenerators([
+          [
+            require('../generators/server/index'), // eslint-disable-line global-require
+            'jhipster-entando:server',
+            path.join(__dirname, '../generators/server/index'),
+          ],
+        ])
+        .withPrompts({
+          baseName: appBaseName,
+          packageName: 'com.mycompany.myapp',
+          applicationType: 'microservice',
+          databaseType: 'sql',
+          devDatabaseType: 'h2Disk',
+          prodDatabaseType: 'mysql',
+          cacheProvider: 'ehcache',
+          authenticationType: 'oauth2',
+          enableTranslation: true,
+          nativeLanguage: 'en',
+          languages: ['fr', 'de'],
+          buildTool: 'maven',
+          rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
+          dockerImageOrganization: 'test',
+          microserviceDependencies: 'jhipster',
+        })
+        .on('end', done);
+    });
+
+    it('pom.xml contains the jhipster-dependencies version', () => {
+      assert.fileContent('pom.xml', /<jhipster-dependencies\.version>.+<\/jhipster-dependencies\.version>/);
+    });
+
+    it('pom.xml contains the jhipster-dependencies', () => {
+      assert.fileContent(
+        'pom.xml',
+        '            <dependency>\n' +
+          '                <groupId>tech.jhipster</groupId>\n' +
+          '                <artifactId>jhipster-dependencies</artifactId>\n' +
+          // eslint-disable-next-line no-template-curly-in-string
+          '                <version>${jhipster-dependencies.version}</version>\n' +
+          '                <type>pom</type>\n' +
+          '                <scope>import</scope>\n' +
+          '            </dependency>',
+      );
+    });
+  });
 });
