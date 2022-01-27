@@ -45,7 +45,7 @@
             </releases>
         </repository>
         <%_ } _%>
-        <%_ if (ENTANDO_BUNDLE_BOM_VERSION.indexOf('-PR-') > -1) { _%>
+        <%_ if (isEntandoBundleBomPRVersion) { _%>
         <repository>
             <id>jx-releases</id>
             <url>https://nexus-jx.apps.serv.run/repository/maven-releases/</url>
