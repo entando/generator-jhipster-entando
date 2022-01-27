@@ -5,7 +5,6 @@ const ServerGenerator = require('generator-jhipster/generators/server');
 const prompts = require('./prompts');
 const { writeFiles } = require('./files');
 const constants = require('../generator-constants');
-const {ENTANDO_BUNDLE_BOM_VERSION} = require("../generator-constants");
 
 module.exports = class extends ServerGenerator {
   constructor(args, options, features) {
