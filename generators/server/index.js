@@ -59,11 +59,13 @@ module.exports = class extends ServerGenerator {
         const configuration = this.getJhipsterConfig();
         this.bundleName = configuration.get('bundleName');
         this.dockerImageOrganization = configuration.get('dockerImageOrganization');
+        this.microserviceDependencies = configuration.get('microserviceDependencies');
         this.prodDatabaseTypePlugin = ['mongodb', 'neo4j', 'couchbase', 'cassandra', 'no'].includes(
           this.databaseType,
         )
           ? 'none'
           : this.prodDatabaseType;
+        this.isEntandoBundleBomPRVersion = constants.ENTANDO_BUNDLE_BOM_VERSION.indexOf('-PR-') > -1;
       },
     };
 

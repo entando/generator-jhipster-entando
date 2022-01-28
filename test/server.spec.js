@@ -40,6 +40,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           buildTool: 'maven',
           rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
           dockerImageOrganization: 'test',
+          microserviceDependencies: 'entando',
         })
         .on('end', done);
     });
@@ -179,15 +180,10 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    /*
-    TODO update or remove this test when the Entando Bundle bom has been updated
     it('pom.xml contains the entando-bundle-bom version', () => {
       assert.fileContent('pom.xml', /<entando-bundle-bom\.version>.+<\/entando-bundle-bom\.version>/);
     });
-    */
 
-    /*
-    TODO update or remove this test when the Entando Bundle bom has been updated
     it('pom.xml contains the entando-bundle-bom dependency', () => {
       assert.fileContent(
         'pom.xml',
@@ -201,7 +197,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '            </dependency>',
       );
     });
-    */
 
     it('Keycloack docker file contains the Entando modifications', () => {
       assert.fileContent(`${DOCKER_DIR}keycloak.yml`, 'entando/entando-keycloak:7.0.0-ENG-3087-PR-23');
@@ -440,6 +435,62 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.noFileContent(cacheConfigurationFileName, 'Authority.class.getName()');
       assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".authorities"');
       assert.noFileContent(cacheConfigurationFileName, 'class.getName() + ".persistentTokens"');
+    });
+  });
+
+  describe('With jhipster as microservice dependencyManagement', () => {
+    before(done => {
+      helpers
+        .run('generator-jhipster/generators/server')
+        .withOptions({
+          'from-cli': true,
+          skipInstall: true,
+          blueprint: 'entando',
+          skipChecks: true,
+        })
+        .withGenerators([
+          [
+            require('../generators/server/index'), // eslint-disable-line global-require
+            'jhipster-entando:server',
+            path.join(__dirname, '../generators/server/index'),
+          ],
+        ])
+        .withPrompts({
+          baseName: appBaseName,
+          packageName: 'com.mycompany.myapp',
+          applicationType: 'microservice',
+          databaseType: 'sql',
+          devDatabaseType: 'h2Disk',
+          prodDatabaseType: 'mysql',
+          cacheProvider: 'ehcache',
+          authenticationType: 'oauth2',
+          enableTranslation: true,
+          nativeLanguage: 'en',
+          languages: ['fr', 'de'],
+          buildTool: 'maven',
+          rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
+          dockerImageOrganization: 'test',
+          microserviceDependencies: 'jhipster',
+        })
+        .on('end', done);
+    });
+
+    it('pom.xml contains the jhipster-dependencies version', () => {
+      assert.fileContent('pom.xml', /<jhipster-dependencies\.version>.+<\/jhipster-dependencies\.version>/);
+    });
+
+    it('pom.xml contains the jhipster-dependencies', () => {
+      assert.fileContent(
+        'pom.xml',
+        '            <dependency>\n' +
+          '                <groupId>tech.jhipster</groupId>\n' +
+          '                <artifactId>jhipster-dependencies</artifactId>\n' +
+          // eslint-disable-next-line no-template-curly-in-string
+          '                <version>${jhipster-dependencies.version}</version>\n' +
+          '                <type>pom</type>\n' +
+          '                <scope>import</scope>\n' +
+          '            </dependency>',
+      );
     });
   });
 });

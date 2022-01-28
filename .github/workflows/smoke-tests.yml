@@ -15,8 +15,10 @@ jobs:
         os: [ ubuntu-20.04 ]
         app:
           - maven-default
+          - maven-default-jhipster-bom
           - maven-default-nodb
           - maven-postgres-redis
+          - maven-postgres-redis-jhipster-bom
           - maven-oracle-hazelcast
     env:
       JHI_APP: ${{ matrix.app }}

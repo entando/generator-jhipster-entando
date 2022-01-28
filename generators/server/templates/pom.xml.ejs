@@ -45,6 +45,18 @@
             </releases>
         </repository>
         <%_ } _%>
+        <%_ if (isEntandoBundleBomPRVersion) { _%>
+        <repository>
+            <id>jx-releases</id>
+            <url>https://nexus-jx.apps.serv.run/repository/maven-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <%_ } _%>
         <!-- jhipster-needle-maven-repository -->
     </repositories>
 
@@ -86,8 +98,12 @@
         <profile.api-docs />
         <profile.tls />
 
-        <!-- Dependency versions -->
-        <jhipster-dependencies.version><%= JHIPSTER_DEPENDENCIES_VERSION %></jhipster-dependencies.version>
+<%_ if (microserviceDependencies === 'entando') { _%>
+       <entando-bundle-bom.version><%= ENTANDO_BUNDLE_BOM_VERSION %></entando-bundle-bom.version>
+<%_ } else { _%>
+       <jhipster-dependencies.version><%= JHIPSTER_DEPENDENCIES_VERSION %></jhipster-dependencies.version>
+<%_ } _%>
+
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
         <spring-boot.version><%= SPRING_BOOT_VERSION %></spring-boot.version>
@@ -161,26 +177,19 @@
         <sonar-maven-plugin.version>3.9.0.2155</sonar-maven-plugin.version>
         <!-- jhipster-needle-maven-property -->
     </properties>
-    <%# JH6+
+
     <dependencyManagement>
         <dependencies>
             <dependency>
+<%_ if (microserviceDependencies === 'entando') { _%>
                 <groupId>org.entando</groupId>
                 <artifactId>entando-bundle-bom</artifactId>
                 <version>${entando-bundle-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- jhipster-needle-maven-add-dependency-management -->
-        </dependencies>
-    </dependencyManagement>
-    %>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
+<%_ } else { _%>
                 <groupId>tech.jhipster</groupId>
                 <artifactId>jhipster-dependencies</artifactId>
                 <version>${jhipster-dependencies.version}</version>
+<%_ } _%>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
