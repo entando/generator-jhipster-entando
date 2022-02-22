@@ -100,10 +100,8 @@
 
 <%_ if (microserviceDependencies === 'entando') { _%>
        <entando-bundle-bom.version><%= ENTANDO_BUNDLE_BOM_VERSION %></entando-bundle-bom.version>
-       <jhipster-dependencies.version><%= JHIPSTER_DEPENDENCIES_VERSION %></jhipster-dependencies.version>
-<%_ } else { _%>
-       <jhipster-dependencies.version><%= JHIPSTER_DEPENDENCIES_VERSION %></jhipster-dependencies.version>
 <%_ } _%>
+       <jhipster-dependencies.version><%= JHIPSTER_DEPENDENCIES_VERSION %></jhipster-dependencies.version>
 
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
