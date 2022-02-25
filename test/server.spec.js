@@ -2,16 +2,13 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const constants = require('generator-jhipster/generators/generator-constants');
+const entandoConstants = require('../generators/generator-constants');
 const expectedFiles = require('./utils/expected-files');
 
 const appBaseName = 'entandoPlugin';
-const {
-  DOCKER_DIR,
-  SERVER_MAIN_SRC_DIR,
-  SERVER_MAIN_RES_DIR,
-  SERVER_TEST_RES_DIR,
-  ENTANDO_KEYCLOAK_DOCKER_IMAGE,
-} = constants;
+const { DOCKER_DIR, SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR, SERVER_TEST_RES_DIR } = constants;
+
+const { ENTANDO_KEYCLOAK_DOCKER_IMAGE } = entandoConstants;
 
 describe('Subgenerator server of entando JHipster blueprint', () => {
   describe('With default blueprint configuration', () => {
