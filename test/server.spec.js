@@ -5,7 +5,13 @@ const constants = require('generator-jhipster/generators/generator-constants');
 const expectedFiles = require('./utils/expected-files');
 
 const appBaseName = 'entandoPlugin';
-const { DOCKER_DIR, SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR, SERVER_TEST_RES_DIR } = constants;
+const {
+  DOCKER_DIR,
+  SERVER_MAIN_SRC_DIR,
+  SERVER_MAIN_RES_DIR,
+  SERVER_TEST_RES_DIR,
+  ENTANDO_KEYCLOAK_DOCKER_IMAGE,
+} = constants;
 
 describe('Subgenerator server of entando JHipster blueprint', () => {
   describe('With default blueprint configuration', () => {
@@ -199,7 +205,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
     });
 
     it('Keycloack docker file contains the Entando modifications', () => {
-      assert.fileContent(`${DOCKER_DIR}keycloak.yml`, 'entando/entando-keycloak:7.0.0-ENG-3087-PR-23');
+      assert.fileContent(`${DOCKER_DIR}keycloak.yml`, ENTANDO_KEYCLOAK_DOCKER_IMAGE);
       assert.fileContent(
         `${DOCKER_DIR}keycloak.yml`,
         'command: [\n' +

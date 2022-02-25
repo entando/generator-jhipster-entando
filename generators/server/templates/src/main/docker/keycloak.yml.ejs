@@ -20,7 +20,7 @@
 version: '<%= DOCKER_COMPOSE_FORMAT_VERSION %>'
 services:
   keycloak:
-    image: entando/entando-keycloak:7.0.0-ENG-3087-PR-23
+    image: '<%= ENTANDO_KEYCLOAK_DOCKER_IMAGE %>'
     command: [
             '-b',
             '0.0.0.0',
