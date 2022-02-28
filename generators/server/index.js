@@ -29,6 +29,7 @@ module.exports = class extends ServerGenerator {
     const entandoPhase = {
       setupEntandoServerconsts() {
         this.ENTANDO_BUNDLE_BOM_VERSION = constants.ENTANDO_BUNDLE_BOM_VERSION;
+        this.ENTANDO_KEYCLOAK_DOCKER_IMAGE = constants.ENTANDO_KEYCLOAK_DOCKER_IMAGE;
       },
     };
 
