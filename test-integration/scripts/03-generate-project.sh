@@ -13,6 +13,13 @@ runOptions="--blueprints entando --skip-checks --force --no-insight --with-entit
 # Generate the application
 #-------------------------------------------------------------------------------
 cd "$JHI_FOLDER_APP"
+
+#-------------------------------------------------------------------------------
+# Link global generator-jhipster-entando to local node_modules to resolve
+# the correct version during npm install executed post install
+#-------------------------------------------------------------------------------
+npm link generator-jhipster-entando
+
 jhipster $runOptions
 
 #-------------------------------------------------------------------------------

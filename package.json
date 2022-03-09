@@ -1,11 +1,11 @@
 {
   "name": "generator-jhipster-entando",
-  "version": "6.3.2",
+  "version": "7.0.0",
   "description": "Entando blueprint for generation JHipster services that function as an Entando plugin.",
   "keywords": [
     "yeoman-generator",
     "jhipster-blueprint",
-    "jhipster-6"
+    "jhipster-7"
   ],
   "homepage": "https://entando.com",
   "author": {

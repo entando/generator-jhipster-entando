@@ -37,7 +37,7 @@
     "otherModules": [
       {
         "name": "generator-jhipster-entando",
-        "version": "6.3.2"
+        "version": "7.0.0"
       }
     ],
     "enableTranslation": true,
@@ -47,7 +47,7 @@
     "blueprints": [
       {
         "name": "generator-jhipster-entando",
-        "version": "6.3.2"
+        "version": "7.0.0"
       }
     ],
     "skipClient": true,
