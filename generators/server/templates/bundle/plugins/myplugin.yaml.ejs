@@ -13,6 +13,7 @@ roles:
 #  - name: ENV_1_NAME
 #    value: env1value
 #  - name: ENV_2_NAME
-#    secretKeyRef:
-#      name: env-2-secret
-#      key: env-2-secret-key
+#    valueFrom:
+#      secretKeyRef:
+#        name: env-2-secret
+#        key: env-2-secret-key
