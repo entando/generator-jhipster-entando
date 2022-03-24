@@ -23,8 +23,8 @@ const DEFAULT_SERVER_PROMPTS = {
 
 const SCALA_LIBRARY_VERSION = '2.12.1';
 const MBKNOR_JACKSON_JSONSCHEMA_VERSION = '1.0.34';
-const ENTANDO_BUNDLE_BOM_VERSION = '7.0.0-ENG-3251-PR-9';
-const ENTANDO_KEYCLOAK_DOCKER_IMAGE = 'entando/entando-keycloak:7.0.0-ENG-3087-PR-23';
+const ENTANDO_BUNDLE_BOM_VERSION = '7.0.0';
+const ENTANDO_KEYCLOAK_DOCKER_IMAGE = 'entando/entando-keycloak:7.0.0';
 
 module.exports = {
   SQL_DB_OPTIONS,
