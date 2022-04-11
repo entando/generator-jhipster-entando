@@ -3,13 +3,13 @@
     "blueprints": [
       {
         "name": "generator-jhipster-entando",
-        "version": "7.0.0"
+        "version": "7.0.1"
       }
     ],
     "otherModules": [
       {
         "name": "generator-jhipster-entando",
-        "version": "7.0.0"
+        "version": "7.0.1"
       }
     ],
     "applicationType": "microservice",
