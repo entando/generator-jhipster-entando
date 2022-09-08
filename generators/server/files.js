@@ -22,28 +22,6 @@ const entandoServerFiles = {
       templates: ['package.json'],
     },
   ],
-  bundle: [
-    {
-      templates: [
-        { file: 'prepareMicrofrontends.sh', method: 'copy', noEjs: true },
-        { file: 'prepareBundle.sh', method: 'copy', noEjs: true },
-        { file: 'prepareDockerImage.sh', method: 'copy', noEjs: true },
-        { file: 'buildBundle.sh', method: 'copy', noEjs: true },
-      ],
-    },
-    {
-      PATH: '.',
-      templates: [
-        {
-          file: 'bundle/descriptor.yaml',
-        },
-        {
-          file: 'bundle/plugins/myplugin.yaml',
-          renameTo: generator => `bundle/plugins/${generator.baseName.toLowerCase()}-plugin.yaml`,
-        },
-      ],
-    },
-  ],
   docker: [
     {
       condition: generator => generator.authenticationType === 'oauth2',
@@ -586,6 +564,29 @@ const toDeleteServerFiles = {
   ],
 };
 
+const filesToMove = [
+  'src/',
+  '.mvn/',
+  '.husky',
+  '.prettierrc',
+  '.prettierignore',
+  '.editorconfig',
+  '.gitignore',
+  '.gitattributes',
+  '.lintstagedrc.js',
+  '.yo-rc-global.json',
+  '.yo-rc.json',
+  'checkstyle.xml',
+  'mvnw',
+  'mvnw.cmd',
+  'npmw',
+  'npmw.cmd',
+  'package.json',
+  'pom.xml',
+  'README.md',
+  'sonar-project.properties',
+];
+
 function writeFiles() {
   return {
     writeEntandoFiles() {
@@ -626,4 +627,5 @@ function writeFiles() {
 
 module.exports = {
   writeFiles,
+  filesToMove,
 };

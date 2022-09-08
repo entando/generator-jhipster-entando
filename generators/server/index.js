@@ -1,9 +1,10 @@
 const chalk = require('chalk');
 
 const ServerGenerator = require('generator-jhipster/generators/server');
+const fsextra = require('fs-extra');
 
 const prompts = require('./prompts');
-const { writeFiles } = require('./files');
+const { writeFiles, filesToMove } = require('./files');
 const constants = require('../generator-constants');
 
 module.exports = class extends ServerGenerator {
@@ -106,7 +107,20 @@ module.exports = class extends ServerGenerator {
 
   get end() {
     // Here we are not overriding this phase and hence its being handled by JHipster
-    return super._end();
+    return {
+      movefiles() {
+        fsextra.moveSync('src/main/docker/', 'svc/', { overwrite: true });
+        filesToMove.forEach(fileToMove => this._moveFileToMicroserviceFolder(fileToMove));
+      },
+    };
+  }
+
+  _moveFileToMicroserviceFolder(elementToMove) {
+    const objectFile = typeof elementToMove === 'string' ? { sourceName: elementToMove } : elementToMove;
+    const fileName = objectFile.targetName || objectFile.sourceName;
+    const destPath = `microservices/${this.baseName}/${fileName}`;
+
+    fsextra.moveSync(objectFile.sourceName, destPath, { overwrite: true });
   }
 
   // eslint-disable-next-line no-unused-vars

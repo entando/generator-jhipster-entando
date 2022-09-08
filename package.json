@@ -8,25 +8,41 @@
     "jhipster-7"
   ],
   "homepage": "https://entando.com",
-  "author": {
-    "name": "Entando Inc.",
-    "email": "info@entando.com",
-    "url": "https://github.com/entando/"
-  },
-  "files": [
-    "generators"
-  ],
-  "main": "generators/app/index.js",
-  "publishConfig": {
-    "access": "public"
+  "bugs": {
+    "url": "https://github.com/entando/entando-blueprint/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/entando/entando-blueprint"
   },
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Entando Inc.",
+    "email": "info@entando.com",
+    "url": "https://github.com/entando/"
+  },
+  "main": "generators/app/index.js",
+  "files": [
+    "generators"
+  ],
+  "scripts": {
+    "dev:setup": "npm install -g generator-jhipster@latest yo@latest",
+    "lint": "eslint .",
+    "lint-fix": "npm run lint -- --fix",
+    "prettier": "prettier --write '**/*.js'",
+    "pretest": "npm run lint",
+    "test": "nyc npm run test:unit -- test",
+    "test:coverage": "nyc --reporter lcov npm run test:unit -- test",
+    "test:unit": "mocha --exclude **/entity.spec.js",
+    "release": "git push && git push --tags && npm publish",
+    "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
+    "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
+    "release:major": "npm version major -a -m \"Update to %s\" && npm run release"
+  },
   "dependencies": {
     "casual": "^1.6.2",
     "chalk": "^4.0.0",
+    "fs-extra": "9.1.0",
     "generator-jhipster": "7.2.0",
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
@@ -42,7 +58,6 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.3",
-    "fs-extra": "9.1.0",
     "mocha": "8.3.0",
     "moment": "^2.29.1",
     "nyc": "^15.1.0",
@@ -53,22 +68,7 @@
     "yeoman-assert": "3.1.1",
     "yeoman-test": "6.1.0"
   },
-  "scripts": {
-    "dev:setup": "npm install -g generator-jhipster@latest yo@latest",
-    "lint": "eslint .",
-    "lint-fix": "npm run lint -- --fix",
-    "prettier": "prettier --write '**/*.js'",
-    "pretest": "npm run lint",
-    "test": "nyc npm run test:unit -- test",
-    "test:coverage": "nyc --reporter lcov npm run test:unit -- test",
-    "test:unit": "mocha --exclude **/entity.spec.js",
-    "release": "git push && git push --tags && npm publish",
-    "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
-    "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
-    "release:major": "npm version major -a -m \"Update to %s\" && npm run release"
-  },
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/entando/entando-blueprint/issues"
+  "publishConfig": {
+    "access": "public"
   }
 }
