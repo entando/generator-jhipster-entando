@@ -50,7 +50,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
 
     it('creates expected files for the blueprint', () => {
       assert.file(expectedFiles.server);
-      assert.file(`bundle/plugins/${appBaseName.toLowerCase()}-plugin.yaml`);
     });
 
     it('creates expected keycloack Entando Placeholder', () => {
@@ -336,16 +335,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('package.json file contains Entando scripts', () => {
-      assert.fileContent(
-        'package.json',
-        '  "scripts": {\n' +
-          '    "populate-bundle": "bash ./buildBundle.sh",\n' +
-          '    "build-all": "bash ./buildBundle.sh -d",\n' +
-          '    "keycloak": "docker-compose -f src/main/docker/keycloak.yml up",',
-      );
-    });
-
     it('JwtGrantedAuthorityConverter file contains Entando modification', () => {
       assert.fileContent(
         `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/security/oauth2/JwtGrantedAuthorityConverter.java`,
@@ -423,7 +412,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
 
     it('creates expected files for the blueprint', () => {
       assert.file(expectedFiles.server);
-      assert.file(`bundle/plugins/${appBaseName.toLowerCase()}-plugin.yaml`);
     });
 
     it('CacheConfiguration file contains Entando modification', () => {
