@@ -22,28 +22,6 @@ const entandoServerFiles = {
       templates: ['package.json'],
     },
   ],
-  bundle: [
-    {
-      templates: [
-        { file: 'prepareMicrofrontends.sh', method: 'copy', noEjs: true },
-        { file: 'prepareBundle.sh', method: 'copy', noEjs: true },
-        { file: 'prepareDockerImage.sh', method: 'copy', noEjs: true },
-        { file: 'buildBundle.sh', method: 'copy', noEjs: true },
-      ],
-    },
-    {
-      PATH: '.',
-      templates: [
-        {
-          file: 'bundle/descriptor.yaml',
-        },
-        {
-          file: 'bundle/plugins/myplugin.yaml',
-          renameTo: generator => `bundle/plugins/${generator.baseName.toLowerCase()}-plugin.yaml`,
-        },
-      ],
-    },
-  ],
   docker: [
     {
       condition: generator => generator.authenticationType === 'oauth2',
