@@ -9,7 +9,6 @@ module.exports = {
   /* eslint-disable no-use-before-define */
   askForServerSideOpts,
   askForMicroserviceDependencies,
-  askForBundleName,
   askForDockerOrganization,
   askForMicroFrontendGeneration,
 };
@@ -162,24 +161,6 @@ function askForServerSideOpts() {
     this.searchEngine = this.jhipsterConfig.searchEngine = answers.searchEngine;
     this.buildTool = this.jhipsterConfig.buildTool = 'maven';
   });
-}
-
-async function askForBundleName() {
-  if (this.existingProject) return;
-
-  const { applicationType, baseName } = this.jhipsterConfig;
-  const prompts = [
-    {
-      when: () => applicationType === 'microservice',
-      type: 'input',
-      name: 'bundleName',
-      message: 'What name would you give to the bundle to share on an Entando Component Repository?',
-      default: `${baseName.toLowerCase()}-bundle`,
-    },
-  ];
-
-  const answers = await this.prompt(prompts);
-  this.bundleName = this.jhipsterConfig.bundleName = answers.bundleName;
 }
 
 async function askForDockerOrganization() {
