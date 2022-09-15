@@ -122,8 +122,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private String issuerUri;
     <%_ } _%>
     private final SecurityProblemSupport problemSupport;
+<%_ if (authenticationTypeOauth2) { _%>
+    private final JwtGrantedAuthorityConverter jwtGrantedAuthorityConverter;
+<%_ } _%>
 
-    public SecurityConfiguration(<% if (authenticationTypeSession && !skipUserManagement) { %>RememberMeServices rememberMeServices, <% } if (authenticationTypeJwt) { %>TokenProvider tokenProvider, <% } %><% if (!applicationTypeMicroservice) { %>CorsFilter corsFilter, <% } %> JHipsterProperties jHipsterProperties, SecurityProblemSupport problemSupport) {
+    public SecurityConfiguration(<% if (authenticationTypeSession && !skipUserManagement) { %>RememberMeServices rememberMeServices, <% } if (authenticationTypeJwt) { %>TokenProvider tokenProvider, <% } %><% if (!applicationTypeMicroservice) { %>CorsFilter corsFilter, <% } %> JHipsterProperties jHipsterProperties, SecurityProblemSupport problemSupport, <%_ if (authenticationTypeOauth2) { _%>JwtGrantedAuthorityConverter jwtGrantedAuthorityConverter<%_ } _%>) {
 <%_ if (authenticationTypeSession && !skipUserManagement) { _%>
         this.rememberMeServices = rememberMeServices;
 <%_ } _%>
@@ -135,6 +138,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 <%_ } _%>
         this.problemSupport = problemSupport;
         this.jHipsterProperties = jHipsterProperties;
+    <%_ if (authenticationTypeOauth2) { _%>
+        this.jwtGrantedAuthorityConverter = jwtGrantedAuthorityConverter;
+    <%_ } _%>
     }
 <%_ if (authenticationTypeSession) { _%>
 
@@ -301,7 +307,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     Converter<Jwt, AbstractAuthenticationToken> authenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new JwtGrantedAuthorityConverter());
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthorityConverter);
         return jwtAuthenticationConverter;
     }
   <%_ if (!applicationTypeMicroservice) { _%>
