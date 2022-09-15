@@ -22,8 +22,6 @@ const expectedFiles = {
     },
     widget: {
       detailsWidget: [
-        'ui/widgets/foo/detailsWidget/bundle/foo-details-widget.ftl',
-        'ui/widgets/foo/detailsWidget/bundle/foo-details-widget-descriptor.yaml',
         'ui/widgets/foo/detailsWidget/public/favicon.ico',
         'ui/widgets/foo/detailsWidget/public/index.html',
         'ui/widgets/foo/detailsWidget/public/robots.txt',
@@ -71,8 +69,6 @@ const expectedFiles = {
         'ui/widgets/foo/detailsWidget/README.md',
       ],
       formWidget: [
-        'ui/widgets/foo/formWidget/bundle/foo-form-widget.ftl',
-        'ui/widgets/foo/formWidget/bundle/foo-form-widget-descriptor.yaml',
         'ui/widgets/foo/formWidget/public/favicon.ico',
         'ui/widgets/foo/formWidget/public/index.html',
         'ui/widgets/foo/formWidget/public/robots.txt',
@@ -125,8 +121,6 @@ const expectedFiles = {
         'ui/widgets/foo/formWidget/README.md',
       ],
       tableWidget: [
-        'ui/widgets/foo/tableWidget/bundle/foo-table-widget.ftl',
-        'ui/widgets/foo/tableWidget/bundle/foo-table-widget-descriptor.yaml',
         'ui/widgets/foo/tableWidget/public/favicon.ico',
         'ui/widgets/foo/tableWidget/public/index.html',
         'ui/widgets/foo/tableWidget/public/robots.txt',
