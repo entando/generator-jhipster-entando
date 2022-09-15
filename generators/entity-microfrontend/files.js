@@ -1,5 +1,4 @@
 const constants = require('../generator-constants');
-const EntandoNeedle = require('./needle-api/needle-server-bundle');
 const { getMockData } = require('./lib/mfe-test-tools');
 
 const { MFE_MAIN_DIR, DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
@@ -137,56 +136,6 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/README.md',
           renameTo: generator => `${generator.entityFileName}/tableWidget/README.md`,
-        },
-      ],
-    },
-  ],
-  bundle: [
-    {
-      path: MFE_MAIN_DIR,
-      condition: generator => generator.selectedWidgets.includes(DETAILS_WIDGET),
-      templates: [
-        {
-          file: 'entity/detailsWidget/bundle/details-widget.ftl',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/bundle/${generator.entityFileName}-details-widget.ftl`,
-        },
-        {
-          file: 'entity/detailsWidget/bundle/details-widget-descriptor.yaml',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/bundle/${generator.entityFileName}-details-widget-descriptor.yaml`,
-        },
-      ],
-    },
-    {
-      path: MFE_MAIN_DIR,
-      condition: generator => generator.selectedWidgets.includes(FORM_WIDGET),
-      templates: [
-        {
-          file: 'entity/formWidget/bundle/form-widget.ftl',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/bundle/${generator.entityFileName}-form-widget.ftl`,
-        },
-        {
-          file: 'entity/formWidget/bundle/form-widget-descriptor.yaml',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/bundle/${generator.entityFileName}-form-widget-descriptor.yaml`,
-        },
-      ],
-    },
-    {
-      path: MFE_MAIN_DIR,
-      condition: generator => generator.selectedWidgets.includes(TABLE_WIDGET),
-      templates: [
-        {
-          file: 'entity/tableWidget/bundle/table-widget.ftl',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/bundle/${generator.entityFileName}-table-widget.ftl`,
-        },
-        {
-          file: 'entity/tableWidget/bundle/table-widget-descriptor.yaml',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/bundle/${generator.entityFileName}-table-widget-descriptor.yaml`,
         },
       ],
     },
@@ -1091,12 +1040,6 @@ function writeFiles() {
       if (this.jhipsterConfig.generateMfeForEntity) {
         this.writeFilesToDisk(microFrontendFiles, this, false, null);
       }
-    },
-
-    updateBundleDescriptor() {
-      this.entandoNeedleApi = new EntandoNeedle(this);
-      this.entandoNeedleApi.addWidgetToDescriptor(this.entityFileName);
-      this.entandoNeedleApi.addRolesToDescriptor(this.baseName.toLowerCase(), this.entityFileName);
     },
 
     addPrettier() {
