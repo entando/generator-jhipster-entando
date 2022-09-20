@@ -4,7 +4,7 @@ const { SERVER_MAIN_RES_DIR, SERVER_MAIN_SRC_DIR, SERVER_TEST_SRC_DIR, DOCKER_DI
 
 const expectedFiles = {
   microservices: [`${SERVER_MAIN_RES_DIR}static/favicon.png`],
-  server: [`${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/OpenApiConfiguration.java`],
+  server: [`${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/OpenApiConfiguration.java`, 'Dockerfile'],
   'entando-keycloack': `${DOCKER_DIR}keycloak-db/.entando-placeholder`,
   entity: {
     server: {

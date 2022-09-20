@@ -17,6 +17,11 @@ const { SCALA_LIBRARY_VERSION, MBKNOR_JACKSON_JSONSCHEMA_VERSION } = entConstant
  * For any other config an object { file:.., method:.., template:.. } can be used
  */
 const entandoServerFiles = {
+  entando: [
+    {
+      templates: [{ file: 'Dockerfile' }],
+    },
+  ],
   packageJson: [
     {
       templates: ['package.json'],
