@@ -1240,17 +1240,20 @@
                     <version>${jib-maven-plugin.version}</version>
                     <configuration>
                         <from>
-                            <image><%= DOCKER_JAVA_JRE %></image>
+                            <image>${jib-maven-plugin.image}</image>
+                            <platforms>
+                                <platform>
+                                    <architecture>${jib-maven-plugin.architecture}</architecture>
+                                    <os>linux</os>
+                                </platform>
+                            </platforms>
                         </from>
                         <to>
-                            <image><%= dockerImageOrganization %>/${project.artifactId}:${project.version}</image>
-                            <tags>
-                                <tag>latest</tag>
-                            </tags>
+                            <image><%= baseName.toLowerCase() %>:latest</image>
                         </to>
                         <container>
                             <entrypoint>
-                                <shell>/bin/bash</shell>
+                                <shell>bash</shell>
                                 <option>-c</option>
                                 <arg>/entrypoint.sh</arg>
                             </entrypoint>
