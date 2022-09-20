@@ -33,7 +33,6 @@ const entandoServerFiles = {
       path: DOCKER_DIR,
       templates: [
         'keycloak.yml',
-        'app.yml',
         {
           file: 'config/realm-config/jhipster-realm.json',
           renameTo: () => 'realm-config/jhipster-realm.json',

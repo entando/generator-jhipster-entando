@@ -42,7 +42,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           languages: ['fr', 'de'],
           buildTool: 'maven',
           rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
-          dockerImageOrganization: 'test',
           microserviceDependencies: 'entando',
         })
         .on('end', done);
@@ -318,10 +317,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           "╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ '",
       );
     });
-
-    it('update the app.yml file to contains the organization', () => {
-      assert.fileContent(`${DOCKER_DIR}app.yml`, 'image: /entando-plugin');
-    });
   });
 
   describe('With Infinispan as cache configuration', () => {
@@ -355,7 +350,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           languages: ['fr', 'de'],
           buildTool: 'maven',
           rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
-          dockerImageOrganization: 'test',
         })
         .on('end', done);
     });
@@ -410,7 +404,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           languages: ['fr', 'de'],
           buildTool: 'maven',
           rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
-          dockerImageOrganization: 'test',
           microserviceDependencies: 'jhipster',
         })
         .on('end', done);

@@ -41,7 +41,6 @@
     "searchEngine": false,
     "messageBroker": false,
     "enableSwaggerCodegen": false,
-    "dockerImageOrganization": "dddd",
     "generateMicroFrontends": "never",
     "enableTranslation": true,
     "nativeLanguage": "en",
