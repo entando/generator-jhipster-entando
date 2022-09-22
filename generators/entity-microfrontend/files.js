@@ -159,6 +159,10 @@ const microFrontendFiles = {
           file: 'entity/detailsWidget/public/robots.txt',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/public/robots.txt`,
         },
+        {
+          file: 'entity/_shared/public/mfe-config.json',
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/public/mfe-config.json`,
+        },
       ],
     },
     {
@@ -179,6 +183,10 @@ const microFrontendFiles = {
           file: 'entity/formWidget/public/robots.txt',
           renameTo: generator => `${generator.entityFileName}/formWidget/public/robots.txt`,
         },
+        {
+          file: 'entity/_shared/public/mfe-config.json',
+          renameTo: generator => `${generator.entityFileName}/formWidget/public/mfe-config.json`,
+        },
       ],
     },
     {
@@ -198,6 +206,10 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/public/robots.txt',
           renameTo: generator => `${generator.entityFileName}/tableWidget/public/robots.txt`,
+        },
+        {
+          file: 'entity/_shared/public/mfe-config.json',
+          renameTo: generator => `${generator.entityFileName}/tableWidget/public/mfe-config.json`,
         },
       ],
     },
