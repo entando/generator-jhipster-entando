@@ -81,7 +81,12 @@ class <%= ComponentName %> extends Component {
 
   async fetchData() {
     const { filters, items } = this.state;
-    const { keycloak, paginationMode, pagination, serviceUrl } = this.props;
+    const { keycloak, paginationMode, pagination, config } = this.props;
+    const serviceUrl =
+      config &&
+      config.systemParams &&
+      config.systemParams.api &&
+      config.systemParams.api['conference-api'].url;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
@@ -151,7 +156,12 @@ class <%= ComponentName %> extends Component {
   }
 
   async handleDelete(item) {
-    const { t, onDelete, keycloak, serviceUrl } = this.props;
+    const { t, onDelete, keycloak, config } = this.props;
+    const serviceUrl =
+      config &&
+      config.systemParams &&
+      config.systemParams.api &&
+      config.systemParams.api['conference-api'].url;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
@@ -255,7 +265,7 @@ class <%= ComponentName %> extends Component {
     currentPage: PropTypes.number,
     itemsPerPage: PropTypes.number,
   }),
-  serviceUrl: PropTypes.string,
+  config: PropTypes.string,
 };
 
 <%= ComponentName %>.defaultProps = {
@@ -265,7 +275,7 @@ class <%= ComponentName %> extends Component {
   onSelect: () => {},
   paginationMode: '',
   pagination: null,
-  serviceUrl: '',
+  config: '',
 };
 
 export default withKeycloak(
