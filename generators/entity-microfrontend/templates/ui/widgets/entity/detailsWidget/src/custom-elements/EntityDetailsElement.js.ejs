@@ -33,6 +33,7 @@ const ATTRIBUTES = {
   locale: 'locale',
   disableDefaultEventHandler: 'disable-default-event-handler', // custom element attribute names MUST be written in kebab-case
   serviceUrl: 'service-url',
+  config: 'config',
 };
 
 <%_ const ComponentName = `${entityClass}DetailsElement`; _%>
@@ -159,6 +160,8 @@ class <%= ComponentName %> extends HTMLElement {
 
   render() {
     const serviceUrl = this.getAttribute(ATTRIBUTES.serviceUrl) || '';
+    const attributeConfig = this.getAttribute(ATTRIBUTES.config) || '';
+    const config = attributeConfig && JSON.parse(attributeConfig);
 
     const hidden = this.getAttribute(ATTRIBUTES.hidden) === 'true';
     if (hidden) {
@@ -175,7 +178,7 @@ class <%= ComponentName %> extends HTMLElement {
       <KeycloakContext.Provider value={this.keycloak}>
         <StylesProvider jss={this.jss}>
           <ThemeProvider theme={this.muiTheme}>
-            <<%= entityClass %>DetailsContainer id={id} onError={this.onError} serviceUrl={serviceUrl} />
+            <<%= entityClass %>DetailsContainer id={id} onError={this.onError} serviceUrl={serviceUrl} config={config} />
           </ThemeProvider>
         </StylesProvider>
       </KeycloakContext.Provider>,
