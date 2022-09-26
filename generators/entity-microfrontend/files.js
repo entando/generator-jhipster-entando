@@ -10,10 +10,6 @@ const microFrontendFiles = {
       condition: generator => generator.selectedWidgets.includes(DETAILS_WIDGET),
       templates: [
         {
-          file: 'entity/detailsWidget/.env.local',
-          renameTo: generator => `${generator.entityFileName}/detailsWidget/.env.local`,
-        },
-        {
           file: 'entity/detailsWidget/.env.production',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/.env.production`,
         },
@@ -52,10 +48,6 @@ const microFrontendFiles = {
       condition: generator => generator.selectedWidgets.includes(FORM_WIDGET),
       templates: [
         {
-          file: 'entity/formWidget/.env.local',
-          renameTo: generator => `${generator.entityFileName}/formWidget/.env.local`,
-        },
-        {
           file: 'entity/formWidget/.env.production',
           renameTo: generator => `${generator.entityFileName}/formWidget/.env.production`,
         },
@@ -93,10 +85,6 @@ const microFrontendFiles = {
       path: MFE_MAIN_DIR,
       condition: generator => generator.selectedWidgets.includes(TABLE_WIDGET),
       templates: [
-        {
-          file: 'entity/tableWidget/.env.local',
-          renameTo: generator => `${generator.entityFileName}/tableWidget/.env.local`,
-        },
         {
           file: 'entity/tableWidget/.env.production',
           renameTo: generator => `${generator.entityFileName}/tableWidget/.env.production`,
