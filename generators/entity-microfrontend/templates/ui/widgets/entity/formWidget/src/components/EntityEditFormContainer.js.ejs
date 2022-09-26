@@ -72,7 +72,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   }
 
   async handleSubmit(<%= entityInstance %>) {
-    const { keycloak, id, config } = this.props;
+    const { t, onUpdate, keycloak, config } = this.props;
     const serviceUrl =
       config &&
       config.systemParams &&

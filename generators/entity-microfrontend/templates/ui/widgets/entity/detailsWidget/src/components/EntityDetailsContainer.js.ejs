@@ -50,7 +50,7 @@ class <%= ComponentName %> extends React.Component {
   }
 
   async fetchData() {
-    const { keycloak, paginationMode, pagination, config } = this.props;
+    const { keycloak, id, config } = this.props;
     const authenticated = keycloak.initialized && keycloak.authenticated;
     const serviceUrl = config && config.systemParams && config.systemParams.api && config.systemParams.api['<%= entityFileName %>-api'].url;
 
