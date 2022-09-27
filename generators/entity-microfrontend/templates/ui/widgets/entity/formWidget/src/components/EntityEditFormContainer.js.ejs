@@ -174,7 +174,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   onDelete: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
-  config: {},
+  config: PropTypes.object,
 };
 
 <%= entityClass %>EditFormContainer.defaultProps = {
