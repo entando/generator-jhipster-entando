@@ -174,7 +174,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   onDelete: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
-  config: PropTypes.string,
+  config: {},
 };
 
 <%= entityClass %>EditFormContainer.defaultProps = {
@@ -182,7 +182,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   onDelete: () => {},
   onUpdate: () => {},
   onError: () => {},
-  config: '',
+  config: {},
 };
 
 export default withKeycloak(withTranslation()(<%= entityClass %>EditFormContainer));
