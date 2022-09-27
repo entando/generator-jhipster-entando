@@ -137,7 +137,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
     if (typeof <%= entityInstance %> === 'undefined') {
      form = t('entities.<%= entityInstance %>.notFound');
     } else if (<%= entityInstance %> === null) {
-      form = t('entities.<%= entityInstance %>.deleted');;
+      form = t('entities.<%= entityInstance %>.deleted');
     } else {
       form = (
         <<%= entityClass %>Form
