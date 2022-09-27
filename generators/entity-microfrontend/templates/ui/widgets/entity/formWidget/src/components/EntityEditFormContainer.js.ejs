@@ -97,7 +97,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   }
 
   async handleDelete(<%= entityInstance %>) {
-    const { keycloak, id, config } = this.props;
+    const { t, onDelete, keycloak, config } = this.props;
     const serviceUrl =
       config &&
       config.systemParams &&
