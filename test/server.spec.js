@@ -165,8 +165,8 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           "        '-Djboss.socket.binding.port-offset=1000',\n" +
           '      ]\n' +
           '    volumes:\n' +
-          '      - ./realm-config:/opt/jboss/keycloak/realm-config\n' +
-          '      - ./keycloak-db:/opt/jboss/keycloak/standalone/data',
+          '      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config\n' +
+          '      - ./keycloak/keycloak-db:/opt/jboss/keycloak/standalone/data',
       );
     });
 
