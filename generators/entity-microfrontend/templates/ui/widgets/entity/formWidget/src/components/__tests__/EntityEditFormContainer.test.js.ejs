@@ -6,6 +6,16 @@ import <%= entityClass %>EditFormContainer from 'components/<%= entityClass %>Ed
 import 'i18n/__mocks__/i18nMock';
 import { <%= entityInstance %>MockEdit as <%= entityInstance %>Mock } from 'components/__mocks__/<%= entityInstance %>Mocks';
 
+const configMock = {
+  systemParams: {
+    api: {
+      '<%= entityFileName %>-api': {
+        url: '',
+      },
+    },
+  },
+};
+
 jest.mock('api/<%= entityInstancePlural %>');
 
 jest.mock('auth/withKeycloak', () => {
@@ -38,7 +48,7 @@ describe('<%= entityClass %>EditFormContainer', () => {
   it('loads data', async () => {
     api<%= entityClass %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mock));
     const { queryByText } = render(
-      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} />
+      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} config={configMock} />
     );
 
     await wait(() => {
@@ -54,7 +64,7 @@ describe('<%= entityClass %>EditFormContainer', () => {
     api<%= entityClass %>Put.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mock));
 
     const { findByTestId, queryByText } = render(
-      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} />
+      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} config={configMock} />
     );
 
     const saveButton = await findByTestId('submit-btn');
@@ -73,7 +83,7 @@ describe('<%= entityClass %>EditFormContainer', () => {
   it('shows an error if data is not successfully loaded', async () => {
     api<%= entityClass %>Get.mockImplementation(() => Promise.reject());
     const { queryByText } = render(
-      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} />
+      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} onUpdate={onUpdateMock} config={configMock} />
     );
 
     await wait(() => {
@@ -89,7 +99,7 @@ describe('<%= entityClass %>EditFormContainer', () => {
     api<%= entityClass %>Get.mockImplementation(() => Promise.resolve(<%= entityInstance %>Mock));
     api<%= entityClass %>Put.mockImplementation(() => Promise.reject());
     const { findByTestId, getByText } = render(
-      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} />
+      <<%= entityClass %>EditFormContainer id="1" onError={onErrorMock} config={configMock} />
     );
 
     const saveButton = await findByTestId('submit-btn');

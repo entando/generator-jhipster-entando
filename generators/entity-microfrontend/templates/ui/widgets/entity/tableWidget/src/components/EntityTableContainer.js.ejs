@@ -265,7 +265,7 @@ class <%= ComponentName %> extends Component {
     currentPage: PropTypes.number,
     itemsPerPage: PropTypes.number,
   }),
-  config: PropTypes.func,
+  config: PropTypes.object,
 };
 
 <%= ComponentName %>.defaultProps = {
@@ -275,7 +275,7 @@ class <%= ComponentName %> extends Component {
   onSelect: () => {},
   paginationMode: '',
   pagination: null,
-  config: () => {},
+  config: {},
 };
 
 export default withKeycloak(

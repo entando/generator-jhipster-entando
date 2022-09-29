@@ -108,12 +108,12 @@ class <%= ComponentName %> extends React.Component {
   onError: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
-  config: PropTypes.func,
+  config: PropTypes.object,
 };
 
 <%= ComponentName %>.defaultProps = {
   onError: () => {},
-  config: () => {},
+  config: {},
 };
 
 export default withKeycloak(withTranslation()(<%= ComponentName %>));

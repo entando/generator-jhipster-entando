@@ -88,14 +88,14 @@ class <%= entityClass %>AddFormContainer extends PureComponent {
   onCreate: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
-  config: PropTypes.func,
+  config: PropTypes.object,
 };
 
 <%= entityClass %>AddFormContainer.defaultProps = {
   onError: () => {},
   onCancelEditing: () => {},
   onCreate: () => {},
-  config: () => {},
+  config: {},
 };
 
 export default withKeycloak(withTranslation()(<%= entityClass %>AddFormContainer));
