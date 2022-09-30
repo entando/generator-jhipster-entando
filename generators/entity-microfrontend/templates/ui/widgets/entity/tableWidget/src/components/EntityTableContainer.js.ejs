@@ -86,7 +86,7 @@ class <%= ComponentName %> extends Component {
       config &&
       config.systemParams &&
       config.systemParams.api &&
-      config.systemParams.api['conference-api'].url;
+      config.systemParams.api['<%= entityFileName %>-api'].url;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
@@ -161,7 +161,7 @@ class <%= ComponentName %> extends Component {
       config &&
       config.systemParams &&
       config.systemParams.api &&
-      config.systemParams.api['conference-api'].url;
+      config.systemParams.api['<%= entityFileName %>-api'].url;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
