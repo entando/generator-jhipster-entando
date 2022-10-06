@@ -6,6 +6,16 @@ import <%= entityClass %>AddFormContainer from 'components/<%= entityClass %>Add
 import 'i18n/__mocks__/i18nMock';
 import { <%= entityInstance %>MockAdd as <%= entityInstance %>Mock } from 'components/__mocks__/<%= entityInstance %>Mocks';
 
+const configMock = {
+  systemParams: {
+    api: {
+      '<%= entityFileName %>-api': {
+        url: '',
+      },
+    },
+  },
+};
+
 jest.mock('api/<%= entityInstancePlural %>');
 jest.mock('@material-ui/pickers', () => {
   // eslint-disable-next-line react/prop-types
@@ -72,7 +82,7 @@ describe('<%= entityClass %>AddFormContainer', () => {
     api<%= entityClass %>Post.mockImplementation(data => Promise.resolve(data));
 
     const { findByTestId, findByLabelText, queryByText, rerender } = render(
-      <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
+      <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} config={configMock} />
     );
 
     <%_
@@ -97,7 +107,7 @@ describe('<%= entityClass %>AddFormContainer', () => {
       }
     })
     _%>
-    rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
+    rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} config={configMock} />);
 
     const saveButton = await findByTestId('submit-btn');
 
@@ -118,7 +128,7 @@ describe('<%= entityClass %>AddFormContainer', () => {
     api<%= entityClass %>Post.mockImplementation(() => Promise.reject());
 
     const { findByTestId, findByLabelText, queryByText, rerender } = render(
-      <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />
+      <<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} config={configMock} />
     );
 
     <%_
@@ -143,7 +153,7 @@ describe('<%= entityClass %>AddFormContainer', () => {
       }
     })
     _%>
-    rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} />);
+    rerender(<<%= entityClass %>AddFormContainer onError={onErrorMock} onUpdate={onCreateMock} config={configMock} />);
 
     const saveButton = await findByTestId('submit-btn');
 

@@ -33,7 +33,7 @@ const ATTRIBUTES = {
   locale: 'locale',
   paginationMode: 'pagination-mode',
   disableDefaultEventHandler: 'disable-default-event-handler', // custom element attribute names MUST be written in kebab-case
-  serviceUrl: 'service-url',
+  config: 'config',
 };
 
 <%_ const ComponentName = `${entityClass}TableElement`; _%>
@@ -168,7 +168,8 @@ class <%= ComponentName %> extends HTMLElement {
 
     const paginationMode = this.getAttribute(ATTRIBUTES.paginationMode) || '';
 
-    const serviceUrl = this.getAttribute(ATTRIBUTES.serviceUrl) || '';
+    const attributeConfig = this.getAttribute(ATTRIBUTES.config) || '';
+    const config = attributeConfig && JSON.parse(attributeConfig);
 
     ReactDOM.render(
       <KeycloakContext.Provider value={this.keycloak}>
@@ -182,7 +183,7 @@ class <%= ComponentName %> extends HTMLElement {
                 onSelect={this.onSelect}
                 onError={this.onError}
                 paginationMode={paginationMode}
-                serviceUrl={serviceUrl}
+                config={config}
               />
             </PaginationProvider>
           </ThemeProvider>

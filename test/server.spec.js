@@ -42,7 +42,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           languages: ['fr', 'de'],
           buildTool: 'maven',
           rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
-          dockerImageOrganization: 'test',
           microserviceDependencies: 'entando',
         })
         .on('end', done);
@@ -50,7 +49,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
 
     it('creates expected files for the blueprint', () => {
       assert.file(expectedFiles.server);
-      assert.file(`bundle/plugins/${appBaseName.toLowerCase()}-plugin.yaml`);
     });
 
     it('creates expected keycloack Entando Placeholder', () => {
@@ -121,56 +119,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('pom.xml contains the image configuration', () => {
-      assert.fileContent(
-        'pom.xml',
-        '                    <configuration>\n' +
-          '                        <from>\n' +
-          '                            <image>eclipse-temurin:11-jre-focal</image>\n' +
-          '                        </from>\n' +
-          '                        <to>\n' +
-          // eslint-disable-next-line no-template-curly-in-string
-          '                            <image>/${project.artifactId}:${project.version}</image>\n' +
-          '                            <tags>\n' +
-          '                                <tag>latest</tag>\n' +
-          '                            </tags>\n' +
-          '                        </to>\n' +
-          '                        <container>\n' +
-          '                            <entrypoint>\n' +
-          '                                <shell>/bin/bash</shell>\n' +
-          '                                <option>-c</option>\n' +
-          '                                <arg>/entrypoint.sh</arg>\n' +
-          '                            </entrypoint>\n' +
-          '                            <ports>\n' +
-          '                                <port>8080</port>\n' +
-          '                            </ports>\n' +
-          '                            <environment>\n' +
-          '                                <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>\n' +
-          '                                <JHIPSTER_SLEEP>0</JHIPSTER_SLEEP>\n' +
-          '                            </environment>\n' +
-          '                            <creationTime>USE_CURRENT_TIMESTAMP</creationTime>\n' +
-          '                            <user>1000</user>\n' +
-          '                        </container>\n' +
-          '                        <extraDirectories>\n' +
-          '                            <paths>src/main/docker/jib</paths>\n' +
-          '                            <permissions>\n' +
-          '                                <permission>\n' +
-          '                                    <file>/entrypoint.sh</file>\n' +
-          '                                    <mode>755</mode>\n' +
-          '                                </permission>\n' +
-          '                            </permissions>\n' +
-          '                        </extraDirectories>\n' +
-          '                    </configuration>\n',
-      );
-    });
-
-    it('pom.xml contains the modified JIB creationTime', () => {
-      assert.fileContent(
-        'pom.xml',
-        '                            <creationTime>USE_CURRENT_TIMESTAMP</creationTime>',
-      );
-    });
-
     it('pom.xml contains springfox-boot-starter dependency', () => {
       assert.fileContent(
         'pom.xml',
@@ -217,8 +165,8 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           "        '-Djboss.socket.binding.port-offset=1000',\n" +
           '      ]\n' +
           '    volumes:\n' +
-          '      - ./realm-config:/opt/jboss/keycloak/realm-config\n' +
-          '      - ./keycloak-db:/opt/jboss/keycloak/standalone/data',
+          '      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config\n' +
+          '      - ./keycloak/keycloak-db:/opt/jboss/keycloak/standalone/data',
       );
     });
 
@@ -336,16 +284,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('package.json file contains Entando scripts', () => {
-      assert.fileContent(
-        'package.json',
-        '  "scripts": {\n' +
-          '    "populate-bundle": "bash ./buildBundle.sh",\n' +
-          '    "build-all": "bash ./buildBundle.sh -d",\n' +
-          '    "keycloak": "docker-compose -f src/main/docker/keycloak.yml up",',
-      );
-    });
-
     it('JwtGrantedAuthorityConverter file contains Entando modification', () => {
       assert.fileContent(
         `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/security/oauth2/JwtGrantedAuthorityConverter.java`,
@@ -378,10 +316,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '███████╗██║ ╚████║   ██║   ██║  ██║██║ ╚████║██████╔╝╚██████╔╝\n' +
           "╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ '",
       );
-    });
-
-    it('update the app.yml file to contains the organization', () => {
-      assert.fileContent(`${DOCKER_DIR}app.yml`, 'image: /entando-plugin');
     });
   });
 
@@ -416,14 +350,12 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           languages: ['fr', 'de'],
           buildTool: 'maven',
           rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
-          dockerImageOrganization: 'test',
         })
         .on('end', done);
     });
 
     it('creates expected files for the blueprint', () => {
       assert.file(expectedFiles.server);
-      assert.file(`bundle/plugins/${appBaseName.toLowerCase()}-plugin.yaml`);
     });
 
     it('CacheConfiguration file contains Entando modification', () => {
@@ -472,7 +404,6 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           languages: ['fr', 'de'],
           buildTool: 'maven',
           rememberMeKey: '2bb60a80889aa6e6767e9ccd8714982681152aa5',
-          dockerImageOrganization: 'test',
           microserviceDependencies: 'jhipster',
         })
         .on('end', done);

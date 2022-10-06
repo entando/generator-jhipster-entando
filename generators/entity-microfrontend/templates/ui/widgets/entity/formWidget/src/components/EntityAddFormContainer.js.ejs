@@ -29,7 +29,12 @@ class <%= entityClass %>AddFormContainer extends PureComponent {
   }
 
   async handleSubmit(<%= entityInstance %>) {
-    const { t, onCreate, keycloak, serviceUrl } = this.props;
+    const { t, onCreate, keycloak, config } = this.props;
+    const serviceUrl =
+      config &&
+      config.systemParams &&
+      config.systemParams.api &&
+      config.systemParams.api['<%= entityFileName %>-api'].url;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
@@ -83,14 +88,14 @@ class <%= entityClass %>AddFormContainer extends PureComponent {
   onCreate: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
-  serviceUrl: PropTypes.string,
+  config: PropTypes.object,
 };
 
 <%= entityClass %>AddFormContainer.defaultProps = {
   onError: () => {},
   onCancelEditing: () => {},
   onCreate: () => {},
-  serviceUrl: '',
+  config: {},
 };
 
 export default withKeycloak(withTranslation()(<%= entityClass %>AddFormContainer));

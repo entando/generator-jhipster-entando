@@ -33,8 +33,8 @@ services:
             '-Djboss.socket.binding.port-offset=1000',
           ]
     volumes:
-      - ./realm-config:/opt/jboss/keycloak/realm-config
-      - ./keycloak-db:/opt/jboss/keycloak/standalone/data
+      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config
+      - ./keycloak/keycloak-db:/opt/jboss/keycloak/standalone/data
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
