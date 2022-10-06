@@ -41,8 +41,6 @@
     "searchEngine": false,
     "messageBroker": false,
     "enableSwaggerCodegen": false,
-    "bundleName": "entjhi7-bundle",
-    "dockerImageOrganization": "dddd",
     "generateMicroFrontends": "always",
     "enableTranslation": true,
     "nativeLanguage": "en",

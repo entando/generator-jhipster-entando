@@ -5,7 +5,6 @@
       "nativeLanguage": "en"
     },
     "bundleName": "test-bundle",
-    "dockerImageOrganization": "aaaa",
     "generateMicroFrontends": "always",
     "jhipsterVersion": "7.2.0",
     "applicationType": "microservice",

@@ -45,7 +45,12 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   }
 
   async fetchData() {
-    const { keycloak, id, serviceUrl } = this.props;
+    const { keycloak, id, config } = this.props;
+    const serviceUrl =
+      config &&
+      config.systemParams &&
+      config.systemParams.api &&
+      config.systemParams.api['<%= entityFileName %>-api'].url;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated && id) {
@@ -67,7 +72,12 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   }
 
   async handleSubmit(<%= entityInstance %>) {
-    const { t, onUpdate, keycloak, serviceUrl } = this.props;
+    const { t, onUpdate, keycloak, config } = this.props;
+    const serviceUrl =
+      config &&
+      config.systemParams &&
+      config.systemParams.api &&
+      config.systemParams.api['<%= entityFileName %>-api'].url;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
@@ -87,7 +97,12 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   }
 
   async handleDelete(<%= entityInstance %>) {
-    const { t, onDelete, keycloak, serviceUrl } = this.props;
+    const { t, onDelete, keycloak, config } = this.props;
+    const serviceUrl =
+      config &&
+      config.systemParams &&
+      config.systemParams.api &&
+      config.systemParams.api['<%= entityFileName %>-api'].url;
     const authenticated = keycloak.initialized && keycloak.authenticated;
 
     if (authenticated) {
@@ -122,7 +137,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
     if (typeof <%= entityInstance %> === 'undefined') {
      form = t('entities.<%= entityInstance %>.notFound');
     } else if (<%= entityInstance %> === null) {
-      form = t('entities.<%= entityInstance %>.deleted');;
+      form = t('entities.<%= entityInstance %>.deleted');
     } else {
       form = (
         <<%= entityClass %>Form
@@ -159,7 +174,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   onDelete: PropTypes.func,
   t: PropTypes.func.isRequired,
   keycloak: keycloakType.isRequired,
-  serviceUrl: PropTypes.string,
+  config: PropTypes.object,
 };
 
 <%= entityClass %>EditFormContainer.defaultProps = {
@@ -167,7 +182,7 @@ class <%= entityClass %>EditFormContainer extends PureComponent {
   onDelete: () => {},
   onUpdate: () => {},
   onError: () => {},
-  serviceUrl: '',
+  config: {},
 };
 
 export default withKeycloak(withTranslation()(<%= entityClass %>EditFormContainer));

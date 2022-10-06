@@ -9,8 +9,6 @@ module.exports = {
   /* eslint-disable no-use-before-define */
   askForServerSideOpts,
   askForMicroserviceDependencies,
-  askForBundleName,
-  askForDockerOrganization,
   askForMicroFrontendGeneration,
 };
 
@@ -162,46 +160,6 @@ function askForServerSideOpts() {
     this.searchEngine = this.jhipsterConfig.searchEngine = answers.searchEngine;
     this.buildTool = this.jhipsterConfig.buildTool = 'maven';
   });
-}
-
-async function askForBundleName() {
-  if (this.existingProject) return;
-
-  const { applicationType, baseName } = this.jhipsterConfig;
-  const prompts = [
-    {
-      when: () => applicationType === 'microservice',
-      type: 'input',
-      name: 'bundleName',
-      message: 'What name would you give to the bundle to share on an Entando Component Repository?',
-      default: `${baseName.toLowerCase()}-bundle`,
-    },
-  ];
-
-  const answers = await this.prompt(prompts);
-  this.bundleName = this.jhipsterConfig.bundleName = answers.bundleName;
-}
-
-async function askForDockerOrganization() {
-  if (this.existingProject) return;
-
-  const { applicationType } = this.jhipsterConfig;
-  const prompts = [
-    {
-      when: () => applicationType === 'microservice',
-      type: 'input',
-      validate: input =>
-        /^([a-zA-Z0-9]{4,30})$/.test(input)
-          ? true
-          : 'Organization name should only contain 4 to 30 letters and/or numbers.',
-      name: 'dockerImageOrganization',
-      message: 'Which is the organization name to use when publishing the docker image?',
-    },
-  ];
-
-  const answers = await this.prompt(prompts);
-  this.dockerImageOrganization = this.jhipsterConfig.dockerImageOrganization =
-    answers.dockerImageOrganization;
 }
 
 async function askForMicroFrontendGeneration() {

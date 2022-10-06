@@ -1,5 +1,4 @@
 const constants = require('../generator-constants');
-const EntandoNeedle = require('./needle-api/needle-server-bundle');
 const { getMockData } = require('./lib/mfe-test-tools');
 
 const { MFE_MAIN_DIR, DETAILS_WIDGET, FORM_WIDGET, TABLE_WIDGET } = constants;
@@ -11,12 +10,8 @@ const microFrontendFiles = {
       condition: generator => generator.selectedWidgets.includes(DETAILS_WIDGET),
       templates: [
         {
-          file: 'entity/detailsWidget/.env.local',
-          renameTo: generator => `${generator.entityFileName}/detailsWidget/.env.local`,
-        },
-        {
-          file: 'entity/detailsWidget/.env.production',
-          renameTo: generator => `${generator.entityFileName}/detailsWidget/.env.production`,
+          file: 'entity/detailsWidget/.env',
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/.env`,
         },
         {
           file: 'entity/detailsWidget/.gitignore',
@@ -53,12 +48,8 @@ const microFrontendFiles = {
       condition: generator => generator.selectedWidgets.includes(FORM_WIDGET),
       templates: [
         {
-          file: 'entity/formWidget/.env.local',
-          renameTo: generator => `${generator.entityFileName}/formWidget/.env.local`,
-        },
-        {
-          file: 'entity/formWidget/.env.production',
-          renameTo: generator => `${generator.entityFileName}/formWidget/.env.production`,
+          file: 'entity/formWidget/.env',
+          renameTo: generator => `${generator.entityFileName}/formWidget/.env`,
         },
         {
           file: 'entity/formWidget/.gitignore',
@@ -67,10 +58,6 @@ const microFrontendFiles = {
         {
           file: 'entity/_shared/cypress.json',
           renameTo: generator => `${generator.entityFileName}/formWidget/cypress.json`,
-        },
-        {
-          file: 'entity/formWidget/deploy-widget.sh',
-          renameTo: generator => `${generator.entityFileName}/formWidget/deploy-widget.sh`,
         },
         {
           file: 'entity/formWidget/jsconfig.json',
@@ -99,12 +86,8 @@ const microFrontendFiles = {
       condition: generator => generator.selectedWidgets.includes(TABLE_WIDGET),
       templates: [
         {
-          file: 'entity/tableWidget/.env.local',
-          renameTo: generator => `${generator.entityFileName}/tableWidget/.env.local`,
-        },
-        {
-          file: 'entity/tableWidget/.env.production',
-          renameTo: generator => `${generator.entityFileName}/tableWidget/.env.production`,
+          file: 'entity/tableWidget/.env',
+          renameTo: generator => `${generator.entityFileName}/tableWidget/.env`,
         },
         {
           file: 'entity/tableWidget/.gitignore',
@@ -113,10 +96,6 @@ const microFrontendFiles = {
         {
           file: 'entity/_shared/cypress.json',
           renameTo: generator => `${generator.entityFileName}/tableWidget/cypress.json`,
-        },
-        {
-          file: 'entity/tableWidget/deploy-widget.sh',
-          renameTo: generator => `${generator.entityFileName}/tableWidget/deploy-widget.sh`,
         },
         {
           file: 'entity/tableWidget/jsconfig.json',
@@ -141,56 +120,6 @@ const microFrontendFiles = {
       ],
     },
   ],
-  bundle: [
-    {
-      path: MFE_MAIN_DIR,
-      condition: generator => generator.selectedWidgets.includes(DETAILS_WIDGET),
-      templates: [
-        {
-          file: 'entity/detailsWidget/bundle/details-widget.ftl',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/bundle/${generator.entityFileName}-details-widget.ftl`,
-        },
-        {
-          file: 'entity/detailsWidget/bundle/details-widget-descriptor.yaml',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/bundle/${generator.entityFileName}-details-widget-descriptor.yaml`,
-        },
-      ],
-    },
-    {
-      path: MFE_MAIN_DIR,
-      condition: generator => generator.selectedWidgets.includes(FORM_WIDGET),
-      templates: [
-        {
-          file: 'entity/formWidget/bundle/form-widget.ftl',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/bundle/${generator.entityFileName}-form-widget.ftl`,
-        },
-        {
-          file: 'entity/formWidget/bundle/form-widget-descriptor.yaml',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/bundle/${generator.entityFileName}-form-widget-descriptor.yaml`,
-        },
-      ],
-    },
-    {
-      path: MFE_MAIN_DIR,
-      condition: generator => generator.selectedWidgets.includes(TABLE_WIDGET),
-      templates: [
-        {
-          file: 'entity/tableWidget/bundle/table-widget.ftl',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/bundle/${generator.entityFileName}-table-widget.ftl`,
-        },
-        {
-          file: 'entity/tableWidget/bundle/table-widget-descriptor.yaml',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/bundle/${generator.entityFileName}-table-widget-descriptor.yaml`,
-        },
-      ],
-    },
-  ],
   public: [
     {
       path: MFE_MAIN_DIR,
@@ -209,6 +138,10 @@ const microFrontendFiles = {
         {
           file: 'entity/detailsWidget/public/robots.txt',
           renameTo: generator => `${generator.entityFileName}/detailsWidget/public/robots.txt`,
+        },
+        {
+          file: 'entity/_shared/public/mfe-config.json',
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/public/mfe-config.json`,
         },
       ],
     },
@@ -230,6 +163,10 @@ const microFrontendFiles = {
           file: 'entity/formWidget/public/robots.txt',
           renameTo: generator => `${generator.entityFileName}/formWidget/public/robots.txt`,
         },
+        {
+          file: 'entity/_shared/public/mfe-config.json',
+          renameTo: generator => `${generator.entityFileName}/formWidget/public/mfe-config.json`,
+        },
       ],
     },
     {
@@ -249,6 +186,10 @@ const microFrontendFiles = {
         {
           file: 'entity/tableWidget/public/robots.txt',
           renameTo: generator => `${generator.entityFileName}/tableWidget/public/robots.txt`,
+        },
+        {
+          file: 'entity/_shared/public/mfe-config.json',
+          renameTo: generator => `${generator.entityFileName}/tableWidget/public/mfe-config.json`,
         },
       ],
     },
@@ -1091,12 +1032,6 @@ function writeFiles() {
       if (this.jhipsterConfig.generateMfeForEntity) {
         this.writeFilesToDisk(microFrontendFiles, this, false, null);
       }
-    },
-
-    updateBundleDescriptor() {
-      this.entandoNeedleApi = new EntandoNeedle(this);
-      this.entandoNeedleApi.addWidgetToDescriptor(this.entityFileName);
-      this.entandoNeedleApi.addRolesToDescriptor(this.baseName.toLowerCase(), this.entityFileName);
     },
 
     addPrettier() {

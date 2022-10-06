@@ -33,9 +33,9 @@ fi
 cd "$JHI_FOLDER_APP"
 if [ -a src/main/docker/keycloak.yml ]; then
   # create keycloak-db folder and set permissions
-  mkdir -p src/main/docker/keycloak-db
-  mkdir -p src/main/docker/keycloak-db/content
-  chmod -R 777 src/main/docker/keycloak-db
+  mkdir -p src/main/docker/keycloak/keycloak-db
+  mkdir -p src/main/docker/keycloak/keycloak-db/content
+  chmod -R 777 src/main/docker/keycloak/keycloak-db
 
   docker-compose -f src/main/docker/keycloak.yml up -d
   waitForKeycloak

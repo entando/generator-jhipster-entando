@@ -17,31 +17,14 @@ const { SCALA_LIBRARY_VERSION, MBKNOR_JACKSON_JSONSCHEMA_VERSION } = entConstant
  * For any other config an object { file:.., method:.., template:.. } can be used
  */
 const entandoServerFiles = {
+  entando: [
+    {
+      templates: [{ file: 'Dockerfile' }],
+    },
+  ],
   packageJson: [
     {
       templates: ['package.json'],
-    },
-  ],
-  bundle: [
-    {
-      templates: [
-        { file: 'prepareMicrofrontends.sh', method: 'copy', noEjs: true },
-        { file: 'prepareBundle.sh', method: 'copy', noEjs: true },
-        { file: 'prepareDockerImage.sh', method: 'copy', noEjs: true },
-        { file: 'buildBundle.sh', method: 'copy', noEjs: true },
-      ],
-    },
-    {
-      PATH: '.',
-      templates: [
-        {
-          file: 'bundle/descriptor.yaml',
-        },
-        {
-          file: 'bundle/plugins/myplugin.yaml',
-          renameTo: generator => `bundle/plugins/${generator.baseName.toLowerCase()}-plugin.yaml`,
-        },
-      ],
     },
   ],
   docker: [
@@ -50,21 +33,20 @@ const entandoServerFiles = {
       path: DOCKER_DIR,
       templates: [
         'keycloak.yml',
-        'app.yml',
         {
           file: 'config/realm-config/jhipster-realm.json',
-          renameTo: () => 'realm-config/jhipster-realm.json',
+          renameTo: () => 'keycloak/realm-config/jhipster-realm.json',
         },
         {
           file: 'config/realm-config/jhipster-users-0.json',
           method: 'copy',
-          renameTo: () => 'realm-config/jhipster-users-0.json',
+          renameTo: () => 'keycloak/realm-config/jhipster-users-0.json',
         },
         {
           file: 'keycloak-db/entando-placeholder',
           method: 'copy',
           noEjs: true,
-          renameTo: () => 'keycloak-db/.entando-placeholder',
+          renameTo: () => 'keycloak/keycloak-db/.entando-placeholder',
         },
       ],
     },
