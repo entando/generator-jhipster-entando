@@ -577,12 +577,14 @@ function writeFiles() {
 
     addUnspecificDependencies() {
       this.addMavenDependency('javax.servlet', 'javax.servlet-api', null, null);
+      /*
       this.addMavenDependency(
         'org.springframework.boot',
         'spring-boot-starter-undertow',
         null,
         '<scope>provided</scope>',
       );
+      */
     },
 
     addJsonSchemaDependencies() {
