@@ -371,13 +371,13 @@ jhipster:
 <%_ } else { _%>
     # CORS is enabled by default on microservices on entando-blueprint.
     # If you want to disable it, please comment the configuration below.
-   cors:
-     allowed-origin-patterns: 'http://localhost:[*]'
-     allowed-methods: "*"
-     allowed-headers: "*"
-     exposed-headers: "Authorization,Link,X-Total-Count"
-     allow-credentials: true
-     max-age: 1800
+  cors:
+    allowed-origin-patterns: 'http://localhost:[*]'
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count"
+    allow-credentials: true
+    max-age: 1800
 <%_ } _%>
 <%_ if (authenticationTypeJwt) { _%>
   security:
