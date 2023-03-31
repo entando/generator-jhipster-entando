@@ -38,15 +38,8 @@ import org.springframework.http.HttpMethod;
 <%_ } _%>
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-<%_ if (!applicationTypeMicroservice || !authenticationTypeOauth2) { _%>
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-<%_ } else { _%>
-  <%_ if (devDatabaseTypeH2Any) { _%>
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-  <%_ } _%>
-<%_ } _%>
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 <%_ if (authenticationTypeJwt || (authenticationTypeOauth2 && applicationTypeMicroservice)) { _%>
 import org.springframework.security.config.http.SessionCreationPolicy;
 <%_ } _%>
@@ -92,7 +85,9 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import <%= packageName %>.security.oauth2.CustomClaimConverter;
 <%_ } _%>
+<%_ if(!skipClient) { _%>
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+<%_ } _%>
 <%_ if (!applicationTypeMicroservice) { _%>
 import org.springframework.web.filter.CorsFilter;
 <%_ } _%>
@@ -101,7 +96,7 @@ import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Import(SecurityProblemSupport.class)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
     private final JHipsterProperties jHipsterProperties;
 <%_ if (authenticationTypeSession && !skipUserManagement) { _%>
@@ -166,38 +161,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 <%_ } _%>
-<%_ if (!applicationTypeMicroservice) { _%>
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring()
-            .antMatchers(HttpMethod.OPTIONS, "/**")
-  <%_ if (!skipClient) { _%>
-            .antMatchers("/app/**/*.{js,html}")
-            .antMatchers("/i18n/**")
-            .antMatchers("/content/**")
-  <%_ } _%>
-  <%_ if (devDatabaseTypeH2Any) { _%>
-            .antMatchers("/h2-console/**")
-  <%_ } _%>
-            .antMatchers("/swagger-ui/**")
-            .antMatchers("/test/**");
-    }
-<%_ } else { _%>
-  <%_ if (devDatabaseTypeH2Any) { _%>
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring()
-            .antMatchers("/h2-console/**");
-    }
-  <%_ } _%>
-<%_ } _%>
-
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // @formatter:off
         http
             .csrf()
+<%_ if (devDatabaseTypeH2Any) { _%>
+            .ignoringAntMatchers("/h2-console/**")
+<%_ } _%>
 <%_ if ((authenticationTypeOauth2 || authenticationTypeSession) && !applicationTypeMicroservice) { _%>
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         .and()
@@ -234,23 +206,37 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .logoutSuccessHandler(ajaxLogoutSuccessHandler())
             .permitAll()
 <%_ } _%>
+<%_ if (!skipClient) { _%>
         .and()
             .headers()
-            .contentSecurityPolicy("default-src 'self' http://localhost:9080; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:")
-        .and()
-            .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
-        .and()
-            .featurePolicy("geolocation 'none'; midi 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; fullscreen 'self'; payment 'none'")
-        .and()
-            .frameOptions()
-            .deny()
-        .and()
-<%_ if (authenticationTypeJwt || (authenticationTypeOauth2 && applicationTypeMicroservice)) { _%>
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
+                .contentSecurityPolicy("default-src 'self' http://localhost:9080; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:") <%# Modified by the Entando blueprint to a specific SecurityPolicy #%>
+            .and()
+                .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+            .and()
+                .permissionsPolicy().policy("camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()")
+            .and()
+                .frameOptions().sameOrigin()
 <%_ } _%>
+<%_ if (authenticationTypeJwt || (authenticationTypeOauth2 && applicationTypeMicroservice)) { _%>
+        .and()
+            .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+<%_ } _%>
+        .and()
             .authorizeRequests()
+<%_ if (!applicationTypeMicroservice) { _%>
+            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+  <%_ if (!skipClient) { _%>
+            .antMatchers("/app/**/*.{js,html}").permitAll()
+            .antMatchers("/i18n/**").permitAll()
+            .antMatchers("/content/**").permitAll()
+  <%_ } _%>
+            .antMatchers("/swagger-ui/**").permitAll()
+            .antMatchers("/test/**").permitAll()
+<%_ } _%>
+<%_ if (devDatabaseTypeH2Any) { _%>
+            .antMatchers("/h2-console/**").permitAll()
+<%_ } _%>
             .antMatchers("/api/authenticate").permitAll()
 <%_ if (!authenticationTypeOauth2 && !skipUserManagement) { _%>
             .antMatchers("/api/register").permitAll()
@@ -262,13 +248,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/auth-info").permitAll()
 <%_ } _%>
             .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll()
+            .antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll() <%# Modified by the Entando blueprint to allow requests on /api/** using the "options" method #%>
             .antMatchers("/api/**").authenticated()
 <%_ if (communicationSpringWebsocket) { _%>
             .antMatchers("/websocket/**").authenticated()
-<%_ } _%>
-<%_ if (applicationTypeGateway) { _%>
-            .antMatchers("/services/*/v3/api-docs").hasAuthority(AuthoritiesConstants.ADMIN)
 <%_ } _%>
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/health/**").permitAll()
@@ -279,14 +262,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   <%_ if (applicationTypeMonolith) { _%>
         .and()
             .httpBasic()
-        <%_ } _%>
+  <%_ } _%>
         .and()
             .apply(securityConfigurerAdapter());
-  <%_ } else if (authenticationTypeOauth2) { _%>
-    <%_ if (applicationTypeMonolith || applicationTypeGateway) { _%>
+<%_ } else if (authenticationTypeOauth2) { _%>
+  <%_ if (applicationTypeMonolith) { _%>
         .and()
             .oauth2Login()
-    <%_ } _%>
+  <%_ } _%>
         .and()
             .oauth2ResourceServer()
                 .jwt()
@@ -294,7 +277,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
             .and()
                 .oauth2Client();
-  <%_ } _%>
+<%_ } _%>
+        return http.build();
         // @formatter:on
     }
 <%_ if (authenticationTypeJwt) { _%>
@@ -307,7 +291,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     Converter<Jwt, AbstractAuthenticationToken> authenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthorityConverter);
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthorityConverter); <%# Modified by the Entando blueprint to inject a jwtGrantedAuthorityConverter instanciated in the constructor#%>
         return jwtAuthenticationConverter;
     }
   <%_ if (!applicationTypeMicroservice) { _%>
@@ -336,15 +320,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   <%_ } _%>
 
     @Bean
-    JwtDecoder jwtDecoder(<%_ if (authenticationTypeOauth2 && applicationTypeMonolith) { _%>ClientRegistrationRepository clientRegistrationRepository, RestTemplateBuilder restTemplateBuilder<%_ } _%>) {
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuerUri);
+    JwtDecoder jwtDecoder(<%_ if (!applicationTypeMicroservice) { _%>ClientRegistrationRepository clientRegistrationRepository, RestTemplateBuilder restTemplateBuilder<%_ } _%>) {
+        NimbusJwtDecoder jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuerUri);
 
         OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(jHipsterProperties.getSecurity().getOauth2().getAudience());
         OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuerUri);
         OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
 
         jwtDecoder.setJwtValidator(withAudience);
-  <%_ if (authenticationTypeOauth2 && applicationTypeMonolith) { _%>
+  <%_ if (!applicationTypeMicroservice) { _%>
         jwtDecoder.setClaimSetConverter(new CustomClaimConverter(clientRegistrationRepository.findByRegistrationId("oidc"), restTemplateBuilder.build()));
   <%_ } _%>
 
