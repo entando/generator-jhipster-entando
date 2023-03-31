@@ -182,6 +182,7 @@
 <%_ if (searchEngineElasticsearch) { _%>
         <awaitility.version>4.2.0</awaitility.version>
 <%_ } _%>
+        <springdoc-openapi-ui.version>1.6.15</springdoc-openapi-ui.version>
 
         <!-- jhipster-needle-maven-property -->
     </properties>
@@ -336,13 +337,17 @@
         </dependency>
 <%_ } _%>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${springfox-boot-starter.version}</version>
+            <groupId>org.springdoc</groupId>
+<%_ if (reactive) { _%>
+            <artifactId>springdoc-openapi-webflux-core</artifactId>
+<%_ } else { _%>
+            <artifactId>springdoc-openapi-webmvc-core</artifactId>
+<%_ } _%>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-bean-validators</artifactId>
+        <dependency> <%# Modified by the Entando blueprint to add the SprinDoc UI to consume API with the UI previsouly called "swagger-ui". JHipster only includes it for Monolith, for microservices the gateway handles that ui #%>
+           <groupId>org.springdoc</groupId>
+           <artifactId>springdoc-openapi-ui</artifactId>
+           <version>${springdoc-openapi-ui.version}</version>
         </dependency>
 <%_ if (databaseTypeSql) { _%>
         <dependency>
