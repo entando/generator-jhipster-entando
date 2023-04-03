@@ -36,22 +36,20 @@ module.exports = class extends EntityGenerator {
   }
 
   get composing() {
-      const jhipsterComposingPhase = super._composing();
-      const entity = this.context;
+    const jhipsterComposingPhase = super._composing();
+    const entity = this.context;
 
-      return {
-        ...jhipsterComposingPhase,
-        ...{
-          async composeMicrofrontend() {
-            await this.composeWith(
-              require.resolve('../entity-microfrontend'), true, {
-                entity
-              }
-            );
-          },
-        }
-      };
-    }
+    return {
+      ...jhipsterComposingPhase,
+      ...{
+        async composeMicrofrontend() {
+          await this.composeWith(require.resolve('../entity-microfrontend'), true, {
+            entity,
+          });
+        },
+      },
+    };
+  }
 
   get loading() {
     // Here we are not overriding this phase and hence its being handled by JHipster
