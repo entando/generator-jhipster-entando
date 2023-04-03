@@ -315,6 +315,10 @@ server:
 
 springdoc:
   show-actuator: true
+  swagger-ui:
+    oauth:
+      clientId: swagger_ui
+      clientSecret: swagger_ui
 
 # Properties to be exposed on the /info management endpoint
 info:
@@ -370,10 +374,6 @@ jhipster:
         - account
         - api://default
 <%_ } _%>
-
-swagger-ui:
-    client-id: swagger_ui
-    client-secret: swagger_ui
 
 # ===================================================================
 # Application specific properties
