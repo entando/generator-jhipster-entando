@@ -284,9 +284,9 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       );
     });
 
-    it('JwtGrantedAuthorityConverter file contains Entando modification', () => {
+    it('SecurityUtils file contains Entando modification', () => {
       assert.fileContent(
-        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/security/oauth2/JwtGrantedAuthorityConverter.java`,
+        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/security/SecurityUtils.java`,
         ":'internal'",
       );
     });
