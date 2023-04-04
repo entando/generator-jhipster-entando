@@ -190,6 +190,17 @@ const entandoServerFiles = {
       templates: ['config/application.yml'],
     },
   ],
+  serverJavaApp: [
+    {
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/TechnicalStructureTest.java',
+          renameTo: generator => `${generator.testDir}TechnicalStructureTest.java`,
+        },
+      ],
+    },
+  ],
 };
 
 const toDeleteServerFiles = {
