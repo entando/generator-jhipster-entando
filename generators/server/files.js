@@ -153,8 +153,8 @@ const entandoServerFiles = {
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
-          file: 'package/security/SecurityUtils.java',
-          renameTo: generator => `${generator.javaDir}security/SecurityUtils.java`,
+          file: 'package/security/oauth2/JwtGrantedAuthorityConverter.java',
+          renameTo: generator => `${generator.javaDir}security/oauth2/JwtGrantedAuthorityConverter.java`,
         },
       ],
     },
