@@ -36,19 +36,8 @@ module.exports = class extends EntityGenerator {
   }
 
   get composing() {
-    const jhipsterComposingPhase = super._composing();
-    const entity = this.context;
-
-    return {
-      ...jhipsterComposingPhase,
-      ...{
-        async composeMicrofrontend() {
-          await this.composeWith(require.resolve('../entity-microfrontend'), true, {
-            entity,
-          });
-        },
-      },
-    };
+    // Here we are not overriding this phase and hence its being handled by JHipster
+    return super._composing();
   }
 
   get loading() {
@@ -76,8 +65,24 @@ module.exports = class extends EntityGenerator {
   }
 
   get writing() {
-    // Here we are not overriding this phase and hence its being handled by JHipster
-    return super._writing();
+    /*
+     * Please note we can't compose in the Composing() priority because we need
+     * preparingFields() and preparingRelationships() to be called before launching the entity-microfrontend.
+     * Composing() is called before these ones.
+     */
+    const jhipsterWritingPhase = super._writing();
+    const entity = this.context;
+
+    return {
+      ...jhipsterWritingPhase,
+      ...{
+        async composeMicrofrontend() {
+          await this.composeWith(require.resolve('../entity-microfrontend'), true, {
+            entity,
+          });
+        },
+      },
+    };
   }
 
   get postWriting() {
