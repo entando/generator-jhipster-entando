@@ -1674,18 +1674,18 @@
                 </dependency>
   <%_ } _%>
 <%_ } _%>
-<%_ if (databaseTypeSql && !devDatabaseTypeH2Any) { _%>
+<%_ if (databaseTypeSql) { _%> <%# Update by Entando to  fix the bug https://github.com/jhipster/generator-jhipster/issues/21701 #%>
                 <dependency>
                     <groupId>org.testcontainers</groupId>
-  <%_ if (devDatabaseTypeMysql) { _%>
+  <%_ if (prodDatabaseTypeMysql) { _%>
                     <artifactId>mysql</artifactId>
-  <%_ } else if (devDatabaseTypeMariadb) { _%>
+  <%_ } else if (prodDatabaseTypeMariadb) { _%>
                     <artifactId>mariadb</artifactId>
-  <%_ } else if (devDatabaseTypePostgres) { _%>
+  <%_ } else if (prodDatabaseTypePostgres) { _%>
                     <artifactId>postgresql</artifactId>
-  <%_ } else if (devDatabaseTypeMssql) { _%>
+  <%_ } else if (prodDatabaseTypeMssql) { _%>
                     <artifactId>mssqlserver</artifactId>
-  <%_ } else if (devDatabaseTypeOracle) { _%>
+  <%_ } else if (prodDatabaseTypeOracle) { _%>
                     <artifactId>oracle-xe</artifactId>
   <%_ } _%>
                     <scope>test</scope>
