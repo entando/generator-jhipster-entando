@@ -587,6 +587,12 @@
             <artifactId>spring-boot-starter-data-<%= databaseType %><% if (reactive) { %>-reactive<% } %></artifactId>
         </dependency>
 <%_ } _%>
+<%_ if (databaseType === 'no') { _%> <%# Added by Entando because we can generate entities with noDb option and it uses org.springframework.data. In the other cases it is a transitive dependency from Spring Data JPA #%>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
+<%_ } _%>
 <%_ if (reactive) { _%>
         <dependency>
             <groupId>org.springframework.boot</groupId>
