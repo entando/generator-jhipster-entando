@@ -2,6 +2,7 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const constants = require('generator-jhipster/generators/generator-constants');
+const EnvironmentBuilder = require('generator-jhipster/cli/environment-builder');
 const expectedFiles = require('./utils/expected-files');
 
 const appBaseName = 'entandoPlugin';
@@ -11,7 +12,7 @@ describe('Subgenerator app of entando JHipster blueprint', () => {
   describe('With default blueprint configuration', () => {
     before(done => {
       helpers
-        .run('generator-jhipster/generators/app')
+        .run('generator-jhipster/generators/app', {}, { createEnv: EnvironmentBuilder.createEnv })
         .withOptions({
           'from-cli': true,
           skipInstall: true,
