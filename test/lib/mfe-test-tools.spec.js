@@ -16,7 +16,7 @@ let getJHipsterTypeStub;
 chai.use(chaiDateString);
 
 describe('getGeneratedValue', () => {
-  it(`should return random text when JHipster fieldType is String`, () => {
+  it('should return random text when JHipster fieldType is String', () => {
     const value = getGeneratedValue('String', {});
 
     // eslint-disable-next-line no-unused-expressions
@@ -32,21 +32,21 @@ describe('getGeneratedValue', () => {
     });
   });
 
-  it(`should return random number when JHipster fieldType is Float`, () => {
+  it('should return random number when JHipster fieldType is Float', () => {
     const value = getGeneratedValue('Float', {});
 
     // eslint-disable-next-line no-unused-expressions
     expect(value).to.be.a('number');
   });
 
-  it(`should return Double value when JHipster fieldType is Double`, () => {
+  it('should return Double value when JHipster fieldType is Double', () => {
     const value = getGeneratedValue('Double', {});
 
     // eslint-disable-next-line no-unused-expressions
     expect(value).to.be.a('number');
   });
 
-  it(`should return date value when JHipster fieldType is LocalDate`, () => {
+  it('should return date value when JHipster fieldType is LocalDate', () => {
     const value = getGeneratedValue('LocalDate', {});
 
     // eslint-disable-next-line no-unused-expressions
@@ -62,14 +62,14 @@ describe('getGeneratedValue', () => {
     });
   });
 
-  it(`should return boolean value when JHipster fieldType is Boolean`, () => {
+  it('should return boolean value when JHipster fieldType is Boolean', () => {
     const value = getGeneratedValue('Boolean', {});
 
     // eslint-disable-next-line no-unused-expressions
     expect(value).to.be.a('boolean');
   });
 
-  it(`should return XXX value when JHipster fieldType is Enum`, () => {
+  it('should return XXX value when JHipster fieldType is Enum', () => {
     const valuesAsString = 'John, Doe';
     const valuesAsArray = valuesAsString.split(',');
     const value = getGeneratedValue('Enum', { fieldValues: valuesAsString });

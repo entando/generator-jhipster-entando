@@ -18,7 +18,7 @@ describe('getYupType', () => {
       getJHipsterTypeStub.restore();
     }
   });
-  it(`should return [string()] when JHipster fieldType is String`, () => {
+  it('should return [string()] when JHipster fieldType is String', () => {
     getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns('String');
     const yupType = getYupType({});
 
@@ -43,7 +43,7 @@ describe('getYupType', () => {
     });
   });
 
-  it(`should return [boolean()] when JHipster fieldType is Boolean`, () => {
+  it('should return [boolean()] when JHipster fieldType is Boolean', () => {
     getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns('Boolean');
     const yupType = getYupType({});
 
@@ -59,7 +59,7 @@ describe('getYupType', () => {
     });
   });
 
-  it(`should return undefined when JHipster fieldType is UNKNOWN_TYPE`, () => {
+  it('should return undefined when JHipster fieldType is UNKNOWN_TYPE', () => {
     getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns('UNKNOWN_TYPE');
     const yupType = getYupType({});
 
@@ -68,14 +68,14 @@ describe('getYupType', () => {
 });
 
 describe('getYupValidationRules', () => {
-  it(`should return [required()] when fieldValidateRules is required`, () => {
+  it('should return [required()] when fieldValidateRules is required', () => {
     const field = { fieldValidateRules: ['required'] };
     const yupType = getYupValidationRules(field);
 
     expect(yupType).to.be.an('array').to.have.lengthOf(1).to.deep.equal(['required()']);
   });
 
-  it(`should return [min()] when fieldValidateRules is minlength`, () => {
+  it('should return [min()] when fieldValidateRules is minlength', () => {
     const field = { fieldValidateRules: ['minlength'], fieldValidateRulesMinlength: 5 };
     const yupType = getYupValidationRules(field);
 
@@ -85,7 +85,7 @@ describe('getYupValidationRules', () => {
       .to.deep.equal([`min(${field.fieldValidateRulesMinlength})`]);
   });
 
-  it(`should return [max()] when fieldValidateRules is maxlength`, () => {
+  it('should return [max()] when fieldValidateRules is maxlength', () => {
     const field = { fieldValidateRules: ['maxlength'], fieldValidateRulesMaxlength: 5 };
     const yupType = getYupValidationRules(field);
 
@@ -95,7 +95,7 @@ describe('getYupValidationRules', () => {
       .to.deep.equal([`max(${field.fieldValidateRulesMaxlength})`]);
   });
 
-  it(`should return [matches()] when fieldValidateRules is pattern`, () => {
+  it('should return [matches()] when fieldValidateRules is pattern', () => {
     const field = { fieldValidateRules: ['pattern'], fieldValidateRulesPattern: '[a-zA-Z] [a-z[A-Z]]' };
     const yupType = getYupValidationRules(field);
 
@@ -105,7 +105,7 @@ describe('getYupValidationRules', () => {
       .to.deep.equal([`matches(/${field.fieldValidateRulesPattern}/)`]);
   });
 
-  it(`should return [min()] when fieldValidateRules is min`, () => {
+  it('should return [min()] when fieldValidateRules is min', () => {
     const field = { fieldValidateRules: ['min'], fieldValidateRulesMin: 2 };
     const yupType = getYupValidationRules(field);
 
@@ -115,7 +115,7 @@ describe('getYupValidationRules', () => {
       .to.deep.equal([`min(${field.fieldValidateRulesMin})`]);
   });
 
-  it(`should return [max()] when fieldValidateRules is max`, () => {
+  it('should return [max()] when fieldValidateRules is max', () => {
     const field = { fieldValidateRules: ['max'], fieldValidateRulesMax: 3 };
     const yupType = getYupValidationRules(field);
 
@@ -125,7 +125,7 @@ describe('getYupValidationRules', () => {
       .to.deep.equal([`max(${field.fieldValidateRulesMax})`]);
   });
 
-  it(`should return an empty array when fieldValidateRules is unknown`, () => {
+  it('should return an empty array when fieldValidateRules is unknown', () => {
     const field = { fieldValidateRules: ['UNKNOWN_TYPE'] };
     const yupType = getYupValidationRules(field);
 
@@ -169,7 +169,7 @@ describe('getYupValues', () => {
     }
   });
 
-  it(`should return an array of 1 element when give 1 fields-`, () => {
+  it('should return an array of 1 element when give 1 fields-', () => {
     getYupTypeStub = sinon.stub(yupMapper, 'getYupType').returns(['string()']);
     getYupValidationRulesStub = sinon.stub(yupMapper, 'getYupValidationRules').returns('required()');
 
@@ -182,7 +182,7 @@ describe('getYupValues', () => {
       .to.deep.equal(['field1: Yup.string().required(),']);
   });
 
-  it(`should return an array of 2 elements when give 2 fields`, () => {
+  it('should return an array of 2 elements when give 2 fields', () => {
     getYupTypeStub = sinon.stub(yupMapper, 'getYupType').returns(['string()']);
     getYupValidationRulesStub = sinon.stub(yupMapper, 'getYupValidationRules').returns('required()');
 

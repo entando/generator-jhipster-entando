@@ -24,7 +24,7 @@ describe('buildDependencies with one field type', () => {
     });
   });
 
-  it(`should return Boolean dependencies when fieldType is Boolean`, () => {
+  it('should return Boolean dependencies when fieldType is Boolean', () => {
     const expectedMap = new Map()
       .set('@material-ui/core/Checkbox', new Set(['Checkbox']))
       .set('@material-ui/core/FormControlLabel', new Set(['FormControlLabel']));
@@ -39,7 +39,7 @@ describe('buildDependencies with one field type', () => {
     expect(expectedMap).to.deep.equal(dependencies);
   });
 
-  it(`should return LocalDate dependencies when fieldType is LocalDate`, () => {
+  it('should return LocalDate dependencies when fieldType is LocalDate', () => {
     const expectedMap = new Map()
       .set('@material-ui/pickers', new Set(['DatePicker', 'MuiPickersUtilsProvider']))
       .set('@date-io/date-fns', new Set(['DateFnsUtils']))
@@ -73,7 +73,7 @@ describe('buildDependencies with one field type', () => {
     });
   });
 
-  it(`should return enum dependencies when fieldType is enum`, () => {
+  it('should return enum dependencies when fieldType is enum', () => {
     const expectedMap = new Map()
       .set('@material-ui/core/InputLabel', new Set(['InputLabel']))
       .set('@material-ui/core/Select', new Set(['Select']));
@@ -90,7 +90,7 @@ describe('buildDependencies with one field type', () => {
 });
 
 describe('buildDependencies with many field type', () => {
-  it(`should return Boolean/String dependencies when fieldType are Boolean and String`, () => {
+  it('should return Boolean/String dependencies when fieldType are Boolean and String', () => {
     const expectedMap = new Map()
       .set('@material-ui/core/Checkbox', new Set(['Checkbox']))
       .set('@material-ui/core/FormControlLabel', new Set(['FormControlLabel']))
@@ -109,7 +109,7 @@ describe('buildDependencies with many field type', () => {
     expect(expectedMap).to.deep.equal(dependencies);
   });
 
-  it(`should return LocalDate/Instant dependencies when fieldType are Instant and LocalDate`, () => {
+  it('should return LocalDate/Instant dependencies when fieldType are Instant and LocalDate', () => {
     const expectedMap = new Map()
       .set('@material-ui/pickers', new Set(['DatePicker', 'DateTimePicker', 'MuiPickersUtilsProvider']))
       .set('@date-io/date-fns', new Set(['DateFnsUtils']))
@@ -128,7 +128,7 @@ describe('buildDependencies with many field type', () => {
     expect(expectedMap).to.deep.equal(dependencies);
   });
 
-  it(`should return enum dependencies when fieldType is enum`, () => {
+  it('should return enum dependencies when fieldType is enum', () => {
     const expectedMap = new Map()
       .set('@material-ui/core/TextField', new Set(['TextField']))
       .set('@material-ui/core/Checkbox', new Set(['Checkbox']))
