@@ -42,7 +42,7 @@ function getMockData(fields, count) {
         const fieldValue = getGeneratedValue(fieldType, field);
         return { ...acc, [field.fieldName]: fieldValue };
       },
-      { id: index },
+      { id: index }
     );
   });
 }

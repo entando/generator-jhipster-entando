@@ -1,10 +1,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const {
-  getYupType,
-  getYupValidationRules,
-  getYupValues,
-} = require('../../generators/entity-microfrontend/lib/yup.mapper');
+const { getYupType, getYupValidationRules, getYupValues } = require('../../generators/entity-microfrontend/lib/yup.mapper');
 const yupMapper = require('../../generators/entity-microfrontend/lib/yup.mapper');
 const jhipsterMapper = require('../../generators/entity-microfrontend/lib/jhipster-type.mapper');
 
@@ -176,10 +172,7 @@ describe('getYupValues', () => {
     const fields = [{ fieldName: 'field1', fieldType: 'String', fieldValidateRules: ['required'] }];
     const yupValues = getYupValues(fields);
 
-    expect(yupValues)
-      .to.be.an('array')
-      .to.have.lengthOf(1)
-      .to.deep.equal(['field1: Yup.string().required(),']);
+    expect(yupValues).to.be.an('array').to.have.lengthOf(1).to.deep.equal(['field1: Yup.string().required(),']);
   });
 
   it('should return an array of 2 elements when give 2 fields', () => {

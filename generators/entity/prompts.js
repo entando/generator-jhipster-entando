@@ -31,27 +31,10 @@ const NO_DATABASE = databaseTypes.NO;
 const { ANGULAR } = constants.SUPPORTED_CLIENT_FRAMEWORKS;
 const { REACT } = constants.SUPPORTED_CLIENT_FRAMEWORKS;
 
-const {
-  CommonDBTypes,
-  RelationalOnlyDBTypes,
-  BlobTypes,
-} = require('generator-jhipster/jdl/jhipster/field-types');
+const { CommonDBTypes, RelationalOnlyDBTypes, BlobTypes } = require('generator-jhipster/jdl/jhipster/field-types');
 
-const {
-  BIG_DECIMAL,
-  BOOLEAN,
-  DOUBLE,
-  DURATION,
-  ENUM,
-  FLOAT,
-  INTEGER,
-  INSTANT,
-  LOCAL_DATE,
-  LONG,
-  STRING,
-  UUID,
-  ZONED_DATE_TIME,
-} = CommonDBTypes;
+const { BIG_DECIMAL, BOOLEAN, DOUBLE, DURATION, ENUM, FLOAT, INTEGER, INSTANT, LOCAL_DATE, LONG, STRING, UUID, ZONED_DATE_TIME } =
+  CommonDBTypes;
 const { BYTES, BYTE_BUFFER } = RelationalOnlyDBTypes;
 const { ANY, IMAGE, TEXT } = BlobTypes;
 
@@ -78,7 +61,7 @@ const getFieldNameUndercored = fields =>
   ['id'].concat(
     fields.map(field => {
       return _.snakeCase(field.fieldName);
-    }),
+    })
   );
 
 function askForFields() {
@@ -115,11 +98,7 @@ function askForRelationships() {
 function askForRelationsToRemove() {
   const { context } = this;
   // prompt only if data is imported from a file
-  if (
-    !context.useConfigurationFile ||
-    context.updateEntity !== 'remove' ||
-    this.entityConfig.relationships.length === 0
-  ) {
+  if (!context.useConfigurationFile || context.updateEntity !== 'remove' || this.entityConfig.relationships.length === 0) {
     return undefined;
   }
   if (context.databaseType === NO_DATABASE) {
@@ -156,10 +135,7 @@ function askForRelationsToRemove() {
       const { relationships } = this.entityConfig;
       for (let i = relationships.length - 1; i >= 0; i -= 1) {
         const rel = relationships[i];
-        if (
-          props.relsToRemove.filter(val => val === `${rel.relationshipName}:${rel.relationshipType}`).length >
-          0
-        ) {
+        if (props.relsToRemove.filter(val => val === `${rel.relationshipName}:${rel.relationshipType}`).length > 0) {
           relationships.splice(i, 1);
         }
       }
@@ -174,8 +150,7 @@ function askForRelationsToRemove() {
 function askForField() {
   const { context } = this;
   this.log(chalk.green(`\nGenerating field #${this.entityConfig.fields.length + 1}\n`));
-  const { skipServer, prodDatabaseType, databaseType, clientFramework, skipCheckLengthOfIdentifier } =
-    context;
+  const { skipServer, prodDatabaseType, databaseType, clientFramework, skipCheckLengthOfIdentifier } = context;
   const possibleFiltering = databaseType === SQL && !context.reactive;
   const prompts = [
     {
@@ -201,16 +176,10 @@ function askForField() {
         if (input === 'id' || getFieldNameUndercored(this.entityConfig.fields).includes(_.snakeCase(input))) {
           return 'Your field name cannot use an already existing field name';
         }
-        if (
-          (clientFramework === undefined || clientFramework === ANGULAR) &&
-          isReservedFieldName(input, ANGULAR)
-        ) {
+        if ((clientFramework === undefined || clientFramework === ANGULAR) && isReservedFieldName(input, ANGULAR)) {
           return 'Your field name cannot contain a Java or Angular reserved keyword';
         }
-        if (
-          (clientFramework !== undefined || clientFramework === REACT) &&
-          isReservedFieldName(input, REACT)
-        ) {
+        if ((clientFramework !== undefined || clientFramework === REACT) && isReservedFieldName(input, REACT)) {
           return 'Your field name cannot contain a Java or React reserved keyword';
         }
         if (prodDatabaseType === 'oracle' && input.length > 30 && !skipCheckLengthOfIdentifier) {
@@ -226,8 +195,7 @@ function askForField() {
     },
     {
       when: response =>
-        response.fieldAdd === true &&
-        (skipServer || ['sql', 'mongodb', 'neo4j', 'couchbase', NO_DATABASE].includes(databaseType)),
+        response.fieldAdd === true && (skipServer || ['sql', 'mongodb', 'neo4j', 'couchbase', NO_DATABASE].includes(databaseType)),
       type: 'list',
       name: 'fieldType',
       message: 'What is the type of your field?',
@@ -502,7 +470,7 @@ function askForField() {
             {
               name: 'Regular expression pattern',
               value: PATTERN,
-            },
+            }
           );
         } else if ([INTEGER, LONG, FLOAT, DOUBLE, BIG_DECIMAL].includes(response.fieldType)) {
           opts.push(
@@ -513,7 +481,7 @@ function askForField() {
             {
               name: 'Maximum',
               value: MAX,
-            },
+            }
           );
         }
         return opts;
@@ -521,10 +489,7 @@ function askForField() {
       default: 0,
     },
     {
-      when: response =>
-        response.fieldAdd === true &&
-        response.fieldValidate === true &&
-        response.fieldValidateRules.includes('minlength'),
+      when: response => response.fieldAdd === true && response.fieldValidate === true && response.fieldValidateRules.includes('minlength'),
       type: 'input',
       name: 'fieldValidateRulesMinlength',
       validate: input => (this.isNumber(input) ? true : 'Minimum length must be a positive number'),
@@ -532,10 +497,7 @@ function askForField() {
       default: 0,
     },
     {
-      when: response =>
-        response.fieldAdd === true &&
-        response.fieldValidate === true &&
-        response.fieldValidateRules.includes('maxlength'),
+      when: response => response.fieldAdd === true && response.fieldValidate === true && response.fieldValidateRules.includes('maxlength'),
       type: 'input',
       name: 'fieldValidateRulesMaxlength',
       validate: input => (this.isNumber(input) ? true : 'Maximum length must be a positive number'),
@@ -543,10 +505,7 @@ function askForField() {
       default: 20,
     },
     {
-      when: response =>
-        response.fieldAdd === true &&
-        response.fieldValidate === true &&
-        response.fieldValidateRules.includes('min'),
+      when: response => response.fieldAdd === true && response.fieldValidate === true && response.fieldValidateRules.includes('min'),
       type: 'input',
       name: 'fieldValidateRulesMin',
       message: 'What is the minimum of your field?',
@@ -559,10 +518,7 @@ function askForField() {
       default: 0,
     },
     {
-      when: response =>
-        response.fieldAdd === true &&
-        response.fieldValidate === true &&
-        response.fieldValidateRules.includes('max'),
+      when: response => response.fieldAdd === true && response.fieldValidate === true && response.fieldValidateRules.includes('max'),
       type: 'input',
       name: 'fieldValidateRulesMax',
       message: 'What is the maximum of your field?',
@@ -601,10 +557,7 @@ function askForField() {
       default: 5000000,
     },
     {
-      when: response =>
-        response.fieldAdd === true &&
-        response.fieldValidate === true &&
-        response.fieldValidateRules.includes('pattern'),
+      when: response => response.fieldAdd === true && response.fieldValidate === true && response.fieldValidateRules.includes('pattern'),
       type: 'input',
       name: 'fieldValidateRulesPattern',
       message: 'What is the regular expression pattern you want to apply on your field?',
@@ -844,9 +797,7 @@ function askForRelationship() {
 function logFieldsAndRelationships() {
   const { context } = this;
   if (this.entityConfig.fields.length > 0 || this.entityConfig.relationships.length > 0) {
-    this.log(
-      chalk.red(chalk.white('\n================= ') + context.name + chalk.white(' =================')),
-    );
+    this.log(chalk.red(chalk.white('\n================= ') + context.name + chalk.white(' =================')));
   }
   if (this.entityConfig.fields.length > 0) {
     this.log(chalk.white('Fields'));
@@ -884,10 +835,8 @@ function logFieldsAndRelationships() {
       }
       this.log(
         chalk.red(field.fieldName) +
-          chalk.white(
-            ` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `,
-          ) +
-          chalk.cyan(validationDetails.join(' ')),
+          chalk.white(` (${field.fieldType}${field.fieldTypeBlobContent ? ` ${field.fieldTypeBlobContent}` : ''}) `) +
+          chalk.cyan(validationDetails.join(' '))
       );
     });
     this.log();
@@ -896,16 +845,13 @@ function logFieldsAndRelationships() {
     this.log(chalk.white('Relationships'));
     this.entityConfig.relationships.forEach(relationship => {
       const validationDetails = [];
-      if (
-        relationship.relationshipValidateRules &&
-        relationship.relationshipValidateRules.includes(REQUIRED)
-      ) {
+      if (relationship.relationshipValidateRules && relationship.relationshipValidateRules.includes(REQUIRED)) {
         validationDetails.push(REQUIRED);
       }
       this.log(
-        `${chalk.red(relationship.relationshipName)} ${chalk.white(
-          `(${_.upperFirst(relationship.otherEntityName)})`,
-        )} ${chalk.cyan(relationship.relationshipType)} ${chalk.cyan(validationDetails.join(' '))}`,
+        `${chalk.red(relationship.relationshipName)} ${chalk.white(`(${_.upperFirst(relationship.otherEntityName)})`)} ${chalk.cyan(
+          relationship.relationshipType
+        )} ${chalk.cyan(validationDetails.join(' '))}`
       );
     });
     this.log();

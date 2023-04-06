@@ -5,18 +5,7 @@
  */
 function getJHipsterType({ fieldType, fieldIsEnum, fieldTypeBlobContent }) {
   if (
-    [
-      'String',
-      'Integer',
-      'Long',
-      'Float',
-      'Double',
-      'BigDecimal',
-      'LocalDate',
-      'Instant',
-      'ZonedDateTime',
-      'Boolean',
-    ].includes(fieldType)
+    ['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal', 'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean'].includes(fieldType)
   ) {
     return fieldType;
   }
@@ -37,9 +26,7 @@ function getJHipsterType({ fieldType, fieldIsEnum, fieldTypeBlobContent }) {
     }
   }
 
-  throw new Error(
-    `Unsupported field type: ${JSON.stringify({ fieldType, fieldIsEnum, fieldTypeBlobContent })}`,
-  );
+  throw new Error(`Unsupported field type: ${JSON.stringify({ fieldType, fieldIsEnum, fieldTypeBlobContent })}`);
 }
 
 module.exports = {

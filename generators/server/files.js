@@ -1,14 +1,7 @@
 const constants = require('generator-jhipster/generators/generator-constants');
 const entConstants = require('../generator-constants');
 
-const {
-  INTERPOLATE_REGEX,
-  DOCKER_DIR,
-  SERVER_MAIN_SRC_DIR,
-  SERVER_MAIN_RES_DIR,
-  SERVER_TEST_SRC_DIR,
-  SERVER_TEST_RES_DIR,
-} = constants;
+const { INTERPOLATE_REGEX, DOCKER_DIR, SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR, SERVER_TEST_SRC_DIR, SERVER_TEST_RES_DIR } = constants;
 const { REACT } = constants.SUPPORTED_CLIENT_FRAMEWORKS;
 const { SCALA_LIBRARY_VERSION, MBKNOR_JACKSON_JSONSCHEMA_VERSION } = entConstants;
 
@@ -72,9 +65,7 @@ const entandoServerFiles = {
       path: SERVER_MAIN_RES_DIR,
       templates: [
         {
-          override: generator =>
-            !generator.jhipsterConfig.incrementalChangelog ||
-            generator.configOptions.recreateInitialChangelog,
+          override: generator => !generator.jhipsterConfig.incrementalChangelog || generator.configOptions.recreateInitialChangelog,
           file: 'config/liquibase/changelog/initial_schema.xml',
           renameTo: () => 'config/liquibase/changelog/00000000000000_initial_schema.xml',
           options: { interpolate: INTERPOLATE_REGEX },
@@ -172,9 +163,8 @@ const entandoServerFiles = {
   serverJavaConfig: [
     {
       condition: generator =>
-        ['ehcache', 'caffeine', 'hazelcast', 'infinispan', 'memcached', 'redis'].includes(
-          generator.cacheProvider,
-        ) || generator.applicationType === 'gateway',
+        ['ehcache', 'caffeine', 'hazelcast', 'infinispan', 'memcached', 'redis'].includes(generator.cacheProvider) ||
+        generator.applicationType === 'gateway',
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
@@ -214,9 +204,7 @@ const toDeleteServerFiles = {
     },
     {
       condition: generator =>
-        (generator.authenticationType === 'oauth2' &&
-          generator.applicationType !== 'microservice' &&
-          generator.databaseType === 'sql') ||
+        (generator.authenticationType === 'oauth2' && generator.applicationType !== 'microservice' && generator.databaseType === 'sql') ||
         (!generator.skipUserManagement && generator.databaseType === 'sql'),
       path: SERVER_MAIN_RES_DIR,
       templates: [
@@ -324,8 +312,7 @@ const toDeleteServerFiles = {
       ],
     },
     {
-      condition: generator =>
-        generator.authenticationType === 'oauth2' && generator.searchEngine === 'elasticsearch',
+      condition: generator => generator.authenticationType === 'oauth2' && generator.searchEngine === 'elasticsearch',
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
@@ -336,22 +323,19 @@ const toDeleteServerFiles = {
       ],
     },
     {
-      condition: generator =>
-        generator.authenticationType === 'oauth2' && generator.searchEngine === 'elasticsearch',
+      condition: generator => generator.authenticationType === 'oauth2' && generator.searchEngine === 'elasticsearch',
       path: SERVER_TEST_SRC_DIR,
       templates: [
         {
           file: 'package/repository/search/UserSearchRepositoryMockConfiguration.java',
-          renameTo: generator =>
-            `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
+          renameTo: generator => `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
           method: 'delete',
         },
       ],
     },
     {
       condition: generator =>
-        generator.authenticationType === 'oauth2' &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+        generator.authenticationType === 'oauth2' && ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
@@ -371,9 +355,7 @@ const toDeleteServerFiles = {
       ],
     },
     {
-      condition: generator =>
-        !generator.skipUserManagement &&
-        ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
+      condition: generator => !generator.skipUserManagement && ['sql', 'mongodb', 'couchbase', 'neo4j'].includes(generator.databaseType),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
@@ -481,8 +463,7 @@ const toDeleteServerFiles = {
       templates: [
         {
           file: 'package/repository/search/UserSearchRepositoryMockConfiguration.java',
-          renameTo: generator =>
-            `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
+          renameTo: generator => `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
           method: 'delete',
         },
       ],
@@ -609,7 +590,7 @@ function writeFiles() {
           '                    <groupId>org.scala-lang</groupId>\n' +
           '                    <artifactId>scala-library</artifactId>\n' +
           '                </exclusion>\n' +
-          '            </exclusions>',
+          '            </exclusions>'
       );
     },
 

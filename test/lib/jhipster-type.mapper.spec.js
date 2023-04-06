@@ -2,18 +2,7 @@ const { expect } = require('chai');
 const { getJHipsterType } = require('../../generators/entity-microfrontend/lib');
 
 describe('JHipster type mapper', () => {
-  [
-    'String',
-    'Integer',
-    'Long',
-    'Float',
-    'Double',
-    'BigDecimal',
-    'LocalDate',
-    'Instant',
-    'ZonedDateTime',
-    'Boolean',
-  ].forEach(type => {
+  ['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal', 'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean'].forEach(type => {
     it(`should return ${type} when JHipster fieldType is ${type}`, () => {
       const field = {
         fieldType: `${type}`,

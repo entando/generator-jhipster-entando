@@ -2,14 +2,7 @@ const chalk = require('chalk');
 
 const constants = require('generator-jhipster/generators/generator-constants');
 const { serverDefaultConfig } = require('generator-jhipster/generators/generator-defaults');
-const {
-  CAFFEINE,
-  EHCACHE,
-  HAZELCAST,
-  INFINISPAN,
-  MEMCACHED,
-  REDIS,
-} = require('generator-jhipster/jdl/jhipster/cache-types');
+const { CAFFEINE, EHCACHE, HAZELCAST, INFINISPAN, MEMCACHED, REDIS } = require('generator-jhipster/jdl/jhipster/cache-types');
 const { H2_DISK, H2_MEMORY, SQL } = require('generator-jhipster/jdl/jhipster/database-types');
 const { GATEWAY, MICROSERVICE } = require('generator-jhipster/jdl/jhipster/application-types');
 const { OptionNames } = require('generator-jhipster/jdl/jhipster/application-options');
@@ -18,8 +11,7 @@ const cacheProviderTypes = require('generator-jhipster/jdl/jhipster/cache-types'
 const { DEFAULT_SERVER_PROMPTS } = require('../generator-constants');
 const entandoConstants = require('../generator-constants');
 
-const { CACHE_PROVIDER, DATABASE_TYPE, PACKAGE_NAME, DEV_DATABASE_TYPE, PROD_DATABASE_TYPE, SERVER_PORT } =
-  OptionNames;
+const { CACHE_PROVIDER, DATABASE_TYPE, PACKAGE_NAME, DEV_DATABASE_TYPE, PROD_DATABASE_TYPE, SERVER_PORT } = OptionNames;
 const NO_DATABASE = databaseTypes.NO;
 const NO_CACHE_PROVIDER = cacheProviderTypes.NO;
 
@@ -146,8 +138,7 @@ function askForServerSideOpts() {
     },
     {
       when: answers =>
-        ((answers.cacheProvider !== NO_CACHE_PROVIDER && answers.cacheProvider !== MEMCACHED) ||
-          applicationType === GATEWAY) &&
+        ((answers.cacheProvider !== NO_CACHE_PROVIDER && answers.cacheProvider !== MEMCACHED) || applicationType === GATEWAY) &&
         answers.databaseType === SQL &&
         !answers.reactive,
       type: 'confirm',
@@ -159,20 +150,16 @@ function askForServerSideOpts() {
 
   return this.prompt(prompts).then(answers => {
     /* eslint-disable no-multi-assign */
-    this.serviceDiscoveryType = this.jhipsterConfig.serviceDiscoveryType =
-      DEFAULT_SERVER_PROMPTS.SERVICE_DISCOVERY_TYPE;
+    this.serviceDiscoveryType = this.jhipsterConfig.serviceDiscoveryType = DEFAULT_SERVER_PROMPTS.SERVICE_DISCOVERY_TYPE;
 
     this.reactive = this.jhipsterConfig.reactive = false;
 
     // this.authenticationType = this.jhipsterConfig.authenticationType = answers.authenticationType;
-    this.authenticationType = this.jhipsterConfig.authenticationType =
-      DEFAULT_SERVER_PROMPTS.AUTHENTICATION_TYPE;
+    this.authenticationType = this.jhipsterConfig.authenticationType = DEFAULT_SERVER_PROMPTS.AUTHENTICATION_TYPE;
 
     this.packageName = this.jhipsterConfig.packageName = answers.packageName;
     this.serverPort = this.jhipsterConfig.serverPort = answers.serverPort || '8080';
-    this.cacheProvider = this.jhipsterConfig.cacheProvider = !answers.reactive
-      ? answers.cacheProvider
-      : NO_CACHE_PROVIDER;
+    this.cacheProvider = this.jhipsterConfig.cacheProvider = !answers.reactive ? answers.cacheProvider : NO_CACHE_PROVIDER;
     this.enableHibernateCache = this.jhipsterConfig.enableHibernateCache = !!answers.enableHibernateCache;
 
     const { databaseType } = answers;
@@ -237,6 +224,5 @@ async function askForMicroserviceDependencies() {
   ];
 
   const answers = await this.prompt(prompts);
-  this.microserviceDependencies = this.jhipsterConfig.microserviceDependencies =
-    answers.microserviceDependencies;
+  this.microserviceDependencies = this.jhipsterConfig.microserviceDependencies = answers.microserviceDependencies;
 }

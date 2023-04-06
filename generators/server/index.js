@@ -13,11 +13,7 @@ module.exports = class extends ServerGenerator {
     if (this.options.help) return;
 
     if (!this.options.jhipsterContext) {
-      throw new Error(
-        `This is a JHipster blueprint and should be used only like ${chalk.yellow(
-          'jhipster --blueprints entando',
-        )}`,
-      );
+      throw new Error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprints entando')}`);
     }
 
     this.delete = this._delete;
@@ -60,9 +56,7 @@ module.exports = class extends ServerGenerator {
       loadEntandoSharedConfig() {
         const configuration = this.getJhipsterConfig();
         this.microserviceDependencies = configuration.get('microserviceDependencies');
-        this.prodDatabaseTypePlugin = ['mongodb', 'neo4j', 'couchbase', 'cassandra', 'no'].includes(
-          this.databaseType,
-        )
+        this.prodDatabaseTypePlugin = ['mongodb', 'neo4j', 'couchbase', 'cassandra', 'no'].includes(this.databaseType)
           ? 'none'
           : this.prodDatabaseType;
         this.isEntandoBundleBomPRVersion = constants.ENTANDO_BUNDLE_BOM_VERSION.indexOf('-PR-') > -1;

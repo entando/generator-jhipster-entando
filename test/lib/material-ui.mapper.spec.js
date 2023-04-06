@@ -1,9 +1,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const {
-  buildDependencies,
-  getMuiInput,
-} = require('../../generators/entity-microfrontend/lib/material-ui.mapper');
+const { buildDependencies, getMuiInput } = require('../../generators/entity-microfrontend/lib/material-ui.mapper');
 const jhipsterMapper = require('../../generators/entity-microfrontend/lib/jhipster-type.mapper');
 
 let getJHipsterTypeStub;

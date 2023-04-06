@@ -4,9 +4,7 @@ function setOrAdd(map, key, ...properties) {
   if (!map) return;
 
   // eslint-disable-next-line no-unused-expressions
-  map.has(key)
-    ? properties.forEach(property => map.get(key).add(property))
-    : map.set(key, new Set(properties));
+  map.has(key) ? properties.forEach(property => map.get(key).add(property)) : map.set(key, new Set(properties));
 }
 
 function buildDependencies(fields) {
@@ -18,9 +16,7 @@ function buildDependencies(fields) {
       setOrAdd(dependencies, '@material-ui/core/Checkbox', 'Checkbox');
       setOrAdd(dependencies, '@material-ui/core/FormControlLabel', 'FormControlLabel');
     } else if (['LocalDate', 'Instant', 'ZonedDateTime'].includes(field.fieldType)) {
-      const datePickerProperty = ['Instant', 'ZonedDateTime'].includes(field.fieldType)
-        ? 'DateTimePicker'
-        : 'DatePicker';
+      const datePickerProperty = ['Instant', 'ZonedDateTime'].includes(field.fieldType) ? 'DateTimePicker' : 'DatePicker';
 
       setOrAdd(dependencies, '@material-ui/pickers', datePickerProperty, 'MuiPickersUtilsProvider');
       setOrAdd(dependencies, '@date-io/date-fns', 'DateFnsUtils');

@@ -5,10 +5,7 @@ const chaiDateString = require('chai-date-string');
 const moment = require('moment');
 const sinon = require('sinon');
 
-const {
-  getMockData,
-  getGeneratedValue,
-} = require('../../generators/entity-microfrontend/lib/mfe-test-tools');
+const { getMockData, getGeneratedValue } = require('../../generators/entity-microfrontend/lib/mfe-test-tools');
 const jhipsterMapper = require('../../generators/entity-microfrontend/lib/jhipster-type.mapper');
 
 let getJHipsterTypeStub;
@@ -83,9 +80,7 @@ describe('getGeneratedValue', () => {
       const value = getGeneratedValue(`${type}`, {});
 
       // eslint-disable-next-line no-unused-expressions
-      expect(value).to.be.equal(
-        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
-      );
+      expect(value).to.be.equal('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=');
     });
   });
 });
