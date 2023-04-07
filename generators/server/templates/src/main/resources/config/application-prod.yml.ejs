@@ -1,5 +1,5 @@
 <%#
- Copyright 2013-2021 the original author or authors from the JHipster project.
+ Copyright 2013-2022 the original author or authors from the JHipster project.
 
  This file is part of the JHipster project, see https://www.jhipster.tech/
  for more information.
@@ -157,16 +157,8 @@ spring:
       local-datacenter: datacenter1
 <%_ } _%>
 <%_ if (searchEngineElasticsearch) { _%>
-  <%_ if (reactive) { _%>
-    elasticsearch:
-      client:
-        reactive:
-          endpoints: localhost:9200
-  <%_ } else { _%>
   elasticsearch:
-    rest:
-      uris: http://localhost:9200
-  <%_ } _%>
+    uris: http://localhost:9200
 <%_ } _%>
 <%_ if (databaseTypeCouchbase) { _%>
   couchbase:
@@ -195,7 +187,7 @@ spring:
 <%_ } _%>
 <%_ if (databaseTypeSql && reactive) { _%>
   r2dbc:
-  <%_ if (prodDatabaseTypeMysql) { _%>
+  <%_ if (prodDatabaseTypeMysql || prodDatabaseTypeMariadb) { _%>
     url: <%- getR2DBCUrl(prodDatabaseType, { databaseName: baseName, hostname: 'localhost' }) %>
     username: root
     password:
@@ -215,8 +207,13 @@ spring:
 <%_ } _%>
   thymeleaf:
     cache: true
-<%_ if (serviceDiscoveryType || applicationTypeGateway || applicationTypeMicroservice) { _%>
+<%_ if (serviceDiscoveryAny || applicationTypeGateway || applicationTypeMicroservice) { _%>
   sleuth:
+    # https://github.com/spring-projects/spring-framework/issues/27844#issuescomment-1002866885
+    # https://github.com/spring-cloud/spring-cloud-sleuth/issues/2094
+    async:
+      enabled: false
+    enabled: false
     sampler:
       probability: 1 # report 100% of traces
   zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
@@ -232,7 +229,7 @@ spring:
 # keytool -genkey -alias <%= baseName.toLowerCase() %> -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
 #
 # You can also use Let's Encrypt:
-# https://maximilian-boehm.com/hp2121/Create-a-Java-Keystore-JKS-from-Let-s-Encrypt-Certificates.htm
+# See details in topic "Create a Java Keystore (.JKS) from Let's Encrypt Certificates" on https://maximilian-boehm.com/en-gb/blog
 #
 # Then, modify the server.ssl properties so your "server" configuration looks like:
 #
@@ -251,7 +248,7 @@ server:
   shutdown: graceful # see https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-graceful-shutdown
   compression:
     enabled: true
-    mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+    mime-types: text/html,text/xml,text/plain,text/css,application/javascript,application/json,image/svg+xml
     min-response-size: 1024
 
 # ===================================================================
@@ -261,7 +258,7 @@ server:
 # ===================================================================
 
 jhipster:
-<%_ if (applicationTypeGateway && cacheProviderHazelcast && serviceDiscoveryType) { _%>
+<%_ if (applicationTypeGateway && cacheProviderHazelcast && serviceDiscoveryAny) { _%>
   gateway:
     rate-limiting:
       enabled: false
@@ -277,6 +274,7 @@ jhipster:
   database:
     couchbase:
       bucket-name: <%= baseName %>
+      scope-name: <%= camelizedBaseName %>
 <%_ } _%>
 <%_ if (!cacheProviderNo) { _%>
   cache: # Cache configuration

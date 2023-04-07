@@ -1,5 +1,5 @@
 <%#
- Copyright 2013-2021 the original author or authors from the JHipster project.
+ Copyright 2013-2022 the original author or authors from the JHipster project.
 
  This file is part of the JHipster project, see https://www.jhipster.tech/
  for more information.
@@ -18,109 +18,57 @@
 -%>
 package <%= packageName %>.config;
 
-import java.util.Collections;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Value;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.*;
+import org.springdoc.core.GroupedOpenApi;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import springfox.documentation.builders.AuthorizationCodeGrantBuilder;
-import springfox.documentation.builders.OAuthBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.GrantType;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.service.SecurityScheme;
-import springfox.documentation.service.TokenEndpoint;
-import springfox.documentation.service.TokenRequestEndpoint;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+
 import tech.jhipster.config.JHipsterConstants;
+import tech.jhipster.config.JHipsterProperties;
+import tech.jhipster.config.apidoc.customizer.JHipsterOpenApiCustomizer;
 
 @Configuration
 @Profile(JHipsterConstants.SPRING_PROFILE_API_DOCS)
+@OpenAPIDefinition( <%# Modified by the Entando blueprint to add the OAuth2 configuration that allows the user to consume the API with OAuth2 authentiction #%>
+    info = @Info(
+        title = "<%= humanizedBaseName %>",
+		description = "Provide a description for your application.",
+        version = "v1"
+    ),
+    security = { @SecurityRequirement(name = "security_oauth") }
+)
+@SecurityScheme(
+    name = "security_oauth",
+    type = SecuritySchemeType.OAUTH2,
+    flows = @OAuthFlows(
+        authorizationCode = @OAuthFlow(
+            authorizationUrl = "${spring.security.oauth2.client.provider.oidc.issuer-uri}/protocol/openid-connect/auth",
+            tokenUrl = "${spring.security.oauth2.client.provider.oidc.issuer-uri}/protocol/openid-connect/token"
+        )
+    )
+)<%# End of Modified by the Entando blueprint #%>
 public class OpenApiConfiguration {
 
-    private static final String REFERENCE_NAME = "entando_blueprint";
-
-    private final String clientId;
-    private final String clientSecret;
-    private final String authServer;
-
-    public OpenApiConfiguration(
-            @Value("${spring.security.oauth2.client.provider.oidc.issuer-uri}") String issuerUri,
-            @Value("${swagger-ui.client-id}") String clientId,
-            @Value("${swagger-ui.client-secret}") String clientSecret) {
-
-        this.authServer = issuerUri + "/protocol/openid-connect";
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
-    }
+    public static final String API_FIRST_PACKAGE = "<%= packageName %>.web"; <%# Modified by the Entando blueprint to target the web folder instead web.api #%>
 
     @Bean
-    public Docket api() {
-
-        return new Docket(DocumentationType.SWAGGER_2)
-            .groupName("entando")
-            .select()
-            .apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.any())
-            .build()
-            .securitySchemes((getSecuritySchemes()))
-            .securityContexts(securityContext());
-    }
-
-    private List<SecurityScheme> getSecuritySchemes() {
-
-        SecurityScheme oAuth = new OAuthBuilder()
-            .name(REFERENCE_NAME)
-            .grantTypes(getGrantTypes())
+    @ConditionalOnMissingBean(name = "apiFirstGroupedOpenAPI")
+    public GroupedOpenApi apiFirstGroupedOpenAPI(
+        JHipsterOpenApiCustomizer jhipsterOpenApiCustomizer,
+        JHipsterProperties jHipsterProperties
+    ) {
+        JHipsterProperties.ApiDocs properties = jHipsterProperties.getApiDocs();
+        return GroupedOpenApi.builder()
+            .group("entando") <%# Modified by the Entando blueprint to change the groupname to "entando" #%>
+            .addOpenApiCustomiser(jhipsterOpenApiCustomizer)
+            .packagesToScan(API_FIRST_PACKAGE)
+            .pathsToMatch(properties.getDefaultIncludePattern())
             .build();
-
-        return Collections.singletonList(oAuth);
-    }
-
-    private List<GrantType> getGrantTypes() {
-
-        GrantType grantType = new AuthorizationCodeGrantBuilder()
-            .tokenEndpoint(new TokenEndpoint(this.authServer + "/token", "oauthtoken"))
-            .tokenRequestEndpoint(new TokenRequestEndpoint(this.authServer + "/auth", this.clientId, this.clientSecret))
-            .build();
-
-        return Collections.singletonList(grantType);
-    }
-
-    private List<SecurityContext> securityContext() {
-
-        SecurityContext securityContext = SecurityContext.builder()
-            .securityReferences(getDefaultAuths())
-            .forPaths(PathSelectors.regex("/.*"))
-            .build();
-
-        return Collections.singletonList(securityContext);
-    }
-
-    private List<SecurityReference> getDefaultAuths() {
-
-        SecurityReference securityReference = SecurityReference.builder()
-            .reference(REFERENCE_NAME)
-            .scopes(new AuthorizationScope[0])
-            .build();
-
-        return Collections.singletonList(securityReference);
-    }
-
-
-    @Bean
-    public SecurityConfiguration security() {
-
-                return SecurityConfigurationBuilder.builder()
-                .clientId(this.clientId)
-                .clientSecret(this.clientSecret)
-                .build();
     }
 }

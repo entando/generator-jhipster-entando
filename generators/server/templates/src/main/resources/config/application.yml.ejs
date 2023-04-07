@@ -1,5 +1,5 @@
 <%#
- Copyright 2013-2021 the original author or authors from the JHipster project.
+ Copyright 2013-2022 the original author or authors from the JHipster project.
 
  This file is part of the JHipster project, see https://www.jhipster.tech/
  for more information.
@@ -92,17 +92,19 @@ management:
       roles: "ROLE_ADMIN"
       probes:
         enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState<% if (databaseTypeSql) { %>,db<% } %>
     jhimetrics:
       enabled: true
   info:
     git:
       mode: full
+    env:
+      enabled: true
   health:
-    group:
-      liveness:
-        include: livenessState
-      readiness:
-        include: readinessState<% if (databaseTypeSql) { %>,db<% } %>
     mail:
       enabled: false # When using the MailService, configure an SMTP server and set this to true
   metrics:
@@ -132,7 +134,7 @@ management:
 
 <%_ if (databaseTypeMongodb) { _%>
 mongock:
-  change-logs-scan-package:
+  migration-scan-package:
     - <%= packageName %>.config.dbmigrations
 
 <%_ } _%>
@@ -143,7 +145,7 @@ spring:
 <%_ } _%>
   application:
     name: <%= baseName %>
-<%_ if (serviceDiscoveryConsul || (applicationTypeGateway && reactive)) { _%>
+<%_ if (serviceDiscoveryConsul || (applicationTypeGateway && reactive) || messageBrokerKafka) { _%>
   cloud:
   <%_ if (serviceDiscoveryConsul) { _%>
     consul:
@@ -175,6 +177,23 @@ spring:
       httpclient:
         pool:
           max-connections: 1000
+  <%_ } _%>
+  <%_ if (messageBrokerKafka) { _%>
+    stream:
+      kafka:
+        binder:
+          replicationFactor: 1
+          auto-create-topics: true
+          brokers: localhost:9092
+      bindings:
+        binding-in-sse:
+          destination: sse-topic
+          content-type: text/plain
+          group: <%= dasherizedBaseName %>
+        binding-out-sse:
+          destination: sse-topic
+          content-type: text/plain
+          group: <%= dasherizedBaseName %>
   <%_ } _%>
 <%_ } _%>
   profiles:
@@ -239,6 +258,11 @@ spring:
     basename: i18n/messages
   main:
     allow-bean-definition-overriding: true
+<%_ if (!reactive) { _%>
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+<%_ } _%>
 <%_ if (skipUserManagement && (applicationTypeMonolith || applicationTypeGateway) && !authenticationTypeOauth2) { _%>
   security:
     user:
@@ -289,6 +313,13 @@ server:
       cookie:
         http-only: true
 
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    oauth:
+      clientId: swagger_ui
+      clientSecret: swagger_ui
+
 # Properties to be exposed on the /info management endpoint
 info:
   # Comma separated list of profiles that will trigger the ribbon to show
@@ -308,20 +339,20 @@ jhipster:
   #   allowed-origins: "http://localhost:8100,http://localhost:9000"
   #   allowed-methods: "*"
   #   allowed-headers: "*"
-  <%_ if (authenticationType === 'session') { _%>
+<%_ if (authenticationTypeSession) { _%>
   #   exposed-headers: "Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params"
-  <%_ } else { _%>
+<%_ } else { _%>
   #   exposed-headers: "Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params"
-  <%_ } _%>
+<%_ } _%>
   #   allow-credentials: true
   #   max-age: 1800
   mail:
     from: <%= baseName %>@localhost
   api-docs:
-    default-include-pattern: ${server.servlet.context-path:}/api/.*
-    management-include-pattern: ${server.servlet.context-path:}/management/.*
-    title: <%= baseName %> API
-    description: <%= baseName %> API documentation
+    default-include-pattern: ${server.servlet.context-path:}/api/**
+    management-include-pattern: ${server.servlet.context-path:}/management/**
+    title: <%= humanizedBaseName %> API
+    description: <%= humanizedBaseName %> API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:
@@ -330,33 +361,19 @@ jhipster:
     license: unlicensed
     license-url:
   security:
+<%_ if(!skipClient) { _%>
     <%_ if (clientTheme !== 'none') { _%>
     content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:"
     <%_ } else { _%>
     content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
     <%_ } _%>
-    <%_ if (authenticationType === 'oauth2') { _%>
+<%_ } _%>
+<%_ if (authenticationTypeOauth2) { _%>
     oauth2:
       audience:
         - account
         - api://default
-  <%_ } _%>
-<%_ if (messageBroker === 'kafka') { _%>
-kafka:
-  bootstrap-servers: localhost:9092
-  consumer:
-    key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    group.id: <%= dasherizedBaseName %>
-    auto.offset.reset: earliest
-  producer:
-    key.serializer: org.apache.kafka.common.serialization.StringSerializer
-    value.serializer: org.apache.kafka.common.serialization.StringSerializer
 <%_ } _%>
-
-swagger-ui:
-    client-id: swagger_ui
-    client-secret: swagger_ui
 
 # ===================================================================
 # Application specific properties

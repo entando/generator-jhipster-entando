@@ -45,14 +45,12 @@ const serverFiles = {
       templates: [
         {
           file: 'package/repository/NoDbEntityRepository.java',
-          renameTo: generator =>
-            `${generator.packageFolder}/repository/${generator.entityClass}Repository.java`,
+          renameTo: generator => `${generator.packageFolder}/repository/${generator.entityClass}Repository.java`,
           override: true,
         },
         {
           file: 'package/repository/impl/NoDbEntityRepositoryImpl.java',
-          renameTo: generator =>
-            `${generator.packageFolder}/repository/impl/${generator.entityClass}RepositoryImpl.java`,
+          renameTo: generator => `${generator.packageFolder}/repository/impl/${generator.entityClass}RepositoryImpl.java`,
           override: true,
         },
       ],
@@ -70,8 +68,7 @@ const serverFiles = {
         },
         {
           file: 'package/service/impl/NoDbServiceImpl.java',
-          renameTo: generator =>
-            `${generator.packageFolder}/service/impl/${generator.entityClass}ServiceImpl.java`,
+          renameTo: generator => `${generator.packageFolder}/service/impl/${generator.entityClass}ServiceImpl.java`,
           override: true,
         },
       ],
@@ -95,8 +92,7 @@ const serverFiles = {
       templates: [
         {
           file: 'package/web/rest/NoDbEntityResourceIT.java',
-          renameTo: generator =>
-            `${generator.packageFolder}/web/rest/${generator.entityClass}ResourceIT.java`,
+          renameTo: generator => `${generator.packageFolder}/web/rest/${generator.entityClass}ResourceIT.java`,
         },
       ],
     },

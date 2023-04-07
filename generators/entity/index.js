@@ -9,11 +9,7 @@ module.exports = class extends EntityGenerator {
     if (this.options.help) return;
 
     if (!this.options.jhipsterContext) {
-      throw new Error(
-        `This is a JHipster blueprint and should be used only like ${chalk.yellow(
-          'jhipster --blueprints entando',
-        )}`,
-      );
+      throw new Error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprints entando')}`);
     }
 
     this.entity = this.entity || this.context;
@@ -36,6 +32,7 @@ module.exports = class extends EntityGenerator {
   }
 
   get composing() {
+    // Here we are not overriding this phase and hence its being handled by JHipster
     return super._composing();
   }
 
@@ -70,13 +67,13 @@ module.exports = class extends EntityGenerator {
      * Composing() is called before these ones.
      */
     const jhipsterWritingPhase = super._writing();
-    const { entity } = this;
+    const entity = this.context;
 
     return {
       ...jhipsterWritingPhase,
       ...{
-        composeMicrofrontend() {
-          this.composeWith(require.resolve('../entity-microfrontend'), true, {
+        async composeMicrofrontend() {
+          await this.composeWith(require.resolve('../entity-microfrontend'), true, {
             entity,
           });
         },

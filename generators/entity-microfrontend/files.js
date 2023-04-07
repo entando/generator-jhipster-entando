@@ -201,8 +201,7 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/detailsWidget/scripts/i18next-scanner.config.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/scripts/i18next-scanner.config.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/scripts/i18next-scanner.config.js`,
         },
       ],
     },
@@ -234,8 +233,7 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/detailsWidget/src/api/entity.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/api/${generator.entityInstance}.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/api/${generator.entityInstance}.js`,
         },
         {
           file: 'entity/detailsWidget/src/api/helpers.js',
@@ -249,8 +247,7 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/formWidget/src/api/entities.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/api/${generator.entityInstancePlural}.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/api/${generator.entityInstancePlural}.js`,
         },
         {
           file: 'entity/formWidget/src/api/helpers.js',
@@ -264,8 +261,7 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/tableWidget/src/api/entities.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/api/${generator.entityInstancePlural}.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/api/${generator.entityInstancePlural}.js`,
         },
         {
           file: 'entity/tableWidget/src/api/helpers.js',
@@ -337,8 +333,7 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/detailsWidget/src/components/__mocks__/entityMocks.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
         },
         {
           file: 'entity/detailsWidget/src/components/__mocks__/i18n.js',
@@ -352,8 +347,7 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/formWidget/src/components/__mocks__/entityMocks.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
         },
       ],
     },
@@ -363,8 +357,7 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/tableWidget/src/components/__mocks__/entityMocks.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/__mocks__/${generator.entityInstance}Mocks.js`,
         },
         {
           file: 'entity/tableWidget/src/components/__mocks__/i18n.js',
@@ -406,8 +399,7 @@ const microFrontendFiles = {
         },
         {
           file: 'entity/formWidget/src/components/__tests__/EntityForm.test.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityClass}Form.test.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/__tests__/${generator.entityClass}Form.test.js`,
         },
       ],
     },
@@ -417,8 +409,7 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/tableWidget/src/components/__tests__/EntityTable.test.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/__tests__/${generator.entityClass}Table.test.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/__tests__/${generator.entityClass}Table.test.js`,
         },
         {
           file: 'entity/tableWidget/src/components/__tests__/EntityTableContainer.test.js',
@@ -435,13 +426,11 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/detailsWidget/src/components/__types__/entity.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/__types__/${generator.entityInstance}.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/components/__types__/${generator.entityInstance}.js`,
         },
         {
           file: 'entity/detailsWidget/src/components/__types__/keycloak.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/__types__/keycloak.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/components/__types__/keycloak.js`,
         },
         {
           file: 'entity/detailsWidget/src/components/__types__/ref.js',
@@ -455,13 +444,11 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/formWidget/src/components/__types__/entity.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/__types__/${generator.entityInstance}.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/__types__/${generator.entityInstance}.js`,
         },
         {
           file: 'entity/formWidget/src/components/__types__/keycloak.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/__types__/keycloak.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/__types__/keycloak.js`,
         },
         {
           file: 'entity/formWidget/src/components/__types__/ref.js',
@@ -479,13 +466,11 @@ const microFrontendFiles = {
         },
         {
           file: 'entity/tableWidget/src/components/__types__/entity.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/__types__/${generator.entityInstance}.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/__types__/${generator.entityInstance}.js`,
         },
         {
           file: 'entity/tableWidget/src/components/__types__/keycloak.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/__types__/keycloak.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/__types__/keycloak.js`,
         },
         {
           file: 'entity/tableWidget/src/components/__types__/ref.js',
@@ -501,8 +486,7 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/detailsWidget/src/components/common/Notification.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/common/Notification.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/components/common/Notification.js`,
         },
       ],
     },
@@ -512,13 +496,11 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/formWidget/src/components/common/ConfirmationDialogTrigger.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/common/ConfirmationDialogTrigger.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/common/ConfirmationDialogTrigger.js`,
         },
         {
           file: 'entity/formWidget/src/components/common/Notification.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/common/Notification.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/common/Notification.js`,
         },
       ],
     },
@@ -528,13 +510,11 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/tableWidget/src/components/common/ConfirmationDialogTrigger.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/common/ConfirmationDialogTrigger.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/common/ConfirmationDialogTrigger.js`,
         },
         {
           file: 'entity/tableWidget/src/components/common/Notification.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/common/Notification.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/common/Notification.js`,
         },
       ],
     },
@@ -559,13 +539,11 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/detailsWidget/src/components/EntityDetails.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/${generator.entityClass}Details.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/components/${generator.entityClass}Details.js`,
         },
         {
           file: 'entity/detailsWidget/src/components/EntityDetailsContainer.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/components/${generator.entityClass}DetailsContainer.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/components/${generator.entityClass}DetailsContainer.js`,
         },
       ],
     },
@@ -575,18 +553,15 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/formWidget/src/components/EntityAddFormContainer.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/${generator.entityClass}AddFormContainer.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/${generator.entityClass}AddFormContainer.js`,
         },
         {
           file: 'entity/formWidget/src/components/EntityEditFormContainer.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/${generator.entityClass}EditFormContainer.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/${generator.entityClass}EditFormContainer.js`,
         },
         {
           file: 'entity/formWidget/src/components/EntityForm.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/components/${generator.entityClass}Form.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/components/${generator.entityClass}Form.js`,
         },
       ],
     },
@@ -596,13 +571,11 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/tableWidget/src/components/EntityTable.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/${generator.entityClass}Table.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/${generator.entityClass}Table.js`,
         },
         {
           file: 'entity/tableWidget/src/components/EntityTableContainer.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/${generator.entityClass}TableContainer.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/${generator.entityClass}TableContainer.js`,
         },
       ],
     },
@@ -618,8 +591,7 @@ const microFrontendFiles = {
         },
         {
           file: 'entity/tableWidget/src/components/filters/FiltersContainer.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/filters/FiltersContainer.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/filters/FiltersContainer.js`,
         },
         {
           file: 'entity/tableWidget/src/components/filters/utils.js',
@@ -635,23 +607,19 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/tableWidget/src/components/pagination/PaginationContext.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/pagination/PaginationContext.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/pagination/PaginationContext.js`,
         },
         {
           file: 'entity/tableWidget/src/components/pagination/PaginationWrapper.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/pagination/PaginationWrapper.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/pagination/PaginationWrapper.js`,
         },
         {
           file: 'entity/tableWidget/src/components/pagination/TablePaginationActions.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/pagination/TablePaginationActions.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/pagination/TablePaginationActions.js`,
         },
         {
           file: 'entity/tableWidget/src/components/pagination/withPagination.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/components/pagination/withPagination.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/components/pagination/withPagination.js`,
         },
       ],
     },
@@ -663,13 +631,11 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/detailsWidget/src/custom-elements/EntityDetailsElement.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/custom-elements/${generator.entityClass}DetailsElement.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/custom-elements/${generator.entityClass}DetailsElement.js`,
         },
         {
           file: 'entity/detailsWidget/src/custom-elements/widgetEventTypes.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/custom-elements/widgetEventTypes.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/custom-elements/widgetEventTypes.js`,
         },
       ],
     },
@@ -679,13 +645,11 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/formWidget/src/custom-elements/EntityFormElement.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/custom-elements/${generator.entityClass}FormElement.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/custom-elements/${generator.entityClass}FormElement.js`,
         },
         {
           file: 'entity/formWidget/src/custom-elements/widgetEventTypes.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/custom-elements/widgetEventTypes.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/custom-elements/widgetEventTypes.js`,
         },
       ],
     },
@@ -695,13 +659,11 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/tableWidget/src/custom-elements/EntityTableElement.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/custom-elements/${generator.entityClass}TableElement.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/custom-elements/${generator.entityClass}TableElement.js`,
         },
         {
           file: 'entity/tableWidget/src/custom-elements/widgetEventTypes.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/custom-elements/widgetEventTypes.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/custom-elements/widgetEventTypes.js`,
         },
       ],
     },
@@ -853,37 +815,31 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/_shared/src/test/cypress/fixtures/users/user.json',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/test/cypress/fixtures/users/user.json`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/test/cypress/fixtures/users/user.json`,
           noEjs: true,
         },
         {
           file: 'entity/detailsWidget/src/test/cypress/integration/detailsWidget.spec.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/test/cypress/integration/main.spec.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/test/cypress/integration/main.spec.js`,
         },
         {
           file: 'entity/_shared/src/test/cypress/plugins/index.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/test/cypress/plugins/index.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/test/cypress/plugins/index.js`,
           noEjs: true,
         },
         {
           file: 'entity/_shared/src/test/cypress/support/index.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/test/cypress/support/index.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/test/cypress/support/index.js`,
           noEjs: true,
         },
         {
           file: 'entity/_shared/src/test/cypress/support/keycloak-oauth2.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/test/cypress/support/keycloak-oauth2.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/test/cypress/support/keycloak-oauth2.js`,
           noEjs: true,
         },
         {
           file: 'entity/detailsWidget/src/test/cypress/support/selectors.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/detailsWidget/src/test/cypress/support/selectors.js`,
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/src/test/cypress/support/selectors.js`,
         },
       ],
     },
@@ -893,14 +849,12 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/_shared/src/test/cypress/fixtures/users/user.json',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/test/cypress/fixtures/users/user.json`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/test/cypress/fixtures/users/user.json`,
           noEjs: true,
         },
         {
           file: 'entity/formWidget/src/test/cypress/integration/formWidget.spec.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/test/cypress/integration/main.spec.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/test/cypress/integration/main.spec.js`,
         },
         {
           file: 'entity/_shared/src/test/cypress/plugins/index.js',
@@ -914,14 +868,12 @@ const microFrontendFiles = {
         },
         {
           file: 'entity/_shared/src/test/cypress/support/keycloak-oauth2.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/test/cypress/support/keycloak-oauth2.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/test/cypress/support/keycloak-oauth2.js`,
           noEjs: true,
         },
         {
           file: 'entity/formWidget/src/test/cypress/support/selectors.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/formWidget/src/test/cypress/support/selectors.js`,
+          renameTo: generator => `${generator.entityFileName}/formWidget/src/test/cypress/support/selectors.js`,
         },
       ],
     },
@@ -931,14 +883,12 @@ const microFrontendFiles = {
       templates: [
         {
           file: 'entity/_shared/src/test/cypress/fixtures/users/user.json',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/test/cypress/fixtures/users/user.json`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/test/cypress/fixtures/users/user.json`,
           noEjs: true,
         },
         {
           file: 'entity/tableWidget/src/test/cypress/integration/tableWidget.spec.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/test/cypress/integration/main.spec.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/test/cypress/integration/main.spec.js`,
         },
         {
           file: 'entity/_shared/src/test/cypress/plugins/index.js',
@@ -952,14 +902,12 @@ const microFrontendFiles = {
         },
         {
           file: 'entity/_shared/src/test/cypress/support/keycloak-oauth2.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/test/cypress/support/keycloak-oauth2.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/test/cypress/support/keycloak-oauth2.js`,
           noEjs: true,
         },
         {
           file: 'entity/tableWidget/src/test/cypress/support/selectors.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/test/cypress/support/selectors.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/test/cypress/support/selectors.js`,
         },
       ],
     },
@@ -975,13 +923,11 @@ const microFrontendFiles = {
         },
         {
           file: 'entity/tableWidget/src/state/entity.reducer.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/state/${generator.entityInstance}.reducer.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/state/${generator.entityInstance}.reducer.js`,
         },
         {
           file: 'entity/tableWidget/src/state/entity.types.js',
-          renameTo: generator =>
-            `${generator.entityFileName}/tableWidget/src/state/${generator.entityInstance}.types.js`,
+          renameTo: generator => `${generator.entityFileName}/tableWidget/src/state/${generator.entityInstance}.types.js`,
         },
       ],
     },

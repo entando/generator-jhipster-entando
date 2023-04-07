@@ -2,11 +2,12 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const constants = require('generator-jhipster/generators/generator-constants');
+const EnvironmentBuilder = require('generator-jhipster/cli/environment-builder');
 const entandoConstants = require('../generators/generator-constants');
 const expectedFiles = require('./utils/expected-files');
 
 const appBaseName = 'entandoPlugin';
-const { DOCKER_DIR, SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR, SERVER_TEST_RES_DIR } = constants;
+const { DOCKER_DIR, SERVER_MAIN_SRC_DIR, SERVER_MAIN_RES_DIR } = constants;
 
 const { ENTANDO_KEYCLOAK_DOCKER_IMAGE } = entandoConstants;
 
@@ -14,7 +15,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
   describe('With default blueprint configuration', () => {
     before(done => {
       helpers
-        .run('generator-jhipster/generators/server')
+        .run('generator-jhipster/generators/server', {}, { createEnv: EnvironmentBuilder.createEnv })
         .withOptions({
           'from-cli': true,
           skipInstall: true,
@@ -60,14 +61,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
     });
 
     it('application.yml contains swagger-ui', () => {
-      assert.fileContent(
-        `${SERVER_MAIN_RES_DIR}config/application.yml`,
-        'swagger-ui:\n  client-id: swagger_ui\n  client-secret: swagger_ui',
-      );
-      assert.fileContent(
-        `${SERVER_TEST_RES_DIR}config/application.yml`,
-        'swagger-ui:\n  client-id: swagger_ui\n  client-secret: swagger_ui',
-      );
+      assert.fileContent(`${SERVER_MAIN_RES_DIR}config/application.yml`, '      clientId: swagger_ui\n      clientSecret: swagger_ui\n');
     });
 
     it('pom.xml contains the javax servlet dependency', () => {
@@ -76,7 +70,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         '        <dependency>\n' +
           '            <groupId>javax.servlet</groupId>\n' +
           '            <artifactId>javax.servlet-api</artifactId>\n' +
-          '        </dependency>\n',
+          '        </dependency>\n'
       );
     });
 
@@ -86,8 +80,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
         '        <dependency>\n' +
           '            <groupId>org.springframework.boot</groupId>\n' +
           '            <artifactId>spring-boot-starter-undertow</artifactId>\n' +
-          '<scope>provided</scope>\n' +
-          '        </dependency>\n',
+          '        </dependency>\n'
       );
     });
 
@@ -98,7 +91,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '            <groupId>org.scala-lang</groupId>\n' +
           '            <artifactId>scala-library</artifactId>\n' +
           '            <version>2.12.1</version>\n' +
-          '        </dependency>\n',
+          '        </dependency>\n'
       );
     });
 
@@ -115,19 +108,23 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '                    <artifactId>scala-library</artifactId>\n' +
           '                </exclusion>\n' +
           '            </exclusions>\n' +
-          '        </dependency>',
+          '        </dependency>'
       );
     });
 
-    it('pom.xml contains springfox-boot-starter dependency', () => {
+    it('pom.xml contains springDoc dependency', () => {
       assert.fileContent(
         'pom.xml',
         '        <dependency>\n' +
-          '            <groupId>io.springfox</groupId>\n' +
-          '            <artifactId>springfox-boot-starter</artifactId>\n' +
+          '            <groupId>org.springdoc</groupId>\n' +
+          '            <artifactId>springdoc-openapi-webmvc-core</artifactId>\n' +
+          '        </dependency>\n' +
+          '        <dependency> \n' +
+          '           <groupId>org.springdoc</groupId>\n' +
+          '           <artifactId>springdoc-openapi-ui</artifactId>\n' +
           // eslint-disable-next-line no-template-curly-in-string
-          '            <version>${springfox-boot-starter.version}</version>\n' +
-          '        </dependency>\n',
+          '           <version>${springdoc-openapi-ui.version}</version>\n' +
+          '        </dependency>\n'
       );
     });
 
@@ -145,7 +142,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '                <version>${entando-bundle-bom.version}</version>\n' +
           '                <type>pom</type>\n' +
           '                <scope>import</scope>\n' +
-          '            </dependency>',
+          '            </dependency>'
       );
     });
 
@@ -166,14 +163,14 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '      ]\n' +
           '    volumes:\n' +
           '      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config\n' +
-          '      - ./keycloak/keycloak-db:/opt/jboss/keycloak/standalone/data',
+          '      - ./keycloak/keycloak-db:/opt/jboss/keycloak/standalone/data'
       );
     });
 
     it('SecurityConfiguration file contains Entando modifications', () => {
       assert.fileContent(
         `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/SecurityConfiguration.java`,
-        "            .contentSecurityPolicy(\"default-src 'self' http://localhost:9080; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:\")\n",
+        "                .contentSecurityPolicy(\"default-src 'self' http://localhost:9080; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:\")"
       );
     });
 
@@ -254,50 +251,37 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '          }\n' +
           '        }\n' +
           '      ]\n' +
-          '    },',
+          '    },'
       );
     });
 
     it('Application yaml files contains Entando modifications', () => {
-      assert.fileContent(
-        `${SERVER_MAIN_RES_DIR}config/application.yml`,
-        'swagger-ui:\n  client-id: swagger_ui\n  client-secret: swagger_ui',
-      );
+      assert.fileContent(`${SERVER_MAIN_RES_DIR}config/application.yml`, '      clientId: swagger_ui\n      clientSecret: swagger_ui\n');
 
       assert.fileContent(
         `${SERVER_MAIN_RES_DIR}config/application-dev.yml`,
         '  cors:\n' +
-          "    allowed-origin-patterns: 'http://localhost:[*]'\n" +
+          '    # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)\n' +
+          "    allowed-origins: 'http://localhost:[*]'\n" +
+          '    # Enable CORS when running in GitHub Codespaces\n' +
+          "    allowed-origin-patterns: 'https://*.githubpreview.dev'\n" +
           "    allowed-methods: '*'\n" +
           "    allowed-headers: '*'\n" +
-          "    exposed-headers: 'Authorization,Link,X-Total-Count'\n" +
+          // eslint-disable-next-line no-template-curly-in-string
+          "    exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'\n" +
           '    allow-credentials: true\n' +
-          '    max-age: 1800',
-      );
-      assert.fileContent(
-        `${SERVER_MAIN_RES_DIR}config/application-dev.yml`,
-        'springfox:\n  documentation:\n    enabled: true\n',
-      );
-      assert.fileContent(
-        `${SERVER_MAIN_RES_DIR}config/application-prod.yml`,
-        'springfox:\n  documentation:\n    enabled: false\n',
+          '    max-age: 1800\n'
       );
     });
 
     it('JwtGrantedAuthorityConverter file contains Entando modification', () => {
-      assert.fileContent(
-        `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/security/oauth2/JwtGrantedAuthorityConverter.java`,
-        ":'internal'",
-      );
+      assert.fileContent(`${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/security/oauth2/JwtGrantedAuthorityConverter.java`, ":'internal'");
     });
 
     it('CacheConfiguration file contains Entando modification', () => {
       const cacheConfigurationFileName = `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/CacheConfiguration.java`;
 
-      assert.noFileContent(
-        cacheConfigurationFileName,
-        'import com.mycompany.myapp.repository.UserRepository;\n',
-      );
+      assert.noFileContent(cacheConfigurationFileName, 'import com.mycompany.myapp.repository.UserRepository;\n');
       assert.noFileContent(cacheConfigurationFileName, 'UserRepository.USERS_BY_LOGIN_CACHE');
       assert.noFileContent(cacheConfigurationFileName, 'UserRepository.USERS_BY_EMAIL_CACHE');
       assert.noFileContent(cacheConfigurationFileName, 'Authority.class.getName()');
@@ -314,7 +298,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '█████╗  ██╔██╗ ██║   ██║   ███████║██╔██╗ ██║██║  ██║██║   ██║\n' +
           '██╔══╝  ██║╚██╗██║   ██║   ██╔══██║██║╚██╗██║██║  ██║██║   ██║\n' +
           '███████╗██║ ╚████║   ██║   ██║  ██║██║ ╚████║██████╔╝╚██████╔╝\n' +
-          "╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ '",
+          "╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ '"
       );
     });
   });
@@ -322,7 +306,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
   describe('With Infinispan as cache configuration', () => {
     before(done => {
       helpers
-        .run('generator-jhipster/generators/server')
+        .run('generator-jhipster/generators/server', {}, { createEnv: EnvironmentBuilder.createEnv })
         .withOptions({
           'from-cli': true,
           skipInstall: true,
@@ -361,10 +345,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
     it('CacheConfiguration file contains Entando modification', () => {
       const cacheConfigurationFileName = `${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/CacheConfiguration.java`;
 
-      assert.noFileContent(
-        cacheConfigurationFileName,
-        'import com.mycompany.myapp.repository.UserRepository;\n',
-      );
+      assert.noFileContent(cacheConfigurationFileName, 'import com.mycompany.myapp.repository.UserRepository;\n');
       assert.noFileContent(cacheConfigurationFileName, 'UserRepository.USERS_BY_LOGIN_CACHE');
       assert.noFileContent(cacheConfigurationFileName, 'UserRepository.USERS_BY_EMAIL_CACHE');
       assert.noFileContent(cacheConfigurationFileName, 'Authority.class.getName()');
@@ -376,7 +357,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
   describe('With jhipster as microservice dependencyManagement', () => {
     before(done => {
       helpers
-        .run('generator-jhipster/generators/server')
+        .run('generator-jhipster/generators/server', {}, { createEnv: EnvironmentBuilder.createEnv })
         .withOptions({
           'from-cli': true,
           skipInstall: true,
@@ -423,7 +404,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '                <version>${jhipster-dependencies.version}</version>\n' +
           '                <type>pom</type>\n' +
           '                <scope>import</scope>\n' +
-          '            </dependency>',
+          '            </dependency>'
       );
     });
   });

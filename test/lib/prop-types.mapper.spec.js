@@ -27,16 +27,7 @@ describe('getPropType', () => {
     });
   });
 
-  [
-    'String',
-    'LocalDate',
-    'Instant',
-    'ZonedDateTime',
-    'Enum',
-    'ImageBlob',
-    'BinaryFileBlob',
-    'TextBlob',
-  ].forEach(type => {
+  ['String', 'LocalDate', 'Instant', 'ZonedDateTime', 'Enum', 'ImageBlob', 'BinaryFileBlob', 'TextBlob'].forEach(type => {
     it(`should return PropTypes.string when JHipster fieldType is ${type}`, () => {
       getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
       const propType = getPropType({});
@@ -109,10 +100,7 @@ describe('getFormikValuePropType', () => {
       getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
       const propType = getFormikValuePropType({});
 
-      expect(propType)
-        .to.be.a('array')
-        .to.have.lengthOf(2)
-        .to.deep.equal(['PropTypes.string', 'PropTypes.number']);
+      expect(propType).to.be.a('array').to.have.lengthOf(2).to.deep.equal(['PropTypes.string', 'PropTypes.number']);
     });
   });
 
@@ -121,10 +109,7 @@ describe('getFormikValuePropType', () => {
       getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
       const propType = getFormikValuePropType({});
 
-      expect(propType)
-        .to.be.an('array')
-        .to.have.lengthOf(2)
-        .to.deep.equal(['PropTypes.string', 'PropTypes.instanceOf(Date)']);
+      expect(propType).to.be.an('array').to.have.lengthOf(2).to.deep.equal(['PropTypes.string', 'PropTypes.instanceOf(Date)']);
     });
   });
 
@@ -170,10 +155,7 @@ describe('getFormikTouchedPropType', () => {
       getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
       const propType = getFormikTouchedPropType({});
 
-      expect(propType)
-        .to.be.an('array')
-        .to.have.lengthOf(2)
-        .to.deep.equal(['PropTypes.bool', 'PropTypes.shape()']);
+      expect(propType).to.be.an('array').to.have.lengthOf(2).to.deep.equal(['PropTypes.bool', 'PropTypes.shape()']);
     });
   });
 
@@ -212,10 +194,7 @@ describe('getFormikErrorPropType', () => {
       getJHipsterTypeStub = sinon.stub(jhipsterMapper, 'getJHipsterType').returns(`${type}`);
       const propType = getFormikErrorPropType({});
 
-      expect(propType)
-        .to.be.an('array')
-        .to.have.lengthOf(2)
-        .to.deep.equal(['PropTypes.string', 'PropTypes.shape()']);
+      expect(propType).to.be.an('array').to.have.lengthOf(2).to.deep.equal(['PropTypes.string', 'PropTypes.shape()']);
     });
   });
 

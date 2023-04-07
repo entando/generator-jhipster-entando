@@ -2,18 +2,7 @@ const { expect } = require('chai');
 const { getJHipsterType } = require('../../generators/entity-microfrontend/lib');
 
 describe('JHipster type mapper', () => {
-  [
-    'String',
-    'Integer',
-    'Long',
-    'Float',
-    'Double',
-    'BigDecimal',
-    'LocalDate',
-    'Instant',
-    'ZonedDateTime',
-    'Boolean',
-  ].forEach(type => {
+  ['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal', 'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean'].forEach(type => {
     it(`should return ${type} when JHipster fieldType is ${type}`, () => {
       const field = {
         fieldType: `${type}`,
@@ -25,7 +14,7 @@ describe('JHipster type mapper', () => {
     });
   });
 
-  it(`should return Enum when JHipster fieldIsEnum is true`, () => {
+  it('should return Enum when JHipster fieldIsEnum is true', () => {
     const field = {
       fieldIsEnum: true,
     };
@@ -36,7 +25,7 @@ describe('JHipster type mapper', () => {
     expect(mappedType).to.equal(expectedType);
   });
 
-  it(`should return ImageBlob when JHipster fieldType is byte[] and fieldTypeBlobContent is image`, () => {
+  it('should return ImageBlob when JHipster fieldType is byte[] and fieldTypeBlobContent is image', () => {
     const field = {
       fieldType: 'byte[]',
       fieldTypeBlobContent: 'image',
@@ -48,7 +37,7 @@ describe('JHipster type mapper', () => {
     expect(mappedType).to.equal(expectedType);
   });
 
-  it(`should return BinaryFileBlob when JHipster fieldType is byte[] and fieldTypeBlobContent is any`, () => {
+  it('should return BinaryFileBlob when JHipster fieldType is byte[] and fieldTypeBlobContent is any', () => {
     const field = {
       fieldType: 'byte[]',
       fieldTypeBlobContent: 'any',
@@ -60,7 +49,7 @@ describe('JHipster type mapper', () => {
     expect(mappedType).to.equal(expectedType);
   });
 
-  it(`should return TextBlob when JHipster fieldType is byte[] and fieldTypeBlobContent is text`, () => {
+  it('should return TextBlob when JHipster fieldType is byte[] and fieldTypeBlobContent is text', () => {
     const field = {
       fieldType: 'byte[]',
       fieldTypeBlobContent: 'text',
