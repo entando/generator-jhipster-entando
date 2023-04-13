@@ -150,20 +150,20 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
       assert.fileContent(`${DOCKER_DIR}keycloak.yml`, ENTANDO_KEYCLOAK_DOCKER_IMAGE);
       assert.fileContent(
         `${DOCKER_DIR}keycloak.yml`,
-        'command: [\n' +
+        '    command: [\n' +
           "        '-b',\n" +
           "        '0.0.0.0',\n" +
           "        '-Dkeycloak.profile.feature.scripts=enabled',\n" +
           "        '-Dkeycloak.profile.feature.upload_scripts=enabled',\n" +
           "        '-Dkeycloak.migration.action=import',\n" +
           "        '-Dkeycloak.migration.provider=dir',\n" +
-          "        '-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config',\n" +
+          "        '-Dkeycloak.migration.dir=/opt/keycloak/data/import',\n" +
           "        '-Dkeycloak.migration.strategy=IGNORE_EXISTING', # use 'OVERWRITE_EXISTING' instead if you want to reset your current configuration\n" +
           "        '-Djboss.socket.binding.port-offset=1000',\n" +
           '      ]\n' +
           '    volumes:\n' +
-          '      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config\n' +
-          '      - ./keycloak/keycloak-db:/opt/jboss/keycloak/standalone/data'
+          '      - ./keycloak/realm-config:/opt/keycloak/data/import\n' +
+          '      - ./keycloak/keycloak-db:/opt/jboss/keycloak/standalone/data\n'
       );
     });
 
@@ -218,40 +218,7 @@ describe('Subgenerator server of entando JHipster blueprint', () => {
           '      "nodeReRegistrationTimeout": -1,\n' +
           '      "defaultClientScopes": ["web-origins", "jhipster", "role_list", "roles", "profile", "email"],\n' +
           '      "optionalClientScopes": ["address", "phone", "offline_access"]\n' +
-          '    }\n' +
-          '  ],\n' +
-          '  "clientScopes": [\n' +
-          '    {\n' +
-          '      "id": "1dc1e050-891a-4f5b-ac9d-5ea0c2e3c05e",\n' +
-          '      "name": "address",\n' +
-          '      "description": "OpenID Connect built-in scope: address",\n' +
-          '      "protocol": "openid-connect",\n' +
-          '      "attributes": {\n' +
-          // eslint-disable-next-line no-template-curly-in-string
-          '        "consent.screen.text": "${addressScopeConsentText}",\n' +
-          '        "display.on.consent.screen": "true"\n' +
-          '      },\n' +
-          '      "protocolMappers": [\n' +
-          '        {\n' +
-          '          "id": "b9a92105-8ca5-45d1-8a99-626255ac174f",\n' +
-          '          "name": "address",\n' +
-          '          "protocol": "openid-connect",\n' +
-          '          "protocolMapper": "oidc-address-mapper",\n' +
-          '          "consentRequired": false,\n' +
-          '          "config": {\n' +
-          '            "user.attribute.formatted": "formatted",\n' +
-          '            "user.attribute.country": "country",\n' +
-          '            "user.attribute.postal_code": "postal_code",\n' +
-          '            "userinfo.token.claim": "true",\n' +
-          '            "user.attribute.street": "street",\n' +
-          '            "id.token.claim": "true",\n' +
-          '            "user.attribute.region": "region",\n' +
-          '            "access.token.claim": "true",\n' +
-          '            "user.attribute.locality": "locality"\n' +
-          '          }\n' +
-          '        }\n' +
-          '      ]\n' +
-          '    },'
+          '    }'
       );
     });
 
