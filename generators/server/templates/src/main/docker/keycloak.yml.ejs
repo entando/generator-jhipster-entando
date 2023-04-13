@@ -28,18 +28,18 @@ services:
             '-Dkeycloak.profile.feature.upload_scripts=enabled',
             '-Dkeycloak.migration.action=import',
             '-Dkeycloak.migration.provider=dir',
-            '-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config',
+            '-Dkeycloak.migration.dir=/opt/keycloak/data/import',
             '-Dkeycloak.migration.strategy=IGNORE_EXISTING', # use 'OVERWRITE_EXISTING' instead if you want to reset your current configuration
             '-Djboss.socket.binding.port-offset=1000',
           ]
     volumes:
-      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config
+      - ./keycloak/realm-config:/opt/keycloak/data/import
       - ./keycloak/keycloak-db:/opt/jboss/keycloak/standalone/data
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
       - DB_VENDOR=h2
     ports:
-      - 9080:9080
-      - 9443:9443
-      - 10990:10990
+      - 127.0.0.1:9080:9080
+      - 127.0.0.1:9443:9443
+      - 127.0.0.1:10990:10990
