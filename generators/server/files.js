@@ -38,6 +38,11 @@ const entandoServerFiles = {
         },
       ],
     },
+    {
+      condition: generator => generator.devDatabaseTypePostgres,
+      path: DOCKER_DIR,
+      templates: ['postgresql.yml'],
+    },
   ],
   serverBuild: [
     {

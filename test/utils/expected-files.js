@@ -6,6 +6,7 @@ const expectedFiles = {
   microservices: [`${SERVER_MAIN_RES_DIR}static/favicon.png`],
   server: [`${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/OpenApiConfiguration.java`, 'Dockerfile'],
   'entando-keycloack': `${DOCKER_DIR}keycloak/keycloak-db/.entando-placeholder`,
+  'entando-postgresql': `${DOCKER_DIR}postgresql.yml`,
   entity: {
     server: {
       common: [`${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/web/rest/schema/FooSchemaResource.java`],
