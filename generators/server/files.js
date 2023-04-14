@@ -31,11 +31,6 @@ const entandoServerFiles = {
           renameTo: () => 'keycloak/realm-config/jhipster-realm.json',
         },
         {
-          file: 'config/realm-config/jhipster-users-0.json',
-          method: 'copy',
-          renameTo: () => 'keycloak/realm-config/jhipster-users-0.json',
-        },
-        {
           file: 'keycloak-db/entando-placeholder',
           method: 'copy',
           noEjs: true,

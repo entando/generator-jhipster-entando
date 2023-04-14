@@ -25,7 +25,7 @@ const SCALA_LIBRARY_VERSION = '2.12.1';
 const MBKNOR_JACKSON_JSONSCHEMA_VERSION = '1.0.34';
 const SPRING_BOOT_VERSION = '2.7.3';
 const ENTANDO_BUNDLE_BOM_VERSION = '7.2.0-ENG-4717-PR-14';
-const ENTANDO_KEYCLOAK_DOCKER_IMAGE = 'entando/entando-keycloak:7.2.0-ENG-4226-PR-32';
+const ENTANDO_KEYCLOAK_DOCKER_IMAGE = 'entando/entando-keycloak:7.2.0-ENGPM-540-rc1';
 
 module.exports = {
   SQL_DB_OPTIONS,
