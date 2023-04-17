@@ -27,6 +27,7 @@ const SPRING_BOOT_VERSION = '2.7.3';
 const ENTANDO_BUNDLE_BOM_VERSION = '7.2.0-ENG-4717-PR-14';
 const ENTANDO_KEYCLOAK_DOCKER_IMAGE = 'entando/entando-keycloak:7.2.0-ENGPM-540-rc1';
 const ENTANDO_POSTGRESQL_DOCKER_IMAGE = 'entando/entando-postgres-rocky:14.1.0';
+const ENTANDO_MYSQL_DOCKER_IMAGE = 'entando/entando-mysql-rocky:8.0.28';
 
 module.exports = {
   SQL_DB_OPTIONS,
@@ -41,4 +42,5 @@ module.exports = {
   ENTANDO_BUNDLE_BOM_VERSION,
   ENTANDO_KEYCLOAK_DOCKER_IMAGE,
   ENTANDO_POSTGRESQL_DOCKER_IMAGE,
+  ENTANDO_MYSQL_DOCKER_IMAGE,
 };

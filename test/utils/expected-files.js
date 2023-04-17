@@ -7,6 +7,7 @@ const expectedFiles = {
   server: [`${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/config/OpenApiConfiguration.java`, 'Dockerfile'],
   'entando-keycloack': `${DOCKER_DIR}keycloak/keycloak-db/.entando-placeholder`,
   'entando-postgresql': `${DOCKER_DIR}postgresql.yml`,
+  'entando-mysql': `${DOCKER_DIR}mysql.yml`,
   entity: {
     server: {
       common: [`${SERVER_MAIN_SRC_DIR}com/mycompany/myapp/web/rest/schema/FooSchemaResource.java`],
