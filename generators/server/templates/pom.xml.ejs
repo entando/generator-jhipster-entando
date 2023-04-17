@@ -1023,6 +1023,9 @@
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
+                        <compilerArgs> <%#_ Entando added this to avoid the following bug that cause a stack track during Maven compilation https://github.com/checkstyle/checkstyle/pull/11663 _#%>
+                          <arg>-Xpkginfo:always</arg>
+                        </compilerArgs>
                         <annotationProcessorPaths>
                             <path>
                                 <groupId>org.springframework.boot</groupId>
