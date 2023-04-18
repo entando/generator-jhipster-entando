@@ -39,12 +39,12 @@ const entandoServerFiles = {
       ],
     },
     {
-      condition: generator => generator.devDatabaseTypePostgres,
+      condition: generator => generator.databaseTypePostgres,
       path: DOCKER_DIR,
       templates: ['postgresql.yml'],
     },
     {
-      condition: generator => generator.devDatabaseTypeMysql,
+      condition: generator => generator.databaseTypeMysql,
       path: DOCKER_DIR,
       templates: ['mysql.yml'],
     },
