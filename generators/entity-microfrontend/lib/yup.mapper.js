@@ -10,6 +10,7 @@ function getYupType(field) {
     case 'Float':
     case 'Double':
     case 'BigDecimal':
+    case 'Duration':
       return ['number()'];
     case 'LocalDate':
     case 'Instant':

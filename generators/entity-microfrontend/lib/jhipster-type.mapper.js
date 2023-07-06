@@ -5,7 +5,7 @@
  */
 function getJHipsterType({ fieldType, fieldIsEnum, fieldTypeBlobContent }) {
   if (
-    ['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal', 'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean'].includes(fieldType)
+    ['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal', 'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean', 'Duration'].includes(fieldType)
   ) {
     return fieldType;
   }
