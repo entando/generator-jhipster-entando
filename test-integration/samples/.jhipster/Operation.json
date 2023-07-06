@@ -31,6 +31,10 @@
             "fieldName": "amount",
             "fieldType": "BigDecimal",
             "fieldValidateRules": ["required"]
+        },
+        {
+            "fieldName": "identifier",
+            "fieldType": "UUID"
         }
     ],
     "changelogDate": "20150805125055",
