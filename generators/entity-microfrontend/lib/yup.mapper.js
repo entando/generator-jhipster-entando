@@ -10,7 +10,6 @@ function getYupType(field) {
     case 'Float':
     case 'Double':
     case 'BigDecimal':
-    case 'Duration':
       return ['number()'];
     case 'LocalDate':
     case 'Instant':
@@ -23,6 +22,7 @@ function getYupType(field) {
     case 'BinaryFileBlob':
     case 'TextBlob':
     case 'UUID':
+    case 'Duration':
       return ['string()'];
     default:
       return undefined;
