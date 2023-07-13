@@ -21,6 +21,8 @@ function getYupType(field) {
     case 'ImageBlob':
     case 'BinaryFileBlob':
     case 'TextBlob':
+    case 'UUID':
+    case 'Duration':
       return ['string()'];
     default:
       return undefined;
