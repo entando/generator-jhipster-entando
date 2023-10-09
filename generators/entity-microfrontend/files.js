@@ -18,8 +18,8 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/detailsWidget/.gitignore`,
         },
         {
-          file: 'entity/_shared/cypress.json',
-          renameTo: generator => `${generator.entityFileName}/detailsWidget/cypress.json`,
+          file: 'entity/_shared/cypress.config.js',
+          renameTo: generator => `${generator.entityFileName}/detailsWidget/cypress.config.js`,
         },
         {
           file: 'entity/detailsWidget/jsconfig.json',
@@ -56,8 +56,8 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/formWidget/.gitignore`,
         },
         {
-          file: 'entity/_shared/cypress.json',
-          renameTo: generator => `${generator.entityFileName}/formWidget/cypress.json`,
+          file: 'entity/_shared/cypress.config.js',
+          renameTo: generator => `${generator.entityFileName}/formWidget/cypress.config.js`,
         },
         {
           file: 'entity/formWidget/jsconfig.json',
@@ -94,8 +94,8 @@ const microFrontendFiles = {
           renameTo: generator => `${generator.entityFileName}/tableWidget/.gitignore`,
         },
         {
-          file: 'entity/_shared/cypress.json',
-          renameTo: generator => `${generator.entityFileName}/tableWidget/cypress.json`,
+          file: 'entity/_shared/cypress.config.js',
+          renameTo: generator => `${generator.entityFileName}/tableWidget/cypress.config.js`,
         },
         {
           file: 'entity/tableWidget/jsconfig.json',
