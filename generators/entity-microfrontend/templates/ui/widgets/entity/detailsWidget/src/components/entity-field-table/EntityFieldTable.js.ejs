@@ -4,7 +4,7 @@
     const fieldType = getJHipsterType(field);
     switch (fieldType) {
       case 'Boolean':
-        return `<Checkbox disabled checked={${entityInstance}.${field.fieldName}} />`;
+        return `<Checkbox disabled checked={isChecked(${entityInstance}.${field.fieldName})} />`;
       case 'LocalDate':
         return `{${entityInstance}.${field.fieldName} && new Date(${entityInstance}.${field.fieldName}).toLocaleDateString(language)}`;
       case 'ZonedDateTime':
@@ -32,6 +32,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 <%_ } _%>
 
 import <%= entityInstance %>Type from 'components/__types__/<%= entityInstance %>';
+
+<%_ if (fields.find(field => field.fieldType === 'Boolean')) { _%>
+const isChecked = booleanField => typeof booleanField !== 'undefined' ? booleanField.valueOf() : false;
+<%_ } _%>
 
 const <%= entityClass %>FieldTable = ({ t, <% if (fieldsContainDate) { _%>i18n: { language }, <% } _%><%= entityInstance %> }) => (
   <Table>
