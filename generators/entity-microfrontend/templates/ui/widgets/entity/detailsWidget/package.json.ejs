@@ -20,7 +20,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npm run clean-cra-sw",
+    "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
     "test": "react-scripts test --verbose --testPathIgnorePatterns=src/test/cypress/",
     "cypress": "cypress open",
     "cypress:run": "cypress run --browser chrome",
