@@ -27,6 +27,11 @@ const SPRING_BOOT_VERSION = '2.7.3';
 const ENTANDO_BUNDLE_BOM_VERSION = '7.2.0-ENG-4717-PR-15';
 const ENTANDO_KEYCLOAK_DOCKER_IMAGE = 'entando/entando-keycloak:7.2.0-ENGPM-540-rc1';
 
+// JHipster 7.9.3 ships jib-maven-plugin 3.2.1, which predates OCI image index support
+// (added in jib 3.3.0). Docker Hub now serves eclipse-temurin:11-jre-focal as an
+// application/vnd.oci.image.index.v1+json, which 3.2.1 cannot parse.
+const ENTANDO_JIB_VERSION = '3.4.6';
+
 module.exports = {
   SQL_DB_OPTIONS,
   MFE_MAIN_DIR,
@@ -39,4 +44,5 @@ module.exports = {
   SPRING_BOOT_VERSION,
   ENTANDO_BUNDLE_BOM_VERSION,
   ENTANDO_KEYCLOAK_DOCKER_IMAGE,
+  ENTANDO_JIB_VERSION,
 };
