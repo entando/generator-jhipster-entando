@@ -27,6 +27,7 @@ module.exports = class extends ServerGenerator {
         this.ENTANDO_BUNDLE_BOM_VERSION = constants.ENTANDO_BUNDLE_BOM_VERSION;
         this.ENTANDO_KEYCLOAK_DOCKER_IMAGE = constants.ENTANDO_KEYCLOAK_DOCKER_IMAGE;
         this.SPRING_BOOT_VERSION = constants.SPRING_BOOT_VERSION;
+        this.ENTANDO_JIB_VERSION = constants.ENTANDO_JIB_VERSION;
       },
     };
 

@@ -48,7 +48,7 @@
         <%_ } _%>
         <%_ if (isEntandoBundleBomPRVersion) { _%>
         <repository>
-            <id>jx-releases</id>
+            <id>nexus-entando</id>
             <url>https://dependencies.entando.org/repository/maven-releases/</url>
             <releases>
                 <enabled>true</enabled>
@@ -169,7 +169,7 @@
         <git-commit-id-plugin.version>5.0.0</git-commit-id-plugin.version>
         <modernizer-maven-plugin.version>2.4.0</modernizer-maven-plugin.version>
         <jacoco-maven-plugin.version><%= JACOCO_VERSION %></jacoco-maven-plugin.version>
-        <jib-maven-plugin.version><%= JIB_VERSION %></jib-maven-plugin.version>
+        <jib-maven-plugin.version><%= ENTANDO_JIB_VERSION %></jib-maven-plugin.version>
         <jib-maven-plugin.image><%= DOCKER_JAVA_JRE %></jib-maven-plugin.image>
         <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
