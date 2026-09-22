@@ -37,7 +37,7 @@ if [ -a src/main/docker/keycloak.yml ]; then
   mkdir -p src/main/docker/keycloak/keycloak-db/content
   chmod -R 777 src/main/docker/keycloak/keycloak-db
 
-  docker-compose -f src/main/docker/keycloak.yml up -d
+  docker compose -f src/main/docker/keycloak.yml up -d
   waitForKeycloak
   if [[ $? -eq 1 ]] ; then
     echo "### Keycloak container not ready. This could produce the pipeline failure ###"
@@ -45,6 +45,6 @@ if [ -a src/main/docker/keycloak.yml ]; then
   fi
 fi
 if [ -a src/main/docker/redis.yml ]; then
-    docker-compose -f src/main/docker/redis.yml up -d
+    docker compose -f src/main/docker/redis.yml up -d
 fi
 docker ps -a
